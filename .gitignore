@@ -1,0 +1,5 @@
+node_modules/
+
+# Build-Ausgabe: die Offline-Datei ist absichtlich eingecheckt (Messe-Deliverable),
+# die Artefakt-Fassung nicht — die ist nur zum Teilen/Planen.
+dist/maqueen-grand-prix-artifact.html

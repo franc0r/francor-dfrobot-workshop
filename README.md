@@ -15,6 +15,22 @@ npm test               # Smoketest mit abgeschaltetem Netzwerk
 `dist/maqueen-grand-prix-offline.html` ist die Datei für die Arbeitsplätze:
 kopieren, per Doppelklick öffnen, fertig. Braucht kein Internet.
 
+## Aus der Ferne ansehen
+
+Wer per SSH auf dem Rechner arbeitet, hat keinen Desktop zum Doppelklicken.
+Dafür gibt es einen kleinen Webserver (baut vorher neu, damit nie eine alte
+Fassung ausgeliefert wird):
+
+```bash
+npm run serve      # http://<ip-des-rechners>:8000/maqueen-grand-prix-offline.html
+```
+
+Beenden mit Ctrl-C. Der Server liefert nur `dist/` aus, nichts anderes aus dem Repo.
+
+Nur zum Ansehen und Entwickeln — für die Messe zählt weiter die Datei selbst,
+nicht der Server. Über `http://` liegt der Fortschritt in einem anderen
+`localStorage`-Bereich als über `file://`, Punkte wandern also nicht mit.
+
 ## Ändern
 
 - Text einer Station: `src/stations/NN-*.html` bearbeiten, dann `python3 build.py && npm test`.

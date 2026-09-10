@@ -5,6 +5,7 @@
   "description": "Offline-Workshopseite: micro:bit V2 + Maqueen Plus V3, 90 Minuten, Klasse 7+",
   "scripts": {
     "build": "python3 build.py",
+    "serve": "python3 build.py && python3 -m http.server 8000 --bind 0.0.0.0 --directory dist",
     "test": "node test/smoke.cjs",
     "check": "python3 build.py && node test/smoke.cjs"
   },
