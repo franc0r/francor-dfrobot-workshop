@@ -1,0 +1,91 @@
+  <section class="station" data-st="3" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 3</span><span>16 Minuten</span><span>Fahrschule</span></div>
+      <h2>Erst denken, dann fahren</h2>
+      <p class="goal">Profis testen ihren Code, bevor er auf die Hardware geht &ndash; sonst fährt der Roboter vom Tisch. Löse die ersten beiden Parcours im Simulator, danach fährst du dasselbe in echt. Parcours 3 ist für die, die schneller fertig sind.</p>
+    </div>
+    <div class="st-body">
+
+      <div class="block">
+        <h3><span class="idx">01</span>Zuerst: dem micro:bit den Roboter beibringen</h3>
+        <p class="lead">MakeCode kennt den Maqueen noch nicht. Ihr müsst die passende Block-Sammlung einmal nachladen &ndash; danach steht sie in eurem Projekt für immer bereit.</p>
+        <ol class="steps">
+          <li><span>Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b>.</span></li>
+          <li><span>Nach <kbd>dfrobot</kbd> suchen und <b>DFRobot_MaqueenPlus_V2</b> auswählen. Keine Sorge &ndash; die Erweiterung heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3.</span></li>
+          <li><span>Links gibt es jetzt eine neue Kategorie mit dem Maqueen-Namen. Da liegen alle Roboter-Blöcke.</span></li>
+          <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
+        </ol>
+      </div>
+
+      <div class="sim" id="sim">
+        <div class="simbar">
+          <span class="title">Parcours-Simulator</span>
+          <div class="levsel" id="levsel"></div>
+        </div>
+        <div class="simgrid">
+          <div class="simcol">
+            <div class="colhead">Bausteine</div>
+            <div class="palette" id="palette"></div>
+            <p class="counter" id="counter"></p>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Dein Programm</div>
+            <div class="prog" id="prog"></div>
+            <div class="simactions">
+              <button class="btn" id="runbtn" type="button">▶ Ausführen</button>
+              <button class="btn sec" id="clearbtn" type="button">Leeren</button>
+            </div>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Strecke</div>
+            <p class="missionbox" id="mission"></p>
+            <canvas id="cv" width="520" height="420"></canvas>
+            <div class="simstatus" id="status">Klicke links auf Bausteine, um dein Programm zu bauen. Dann auf Ausführen.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Dieselbe Idee auf dem echten Roboter</h3>
+        <p class="lead">Der echte Maqueen kennt keine „Felder". Er kennt <b>Tempo</b> (0&ndash;255) und <b>Zeit</b>. Aus „fahre 3 Felder" wird also: fahren, warten, stoppen.</p>
+        <div class="mcstack">
+          <div class="mccap">Geradeaus und anhalten</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-mq i1">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>120</b></div>
+          <div class="mcb b-basic i1">pausiere <b>1000</b> ms</div>
+          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+        </div>
+        <div class="note">
+          <span class="nt">Zahlengefühl</span>
+          <p>Tempo geht von 0 bis 255. Unter etwa <b>30</b> bewegt sich nichts &ndash; da ist der Motor zu schwach, um das Fahrzeug loszureißen. 1000&nbsp;ms sind eine Sekunde.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Wie dreht ein Roboter ohne Lenkrad?</h3>
+        <p class="lead">Der Maqueen hat keine Lenkung. Er dreht, indem die beiden Räder <em>unterschiedlich schnell</em> laufen. Läuft ein Rad vorwärts und das andere rückwärts, dreht er sich auf der Stelle.</p>
+        <div class="mcstack">
+          <div class="mccap">Drehung auf der Stelle nach rechts</div>
+          <div class="mcb b-mq">Motor <b>links</b> <b>vorwärts</b> Tempo <b>100</b></div>
+          <div class="mcb b-mq">Motor <b>rechts</b> <b>rückwärts</b> Tempo <b>100</b></div>
+          <div class="mcb b-basic">pausiere <b>400</b> ms</div>
+          <div class="mcb b-mq">Motor <b>alle</b> <b>stoppen</b></div>
+        </div>
+        <div class="note aha">
+          <span class="nt">Team-Challenge &middot; 15 Punkte</span>
+          <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen. Ihr müsst die 400&nbsp;ms selbst herausfinden &ndash; probiert, messt, korrigiert. Genau so arbeiten Ingenieure.</p>
+        </div>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Fährt einen Bogen statt geradeaus?</b> Normal. Die Motoren sind nie exakt gleich. Dreht das Tempo des schnelleren Rads um 5&ndash;10 runter.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen später zählt das wirklich.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="2">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Fahrlehrer</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="4">Weiter zu den Augen &rarr;</button>
+    </div>
+  </section>

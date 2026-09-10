@@ -1,0 +1,1997 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{color-scheme:light dark}
+html,body{margin:0}
+img{max-width:100%}
+[hidden]{display:none !important}
+</style>
+<title>Maqueen Grand Prix — Offline-Ausgabe</title>
+<style>
+:root{
+  --paper:#EDEFF1;
+  --surface:#FFFFFF;
+  --surface-2:#F4F6F7;
+  --ink:#101619;
+  --ink-2:#4A5A63;
+  --ink-3:#7B8B94;
+  --line:#D3DBDF;
+  --line-soft:#E4E9EC;
+  --accent:#DD4B21;
+  --accent-ink:#FFFFFF;
+  --accent-soft:#FBE7E0;
+  --teal:#12706B;
+  --teal-soft:#DDEEEC;
+  --warn:#9A6608;
+  --warn-soft:#F7EDD8;
+  --track:#1A2226;
+  --grid:#DCE3E7;
+  --shadow:0 1px 2px rgba(16,22,25,.06), 0 8px 24px -12px rgba(16,22,25,.18);
+  --radius:10px;
+  --mono:"IBM Plex Mono", ui-monospace, "DejaVu Sans Mono", "Liberation Mono", Consolas, "Courier New", monospace;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "DejaVu Sans", Cantarell, sans-serif;
+  --display:"Archivo", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "DejaVu Sans", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0C1214;
+    --surface:#141D20;
+    --surface-2:#1B2529;
+    --ink:#E6EDEF;
+    --ink-2:#9BADB5;
+    --ink-3:#75898F;
+    --line:#28363C;
+    --line-soft:#1F2B30;
+    --accent:#FF7247;
+    --accent-ink:#1A0C06;
+    --accent-soft:#33190F;
+    --teal:#4CC2B6;
+    --teal-soft:#10302E;
+    --warn:#D9A441;
+    --warn-soft:#2E2513;
+    --track:#DCE6E9;
+    --grid:#222F34;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0C1214;
+  --surface:#141D20;
+  --surface-2:#1B2529;
+  --ink:#E6EDEF;
+  --ink-2:#9BADB5;
+  --ink-3:#75898F;
+  --line:#28363C;
+  --line-soft:#1F2B30;
+  --accent:#FF7247;
+  --accent-ink:#1A0C06;
+  --accent-soft:#33190F;
+  --teal:#4CC2B6;
+  --teal-soft:#10302E;
+  --warn:#D9A441;
+  --warn-soft:#2E2513;
+  --track:#DCE6E9;
+  --grid:#222F34;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display); font-weight:700; letter-spacing:-.015em; text-wrap:balance; margin:0}
+p{margin:0}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+/* ---------- topbar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  padding:10px 20px;
+  background:var(--surface); border-bottom:1px solid var(--line);
+}
+.brand{display:flex; align-items:baseline; gap:10px; margin-right:auto}
+.brand .flag{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent-ink); background:var(--accent);
+  padding:3px 7px; border-radius:4px;
+}
+.brand h1{font-size:1.15rem; font-weight:800; letter-spacing:-.02em}
+.brand .sub{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.01em}
+.tbgroup{display:flex; align-items:center; gap:10px}
+.teamfield{
+  display:flex; align-items:center; gap:7px;
+  background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:4px 9px;
+}
+.teamfield label{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.teamfield input{
+  border:0; background:transparent; color:var(--ink); font:600 14px var(--sans);
+  width:120px; padding:2px 0;
+}
+.teamfield input:focus{outline:none}
+.score{
+  display:flex; align-items:baseline; gap:6px; font-family:var(--mono);
+  background:var(--accent-soft); border:1px solid var(--accent); border-radius:8px; padding:4px 11px;
+}
+.score b{font-size:17px; font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums}
+.score span{font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-2)}
+.timer{
+  font-family:var(--mono); font-size:15px; font-variant-numeric:tabular-nums;
+  border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
+  padding:5px 11px; display:flex; gap:9px; align-items:center;
+}
+.timer.running{border-color:var(--teal); color:var(--teal)}
+.timer button{border:0; background:transparent; font-size:11px; font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); padding:0}
+.timer button:hover{color:var(--accent)}
+.ghost{
+  border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
+  padding:6px 12px; font-size:13px; font-weight:500;
+}
+.ghost:hover{border-color:var(--accent); color:var(--accent)}
+
+/* ---------- shell ---------- */
+.shell{
+  display:grid; grid-template-columns:260px minmax(0,1fr);
+  gap:26px; max-width:1220px; margin:0 auto; padding:26px 20px 90px;
+}
+@media (max-width:900px){ .shell{grid-template-columns:1fr; gap:18px; padding-top:16px} }
+
+/* ---------- rail ---------- */
+.rail{align-self:start; position:sticky; top:76px; display:flex; flex-direction:column; gap:4px}
+@media (max-width:900px){
+  .rail{position:static; flex-direction:row; overflow-x:auto; gap:8px; padding-bottom:6px; scrollbar-width:thin}
+}
+.rail .railhead{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-3); padding:0 6px 8px;
+}
+@media (max-width:900px){ .rail .railhead{display:none} }
+.stepbtn{
+  display:flex; align-items:center; gap:11px; width:100%; text-align:left;
+  border:1px solid transparent; background:transparent; border-radius:9px;
+  padding:9px 10px; color:var(--ink-2); transition:background .15s, color .15s;
+}
+@media (max-width:900px){ .stepbtn{width:auto; flex:0 0 auto} }
+.stepbtn:hover{background:var(--surface-2); color:var(--ink)}
+.stepbtn[aria-current="true"]{background:var(--surface); border-color:var(--line); color:var(--ink); box-shadow:var(--shadow)}
+.stepbtn .num{
+  flex:0 0 26px; height:26px; display:grid; place-items:center;
+  border:1.5px solid var(--line); border-radius:50%;
+  font-family:var(--mono); font-size:12px; font-weight:600; color:var(--ink-3);
+}
+.stepbtn[aria-current="true"] .num{border-color:var(--accent); color:var(--accent)}
+.stepbtn.done .num{background:var(--teal); border-color:var(--teal); color:var(--surface)}
+.stepbtn .lbl{font-size:14px; font-weight:600; line-height:1.25}
+.stepbtn .min{display:block; font-family:var(--mono); font-size:10.5px; font-weight:400; color:var(--ink-3)}
+@media (max-width:900px){ .stepbtn .min{display:none} }
+.railfoot{margin-top:14px; padding:12px 10px; border-top:1px solid var(--line-soft)}
+@media (max-width:900px){ .railfoot{display:none} }
+.badgegrid{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+.badge{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+  border:1px dashed var(--line); border-radius:20px; padding:3px 9px; color:var(--ink-3);
+}
+.badge.on{border-style:solid; border-color:var(--teal); background:var(--teal-soft); color:var(--teal)}
+.progbar{height:5px; background:var(--line-soft); border-radius:3px; overflow:hidden; margin-bottom:9px}
+.progbar i{display:block; height:100%; width:0; background:var(--accent); transition:width .4s cubic-bezier(.2,.7,.3,1)}
+
+/* ---------- station panels ---------- */
+.station{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.st-head{padding:24px 28px 20px; border-bottom:1px solid var(--line-soft); background:var(--surface)}
+.eyebrow{
+  display:flex; align-items:center; gap:10px; margin-bottom:9px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+}
+.eyebrow .tag{background:var(--accent); color:var(--accent-ink); padding:2px 7px; border-radius:4px; letter-spacing:.1em}
+.st-head h2{font-size:1.9rem; font-weight:800; letter-spacing:-.03em; line-height:1.1}
+.st-head .goal{margin-top:10px; font-size:1.02rem; color:var(--ink-2); max-width:62ch}
+.st-body{padding:22px 28px 26px; display:flex; flex-direction:column; gap:22px}
+.st-body h3{font-size:1.06rem; letter-spacing:-.01em}
+.st-body h3 .idx{font-family:var(--mono); font-size:12px; color:var(--accent); margin-right:8px; font-weight:600}
+.lead{max-width:66ch; color:var(--ink-2)}
+.block{display:flex; flex-direction:column; gap:10px}
+
+/* numbered steps */
+ol.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0}
+ol.steps li{
+  display:grid; grid-template-columns:24px minmax(0,1fr); gap:12px;
+  padding:9px 0; border-bottom:1px solid var(--line-soft); max-width:74ch;
+}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{
+  content:counter(s); counter-increment:s;
+  font-family:var(--mono); font-size:12px; font-weight:600; color:var(--ink-3);
+  border:1px solid var(--line); border-radius:5px; height:22px; display:grid; place-items:center; margin-top:2px;
+}
+ol.steps{counter-reset:s}
+kbd{
+  font-family:var(--mono); font-size:.86em; background:var(--surface-2);
+  border:1px solid var(--line); border-bottom-width:2px; border-radius:5px; padding:1px 6px; white-space:nowrap;
+}
+
+/* makecode-style blocks */
+.mcstack{
+  display:flex; flex-direction:column; gap:3px; padding:14px;
+  background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius);
+  overflow-x:auto;
+}
+.mcb{
+  display:inline-flex; align-items:center; gap:8px; align-self:flex-start;
+  font-family:var(--mono); font-size:13px; font-weight:500; color:#fff;
+  padding:7px 13px; border-radius:6px; white-space:nowrap;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
+}
+.mcb b{background:rgba(255,255,255,.22); border-radius:4px; padding:1px 7px; font-weight:600}
+.mcb.i1{margin-left:20px} .mcb.i2{margin-left:40px}
+.b-basic{background:#1E90D6}
+.b-input{background:#B4009E}
+.b-loop{background:#00A040}
+.b-logic{background:#00A0B4}
+.b-music{background:#D83B01}
+.b-var{background:#E07000}
+.b-mq{background:#264F87}
+.mccap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+
+/* callouts */
+.note{
+  border-left:3px solid var(--teal); background:var(--teal-soft);
+  padding:12px 16px; border-radius:0 var(--radius) var(--radius) 0; max-width:74ch;
+}
+.note.warn{border-left-color:var(--warn); background:var(--warn-soft)}
+.note.aha{border-left-color:var(--accent); background:var(--accent-soft)}
+.note .nt{
+  display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; margin-bottom:4px; color:var(--ink-2);
+}
+.note p{font-size:.95rem}
+
+/* fix-it table */
+.fix{width:100%; border-collapse:collapse; font-size:.93rem}
+.fix th{
+  text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500;
+  padding:0 12px 7px 0; border-bottom:1px solid var(--line);
+}
+.fix td{padding:9px 12px 9px 0; border-bottom:1px solid var(--line-soft); vertical-align:top}
+.fix td:first-child{font-weight:600; width:40%}
+.tablewrap{overflow-x:auto}
+
+/* quiz */
+.quiz{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:var(--surface-2)}
+.quiz .qh{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:7px}
+.quiz .q{font-weight:600; margin-bottom:12px; font-size:1.02rem}
+.opts{display:flex; flex-direction:column; gap:7px; max-width:56ch}
+.opt{
+  text-align:left; border:1px solid var(--line); background:var(--surface);
+  border-radius:8px; padding:9px 13px; font-size:.95rem; display:flex; gap:10px; align-items:center;
+  transition:border-color .15s, background .15s;
+}
+.opt .k{font-family:var(--mono); font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:4px; padding:1px 6px}
+.opt:hover{border-color:var(--accent)}
+.opt.right{border-color:var(--teal); background:var(--teal-soft)}
+.opt.right .k{border-color:var(--teal); color:var(--teal)}
+.opt.wrong{border-color:var(--accent); background:var(--accent-soft); opacity:.75}
+.qfb{margin-top:11px; font-size:.93rem; color:var(--ink-2); max-width:60ch}
+
+/* simulator */
+.sim{border:1px solid var(--line); border-radius:12px; background:var(--surface-2); overflow:hidden}
+.simbar{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:11px 14px; border-bottom:1px solid var(--line); background:var(--surface);
+}
+.simbar .title{font-family:var(--display); font-weight:700; font-size:.98rem; margin-right:auto}
+.levsel{display:flex; gap:5px}
+.levsel button{
+  font-family:var(--mono); font-size:12px; border:1px solid var(--line);
+  background:var(--surface-2); border-radius:7px; padding:4px 10px; color:var(--ink-2);
+}
+.levsel button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.levsel button.solved{border-color:var(--teal); color:var(--teal)}
+.levsel button.solved[aria-pressed="true"]{background:var(--teal); border-color:var(--teal); color:var(--surface)}
+.simgrid{display:grid; grid-template-columns:166px minmax(0,1.05fr) minmax(0,1.3fr); gap:0}
+@media (max-width:860px){ .simgrid{grid-template-columns:1fr} }
+.simcol{padding:14px; border-right:1px solid var(--line)}
+.simcol:last-child{border-right:0}
+@media (max-width:860px){ .simcol{border-right:0; border-bottom:1px solid var(--line)} }
+.colhead{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin-bottom:10px}
+.palette{display:flex; flex-direction:column; gap:6px}
+.pb{
+  display:flex; align-items:center; gap:8px; border:0; border-radius:7px;
+  padding:8px 10px; font-family:var(--mono); font-size:12px; font-weight:500; color:#fff;
+  text-align:left; box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);
+}
+.pb:hover{filter:brightness(1.08)}
+.pb:active{transform:translateY(1px)}
+.prog{display:flex; flex-direction:column; gap:5px; min-height:120px}
+.prow{display:flex; align-items:center; gap:6px}
+.prow .chip{
+  flex:1; display:flex; align-items:center; gap:8px; border-radius:7px; padding:7px 10px;
+  font-family:var(--mono); font-size:12px; color:#fff; box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);
+  min-width:0;
+}
+.prow .chip.active{outline:2.5px solid var(--accent); outline-offset:2px}
+.prow.kid{margin-left:18px}
+.chip .lbl{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.chip .step{
+  border:0; background:rgba(255,255,255,.24); color:#fff; border-radius:4px;
+  width:20px; height:20px; display:grid; place-items:center; font-size:13px; line-height:1; padding:0;
+}
+.chip .val{font-weight:600; min-width:14px; text-align:center; font-variant-numeric:tabular-nums}
+.prow .tool{
+  border:1px solid var(--line); background:var(--surface); border-radius:5px;
+  width:24px; height:24px; display:grid; place-items:center; font-size:12px; color:var(--ink-3); padding:0;
+}
+.prow .tool:hover{color:var(--accent); border-color:var(--accent)}
+.chip.running{box-shadow:inset 0 -2px 0 rgba(0,0,0,.2), 0 0 0 3px var(--accent)}
+.dropzone{
+  margin-left:18px; border:1.5px dashed var(--line); border-radius:7px; padding:6px 10px;
+  font-family:var(--mono); font-size:11px; color:var(--ink-3);
+}
+.dropzone.on{border-color:var(--accent); color:var(--accent)}
+.emptyprog{font-family:var(--mono); font-size:12px; color:var(--ink-3); border:1.5px dashed var(--line); border-radius:8px; padding:14px; text-align:center}
+.simactions{display:flex; gap:7px; margin-top:12px; flex-wrap:wrap}
+.btn{
+  border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink);
+  border-radius:8px; padding:8px 15px; font-weight:600; font-size:.92rem;
+}
+.btn:hover{filter:brightness(1.06)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.sec{background:var(--surface); color:var(--ink-2); border-color:var(--line)}
+.btn.sec:hover{border-color:var(--accent); color:var(--accent); filter:none}
+canvas{width:100%; height:auto; display:block; border-radius:9px; background:var(--surface)}
+.simstatus{
+  margin-top:10px; font-size:.9rem; min-height:2.6em; padding:9px 12px; border-radius:8px;
+  background:var(--surface); border:1px solid var(--line); color:var(--ink-2);
+}
+.simstatus.ok{border-color:var(--teal); background:var(--teal-soft); color:var(--teal); font-weight:600}
+.simstatus.bad{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+.missionbox{font-size:.92rem; color:var(--ink-2); margin-bottom:10px; max-width:52ch}
+.missionbox b{color:var(--ink)}
+.counter{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); margin-top:8px}
+.counter.over{color:var(--accent)}
+
+/* footer nav */
+.stfoot{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:16px 28px; border-top:1px solid var(--line-soft); background:var(--surface-2);
+}
+.stfoot .spacer{margin-left:auto}
+.pts{font-family:var(--mono); font-size:11.5px; color:var(--ink-3)}
+
+/* drawer */
+.drawer{
+  position:fixed; inset:0 0 0 auto; width:min(680px,100%); z-index:60;
+  background:var(--surface); border-left:1px solid var(--line);
+  transform:translateX(100%); transition:transform .28s cubic-bezier(.3,.8,.3,1);
+  overflow-y:auto; box-shadow:-20px 0 50px -30px rgba(0,0,0,.5);
+}
+.drawer.open{transform:none}
+.scrim{position:fixed; inset:0; background:rgba(10,16,18,.45); z-index:55; opacity:0; pointer-events:none; transition:opacity .28s}
+.scrim.on{opacity:1; pointer-events:auto}
+.drawer .dhead{
+  position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--line);
+  padding:16px 24px; display:flex; align-items:center; gap:14px; z-index:2;
+}
+.drawer .dhead h2{font-size:1.15rem; margin-right:auto}
+.drawer .dbody{padding:22px 24px 60px; display:flex; flex-direction:column; gap:26px}
+.drawer h3{font-size:1rem; margin-bottom:9px; padding-bottom:6px; border-bottom:1px solid var(--line-soft)}
+.drawer ul{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:5px; font-size:.94rem; color:var(--ink-2)}
+.drawer ul li b, .drawer p b{color:var(--ink)}
+.plan{width:100%; border-collapse:collapse; font-size:.92rem}
+.plan td{padding:7px 10px 7px 0; border-bottom:1px solid var(--line-soft); vertical-align:top}
+.plan td:first-child{font-family:var(--mono); color:var(--accent); white-space:nowrap; width:88px; font-size:12px}
+.check{list-style:none; padding-left:0}
+.check li{display:grid; grid-template-columns:18px 1fr; gap:9px}
+.check li::before{content:"☐"; font-family:var(--mono); color:var(--ink-3)}
+
+/* finale */
+.trophy{
+  text-align:center; padding:34px 24px; border:1px solid var(--teal);
+  background:var(--teal-soft); border-radius:12px;
+}
+.trophy .big{font-family:var(--display); font-weight:800; font-size:2.1rem; letter-spacing:-.03em; color:var(--teal)}
+.trophy .who{font-family:var(--mono); font-size:13px; color:var(--ink-2); margin-top:6px}
+.pillrow{display:flex; gap:8px; flex-wrap:wrap}
+.pill{
+  font-family:var(--mono); font-size:11.5px; border:1px solid var(--line);
+  border-radius:20px; padding:4px 11px; color:var(--ink-2); background:var(--surface);
+}
+
+/* ---------- micro:bit board ---------- */
+.mbwrap{display:flex; flex-direction:column; align-items:center; gap:14px}
+.mbboard{
+  background:linear-gradient(178deg,#22343C 0%,#16242B 100%);
+  border:1px solid #334A53; border-radius:16px; padding:16px 16px 10px;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+  width:100%; max-width:280px; box-shadow:0 14px 34px -20px rgba(0,0,0,.85);
+}
+.mbrow{display:flex; align-items:center; gap:16px}
+.mbmatrix{display:grid; grid-template-columns:repeat(5,1fr); gap:6px}
+.led{
+  width:14px; height:18px; border-radius:3px; padding:0; border:0;
+  background:rgba(255,255,255,.09); transition:background .12s, box-shadow .12s;
+}
+.led.on{background:#FF3D2E; box-shadow:0 0 10px 1px rgba(255,61,46,.7)}
+.led.tap{cursor:pointer}
+.led.tap:hover{background:rgba(255,255,255,.26)}
+.mbbtn{
+  width:40px; height:40px; border-radius:50%; background:#101E23;
+  border:2px solid #3B535D; color:#93AAB2; font-family:var(--mono); font-size:14px; font-weight:600;
+}
+.mbbtn:hover{border-color:#FF3D2E; color:#FF6A5A}
+.mbbtn.pressed{background:#FF3D2E; border-color:#FF3D2E; color:#fff}
+.mbedge{display:flex; gap:5px; margin-top:4px}
+.mbedge i{display:block; width:11px; height:13px; background:#C9A227; border-radius:0 0 2px 2px}
+.mbedge i.big{width:24px}
+.mbctl{width:100%; max-width:280px; display:flex; flex-direction:column; gap:9px}
+.mbctl[hidden]{display:none}
+.mbctl label{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.mbctl input[type=range]{width:100%; accent-color:var(--accent)}
+.mbreadout{
+  font-family:var(--mono); font-size:12.5px; color:var(--ink-2);
+  display:flex; justify-content:space-between; gap:10px; font-variant-numeric:tabular-nums;
+}
+.mbreadout b{color:var(--accent)}
+.mbmini{display:grid; grid-template-columns:repeat(5,1fr); gap:4px; width:78px; margin-top:8px}
+.mbmini span{display:block; width:12px; height:15px; border-radius:2px; background:var(--line)}
+.mbmini span.on{background:var(--accent)}
+.ledsrc{
+  font-family:var(--mono); font-size:14px; line-height:1.35; letter-spacing:.34em;
+  background:#1E90D6; color:#fff; padding:9px 12px; border-radius:6px; align-self:flex-start;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18); margin-left:20px; white-space:pre;
+}
+.mbchips{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
+.mbchips span{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+  border:1px dashed var(--line); border-radius:16px; padding:2px 9px; color:var(--ink-3);
+}
+.mbchips span.on{border-style:solid; border-color:var(--teal); background:var(--teal-soft); color:var(--teal)}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="flag">Pit&nbsp;Lane</span>
+    <h1>Maqueen Grand Prix</h1>
+    <span class="sub">micro:bit&nbsp;V2 &middot; Maqueen&nbsp;Plus&nbsp;V3 &middot; Offline-Ausgabe</span>
+  </div>
+  <div class="tbgroup">
+    <div class="teamfield">
+      <label for="team">Team</label>
+      <input id="team" type="text" placeholder="Name eintippen" maxlength="22" autocomplete="off">
+    </div>
+    <div class="score"><b id="ptsval">0</b><span>Punkte</span></div>
+    <div class="timer" id="timer"><span id="tval">90:00</span><button id="tbtn" type="button">Start</button></div>
+    <button class="ghost" id="coachbtn" type="button">Für Betreuer</button>
+    <button class="ghost" id="resetbtn" type="button">Neues Team</button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Stationen">
+    <div class="railhead">Stationen</div>
+    <!-- buttons injected -->
+    <div class="railfoot">
+      <div class="progbar"><i id="progfill"></i></div>
+      <div class="mccap">Abzeichen</div>
+      <div class="badgegrid" id="badges"></div>
+    </div>
+  </nav>
+
+  <main id="stage">
+
+  <!-- ============ STATION 0 ============ -->
+  <section class="station" data-st="0">
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 0</span><span>6 Minuten</span><span>Boxenstopp</span></div>
+      <h2>Was macht einen Roboter zum Roboter?</h2>
+      <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter trifft eigene Entscheidungen. In den nächsten 90 Minuten baust du genau das: ein Fahrzeug, das die Welt wahrnimmt und selbst reagiert.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Der Dreisatz jedes Roboters</h3>
+        <p class="lead">Jeder Roboter auf der Welt &ndash; vom Staubsauger bis zum Marsrover &ndash; macht immer dieselben drei Dinge, tausendmal pro Minute:</p>
+        <div class="mcstack">
+          <div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>
+          <div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>dein Programm</b></div>
+          <div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div>
+        </div>
+        <p class="lead">Und dann wieder von vorn. Diese Schleife heißt <em>Regelkreis</em> &ndash; sie ist der ganze Trick.</p>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Dein Fahrzeug im Detail</h3>
+        <div class="tablewrap">
+          <table class="fix">
+            <tr><th>Bauteil</th><th>Wozu</th><th>Rolle</th></tr>
+            <tr><td>5 Liniensensoren</td><td>schauen nach unten und unterscheiden Schwarz von Weiß</td><td>Wahrnehmen</td></tr>
+            <tr><td>8&times;8&#8209;Laserscanner</td><td>misst Abstand nach vorn, 2&nbsp;cm bis 4&nbsp;m, 64 Messpunkte</td><td>Wahrnehmen</td></tr>
+            <tr><td>2 Lichtsensoren</td><td>messen Helligkeit links und rechts</td><td>Wahrnehmen</td></tr>
+            <tr><td>micro:bit&nbsp;V2</td><td>der Computer &ndash; führt dein Programm aus</td><td>Entscheiden</td></tr>
+            <tr><td>2 Metallmotoren</td><td>treiben die Räder an, jedes einzeln steuerbar</td><td>Handeln</td></tr>
+            <tr><td>6 RGB&#8209;LEDs + Summer</td><td>Licht und Ton in jeder Farbe</td><td>Handeln</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="quiz" data-quiz="q0" data-answer="c">
+        <div class="qh">Aufwärm-Frage &middot; 10 Punkte</div>
+        <p class="q">Welches Bauteil am Maqueen ist <em>kein</em> Sensor?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Der Liniensensor unter dem Fahrzeug</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Der Laserscanner vorne</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Der Summer</button>
+          <button class="opt" data-k="d"><span class="k">D</span> Der Lichtsensor oben</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+
+      <div class="note">
+        <span class="nt">Team-Auftrag</span>
+        <p>Tragt oben rechts euren Teamnamen ein. Er steht am Ende auf eurer Urkunde &ndash; und auf der Bestenliste am Stand.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <span class="pts">Station abschließen: +20 Punkte</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="1">Los geht's &rarr;</button>
+    </div>
+  </section>
+  <!-- ============ STATION 1 ============ -->
+  <section class="station" data-st="1" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 1</span><span>10 Minuten</span><span>Erster Kontakt</span></div>
+      <h2>Dein erstes Programm auf echter Hardware</h2>
+      <p class="goal">In den nächsten Minuten wandert Code, den du selbst geschrieben hast, über ein Kabel in einen echten Computer &ndash; und der macht dann genau das, was du gesagt hast. Nicht mehr und nicht weniger.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>MakeCode öffnen</h3>
+        <ol class="steps">
+          <li><span><kbd>makecode.microbit.org</kbd> im Browser öffnen und <b>Neues Projekt</b> anlegen. Name: euer Teamname.</span></li>
+          <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder.</span></li>
+        </ol>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Das Programm: Lebenszeichen</h3>
+        <p class="lead">Zieht diese Blöcke unter <kbd>beim Start</kbd> zusammen &ndash; der läuft genau einmal, wenn der micro:bit Strom bekommt. Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.</p>
+        <div class="mcstack">
+          <div class="mccap">Blöcke</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
+          <div class="mcb b-basic i1">pausiere <b>1000</b> ms</div>
+          <div class="mcb b-basic i1">zeige Text <b>&quot;Hallo&quot;</b></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Auf den Roboter übertragen</h3>
+        <ol class="steps">
+          <li><span>micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel &ndash; den Roboter braucht ihr jetzt noch nicht.</span></li>
+          <li><span>In MakeCode auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät &rarr; <b>micro:bit koppeln</b> &rarr; auswählen &rarr; verbinden.</span></li>
+          <li><span>Klappt das Koppeln nicht, geht es immer auch von Hand: Die heruntergeladene Datei endet auf <kbd>.hex</kbd> und liegt in eurem Download-Ordner. Zieht sie auf das Laufwerk <kbd>MICROBIT</kbd>, das sich beim Anstecken öffnet.</span></li>
+          <li><span>Auf dem micro:bit blinkt eine gelbe LED &ndash; das ist der Code, der hinüberfließt. Wenn sie aufhört, läuft euer Programm.</span></li>
+        </ol>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Kein Download möglich?</b> Sehr oft liegt es am Kabel: viele USB-Kabel können nur laden, keine Daten übertragen. Anderes Kabel probieren.<br><b>Der Browser fragt nicht nach dem Gerät?</b> Es muss Chrome oder Edge sein. Notfalls die heruntergeladene <kbd>.hex</kbd>-Datei einfach auf das Laufwerk <kbd>MICROBIT</kbd> ziehen &ndash; das geht immer.</p>
+      </div>
+
+      <div class="quiz" data-quiz="q1" data-answer="b">
+        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <p class="q">Du ziehst das USB-Kabel ab. Was passiert mit deinem Programm?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Es ist weg, der micro:bit ist wieder leer</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Es bleibt drauf und läuft, sobald Strom da ist</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Es läuft nur, solange der Laptop verbunden ist</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="0">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Ersteinschalter</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="2">Herz leuchtet &rarr;</button>
+    </div>
+  </section>
+  <!-- ============ STATION 2 ============ -->
+  <section class="station" data-st="2" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 2</span><span>20 Minuten</span><span>Der micro:bit allein</span></div>
+      <h2>25 Lämpchen und ein Gleichgewichtssinn</h2>
+      <p class="goal">Bevor Räder ins Spiel kommen: Der micro:bit ist schon für sich ein vollständiger Computer. Auf vier mal fünf Zentimetern sitzen 25 LEDs, zwei Knöpfe, ein Lautsprecher, ein Mikrofon, Funk &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
+    </div>
+    <div class="st-body">
+
+      <div class="sim" id="mbsim">
+        <div class="simbar">
+          <span class="title">micro:bit-Simulator</span>
+          <div class="levsel" id="mbtabs"></div>
+        </div>
+        <div class="simgrid">
+          <div class="simcol">
+            <div class="colhead">Auftrag</div>
+            <p class="missionbox" id="mbmission"></p>
+            <div id="mbextra"></div>
+            <div class="mbchips" id="mbchips"></div>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Gerät</div>
+            <div class="mbwrap">
+              <div class="mbboard">
+                <div class="mbrow">
+                  <button class="mbbtn" id="mbA" type="button">A</button>
+                  <div class="mbmatrix" id="mbmatrix"></div>
+                  <button class="mbbtn" id="mbB" type="button">B</button>
+                </div>
+                <div class="mbedge"><i class="big"></i><i class="big"></i><i class="big"></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <div class="mbctl" id="mbctl" hidden>
+                <label for="mbtilt">Neigung nach links / rechts</label>
+                <input type="range" id="mbtilt" min="-1023" max="1023" value="0" step="1">
+                <div class="mbreadout"><span>Beschleunigung&nbsp;x</span><b id="mbxval">0</b></div>
+                <button class="btn sec" id="mbshake" type="button">Schütteln!</button>
+              </div>
+            </div>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Der passende Block</div>
+            <div class="mcstack" id="mbcode"></div>
+            <div class="simstatus" id="mbstatus">Wähl oben eine Aufgabe.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
+        <p class="lead">Der micro:bit hat keinen Bildschirm, nur 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
+        <div class="note">
+          <span class="nt">Warum das clever ist</span>
+          <p>25 Lämpchen, jedes an oder aus &ndash; das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Auf Knopfdruck reagieren</h3>
+        <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse.</p>
+        <div class="mcstack">
+          <div class="mccap">Zwei Ereignisse nebeneinander</div>
+          <div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>
+          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
+          <div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>
+          <div class="mcb b-basic i1">lösche Bildschirm</div>
+        </div>
+        <p class="lead">Beide Blöcke liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide Aufträge und führt den passenden aus, sobald der Knopf kommt.</p>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er misst in drei Richtungen, wie stark er beschleunigt oder gekippt wird. Für uns reicht heute eine davon: <b>x</b>, das Kippen nach links und rechts.</p>
+        <div class="tablewrap">
+          <table class="fix">
+            <tr><th>Was ihr tut</th><th>Wert von x</th><th>Was das Programm daraus macht</th></tr>
+            <tr><td>flach hinlegen</td><td>ungefähr 0</td><td>&bdquo;liegt gerade&ldquo;</td></tr>
+            <tr><td>nach rechts kippen</td><td>deutlich über 0, bis +1023</td><td>&bdquo;Pfeil nach rechts&ldquo;</td></tr>
+            <tr><td>nach links kippen</td><td>deutlich unter 0, bis &minus;1023</td><td>&bdquo;Pfeil nach links&ldquo;</td></tr>
+          </table>
+        </div>
+        <div class="mcstack">
+          <div class="mccap">Der Würfel &ndash; drei Blöcke, fertiges Spielzeug</div>
+          <div class="mcb b-input">wenn geschüttelt</div>
+          <div class="mcb b-basic i1">zeige Zahl <b>zufällige Zahl von 1 bis 6</b></div>
+        </div>
+        <div class="note aha">
+          <span class="nt">Der wichtigste Satz des Workshops</span>
+          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Nach rechts gekippt&ldquo; steht nirgends &ndash; das seid ihr, die entscheidet, ab welcher Zahl das gilt. Programmieren heißt: Zahlenbereiche in Entscheidungen übersetzen. Genau diesen Trick braucht ihr gleich wieder, wenn der Roboter Schwarz von Weiß unterscheiden soll.</p>
+        </div>
+      </div>
+
+      <div class="quiz" data-quiz="q2" data-answer="b">
+        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <p class="q">Euer Würfel zeigt bei jedem Schütteln dieselbe Zahl. Was ist am wahrscheinlichsten passiert?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Ihr schüttelt nicht kräftig genug</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Im Block <kbd>zeige Zahl</kbd> steht eine feste Zahl statt dem Block <kbd>zufällige Zahl</kbd></button>
+          <button class="opt" data-k="c"><span class="k">C</span> Der micro:bit braucht Internet, um zu würfeln</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+
+      <div class="note aha">
+        <span class="nt">Team-Challenge &middot; 15 Punkte</span>
+        <p>Baut den <b>Würfel</b> auf eurem echten micro:bit und lasst ihn dreimal würfeln. Wer danach noch Zeit hat: Sorgt dafür, dass nach dem Würfeln kurz ein Herz erscheint, bevor die Zahl kommt &ndash; eine kleine Trommelwirbel-Pause.</p>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Nichts passiert beim Schütteln?</b> Kräftig ruckartig schütteln, nicht sanft wedeln &ndash; der Sensor braucht eine echte Beschleunigung.<br><b>Die Zahl ist kaum zu lesen?</b> Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="1">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Pixelkünstler</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="3">Jetzt kommt der Roboter &rarr;</button>
+    </div>
+  </section>
+  <!-- ============ STATION 3 ============ -->
+  <section class="station" data-st="3" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 3</span><span>16 Minuten</span><span>Fahrschule</span></div>
+      <h2>Erst denken, dann fahren</h2>
+      <p class="goal">Profis testen ihren Code, bevor er auf die Hardware geht &ndash; sonst fährt der Roboter vom Tisch. Löse die ersten beiden Parcours im Simulator, danach fährst du dasselbe in echt. Parcours 3 ist für die, die schneller fertig sind.</p>
+    </div>
+    <div class="st-body">
+
+      <div class="block">
+        <h3><span class="idx">01</span>Zuerst: dem micro:bit den Roboter beibringen</h3>
+        <p class="lead">MakeCode kennt den Maqueen noch nicht. Ihr müsst die passende Block-Sammlung einmal nachladen &ndash; danach steht sie in eurem Projekt für immer bereit.</p>
+        <ol class="steps">
+          <li><span>Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b>.</span></li>
+          <li><span>Nach <kbd>dfrobot</kbd> suchen und <b>DFRobot_MaqueenPlus_V2</b> auswählen. Keine Sorge &ndash; die Erweiterung heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3.</span></li>
+          <li><span>Links gibt es jetzt eine neue Kategorie mit dem Maqueen-Namen. Da liegen alle Roboter-Blöcke.</span></li>
+          <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
+        </ol>
+      </div>
+
+      <div class="sim" id="sim">
+        <div class="simbar">
+          <span class="title">Parcours-Simulator</span>
+          <div class="levsel" id="levsel"></div>
+        </div>
+        <div class="simgrid">
+          <div class="simcol">
+            <div class="colhead">Bausteine</div>
+            <div class="palette" id="palette"></div>
+            <p class="counter" id="counter"></p>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Dein Programm</div>
+            <div class="prog" id="prog"></div>
+            <div class="simactions">
+              <button class="btn" id="runbtn" type="button">▶ Ausführen</button>
+              <button class="btn sec" id="clearbtn" type="button">Leeren</button>
+            </div>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Strecke</div>
+            <p class="missionbox" id="mission"></p>
+            <canvas id="cv" width="520" height="420"></canvas>
+            <div class="simstatus" id="status">Klicke links auf Bausteine, um dein Programm zu bauen. Dann auf Ausführen.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Dieselbe Idee auf dem echten Roboter</h3>
+        <p class="lead">Der echte Maqueen kennt keine „Felder". Er kennt <b>Tempo</b> (0&ndash;255) und <b>Zeit</b>. Aus „fahre 3 Felder" wird also: fahren, warten, stoppen.</p>
+        <div class="mcstack">
+          <div class="mccap">Geradeaus und anhalten</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-mq i1">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>120</b></div>
+          <div class="mcb b-basic i1">pausiere <b>1000</b> ms</div>
+          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+        </div>
+        <div class="note">
+          <span class="nt">Zahlengefühl</span>
+          <p>Tempo geht von 0 bis 255. Unter etwa <b>30</b> bewegt sich nichts &ndash; da ist der Motor zu schwach, um das Fahrzeug loszureißen. 1000&nbsp;ms sind eine Sekunde.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Wie dreht ein Roboter ohne Lenkrad?</h3>
+        <p class="lead">Der Maqueen hat keine Lenkung. Er dreht, indem die beiden Räder <em>unterschiedlich schnell</em> laufen. Läuft ein Rad vorwärts und das andere rückwärts, dreht er sich auf der Stelle.</p>
+        <div class="mcstack">
+          <div class="mccap">Drehung auf der Stelle nach rechts</div>
+          <div class="mcb b-mq">Motor <b>links</b> <b>vorwärts</b> Tempo <b>100</b></div>
+          <div class="mcb b-mq">Motor <b>rechts</b> <b>rückwärts</b> Tempo <b>100</b></div>
+          <div class="mcb b-basic">pausiere <b>400</b> ms</div>
+          <div class="mcb b-mq">Motor <b>alle</b> <b>stoppen</b></div>
+        </div>
+        <div class="note aha">
+          <span class="nt">Team-Challenge &middot; 15 Punkte</span>
+          <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen. Ihr müsst die 400&nbsp;ms selbst herausfinden &ndash; probiert, messt, korrigiert. Genau so arbeiten Ingenieure.</p>
+        </div>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Fährt einen Bogen statt geradeaus?</b> Normal. Die Motoren sind nie exakt gleich. Dreht das Tempo des schnelleren Rads um 5&ndash;10 runter.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen später zählt das wirklich.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="2">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Fahrlehrer</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="4">Weiter zu den Augen &rarr;</button>
+    </div>
+  </section>
+  <!-- ============ STATION 4 ============ -->
+  <section class="station" data-st="4" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 4</span><span>16 Minuten</span><span>Sensoren</span></div>
+      <h2>Der Roboter bekommt Augen</h2>
+      <p class="goal">Bis jetzt hast du dem Roboter gesagt, <em>was</em> er tun soll. Ab jetzt sagst du ihm, <em>worauf er achten</em> soll. Das ist der Moment, in dem aus einem Fahrzeug ein Roboter wird.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Wie ein Liniensensor „sieht"</h3>
+        <p class="lead">Unter dem Fahrzeug sitzen fünf winzige Lampen mit je einem Lichtmesser daneben. Die Lampe leuchtet nach unten, der Messer schaut, wie viel zurückkommt. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert keine Farbe, sondern eine Zahl:</p>
+        <div class="tablewrap">
+          <table class="fix">
+            <tr><th>Untergrund</th><th>ungefährer Messwert</th><th>heißt für den Roboter</th></tr>
+            <tr><td>Weißes Papier</td><td>≈ 3800</td><td>„hier ist keine Linie"</td></tr>
+            <tr><td>Schwarzes Klebeband</td><td>≈ 2700</td><td>„hier ist meine Spur"</td></tr>
+          </table>
+        </div>
+        <div class="note">
+          <span class="nt">Kalibrieren &ndash; einmal pro Strecke</span>
+          <p>Jeder Raum hat anderes Licht, also muss der Roboter lernen, was hier „schwarz" heißt: alle fünf Sensoren auf die schwarze Linie stellen, einschalten, die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis die Anzeige blinkt. Fertig.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Zwei Zeilen, und er fährt allein</h3>
+        <p class="lead">Im Maqueen steckt der Linienfolge-Algorithmus schon fertig drin &ndash; in fünf Geschwindigkeitsstufen. Stufe 1 ist gemütlich, Stufe 5 ist mutig.</p>
+        <div class="mcstack">
+          <div class="mccap">Linienfolger &ndash; startet erst auf Knopfdruck</div>
+          <div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>
+          <div class="mcb b-mq i1">Linienverfolgung <b>Stufe 2</b></div>
+          <div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>
+          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+        </div>
+        <p class="lead">Warum nicht <kbd>beim Start</kbd>? Weil ihr nach dem Einschalten erst kalibrieren wollt &ndash; ein Roboter, der sofort losfährt, lässt euch keine Zeit dafür. Die Reihenfolge:</p>
+        <ol class="steps">
+          <li><span>Programm herunterladen, USB-Kabel abziehen.</span></li>
+          <li><span>Roboter mit allen fünf Sensoren auf die schwarze Linie setzen und einschalten.</span></li>
+          <li><span>Calc-Key etwa 2 Sekunden halten, bis es blinkt &ndash; kalibriert.</span></li>
+          <li><span>Roboter auf den Start stellen, <b>Knopf A</b> drücken. Er fährt. <b>Knopf B</b> hält ihn an.</span></li>
+        </ol>
+        <p class="lead">Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie stoppt &ndash; der micro:bit kann nebenher noch andere Dinge tun, zum Beispiel eine Lichtshow.</p>
+        <div class="mcstack">
+          <div class="mccap">Fahren und gleichzeitig leuchten</div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>rot</b></div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>blau</b></div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+        </div>
+      </div>
+
+      <div class="note aha">
+        <span class="nt">Der eigentliche Aha-Moment</span>
+        <p>Ihr habt dem Roboter <b>nicht gesagt, wo er langfahren soll</b>. Ihr habt ihm gesagt, worauf er achten muss. Legt die Strecke anders &ndash; er fährt sie trotzdem. Das ist der Unterschied zwischen einer Maschine und einem Roboter.</p>
+      </div>
+
+      <div class="quiz" data-quiz="q3" data-answer="a">
+        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Er verlässt die Linie in Kurven?</b> Eine Stufe langsamer fahren &ndash; oder die Kurve ist zu eng. Als Faustregel braucht der Maqueen mindestens etwa 15&nbsp;cm Kurvenradius.<br><b>Er zuckt wild hin und her?</b> Neu kalibrieren. Oft ist Sonnenlicht oder glänzendes Klebeband schuld.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="3">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Spurhalter</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="5">Weiter zu den Reflexen &rarr;</button>
+    </div>
+  </section>
+  <!-- ============ STATION 5 ============ -->
+  <section class="station" data-st="5" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 5</span><span>10 Minuten</span><span>Bonus</span></div>
+      <h2>Reflexe: wenn &hellip; dann &hellip; sonst</h2>
+      <p class="goal">Ein Roboter, der nur einem Plan folgt, fährt gegen die erste Wand. Jetzt bringst du ihm bei, seine Umgebung zu prüfen und selbst zu entscheiden &ndash; viele Male pro Sekunde.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Der Laserscanner vorne</h3>
+        <p class="lead">Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleines Lidar mit 8&times;8 = <b>64 Laserstrahlen</b>. Es misst in Millimetern, von 20&nbsp;mm bis 4000&nbsp;mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos &ndash; nur größer.</p>
+        <div class="note">
+          <span class="nt">Wichtig</span>
+          <p>Der Scanner braucht nach dem Einschalten etwa <b>3 Sekunden</b> zum Hochfahren. Setzt darum ganz oben in <kbd>beim Start</kbd> eine Pause von 3000&nbsp;ms, sonst misst er beim ersten Mal Unsinn.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Die Bedingung</h3>
+        <p class="lead">Der <kbd>dauerhaft</kbd>-Block wiederholt alles darin, immer und immer wieder. Darin sitzt die Entscheidung: Ist der Weg frei, wird gefahren. Ist etwas näher als 20&nbsp;cm, wird gebremst.</p>
+        <div class="mcstack">
+          <div class="mccap">Bremsassistent</div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-logic i1">wenn <b>Abstand</b> &lt; <b>200</b> mm dann</div>
+          <div class="mcb b-mq i2">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>rot</b></div>
+          <div class="mcb b-music i2">spiele Ton <b>hoch C</b></div>
+          <div class="mcb b-logic i1">sonst</div>
+          <div class="mcb b-mq i2">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>110</b></div>
+          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>grün</b></div>
+        </div>
+        <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
+      </div>
+
+      <div class="quiz" data-quiz="q4" data-answer="c">
+        <div class="qh">Denkfrage &middot; 10 Punkte</div>
+        <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Weil der Laser sonst zu heiß wird</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Weil einmal messen nichts nützt &ndash; das Hindernis kommt ja erst später</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+
+      <div class="note aha">
+        <span class="nt">Bonus &middot; 15 Punkte</span>
+        <p>Schafft ihr es, dass der Roboter beim Hindernis nicht nur stoppt, sondern <b>zurücksetzt, sich dreht und weiterfährt</b>? Dann habt ihr einen Staubsaugerroboter gebaut.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="4">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Bremsassistent</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="6">Ab zum Rennen &rarr;</button>
+    </div>
+  </section>
+  <!-- ============ STATION 6 ============ -->
+  <section class="station" data-st="6" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 6</span><span>12 Minuten</span><span>Finale</span></div>
+      <h2>Grand Prix</h2>
+      <p class="goal">Jetzt gehört der Roboter euch. Tunt ihn, gebt ihm einen Auftritt &ndash; und dann fahrt ihr um die schnellste Runde.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Tuning-Werkstatt</h3>
+        <p class="lead">Wählt aus, woran ihr arbeitet. Mehr als zwei Dinge schafft ihr nicht &ndash; entscheidet euch bewusst.</p>
+        <div class="tablewrap">
+          <table class="fix">
+            <tr><th>Idee</th><th>Was ihr braucht</th><th>Schwierigkeit</th></tr>
+            <tr><td>Schnellste Runde</td><td>Linienverfolgung Stufe hochdrehen, bis er fliegt statt fährt</td><td>leicht</td></tr>
+            <tr><td>Startampel</td><td><kbd>beim Knopf A</kbd>: rot, gelb, grün leuchten, dann losfahren</td><td>leicht</td></tr>
+            <tr><td>Zieleinlauf-Fanfare</td><td>Musik-Block, wenn der Laser die Zielwand sieht</td><td>mittel</td></tr>
+            <tr><td>Fernsteuerung</td><td>IR-Empfänger + Fernbedienung: Tasten auf Fahrbefehle legen</td><td>mittel</td></tr>
+            <tr><td>Discomodus</td><td>Zufallsfarben auf allen 6 LEDs im <kbd>dauerhaft</kbd>-Block</td><td>leicht</td></tr>
+            <tr><td>Kreuzungs-Erkennung</td><td>Der Maqueen meldet selbst, ob er eine Kreuzung oder Abzweigung sieht</td><td>schwer</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Das Rennen</h3>
+        <ol class="steps">
+          <li><span>Jedes Team fährt einen Lauf auf Zeit. Bleibt Zeit, gibt es eine zweite Runde &ndash; der bessere Lauf zählt.</span></li>
+          <li><span>Verlässt der Roboter die Strecke, wird er an der Stelle wieder aufgesetzt &ndash; plus 3 Sekunden.</span></li>
+          <li><span>Es gibt zwei Pokale: <b>schnellste Runde</b> und <b>schönster Auftritt</b>.</span></li>
+        </ol>
+      </div>
+
+      <div class="note aha">
+        <span class="nt">Wo das, was ihr heute gebaut habt, wirklich fährt</span>
+        <p>Der Linienfolger ist die Technik hinter <b>Lagerrobotern</b> bei großen Versandhändlern. Der Bremsassistent steckt so ähnlich in fast jedem Neuwagen. Und der Regelkreis „wahrnehmen &ndash; entscheiden &ndash; handeln" ist derselbe, egal ob im Staubsauger oder im Marsrover.</p>
+      </div>
+
+      <div class="trophy">
+        <div class="big" id="finaltitle">Ziel erreicht</div>
+        <div class="who" id="finalwho">Team &mdash; &middot; 0 Punkte</div>
+        <div class="pillrow" id="finalbadges" style="justify-content:center; margin-top:16px"></div>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="5">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Champion</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="done">Workshop abschließen ✓</button>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="coach" aria-hidden="true" aria-label="Hinweise für Betreuer">
+  <div class="dhead">
+    <h2>Betreuer-Handbuch</h2>
+    <button class="ghost" id="coachclose" type="button">Schließen</button>
+  </div>
+  <div class="dbody">
+    <section>
+      <h3>Zeitplan · 90-Minuten-Slot</h3>
+      <table class="plan">
+        <tr><td>0:00–0:06</td><td><b>Boxenstopp.</b> Begrüßung, Teamnamen, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
+        <tr><td>0:06–0:16</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen.</td></tr>
+        <tr><td>0:16–0:36</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Beschleunigungssensor, Würfel. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em> – beides brauchen sie später beim Roboter wieder.</td></tr>
+        <tr><td>0:36–0:52</td><td><b>Fahrschule.</b> Erweiterung nachladen, Simulator, dann Motorblöcke real. Quadrat-Challenge als Puffer für schnelle Teams.</td></tr>
+        <tr><td>0:52–1:08</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
+        <tr><td>1:08–1:18</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
+        <tr><td>1:18–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h3>Material pro Team (2 Schüler)</h3>
+      <ul>
+        <li>1× micro:bit V2 + <b>USB-Datenkabel</b> (reine Ladekabel funktionieren nicht)</li>
+        <li>1× Maqueen Plus V3 mit geladenem Akku (18650 oder AA)</li>
+        <li>1× Arbeitsplatz: Laptop <b>oder Raspberry Pi 4 (4 GB, besser 8 GB) mit Monitor, Tastatur, Maus</b> – Details im Abschnitt „Stationen auf Raspberry Pi“ unten</li>
+        <li>Browser: <b>Chrome, Chromium oder Edge</b> ab Version 126 – Safari und Firefox können nicht direkt flashen</li>
+        <li>Diese Seite in einem Tab, MakeCode im zweiten</li>
+      </ul>
+      <h3 style="margin-top:16px">Für den Stand insgesamt</h3>
+      <ul>
+        <li>Parcours: schwarzes Isolierband, 19 mm breit, auf hellem, mattem Untergrund</li>
+        <li>Kurvenradius mindestens 15 cm – keine spitzen Ecken, daran scheitern Linienfolger</li>
+        <li>Reserve: 2 geladene Ersatzakkus, 1 Ersatz-micro:bit, 2 Ersatzkabel</li>
+        <li>Stoppuhr oder Handy fürs Rennen, kleine Urkunden zum Mitnehmen</li>
+        <li>Flipchart oder Plakat als <b>Bestenliste</b> für Rundenzeiten &ndash; die Seite selbst führt keine, jeder Arbeitsplatz läuft für sich</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Am Vorabend</h3>
+      <ul class="check">
+        <li>Alle Akkus laden – ein halbvoller Akku ruiniert den Linienfolger</li>
+        <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s)</li>
+        <li>Ein MakeCode-Projekt mit bereits geladener Erweiterung anlegen und als <b>Vorlage teilen</b> – spart pro Team 5 Minuten (erst ab Station 3 nötig)</li>
+        <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
+        <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
+        <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
+        <li>Parcours aufkleben und mit einem Roboter komplett abfahren</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Ohne Internet arbeiten</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Messe-WLAN ist unzuverlässig, und der Workshop darf nicht daran hängen. Die gute Nachricht: <b>Er muss es nicht.</b> Es braucht genau eine Internetverbindung – vorher, bei der Vorbereitung. Danach läuft alles lokal.</p>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Zwei Dinge machen das möglich. Erstens ist der MakeCode-Editor eine Web-App, die sich beim ersten Laden vollständig im Browser ablegt – rufst du die Adresse später ohne Netz auf, startet sie aus dem Cache. Zweitens ist die DFRobot-Erweiterung in TypeScript geschrieben und wird <b>im Browser</b> übersetzt; sie braucht keinen Compiler in der Cloud. (Erweiterungen mit C++-Anteil gingen offline nicht – diese hier schon.)</p>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Die eine Hürde: <b>Eine Erweiterung <em>nachzuladen</em> braucht Internet.</b> Deshalb lädst du sie einmal vorher und verteilst das fertige Projekt.</p>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
+      <ul class="check">
+        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b> – noch keinen Code schreiben</li>
+        <li>Dieses leere Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
+        <li>Vorlagendatei auf jeden Arbeitsplatz kopieren (USB-Stick oder direkt ins SD-Image) und dort einmal <b>importieren</b></li>
+        <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
+        <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
+        <li>MakeCode im Chromium über „Installieren“ als App ablegen – der Cache ist dann stabiler gegen Aufräumaktionen des Browsers</li>
+      </ul>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Und dann der eigentliche Test</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)"><b>WLAN am Gerät ausschalten, Browser neu starten und den kompletten Workshop einmal offline durchspielen.</b> Erst wenn das funktioniert hat, ist der Stand messefertig. Alles andere ist Hoffnung.</p>
+
+      <div class="tablewrap" style="margin-top:14px">
+        <table class="fix">
+          <tr><th>Geht offline</th><th>Geht offline nicht</th></tr>
+          <tr><td>Editor öffnen, Blöcke bauen, übersetzen, flashen</td><td>Eine Erweiterung neu nachladen</td></tr>
+          <tr><td>Bereits importierte Erweiterungen benutzen</td><td>Projekte über Link teilen</td></tr>
+          <tr><td>Projekte lokal speichern und laden</td><td>Die Sprache des Editors umstellen (vorher wählen)</td></tr>
+          <tr><td>Diese Seite samt beider Simulatoren</td><td>Beispielprojekte aus der MakeCode-Galerie öffnen</td></tr>
+        </table>
+      </div>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:14px"><b>Wenn doch etwas fehlt:</b> Ein Handy-Hotspot reicht, um einem einzelnen Gerät den Cache nachzuladen – rechne mit einigen zehn Megabyte, nicht mit Sekunden. Bei Raspberry-Pi-Arbeitsplätzen ist der schnellere Weg oft, die SD-Karte eines fertig vorbereiteten Geräts zu klonen und zu tauschen.</p>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Und die letzte Rückfallebene: <b>Station 2 dieser Seite braucht überhaupt nichts</b> außer der lokalen Datei. Wenn am Messetag alles schiefgeht, ist der micro:bit-Simulator im Browser immer noch ein vollständiges kleines Erlebnis für Vorbeigehende.</p>
+    </section>
+
+    <section>
+      <h3>Stationen auf Raspberry Pi</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Läuft grundsätzlich: Die micro:bit Foundation führt <b>Linux inklusive Raspberry Pi OS</b> (Debian 11 Bullseye und 12 Bookworm) als unterstützte Plattform, und Chrome bzw. Chromium ab Version 126 beherrscht das Flashen per WebUSB. Vier Punkte solltest du vorher trotzdem geklärt haben.</p>
+      <div class="tablewrap" style="margin-top:12px">
+        <table class="fix">
+          <tr><th>Thema</th><th>Was zu tun ist</th></tr>
+          <tr><td>Zwei Wege zum Flashen</td><td><b>A:</b> „Herunterladen“ → Gerät koppeln (WebUSB). <b>B:</b> die <kbd>.hex</kbd>-Datei aus dem Download-Ordner auf das automatisch eingehängte Laufwerk <kbd>MICROBIT</kbd> ziehen. <b>Weg B funktioniert praktisch immer</b> – wenn das Koppeln auf dem Pi scheitert, liegt es unter Linux meist daran, dass der Browser als normaler Benutzer nicht auf das USB-Gerät zugreifen darf. Beide Wege vorher durchspielen und den Schülern den funktionierenden zeigen.</td></tr>
+          <tr><td>WebUSB unter Linux freischalten</td><td>Wenn Weg A gehen soll: eine udev-Regel für den micro:bit anlegen, z.&nbsp;B. in <kbd>/etc/udev/rules.d/50-microbit.rules</kbd> die Zeile <kbd>SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0666"</kbd>, danach <kbd>sudo udevadm control --reload</kbd> und den micro:bit neu anstecken. 0d28/0204 ist die USB-Kennung der micro:bit-Firmware. <b>Vorher auf einem Pi testen</b> – und wenn es nicht auf Anhieb klappt, ist Weg B die bessere Investition der Zeit.</td></tr>
+          <tr><td>Firmware der micro:bits</td><td>Für WebUSB muss die Firmware aktuell sein. Am Pi das Laufwerk <kbd>MICROBIT</kbd> öffnen, <kbd>DETAILS.TXT</kbd> lesen: Version <b>0249 oder höher</b> ist in Ordnung, ältere vorher einmal aktualisieren.</td></tr>
+          <tr><td>Leistung</td><td>MakeCode im Browser ist speicherhungrig. <b>4 GB RAM als Minimum</b>, 8 GB entspannter. Nur zwei Tabs offen (diese Seite + MakeCode), in MakeCode den eingebauten Simulator einklappen – das spart auf dem Pi spürbar Leistung. Aktive Kühlung einplanen, ein Messetag ist lang.</td></tr>
+          <tr><td>Internet</td><td>Die MakeCode-Offline-App gibt es nicht für ARM – der Pi braucht den Browser-Editor. Der cacht sich aber selbst: <b>einmal online geladen, läuft er danach ohne Netz weiter.</b> Wie du den Stand komplett offline vorbereitest, steht im nächsten Abschnitt.</td></tr>
+          <tr><td>Strom und Kabel</td><td>Offizielles Pi-Netzteil verwenden. Der micro:bit zieht seinen Strom über USB vom Pi; das ist unkritisch, solange der Roboter seinen eigenen Akku hat. Und auch hier gilt: <b>Datenkabel, keine Ladekabel.</b></td></tr>
+          <tr><td>Bildschirm</td><td>Mindestens 1280×720. Diese Workshop-Seite legt das Layout unter etwa 900 px Breite automatisch um, bleibt also auch auf kleinen Displays bedienbar – der Simulator wird dann untereinander gestapelt.</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Ein Vorteil, der oft untergeht: Auf einem Pi sind alle Stationen identisch eingerichtet und lassen sich per Image klonen. Ein Ersatz-Pi mit derselben SD-Karte ist in zwei Minuten einsatzbereit – das ist auf einer Messe mehr wert als ein schnellerer Laptop.</p>
+    </section>
+
+    <section>
+      <h3>Störungen und ihre Ursachen</h3>
+      <div class="tablewrap">
+        <table class="fix">
+          <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
+          <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
+          <tr><td>Koppeln schlägt am Pi fehl</td><td>Nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
+          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte</td></tr>
+          <tr><td>Motoren brummen, fahren aber nicht</td><td>Tempo unter 30, oder Akku schwach</td></tr>
+          <tr><td>Fährt Bogen statt gerade</td><td>Normal. Tempo eines Rads um 5–10 reduzieren</td></tr>
+          <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
+          <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
+          <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 2 der Workshop-Seite braucht kein MakeCode</td></tr>
+          <tr><td>Erweiterung fehlt im Projekt</td><td>Vorlagenprojekt importieren statt neu zu suchen – Nachladen bräuchte Internet</td></tr>
+          <tr><td>Nichts geht mehr</td><td>Reset-Knopf auf der Rückseite des micro:bit</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h3>Blocknamen vorab prüfen</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Die hier gezeigten Beschriftungen der Motor-, Licht- und Linienblöcke sind aus der DFRobot-Dokumentation abgeleitet und werden erst im Trockenlauf wortwörtlich bestätigt. Die Blöcke für den <b>8×8-Laserscanner</b> stecken in einer eigenen Unterkategorie und ihre Beschriftung wechselt zwischen Versionen – bitte einmal vor der Messe durchklicken und mit der Blockdarstellung in Station 5 abgleichen.</p>
+    </section>
+
+    <section>
+      <h3>Didaktik am Messestand</h3>
+      <ul>
+        <li><b>Nie den Code vorsagen.</b> Erst fragen: „Was soll passieren?", dann: „Welcher Block könnte das können?"</li>
+        <li><b>Rollen tauschen alle 15 Minuten</b> – ein Kind an der Tastatur, eins am Roboter. Sonst tippt eines allein.</li>
+        <li><b>Nachzügler</b> steigen am besten bei Station 2 ein: micro:bit-Simulator im Browser, sofortiger Erfolg, kein Setup und keine Hardware nötig.</li>
+        <li><b>Station 2 funktioniert auch ohne Roboter.</b> Wer nur 25 Minuten Zeit hat oder wenn ein Maqueen ausfällt: micro:bit plus LED/Sensor-Teil allein ist bereits ein vollständiges kleines Erlebnis mit Würfel zum Mitnehmen.</li>
+        <li><b>Zu schnelle Teams</b> bekommen die Quadrat-Challenge aus Station 3, das Bonus-Level im Parcours-Simulator und die Staubsauger-Aufgabe aus Station 5.</li>
+        <li><b>Fehler nicht wegräumen.</b> Ein Roboter, der im Kreis fährt, ist die beste Lernsituation des Tages.</li>
+        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Punkte, Abzeichen und Simulator zurück.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Sicherheit</h3>
+      <ul>
+        <li>18650-Akkus nur von Betreuenden wechseln, nie mit spitzen Gegenständen heraushebeln (Zuglasche benutzen)</li>
+        <li>Roboter nur auf dem Boden oder mit Randbegrenzung auf dem Tisch fahren lassen</li>
+        <li>Haare und lose Bänder von den Rädern fernhalten</li>
+      </ul>
+    </section>
+  </div>
+</aside>
+
+<script>
+(function(){
+"use strict";
+
+/* ================= state ================= */
+var KEY = "mgp-v1";
+var STATIONS = [
+  {n:"Boxenstopp", m:"6 Min", badge:"Rookie"},
+  {n:"Erster Kontakt", m:"10 Min", badge:"Ersteinschalter"},
+  {n:"micro:bit allein", m:"20 Min", badge:"Pixelkünstler"},
+  {n:"Fahrschule", m:"16 Min", badge:"Fahrlehrer"},
+  {n:"Augen", m:"16 Min", badge:"Spurhalter"},
+  {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
+  {n:"Grand Prix", m:"12 Min", badge:"Champion"}
+];
+var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(raw){ var o = JSON.parse(raw); if(o && typeof o==="object"){ for(var k in S){ if(o[k]!==undefined) S[k]=o[k]; } } }
+  }catch(e){}
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function addPts(n){ S.pts += n; save(); paintScore(); }
+
+/* ================= chrome ================= */
+var ptsval = document.getElementById("ptsval");
+var teamIn = document.getElementById("team");
+var rail = document.getElementById("rail");
+var railfoot = rail.querySelector(".railfoot");
+var badgesEl = document.getElementById("badges");
+var progfill = document.getElementById("progfill");
+
+function paintScore(){
+  ptsval.textContent = S.pts;
+  var pct = Math.round(S.done.length / STATIONS.length * 100);
+  progfill.style.width = pct + "%";
+  var t = S.team ? S.team : "—";
+  var ft = document.getElementById("finalwho");
+  if(ft) ft.textContent = "Team " + t + " · " + S.pts + " Punkte";
+  var fb = document.getElementById("finalbadges");
+  if(fb){
+    fb.innerHTML = "";
+    STATIONS.forEach(function(st,i){
+      if(S.done.indexOf(i) > -1){
+        var p = document.createElement("span"); p.className="pill"; p.textContent = st.badge; fb.appendChild(p);
+      }
+    });
+  }
+}
+function paintBadges(){
+  badgesEl.innerHTML = "";
+  STATIONS.forEach(function(st,i){
+    var b = document.createElement("span");
+    b.className = "badge" + (S.done.indexOf(i)>-1 ? " on" : "");
+    b.textContent = st.badge;
+    badgesEl.appendChild(b);
+  });
+}
+function buildRail(){
+  STATIONS.forEach(function(st,i){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "stepbtn"; b.dataset.go = i;
+    b.innerHTML = '<span class="num">'+i+'</span><span class="lbl">'+st.n+'<span class="min">'+st.m+'</span></span>';
+    b.addEventListener("click", function(){ go(i); });
+    rail.insertBefore(b, railfoot);
+  });
+}
+function paintRail(){
+  var btns = rail.querySelectorAll(".stepbtn");
+  for(var i=0;i<btns.length;i++){
+    var idx = Number(btns[i].dataset.go);
+    btns[i].setAttribute("aria-current", idx === S.cur ? "true" : "false");
+    btns[i].classList.toggle("done", S.done.indexOf(idx) > -1);
+    if(S.done.indexOf(idx) > -1) btns[i].querySelector(".num").textContent = "✓";
+    else btns[i].querySelector(".num").textContent = idx;
+  }
+}
+function go(i){
+  S.cur = i; save();
+  var secs = document.querySelectorAll(".station");
+  for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
+  paintRail(); paintScore();
+  window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
+}
+function reduced(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
+
+function complete(i){
+  if(S.done.indexOf(i) === -1){ S.done.push(i); addPts(20); }
+  paintRail(); paintBadges(); paintScore(); save();
+}
+
+document.addEventListener("click", function(e){
+  var b = e.target.closest ? e.target.closest("[data-next]") : null;
+  if(!b) return;
+  var v = b.dataset.next;
+  var cur = Number(b.closest(".station").dataset.st);
+  if(v === "done"){
+    complete(cur);
+    document.getElementById("finaltitle").textContent = "Workshop geschafft!";
+    paintScore();
+    return;
+  }
+  var t = Number(v);
+  if(t > cur) complete(cur);
+  go(t);
+});
+
+teamIn.addEventListener("input", function(){ S.team = teamIn.value; save(); paintScore(); });
+
+/* ================= quiz ================= */
+document.querySelectorAll(".quiz").forEach(function(q){
+  var id = q.dataset.quiz, ans = q.dataset.answer;
+  var fb = q.querySelector(".qfb");
+  var FB = {
+    q0: "Richtig. Der Summer <em>erzeugt</em> etwas – er ist ein Aktor, kein Sensor. Sensoren nehmen auf, Aktoren geben aus.",
+    q1: "Richtig. Der Code liegt im Flash-Speicher des micro:bit – wie eine App auf dem Handy. Er überlebt jedes Ausschalten.",
+    q2: "Richtig. Der Computer tut genau das, was da steht – steht eine 4 im Block, zeigt er eine 4. Erst der Block <kbd>zufällige Zahl</kbd> macht daraus einen Würfel. Merkt euch: Wenn etwas immer dasselbe tut, liegt es fast nie am Schütteln.",
+    q3: "Richtig. Niedriger Wert = wenig Licht kommt zurück = schwarz. Nur der mittlere Sensor sieht die Linie, also liegt sie mittig.",
+    q4: "Richtig. Ein Sensor ist nur nützlich, wenn er ständig gelesen wird. Der <kbd>dauerhaft</kbd>-Block macht daraus einen Regelkreis."
+  };
+  q.querySelectorAll(".opt").forEach(function(o){
+    o.addEventListener("click", function(){
+      if(q.dataset.locked === "1") return;
+      var right = o.dataset.k === ans;
+      o.classList.add(right ? "right" : "wrong");
+      if(right){
+        q.dataset.locked = "1";
+        q.querySelectorAll(".opt").forEach(function(x){ if(x!==o) x.style.opacity = ".45"; });
+        fb.innerHTML = FB[id] || "Richtig!";
+        fb.hidden = false;
+        if(!S.quiz[id]){ S.quiz[id] = 1; addPts(10); save(); }
+      } else {
+        fb.innerHTML = "Nicht ganz – denk nochmal nach und probier eine andere Antwort.";
+        fb.hidden = false;
+      }
+    });
+  });
+});
+
+/* ================= timer ================= */
+var TOTAL = 90*60, left = TOTAL, running = false, tick = null;
+var tval = document.getElementById("tval"), tbtn = document.getElementById("tbtn"), tbox = document.getElementById("timer");
+function fmt(s){ var m = Math.floor(s/60), r = s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
+function paintT(){ tval.textContent = fmt(Math.max(0,left)); }
+tbtn.addEventListener("click", function(){
+  running = !running;
+  tbtn.textContent = running ? "Pause" : "Start";
+  tbox.classList.toggle("running", running);
+  if(running){ tick = setInterval(function(){ if(left>0){ left--; paintT(); } }, 1000); }
+  else { clearInterval(tick); }
+});
+paintT();
+
+/* ================= drawer ================= */
+var coach = document.getElementById("coach"), scrim = document.getElementById("scrim");
+function openCoach(v){
+  coach.classList.toggle("open", v);
+  scrim.classList.toggle("on", v);
+  coach.setAttribute("aria-hidden", v ? "false" : "true");
+}
+document.getElementById("coachbtn").addEventListener("click", function(){ openCoach(true); });
+document.getElementById("coachclose").addEventListener("click", function(){ openCoach(false); });
+scrim.addEventListener("click", function(){ openCoach(false); });
+document.addEventListener("keydown", function(e){ if(e.key === "Escape") openCoach(false); });
+
+/* ================= reset ================= */
+document.getElementById("resetbtn").addEventListener("click", function(){
+  S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+  save();
+  teamIn.value = "";
+  document.querySelectorAll(".quiz").forEach(function(q){
+    q.dataset.locked = "";
+    q.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("right","wrong"); o.style.opacity=""; });
+    q.querySelector(".qfb").hidden = true;
+  });
+  document.getElementById("finaltitle").textContent = "Ziel erreicht";
+  left = TOTAL; running = false; clearInterval(tick);
+  tbtn.textContent = "Start"; tbox.classList.remove("running"); paintT();
+  prog = []; setLevel(0); mbReset();
+  paintBadges(); paintScore(); go(0);
+});
+
+/* ================= SIMULATOR ================= */
+var LEVELS = [
+  {
+    name:"1 · Geradeaus",
+    cols:6, rows:3,
+    start:{x:0,y:1,dir:0},
+    goal:{x:5,y:1},
+    walls:[],
+    max:1,
+    brief:"<b>Auftrag:</b> Bring den Roboter zur Zielflagge. Er schaut nach rechts. Schaffst du es mit einem einzigen Baustein?"
+  },
+  {
+    name:"2 · Um die Ecke",
+    cols:6, rows:5,
+    start:{x:0,y:4,dir:0},
+    goal:{x:5,y:0},
+    walls:[[0,0],[1,0],[2,0],[3,0],[2,2],[3,2]],
+    max:3,
+    brief:"<b>Auftrag:</b> Die obere Reihe ist versperrt. Fahr außen herum. Drei Bausteine reichen – <em>fahre</em>, <em>drehe</em>, <em>fahre</em>."
+  },
+  {
+    name:"3 · Bonus",
+    cols:5, rows:5,
+    start:{x:0,y:4,dir:0},
+    goal:{x:4,y:0},
+    walls:[[0,0],[1,0],[2,0],[3,0],[0,1],[1,1],[2,1],[0,2],[1,2],[4,2],[0,3],[3,3],[4,3],[2,4],[3,4],[4,4]],
+    max:5,
+    brief:"<b>Bonus für schnelle Teams:</b> Vier gleiche Stufen. Ohne Schleife brauchst du 16 Bausteine – mit der <em>wiederhole</em>-Schleife nur 5. Finde das Muster einer Stufe heraus."
+  }
+];
+var COLORS = ["rot","grün","blau","gelb","pink"];
+var CSSCOL = {"rot":"#E23B26","grün":"#20A85A","blau":"#2C7BE5","gelb":"#E8B321","pink":"#D6399B"};
+
+var lev = 0, prog = [], uid = 1, insertInto = null, busy = false;
+var robot = {x:0, y:0, ang:0, light:null};
+
+var cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+var progEl = document.getElementById("prog"), palEl = document.getElementById("palette");
+var statusEl = document.getElementById("status"), missionEl = document.getElementById("mission");
+var counterEl = document.getElementById("counter"), levselEl = document.getElementById("levsel");
+
+var PALETTE = [
+  {t:"fwd",  cls:"b-mq",    label:"fahre vorwärts"},
+  {t:"left", cls:"b-mq",    label:"drehe links ↺"},
+  {t:"right",cls:"b-mq",    label:"drehe rechts ↻"},
+  {t:"light",cls:"b-var",   label:"Licht an"},
+  {t:"rep",  cls:"b-loop",  label:"wiederhole ×"}
+];
+function blockColor(t){
+  if(t==="rep") return "#00A040";
+  if(t==="light") return "#E07000";
+  return "#264F87";
+}
+function labelOf(b){
+  if(b.t==="fwd") return "fahre " + b.n + " Feld" + (b.n>1?"er":"") + " vor";
+  if(b.t==="left") return "drehe links";
+  if(b.t==="right") return "drehe rechts";
+  if(b.t==="light") return "Licht " + b.c;
+  if(b.t==="rep") return "wiederhole " + b.n + "×";
+  return "";
+}
+function newBlock(t){
+  var b = {id:uid++, t:t};
+  if(t==="fwd") b.n = 1;
+  if(t==="rep"){ b.n = 2; b.kids = []; }
+  if(t==="light") b.c = COLORS[0];
+  return b;
+}
+function buildPalette(){
+  PALETTE.forEach(function(p){
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "pb " + p.cls;
+    btn.style.background = blockColor(p.t);
+    btn.textContent = p.label;
+    btn.addEventListener("click", function(){
+      if(busy) return;
+      var b = newBlock(p.t);
+      if(insertInto && p.t !== "rep"){
+        var host = findRep(insertInto);
+        if(host) host.kids.push(b); else prog.push(b);
+      } else {
+        prog.push(b);
+        if(p.t === "rep") insertInto = b.id;
+      }
+      renderProg();
+    });
+    palEl.appendChild(btn);
+  });
+}
+function findRep(id){
+  for(var i=0;i<prog.length;i++){ if(prog[i].id===id && prog[i].t==="rep") return prog[i]; }
+  return null;
+}
+function countBlocks(){
+  var c = 0;
+  prog.forEach(function(b){ c++; if(b.t==="rep") c += b.kids.length; });
+  return c;
+}
+function removeBlock(id){
+  for(var i=0;i<prog.length;i++){
+    if(prog[i].id===id){ if(prog[i].id===insertInto) insertInto=null; prog.splice(i,1); return; }
+    if(prog[i].t==="rep"){
+      for(var j=0;j<prog[i].kids.length;j++){ if(prog[i].kids[j].id===id){ prog[i].kids.splice(j,1); return; } }
+    }
+  }
+}
+function moveBlock(id, d){
+  var arrs = [prog];
+  prog.forEach(function(b){ if(b.t==="rep") arrs.push(b.kids); });
+  for(var a=0;a<arrs.length;a++){
+    var arr = arrs[a];
+    for(var i=0;i<arr.length;i++){
+      if(arr[i].id===id){
+        var t = i + d;
+        if(t<0 || t>=arr.length) return;
+        var tmp = arr[i]; arr[i]=arr[t]; arr[t]=tmp; return;
+      }
+    }
+  }
+}
+function rowFor(b, isKid){
+  var row = document.createElement("div");
+  row.className = "prow" + (isKid ? " kid" : "");
+  var chip = document.createElement("div");
+  chip.className = "chip"; chip.dataset.bid = b.id;
+  chip.style.background = blockColor(b.t);
+
+  if(b.t==="fwd" || b.t==="rep"){
+    var minus = document.createElement("button");
+    minus.type="button"; minus.className="step"; minus.textContent="−";
+    minus.setAttribute("aria-label","weniger");
+    minus.addEventListener("click", function(e){ e.stopPropagation(); if(busy) return; var lo = b.t==="rep"?2:1; if(b.n>lo){ b.n--; renderProg(); } });
+    var val = document.createElement("span"); val.className="val"; val.textContent = b.n;
+    var plus = document.createElement("button");
+    plus.type="button"; plus.className="step"; plus.textContent="+";
+    plus.setAttribute("aria-label","mehr");
+    plus.addEventListener("click", function(e){ e.stopPropagation(); if(busy) return; var hi = b.t==="rep"?6:5; if(b.n<hi){ b.n++; renderProg(); } });
+    var lbl = document.createElement("span"); lbl.className="lbl"; lbl.textContent = labelOf(b);
+    chip.appendChild(lbl); chip.appendChild(minus); chip.appendChild(val); chip.appendChild(plus);
+  } else if(b.t==="light"){
+    var lbl2 = document.createElement("span"); lbl2.className="lbl"; lbl2.textContent = labelOf(b);
+    var cyc = document.createElement("button");
+    cyc.type="button"; cyc.className="step"; cyc.textContent="↻";
+    cyc.setAttribute("aria-label","Farbe wechseln");
+    cyc.addEventListener("click", function(e){ e.stopPropagation(); if(busy) return; b.c = COLORS[(COLORS.indexOf(b.c)+1)%COLORS.length]; renderProg(); });
+    chip.appendChild(lbl2); chip.appendChild(cyc);
+  } else {
+    var lbl3 = document.createElement("span"); lbl3.className="lbl"; lbl3.textContent = labelOf(b);
+    chip.appendChild(lbl3);
+  }
+
+  if(b.t==="rep"){
+    chip.classList.toggle("active", insertInto === b.id);
+    chip.style.cursor = "pointer";
+    chip.title = "Anklicken: neue Bausteine landen in dieser Schleife";
+    chip.addEventListener("click", function(){ if(busy) return; insertInto = (insertInto === b.id) ? null : b.id; renderProg(); });
+  }
+
+  var up = document.createElement("button");
+  up.type="button"; up.className="tool"; up.textContent="↑"; up.setAttribute("aria-label","nach oben");
+  up.addEventListener("click", function(){ if(busy) return; moveBlock(b.id,-1); renderProg(); });
+  var dn = document.createElement("button");
+  dn.type="button"; dn.className="tool"; dn.textContent="↓"; dn.setAttribute("aria-label","nach unten");
+  dn.addEventListener("click", function(){ if(busy) return; moveBlock(b.id,1); renderProg(); });
+  var del = document.createElement("button");
+  del.type="button"; del.className="tool"; del.textContent="✕"; del.setAttribute("aria-label","löschen");
+  del.addEventListener("click", function(){ if(busy) return; removeBlock(b.id); renderProg(); });
+
+  row.appendChild(chip); row.appendChild(up); row.appendChild(dn); row.appendChild(del);
+  return row;
+}
+function renderProg(){
+  progEl.innerHTML = "";
+  if(prog.length === 0){
+    var e = document.createElement("div");
+    e.className = "emptyprog";
+    e.textContent = "Noch leer — klick links auf einen Baustein";
+    progEl.appendChild(e);
+  }
+  prog.forEach(function(b){
+    progEl.appendChild(rowFor(b,false));
+    if(b.t==="rep"){
+      b.kids.forEach(function(k){ progEl.appendChild(rowFor(k,true)); });
+      var dz = document.createElement("div");
+      dz.className = "dropzone" + (insertInto===b.id ? " on" : "");
+      dz.textContent = insertInto===b.id ? "▸ neue Bausteine landen hier drin" : "Schleife anklicken, um hier einzufügen";
+      progEl.appendChild(dz);
+    }
+  });
+  var c = countBlocks(), mx = LEVELS[lev].max;
+  counterEl.textContent = c + " Bausteine · Bestwert: " + mx;
+  counterEl.classList.toggle("over", c > mx);
+}
+
+/* --- canvas --- */
+function cssvar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function fit(){
+  var L = LEVELS[lev];
+  var w = cv.parentElement.clientWidth - 28;
+  if(w < 180) w = 180;
+  var cell = Math.floor(w / L.cols);
+  var dpr = window.devicePixelRatio || 1;
+  cv.width = cell*L.cols*dpr; cv.height = cell*L.rows*dpr;
+  cv.style.height = (cell*L.rows) + "px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return cell;
+}
+function draw(){
+  var L = LEVELS[lev];
+  var cell = fit();
+  var W = cell*L.cols, H = cell*L.rows;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = cssvar("--surface"); ctx.fillRect(0,0,W,H);
+
+  ctx.strokeStyle = cssvar("--grid"); ctx.lineWidth = 1;
+  for(var i=0;i<=L.cols;i++){ ctx.beginPath(); ctx.moveTo(i*cell+.5,0); ctx.lineTo(i*cell+.5,H); ctx.stroke(); }
+  for(var j=0;j<=L.rows;j++){ ctx.beginPath(); ctx.moveTo(0,j*cell+.5); ctx.lineTo(W,j*cell+.5); ctx.stroke(); }
+
+  ctx.fillStyle = cssvar("--ink-3");
+  L.walls.forEach(function(w){
+    var x=w[0]*cell, y=w[1]*cell;
+    ctx.globalAlpha = .22; ctx.fillRect(x+2,y+2,cell-4,cell-4); ctx.globalAlpha = 1;
+    ctx.strokeStyle = cssvar("--ink-3"); ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    for(var d=-cell; d<cell; d+=8){ ctx.moveTo(x+d+2, y+cell-2); ctx.lineTo(x+d+cell-2, y+2); }
+    ctx.save(); ctx.beginPath(); ctx.rect(x+2,y+2,cell-4,cell-4); ctx.clip();
+    ctx.beginPath();
+    for(var d2=-cell; d2<cell; d2+=8){ ctx.moveTo(x+d2, y+cell); ctx.lineTo(x+d2+cell, y); }
+    ctx.globalAlpha=.5; ctx.stroke(); ctx.globalAlpha=1;
+    ctx.restore();
+  });
+
+  // goal: checkered flag square
+  var gx = L.goal.x*cell, gy = L.goal.y*cell, q = cell/4;
+  for(var a=0;a<4;a++) for(var b2=0;b2<4;b2++){
+    ctx.fillStyle = ((a+b2)%2===0) ? cssvar("--track") : cssvar("--surface-2");
+    ctx.fillRect(gx+a*q+2, gy+b2*q+2, q-0.5, q-0.5);
+  }
+  ctx.strokeStyle = cssvar("--teal"); ctx.lineWidth = 2.5;
+  ctx.strokeRect(gx+2.5, gy+2.5, cell-5, cell-5);
+
+  // robot
+  var rx = robot.x*cell + cell/2, ry = robot.y*cell + cell/2;
+  var s = cell*0.62;
+  ctx.save();
+  ctx.translate(rx,ry); ctx.rotate(robot.ang);
+  ctx.fillStyle = "rgba(0,0,0,.16)";
+  rr(-s/2+2, -s/2+4, s, s*0.78, 5); ctx.fill();
+  ctx.fillStyle = "#22303A";
+  rr(-s/2, -s/2, s, s*0.78, 5); ctx.fill();
+  ctx.strokeStyle = cssvar("--surface"); ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = "#0D1416";
+  ctx.fillRect(-s/2-2, -s/2+1, s*0.22, s*0.16);
+  ctx.fillRect(-s/2-2, s*0.39-s*0.16, s*0.22, s*0.16);
+  ctx.fillRect(s/2-s*0.2+2, -s/2+1, s*0.22, s*0.16);
+  ctx.fillRect(s/2-s*0.2+2, s*0.39-s*0.16, s*0.22, s*0.16);
+  var lc = robot.light ? CSSCOL[robot.light] : "#F3F6F7";
+  ctx.fillStyle = lc;
+  ctx.beginPath(); ctx.arc(s*0.34, -s*0.2, s*0.09, 0, 6.3); ctx.fill();
+  ctx.beginPath(); ctx.arc(s*0.34, s*0.2, s*0.09, 0, 6.3); ctx.fill();
+  if(robot.light){
+    ctx.globalAlpha = .3; ctx.beginPath();
+    ctx.moveTo(s*0.4,-s*0.3); ctx.lineTo(s*1.1,-s*0.55); ctx.lineTo(s*1.1,s*0.55); ctx.lineTo(s*0.4,s*0.3);
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  ctx.fillStyle = "#5C7080";
+  ctx.beginPath(); ctx.moveTo(s*0.05,-s*0.13); ctx.lineTo(s*0.28,0); ctx.lineTo(s*0.05,s*0.13); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+function rr(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+}
+
+function setLevel(i){
+  lev = i; insertInto = null;
+  prog = [];
+  resetRobot();
+  missionEl.innerHTML = LEVELS[i].brief;
+  levselEl.querySelectorAll("button").forEach(function(b,k){
+    b.setAttribute("aria-pressed", k===i ? "true" : "false");
+    b.classList.toggle("solved", !!S.levels[k]);
+  });
+  setStatus("Klicke links auf Bausteine, um dein Programm zu bauen. Dann auf Ausführen.", "");
+  renderProg(); draw();
+}
+function resetRobot(){
+  var st = LEVELS[lev].start;
+  robot.x = st.x; robot.y = st.y; robot.ang = st.dir * Math.PI/2; robot.light = null;
+}
+function setStatus(t, cls){
+  statusEl.innerHTML = t;
+  statusEl.className = "simstatus" + (cls ? " " + cls : "");
+}
+function buildLevSel(){
+  LEVELS.forEach(function(L,i){
+    var b = document.createElement("button");
+    b.type="button"; b.textContent = L.name;
+    b.addEventListener("click", function(){ if(busy) return; setLevel(i); });
+    levselEl.appendChild(b);
+  });
+}
+
+function isWall(x,y){
+  var L = LEVELS[lev];
+  if(x<0 || y<0 || x>=L.cols || y>=L.rows) return true;
+  for(var i=0;i<L.walls.length;i++){ if(L.walls[i][0]===x && L.walls[i][1]===y) return true; }
+  return false;
+}
+function compile(){
+  var out = [];
+  prog.forEach(function(b){
+    if(b.t==="rep"){
+      for(var r=0;r<b.n;r++){ b.kids.forEach(function(k){ push(k); }); }
+      if(b.kids.length===0) out.push({t:"noop", id:b.id});
+    } else push(b);
+  });
+  function push(b){
+    if(b.t==="fwd"){ for(var i=0;i<b.n;i++) out.push({t:"fwd", id:b.id}); }
+    else out.push({t:b.t, id:b.id, c:b.c});
+  }
+  return out;
+}
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, reduced()?0:ms); }); }
+function tween(dur, fn){
+  return new Promise(function(res){
+    if(reduced()){ fn(1); draw(); res(); return; }
+    var t0 = performance.now();
+    function step(now){
+      var p = Math.min(1,(now-t0)/dur);
+      fn(p<1 ? (p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2) : 1);
+      draw();
+      if(p<1) requestAnimationFrame(step); else res();
+    }
+    requestAnimationFrame(step);
+  });
+}
+function highlight(id){
+  progEl.querySelectorAll(".chip").forEach(function(c){ c.classList.toggle("running", Number(c.dataset.bid)===id); });
+}
+
+var runbtn = document.getElementById("runbtn");
+runbtn.addEventListener("click", run);
+document.getElementById("clearbtn").addEventListener("click", function(){
+  if(busy) return; prog = []; insertInto = null; resetRobot(); renderProg(); draw();
+  setStatus("Programm geleert.", "");
+});
+
+async function run(){
+  if(busy) return;
+  if(prog.length === 0){ setStatus("Dein Programm ist noch leer.", "bad"); return; }
+  busy = true; runbtn.disabled = true;
+  resetRobot(); draw();
+  setStatus("Läuft …", "");
+  var steps = compile(), crashed = false;
+
+  for(var i=0;i<steps.length;i++){
+    var s = steps[i];
+    highlight(s.id);
+    if(s.t === "fwd"){
+      var dx = Math.round(Math.cos(robot.ang)), dy = Math.round(Math.sin(robot.ang));
+      var nx = robot.x + dx, ny = robot.y + dy;
+      if(isWall(nx,ny)){
+        await tween(160, function(p){});
+        crashed = true; break;
+      }
+      var ox = robot.x, oy = robot.y;
+      await tween(340, function(p){ robot.x = ox + dx*p; robot.y = oy + dy*p; });
+      robot.x = nx; robot.y = ny;
+    } else if(s.t === "left" || s.t === "right"){
+      var d = (s.t === "left") ? -Math.PI/2 : Math.PI/2;
+      var oa = robot.ang;
+      await tween(280, function(p){ robot.ang = oa + d*p; });
+      robot.ang = oa + d;
+    } else if(s.t === "light"){
+      robot.light = s.c; draw(); await sleep(260);
+    } else {
+      await sleep(120);
+    }
+  }
+  highlight(-1);
+  var L = LEVELS[lev];
+  if(crashed){
+    setStatus("💥 Rumms — da war eine Wand. Kein Problem: Ingenieure fahren beim ersten Versuch fast immer dagegen. Schau, wo er stecken blieb, und ändere einen Baustein.", "bad");
+  } else if(Math.round(robot.x)===L.goal.x && Math.round(robot.y)===L.goal.y){
+    var c = countBlocks(), star = c <= L.max;
+    var gained = 0;
+    if(!S.levels[lev]){ gained += 15; }
+    if(star && S.levels[lev] !== "star"){ gained += 10; }
+    S.levels[lev] = star ? "star" : "ok";
+    if(gained > 0){ addPts(gained); }
+    save();
+    levselEl.querySelectorAll("button")[lev].classList.add("solved");
+    setStatus("🏁 Im Ziel!" + (star ? " Und das mit nur " + c + " Bausteinen — Bestwert erreicht." : " Es geht aber noch kürzer: " + L.max + " Bausteine reichen.") + (gained?" <b>+"+gained+" Punkte</b>":""), "ok");
+  } else {
+    setStatus("Angekommen — aber nicht auf der Zielflagge. Zähl die Felder nochmal genau ab.", "bad");
+  }
+  busy = false; runbtn.disabled = false;
+}
+
+
+/* ================= micro:bit SIMULATOR ================= */
+var PAT = {
+  heart:  "0101011111111110111000100",
+  arrowR: "0010000010111110001000100",
+  arrowL: "0010001000111110100000100",
+  dot:    "0000000000001000000000000",
+  smiley: "0000001010000001000101110",
+  d1:     "0000000000001000000000000",
+  d2:     "0000100000000000000010000",
+  d3:     "0000100000001000000010000",
+  d4:     "1000100000000000000010001",
+  d5:     "1000100000001000000010001",
+  d6:     "1000100000100010000010001"
+};
+var mbMode = "draw";
+var mbDraw = "0000000000000000000000000";
+var mbBtn = {a:false, b:false};
+var mbTilt = 0, mbShown = "0000000000000000000000000";
+var mbSeen = {};
+var mbMatrix = document.getElementById("mbmatrix");
+var mbCtl = document.getElementById("mbctl");
+var mbTabsEl = document.getElementById("mbtabs");
+var mbMissionEl = document.getElementById("mbmission");
+var mbExtraEl = document.getElementById("mbextra");
+var mbChipsEl = document.getElementById("mbchips");
+var mbCodeEl = document.getElementById("mbcode");
+var mbStatusEl = document.getElementById("mbstatus");
+var mbXval = document.getElementById("mbxval");
+
+var MBTABS = [
+  {k:"draw",  n:"1 · Zeichnen"},
+  {k:"btn",   n:"2 · Knöpfe"},
+  {k:"tilt",  n:"3 · Neigen"}
+];
+var MBMISSION = {
+  draw:"<b>Auftrag:</b> Klick die Lämpchen an, bis das Zielbild rechts daneben entsteht. Rechts siehst du live, wie der Block <em>zeige LEDs</em> dafür aussieht.",
+  btn:"<b>Auftrag:</b> Drück A, drück B, und drück beide zusammen. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
+  tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach links und nach rechts, und schüttle ihn einmal. Beobachte dabei die Zahl unter dem Gerät."
+};
+
+function mbCells(){ return mbMatrix.querySelectorAll(".led"); }
+function mbPaint(pat){
+  mbShown = pat;
+  var c = mbCells();
+  for(var i=0;i<25;i++){ c[i].classList.toggle("on", pat.charAt(i) === "1"); }
+}
+function mbBuildMatrix(){
+  mbMatrix.innerHTML = "";
+  for(var i=0;i<25;i++){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "led"; b.dataset.i = i;
+    b.setAttribute("aria-label", "LED " + (i+1));
+    b.addEventListener("click", function(){
+      if(mbMode !== "draw") return;
+      var k = Number(this.dataset.i);
+      mbDraw = mbDraw.substring(0,k) + (mbDraw.charAt(k)==="1"?"0":"1") + mbDraw.substring(k+1);
+      mbPaint(mbDraw); mbCode(); mbCheckDraw();
+    });
+    mbMatrix.appendChild(b);
+  }
+}
+function mini(pat){
+  var h = '<div class="mbmini">';
+  for(var i=0;i<25;i++){ h += '<span class="' + (pat.charAt(i)==="1"?"on":"") + '"></span>'; }
+  return h + "</div>";
+}
+function mbCode(){
+  var h = "";
+  if(mbMode === "draw"){
+    var rows = [];
+    for(var r=0;r<5;r++){
+      var line = "";
+      for(var c=0;c<5;c++){ line += (mbDraw.charAt(r*5+c)==="1" ? "#" : "."); }
+      rows.push(line);
+    }
+    h = '<div class="mccap">Live aus deiner Zeichnung</div>' +
+        '<div class="mcb b-basic">beim Start</div>' +
+        '<div class="mcb b-basic i1">zeige LEDs</div>' +
+        '<div class="ledsrc">' + rows.join("\n") + '</div>';
+  } else if(mbMode === "btn"){
+    h = '<div class="mccap">Drei Ereignisse</div>' +
+        '<div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>' +
+        '<div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>' +
+        '<div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>' +
+        '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>' +
+        '<div class="mcb b-input">beim Knopf <b>A+B</b> gedrückt</div>' +
+        '<div class="mcb b-basic i1">zeige Symbol <b>☺</b></div>';
+  } else {
+    h = '<div class="mccap">Neigung auswerten</div>' +
+        '<div class="mcb b-basic">dauerhaft</div>' +
+        '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
+        '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
+        '<div class="mcb b-logic i1">sonst wenn <b>Beschleunigung x</b> &lt; <b>−300</b> dann</div>' +
+        '<div class="mcb b-basic i2">zeige Pfeil <b>Westen</b></div>' +
+        '<div class="mcb b-logic i1">sonst</div>' +
+        '<div class="mcb b-basic i2">zeige LEDs <b>Punkt</b></div>' +
+        '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
+        '<div class="mcb b-input">wenn geschüttelt</div>' +
+        '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';
+  }
+  mbCodeEl.innerHTML = h;
+}
+function mbChips(){
+  var h = "";
+  if(mbMode === "btn"){
+    h += '<span class="' + (mbSeen.a?"on":"") + '">Knopf A</span>';
+    h += '<span class="' + (mbSeen.b?"on":"") + '">Knopf B</span>';
+    h += '<span class="' + (mbSeen.ab?"on":"") + '">A + B</span>';
+  } else if(mbMode === "tilt"){
+    h += '<span class="' + (mbSeen.left?"on":"") + '">links gekippt</span>';
+    h += '<span class="' + (mbSeen.mid?"on":"") + '">flach</span>';
+    h += '<span class="' + (mbSeen.right?"on":"") + '">rechts gekippt</span>';
+    h += '<span class="' + (mbSeen.shake?"on":"") + '">geschüttelt</span>';
+  }
+  mbChipsEl.innerHTML = h;
+}
+function mbStatus(t, cls){
+  mbStatusEl.innerHTML = t;
+  mbStatusEl.className = "simstatus" + (cls ? " " + cls : "");
+}
+function mbAward(key, n, msg){
+  if(!S.mb) S.mb = {};
+  if(S.mb[key]) { mbStatus(msg, "ok"); return; }
+  S.mb[key] = 1; save(); addPts(n);
+  mbStatus(msg + " <b>+" + n + " Punkte</b>", "ok");
+}
+function mbCheckDraw(){
+  if(mbDraw === PAT.heart){
+    mbAward("draw", 10, "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
+  }
+}
+function mbSetMode(m){
+  mbMode = m;
+  mbTabsEl.querySelectorAll("button").forEach(function(b){
+    b.setAttribute("aria-pressed", b.dataset.k === m ? "true" : "false");
+  });
+  mbMissionEl.innerHTML = MBMISSION[m];
+  mbCtl.hidden = (m !== "tilt");
+  mbExtraEl.innerHTML = (m === "draw")
+    ? '<div class="mccap" style="margin-top:14px">Zielbild</div>' + mini(PAT.heart)
+    : "";
+  mbCells().forEach(function(c){ c.classList.toggle("tap", m === "draw"); });
+  document.getElementById("mbA").disabled = (m !== "btn");
+  document.getElementById("mbB").disabled = (m !== "btn");
+  if(m === "draw"){ mbPaint(mbDraw); mbStatus("Klick die Lämpchen an. Wenn dein Bild stimmt, sag ich Bescheid.", ""); }
+  else if(m === "btn"){ mbPaint("0000000000000000000000000"); mbStatus("Der Bildschirm ist leer &ndash; das Programm wartet auf dich.", ""); }
+  else { mbTiltPaint(); mbStatus("Zieh den Regler. Die Zahl unten ist genau das, was der echte Sensor liefert.", ""); }
+  mbChips(); mbCode();
+}
+function mbPress(which){
+  if(mbMode !== "btn") return;
+  var el = document.getElementById(which === "a" ? "mbA" : "mbB");
+  el.classList.add("pressed");
+  setTimeout(function(){ el.classList.remove("pressed"); }, 220);
+  mbBtn[which] = true;
+  var other = which === "a" ? "b" : "a";
+  var both = mbBtn[other + "_recent"];
+  if(both){
+    mbSeen.ab = 1; mbPaint(PAT.smiley);
+    mbStatus("A und B zusammen &ndash; das ist ein drittes, eigenes Ereignis.", "");
+  } else if(which === "a"){
+    mbSeen.a = 1; mbPaint(PAT.heart);
+  } else {
+    mbSeen.b = 1; mbPaint(PAT.arrowR);
+  }
+  mbBtn[which + "_recent"] = true;
+  setTimeout(function(){ mbBtn[which + "_recent"] = false; }, 600);
+  mbChips();
+  if(mbSeen.a && mbSeen.b && mbSeen.ab){
+    mbAward("btn", 10, "Alle drei Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+  }
+}
+function mbTiltPaint(){
+  mbXval.textContent = mbTilt;
+  if(mbTilt > 300){ mbPaint(PAT.arrowR); mbSeen.right = 1; }
+  else if(mbTilt < -300){ mbPaint(PAT.arrowL); mbSeen.left = 1; }
+  else { mbPaint(PAT.dot); mbSeen.mid = 1; }
+  mbChips();
+  if(mbSeen.left && mbSeen.right && mbSeen.mid && mbSeen.shake){
+    mbAward("tilt", 10, "Alle vier Zustände gesehen. Die Grenze bei 300 hast nicht der micro:bit und nicht ich festgelegt &ndash; die legt das Programm fest. Also ihr.");
+  }
+}
+function mbShakeRoll(){
+  mbSeen.shake = 1;
+  var n = 0, t = 0;
+  var iv = setInterval(function(){
+    mbPaint(PAT["d" + (1 + Math.floor(Math.random()*6))]);
+    t++;
+    if(t > 7){
+      clearInterval(iv);
+      n = 1 + Math.floor(Math.random()*6);
+      mbPaint(PAT["d" + n]);
+      mbStatus("Gewürfelt: <b>" + n + "</b>. Drei Blöcke, und ihr habt ein Spielzeug gebaut.", "");
+      setTimeout(mbTiltPaint, 1400);
+    }
+  }, reduced() ? 1 : 70);
+  mbChips();
+}
+function mbInit(){
+  MBTABS.forEach(function(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = t.n; b.dataset.k = t.k;
+    b.addEventListener("click", function(){ mbSetMode(t.k); });
+    mbTabsEl.appendChild(b);
+  });
+  mbBuildMatrix();
+  document.getElementById("mbA").addEventListener("click", function(){ mbPress("a"); });
+  document.getElementById("mbB").addEventListener("click", function(){ mbPress("b"); });
+  document.getElementById("mbtilt").addEventListener("input", function(){
+    mbTilt = Number(this.value); mbTiltPaint();
+  });
+  document.getElementById("mbshake").addEventListener("click", mbShakeRoll);
+  mbSetMode("draw");
+}
+function mbReset(){
+  mbDraw = "0000000000000000000000000";
+  mbSeen = {}; mbBtn = {a:false,b:false}; mbTilt = 0;
+  document.getElementById("mbtilt").value = 0;
+  mbSetMode("draw");
+}
+
+/* ================= boot ================= */
+load();
+buildRail(); buildPalette(); buildLevSel(); mbInit();
+teamIn.value = S.team || "";
+paintBadges(); paintScore(); paintRail();
+setLevel(0);
+go(S.cur || 0);
+
+var rt;
+window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(draw, 120); });
+try{
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if(mq.addEventListener) mq.addEventListener("change", draw);
+}catch(e){}
+})();
+</script>
+</body>
+</html>

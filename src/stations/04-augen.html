@@ -1,0 +1,79 @@
+  <section class="station" data-st="4" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 4</span><span>16 Minuten</span><span>Sensoren</span></div>
+      <h2>Der Roboter bekommt Augen</h2>
+      <p class="goal">Bis jetzt hast du dem Roboter gesagt, <em>was</em> er tun soll. Ab jetzt sagst du ihm, <em>worauf er achten</em> soll. Das ist der Moment, in dem aus einem Fahrzeug ein Roboter wird.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Wie ein Liniensensor „sieht"</h3>
+        <p class="lead">Unter dem Fahrzeug sitzen fünf winzige Lampen mit je einem Lichtmesser daneben. Die Lampe leuchtet nach unten, der Messer schaut, wie viel zurückkommt. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert keine Farbe, sondern eine Zahl:</p>
+        <div class="tablewrap">
+          <table class="fix">
+            <tr><th>Untergrund</th><th>ungefährer Messwert</th><th>heißt für den Roboter</th></tr>
+            <tr><td>Weißes Papier</td><td>≈ 3800</td><td>„hier ist keine Linie"</td></tr>
+            <tr><td>Schwarzes Klebeband</td><td>≈ 2700</td><td>„hier ist meine Spur"</td></tr>
+          </table>
+        </div>
+        <div class="note">
+          <span class="nt">Kalibrieren &ndash; einmal pro Strecke</span>
+          <p>Jeder Raum hat anderes Licht, also muss der Roboter lernen, was hier „schwarz" heißt: alle fünf Sensoren auf die schwarze Linie stellen, einschalten, die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis die Anzeige blinkt. Fertig.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Zwei Zeilen, und er fährt allein</h3>
+        <p class="lead">Im Maqueen steckt der Linienfolge-Algorithmus schon fertig drin &ndash; in fünf Geschwindigkeitsstufen. Stufe 1 ist gemütlich, Stufe 5 ist mutig.</p>
+        <div class="mcstack">
+          <div class="mccap">Linienfolger &ndash; startet erst auf Knopfdruck</div>
+          <div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>
+          <div class="mcb b-mq i1">Linienverfolgung <b>Stufe 2</b></div>
+          <div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>
+          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+        </div>
+        <p class="lead">Warum nicht <kbd>beim Start</kbd>? Weil ihr nach dem Einschalten erst kalibrieren wollt &ndash; ein Roboter, der sofort losfährt, lässt euch keine Zeit dafür. Die Reihenfolge:</p>
+        <ol class="steps">
+          <li><span>Programm herunterladen, USB-Kabel abziehen.</span></li>
+          <li><span>Roboter mit allen fünf Sensoren auf die schwarze Linie setzen und einschalten.</span></li>
+          <li><span>Calc-Key etwa 2 Sekunden halten, bis es blinkt &ndash; kalibriert.</span></li>
+          <li><span>Roboter auf den Start stellen, <b>Knopf A</b> drücken. Er fährt. <b>Knopf B</b> hält ihn an.</span></li>
+        </ol>
+        <p class="lead">Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie stoppt &ndash; der micro:bit kann nebenher noch andere Dinge tun, zum Beispiel eine Lichtshow.</p>
+        <div class="mcstack">
+          <div class="mccap">Fahren und gleichzeitig leuchten</div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>rot</b></div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>blau</b></div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+        </div>
+      </div>
+
+      <div class="note aha">
+        <span class="nt">Der eigentliche Aha-Moment</span>
+        <p>Ihr habt dem Roboter <b>nicht gesagt, wo er langfahren soll</b>. Ihr habt ihm gesagt, worauf er achten muss. Legt die Strecke anders &ndash; er fährt sie trotzdem. Das ist der Unterschied zwischen einer Maschine und einem Roboter.</p>
+      </div>
+
+      <div class="quiz" data-quiz="q3" data-answer="a">
+        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Er verlässt die Linie in Kurven?</b> Eine Stufe langsamer fahren &ndash; oder die Kurve ist zu eng. Als Faustregel braucht der Maqueen mindestens etwa 15&nbsp;cm Kurvenradius.<br><b>Er zuckt wild hin und her?</b> Neu kalibrieren. Oft ist Sonnenlicht oder glänzendes Klebeband schuld.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="3">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Spurhalter</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="5">Weiter zu den Reflexen &rarr;</button>
+    </div>
+  </section>

@@ -1,0 +1,617 @@
+<title>Trockenlauf-Protokoll</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#EDEFF1; --surface:#FFFFFF; --surface-2:#F4F6F7;
+  --ink:#101619; --ink-2:#4A5A63; --ink-3:#7B8B94;
+  --line:#D3DBDF; --line-soft:#E4E9EC;
+  --accent:#DD4B21; --accent-ink:#FFFFFF; --accent-soft:#FBE7E0;
+  --teal:#12706B; --teal-soft:#DDEEEC;
+  --warn:#9A6608; --warn-soft:#F7EDD8;
+  --shadow:0 1px 2px rgba(16,22,25,.06), 0 8px 24px -12px rgba(16,22,25,.18);
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display:"Archivo", "IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0C1214; --surface:#141D20; --surface-2:#1B2529;
+    --ink:#E6EDEF; --ink-2:#9BADB5; --ink-3:#75898F;
+    --line:#28363C; --line-soft:#1F2B30;
+    --accent:#FF7247; --accent-ink:#1A0C06; --accent-soft:#33190F;
+    --teal:#4CC2B6; --teal-soft:#10302E;
+    --warn:#D9A441; --warn-soft:#2E2513;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0C1214; --surface:#141D20; --surface-2:#1B2529;
+  --ink:#E6EDEF; --ink-2:#9BADB5; --ink-3:#75898F;
+  --line:#28363C; --line-soft:#1F2B30;
+  --accent:#FF7247; --accent-ink:#1A0C06; --accent-soft:#33190F;
+  --teal:#4CC2B6; --teal-soft:#10302E;
+  --warn:#D9A441; --warn-soft:#2E2513;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.55}
+h1,h2,h3{font-family:var(--display); font-weight:700; letter-spacing:-.015em; margin:0; text-wrap:balance}
+p{margin:0}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+.top{
+  position:sticky; top:0; z-index:20; background:var(--surface); border-bottom:1px solid var(--line);
+  padding:11px 22px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+}
+.top .id{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+  background:var(--ink); color:var(--surface); padding:3px 8px; border-radius:4px;
+}
+.top h1{font-size:1.1rem; font-weight:800; margin-right:auto}
+.tally{
+  font-family:var(--mono); font-size:13px; display:flex; gap:14px; align-items:center;
+  font-variant-numeric:tabular-nums;
+}
+.tally b{font-weight:600}
+.tally .ok{color:var(--teal)} .tally .warn{color:var(--warn)} .tally .bad{color:var(--accent)}
+.saveflag{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+.ghost{border:1px solid var(--line); background:var(--surface-2); border-radius:8px; padding:6px 12px; font-size:13px}
+.ghost:hover{border-color:var(--accent); color:var(--accent)}
+
+.wrap{max-width:960px; margin:0 auto; padding:26px 22px 90px; display:flex; flex-direction:column; gap:22px}
+
+.intro{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:24px 26px}
+.intro h2{font-size:1.6rem; font-weight:800; letter-spacing:-.03em; margin-bottom:10px}
+.intro p{color:var(--ink-2); max-width:68ch}
+.intro p + p{margin-top:10px}
+.meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+.meta label{
+  display:flex; flex-direction:column; gap:4px; font-family:var(--mono);
+  font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+}
+.meta input{
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+  border-radius:7px; padding:7px 10px; font:500 14px var(--sans); min-width:190px;
+}
+
+.blk{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
+.blk > header{
+  display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  padding:16px 22px; border-bottom:1px solid var(--line-soft); background:var(--surface-2);
+}
+.blk > header .letter{
+  font-family:var(--display); font-size:1.5rem; font-weight:800; color:var(--accent); line-height:1;
+}
+.blk > header h3{font-size:1.08rem; margin-right:auto}
+.blk > header .dur{font-family:var(--mono); font-size:11.5px; color:var(--ink-3)}
+.blk > header .why{flex-basis:100%; font-size:.92rem; color:var(--ink-2); margin-top:2px}
+
+.test{padding:16px 22px; border-bottom:1px solid var(--line-soft); display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px}
+.test:last-child{border-bottom:0}
+.test.done{background:var(--surface-2)}
+.tnum{
+  font-family:var(--mono); font-size:11.5px; font-weight:600; color:var(--ink-3);
+  border:1px solid var(--line); border-radius:6px; height:24px; display:grid; place-items:center; margin-top:2px;
+}
+.test.done .tnum{border-color:var(--teal); color:var(--teal); background:var(--teal-soft)}
+.tbody{display:flex; flex-direction:column; gap:9px; min-width:0}
+.ttitle{font-weight:600; display:flex; align-items:center; gap:9px; flex-wrap:wrap}
+.must{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+  border-radius:12px; padding:2px 8px; border:1px solid var(--accent); color:var(--accent);
+}
+.must.opt{border-color:var(--line); color:var(--ink-3)}
+.tdo{font-size:.94rem; color:var(--ink-2); max-width:74ch}
+.tpass{
+  font-size:.9rem; border-left:3px solid var(--teal); background:var(--teal-soft);
+  padding:7px 12px; border-radius:0 7px 7px 0; max-width:74ch;
+}
+.tpass b{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; display:block; color:var(--ink-2)}
+kbd{font-family:var(--mono); font-size:.86em; background:var(--surface-2); border:1px solid var(--line); border-bottom-width:2px; border-radius:5px; padding:1px 6px; white-space:nowrap}
+.marks{display:flex; gap:6px; flex-wrap:wrap; align-items:center}
+.mark{
+  border:1px solid var(--line); background:var(--surface); border-radius:7px;
+  padding:5px 12px; font-size:.88rem; font-weight:500; display:flex; gap:7px; align-items:center;
+}
+.mark:hover{border-color:var(--ink-3)}
+.mark[aria-pressed="true"][data-v="ok"]{background:var(--teal); border-color:var(--teal); color:var(--surface)}
+.mark[aria-pressed="true"][data-v="warn"]{background:var(--warn); border-color:var(--warn); color:#fff}
+.mark[aria-pressed="true"][data-v="bad"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.fields{display:flex; flex-direction:column; gap:8px; margin-top:2px}
+.fld{display:flex; flex-direction:column; gap:4px}
+.fld span{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+.fld input, .fld textarea{
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+  border-radius:7px; padding:8px 11px; font:400 14px var(--mono); width:100%; resize:vertical;
+}
+.fld input:focus, .fld textarea:focus{border-color:var(--accent); outline:none}
+.fld.key input{border-color:var(--accent); background:var(--accent-soft)}
+
+.sum{background:var(--surface); border:1px solid var(--teal); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
+.sum header{padding:16px 22px; border-bottom:1px solid var(--line-soft); background:var(--teal-soft)}
+.sum header h3{font-size:1.08rem; color:var(--teal)}
+.sum header p{font-size:.92rem; color:var(--ink-2); margin-top:5px; max-width:70ch}
+.sum .out{
+  margin:0; padding:18px 22px; font-family:var(--mono); font-size:12.5px; line-height:1.7;
+  white-space:pre-wrap; word-break:break-word; color:var(--ink-2); max-height:460px; overflow:auto;
+}
+.sumfoot{padding:14px 22px; border-top:1px solid var(--line-soft); display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.btn{border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink); border-radius:8px; padding:8px 15px; font-weight:600; font-size:.92rem}
+.btn:hover{filter:brightness(1.06)}
+.btn.sec{background:var(--surface); color:var(--ink-2); border-color:var(--line)}
+.btn.sec:hover{border-color:var(--accent); color:var(--accent); filter:none}
+.hint{font-size:.88rem; color:var(--ink-3)}
+@media (max-width:640px){
+  .test{grid-template-columns:1fr; gap:8px}
+  .tnum{width:34px}
+}
+@media (prefers-reduced-motion: reduce){*{transition-duration:.001ms !important}}
+</style>
+
+<header class="top">
+  <span class="id">Prüfprotokoll</span>
+  <h1>Trockenlauf</h1>
+  <div class="tally">
+    <span><b id="tdone">0</b>/<span id="ttotal">0</span> geprüft</span>
+    <span class="ok">✓ <b id="tok">0</b></span>
+    <span class="warn">△ <b id="twarn">0</b></span>
+    <span class="bad">✕ <b id="tbad">0</b></span>
+  </div>
+  <span class="saveflag" id="saveflag">lokal</span>
+  <button class="ghost" id="jump" type="button">Zur Auswertung</button>
+</header>
+
+<div class="wrap">
+
+  <section class="intro">
+    <h2>Einmal alles durchspielen, bevor Schüler davorsitzen</h2>
+    <p>Du brauchst dafür: einen kompletten Arbeitsplatz so, wie er auf der Messe stehen wird, einen micro:bit, einen Maqueen mit geladenem Akku, ein Stück schwarzes Klebeband, ein Lineal — und einen USB-Stick für das Vorlagenprojekt. Rechne mit rund <b>90 Minuten</b>.</p>
+    <p>Die Reihenfolge ist nicht beliebig: Sie beginnt mit dem, was am Messetag am teuersten schiefgeht, und endet mit dem, was zur Not auch improvisiert werden kann. Wenn du nach 30 Minuten abbrechen musst, hast du die wichtigsten Antworten schon.</p>
+    <p><b>Block B ist der, bei dem es sich entscheidet.</b> Wenn dort etwas nicht klappt, ändert das den Aufbau des ganzen Standes — mach ihn nicht zuletzt, auch wenn er unspektakulär aussieht.</p>
+    <p>Alles, was du in die Felder tippst, landet unten in der Auswertung. <b>Die orange hinterlegten Felder sind die, mit denen ich anschließend die Workshop-Seite korrigiere</b> — vor allem die Blockbezeichnungen des Laserscanners und die gemessenen Fahrwerte.</p>
+    <div class="meta">
+      <label>Datum<input type="text" id="m_datum" placeholder="z. B. 14.09.2026" autocomplete="off"></label>
+      <label>Arbeitsplatz<input type="text" id="m_geraet" placeholder="Raspberry Pi 4 8 GB / Laptop" autocomplete="off"></label>
+      <label>Getestet von<input type="text" id="m_wer" placeholder="Name" autocomplete="off"></label>
+    </div>
+  </section>
+
+  <div id="blocks"></div>
+
+  <section class="sum" id="auswertung">
+    <header>
+      <h3>Auswertung</h3>
+      <p>Das hier ist der Stand deines Trockenlaufs. Sag mir einfach Bescheid, wenn du durch bist — ich lese das Protokoll aus und ziehe die Werte in den Workshop nach.</p>
+    </header>
+    <pre class="out" id="out"></pre>
+    <div class="sumfoot">
+      <button class="btn" id="copy" type="button">Auswertung kopieren</button>
+      <button class="btn sec" id="clear" type="button">Protokoll zurücksetzen</button>
+      <span class="hint" id="copyhint"></span>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var BLOCKS = [
+{
+  L:"A", t:"Arbeitsplatz und Flashen", dur:"15 Min",
+  why:"Hier entstehen erfahrungsgemäß die meisten Störungen — und zwar bei jedem Team gleichzeitig. Wenn dieser Block sitzt, ist der Rest Handwerk.",
+  tests:[
+   {id:"a1", must:1, t:"Browser und Version",
+    do:"Auf dem Zielgerät den Browser öffnen und die Version nachsehen (Menü → Hilfe → Über). Chrome, Chromium oder Edge <b>ab Version 126</b> ist die Anforderung der micro:bit Foundation.",
+    pass:"Version 126 oder höher (Empfehlung der micro:bit Foundation). Ältere Versionen können trotzdem flashen – dann entscheidet A4, nicht diese Zahl.",
+    f:[{k:"browser", l:"Browser und Versionsnummer", ph:"Chromium 128.0.xxxx"}]},
+   {id:"a2", must:1, t:"MakeCode läuft flüssig",
+    do:"<kbd>makecode.microbit.org</kbd> öffnen, neues Projekt, fünf Blöcke ziehen und wieder löschen. Auf dem Pi: einmal mit eingeklapptem MakeCode-Simulator gegentesten, das entlastet spürbar.",
+    pass:"Blöcke lassen sich ohne merkliche Verzögerung ziehen. Kein Ruckeln beim Scrollen der Blockliste.",
+    f:[{k:"makecode_lauf", l:"Wie flüssig? Und half das Einklappen?", ph:"flüssig / zäh, Einklappen bringt spürbar was"}]},
+   {id:"a3", must:1, t:"Firmware der micro:bits",
+    do:"micro:bit anstecken, Laufwerk <kbd>MICROBIT</kbd> öffnen, <kbd>DETAILS.TXT</kbd> lesen und die Zeile mit der Version suchen. <b>Bei allen Geräten prüfen</b>, nicht nur bei einem — ältere Chargen unterscheiden sich.",
+    pass:"Version 0249 oder höher. Darunter ist WebUSB unzuverlässig, dann vorher aktualisieren.",
+    f:[{k:"firmware", l:"Gefundene Versionen (alle Geräte)", ph:"3× 0255, 1× 0243 → muss aktualisiert werden"}]},
+   {id:"a4", must:1, t:"Flashen über WebUSB",
+    do:"In MakeCode auf <b>Herunterladen</b>, Gerät koppeln, durchlaufen lassen. Dabei die Zeit stoppen: vom Klick bis das Programm läuft.",
+    pass:"Koppeln klappt, gelbe LED blinkt, Programm startet.",
+    f:[{k:"flash_webusb", l:"Hat es geklappt? Wie lange dauert ein Durchlauf?", ph:"ja, ca. 15 s / nein: Fehlermeldung ..."},
+       {k:"flash_dialoge", l:"Was sehen Schüler dabei? (Knopf- und Dialogtexte im Wortlaut)", ph:"„Herunterladen“ → Fenster „Gerät koppeln“ → Eintrag „BBC micro:bit CMSIS-DAP“ → „Verbinden“"}]},
+   {id:"a5", must:1, t:"Der Notweg: .hex von Hand kopieren",
+    do:"Bewusst <em>ohne</em> Koppeln herunterladen und die Datei aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Diesen Weg musst du kennen, auch wenn WebUSB gerade funktioniert.",
+    pass:"Datei kopiert, LED blinkt, Programm läuft. Und du weißt, wo der Download landet.",
+    f:[{k:"downloadpfad", l:"Pfad des Download-Ordners", ph:"/home/pi/Downloads"}]}
+  ]
+},
+{
+  L:"B", t:"Ohne Internet", dur:"12 Min",
+  why:"Ab jetzt der wichtigste Block. MakeCode legt sich beim ersten Laden komplett im Browser ab und läuft danach ohne Netz — nur das Nachladen einer Erweiterung braucht Verbindung. Alles, was hier nicht klappt, klappt am Messetag auch nicht.",
+  tests:[
+   {id:"b1", must:1, t:"Vorlagenprojekt mit Erweiterung bauen",
+    do:"<b>Mit Netz:</b> Neues Projekt, Zahnrad → Erweiterungen, nach <kbd>dfrobot</kbd> suchen. Notiere den Namen der Erweiterung <b>genau so, wie er in der Trefferliste steht</b>, lade sie, schreib keinen Code und speichere das Projekt (Zahnrad → <b>Projekt speichern</b>). Diese Datei ist deine Vorlage für alle Arbeitsplätze.",
+    pass:"Datei liegt auf dem Stick beziehungsweise im SD-Image, Name der Erweiterung und Ablageort notiert.",
+    key:1,
+    f:[{k:"ext_name", l:"Name der Erweiterung in der Trefferliste", ph:"DFRobot_MaqueenPlus_V2"},
+       {k:"vorlage", l:"Dateiname und Ablageort der Vorlage", ph:"maqueen-vorlage.mkcd auf dem Stick und in /home/pi/vorlagen"}]},
+   {id:"b2", must:1, t:"Die Probe: WLAN aus",
+    do:"Auf einem <b>zweiten</b> Arbeitsplatz, der die Erweiterung noch nie geladen hat: <b>WLAN ausschalten</b>, Browser komplett schließen und neu starten, dann <kbd>makecode.microbit.org</kbd> aufrufen.",
+    pass:"Der Editor startet aus dem Cache und ist voll bedienbar.",
+    key:1,
+    f:[{k:"offline_editor", l:"Startet MakeCode ohne Netz?", ph:"ja, nach ca. 4 s / nein: weiße Seite"}]},
+   {id:"b3", must:1, t:"Vorlage ohne Netz importieren",
+    do:"Immer noch ohne Netz, auf demselben zweiten Gerät: die Vorlage über <b>Importieren</b> öffnen. Nur wenn die Maqueen-Kategorie jetzt auftaucht, ist bewiesen, dass die Datei die Erweiterung wirklich mitbringt und nichts nachgeladen wird.",
+    pass:"Kategorie ist da, ohne dass etwas nachgeladen wurde.",
+    key:1,
+    f:[{k:"import", l:"Hat der Import ohne Netz geklappt?", ph:"ja, Kategorie sofort vorhanden / nein: Fehlermeldung ..."}]},
+   {id:"b4", must:1, t:"Offline übersetzen und flashen",
+    do:"Immer noch ohne Netz: Ein Programm mit <b>Maqueen-Blöcken</b> bauen und auf den micro:bit übertragen. Genau hier würde eine Erweiterung mit C++-Anteil scheitern — die DFRobot-Erweiterung ist TypeScript und sollte im Browser durchlaufen.",
+    pass:"Programm läuft auf dem Roboter. Damit ist der Workshop offline machbar.",
+    key:1,
+    f:[{k:"offline_flash", l:"Hat das Übersetzen ohne Netz funktioniert?", ph:"ja / nein: Fehlermeldung im Wortlaut"}]},
+   {id:"b5", must:1, t:"Workshop-Seite offline, neben MakeCode",
+    do:"Die lokale Offline-Datei der Workshop-Seite öffnen (nicht den claude.ai-Link) — <b>im zweiten Tab neben dem laufenden MakeCode</b>, so wie es auf der Messe sein wird. Beide Simulatoren bedienen, dann zurück zu MakeCode und fünf Blöcke ziehen.",
+    pass:"Seite lädt aus der Datei, beide Simulatoren laufen, und MakeCode bleibt daneben flüssig. Auf dem Pi ist das der eigentliche Lasttest.",
+    f:[{k:"offline_seite", l:"Eindruck mit beiden Tabs offen", ph:"läuft, Schrift etwas anders als online — passt; MakeCode daneben ohne Ruckeln"}]},
+   {id:"b6", must:0, t:"Härtetest über Nacht",
+    do:"Gerät herunterfahren, am nächsten Tag ohne Netz starten und MakeCode erneut öffnen. Chromium räumt Caches manchmal auf — deshalb MakeCode über „Installieren“ als App ablegen und danach nochmals prüfen.",
+    pass:"Editor startet auch nach Neustart ohne Netz.",
+    f:[{k:"cache_stabil", l:"Ergebnis nach Neustart", ph:"läuft weiterhin, als App installiert"}]}
+  ]
+},
+{
+  L:"C", t:"Der Roboter fährt", dur:"15 Min",
+  why:"Hier fallen die Zahlen an, die im Workshop als Beispielwerte stehen. Bisher sind das begründete Schätzungen — nach diesem Block sind es Messwerte.",
+  tests:[
+   {id:"c1", must:1, t:"Kategorie und Sprache der Blöcke",
+    do:"Vorlage öffnen. Wie heißt die neue Kategorie im Blockmenü, und in welcher Sprache erscheinen die Maqueen-Blöcke? Die Erweiterung bringt deutsche Übersetzungen mit — prüfe, ob sie im deutschen Editor auch greifen.",
+    pass:"Kategoriename notiert, Sprache bestätigt.",
+    key:1,
+    f:[{k:"ext_kategorie", l:"Name der Kategorie im Blockmenü", ph:"Maqueen Plus V3"},
+       {k:"makecode_sprache", l:"Sprache der Maqueen-Blöcke", ph:"deutsch / englisch"}]},
+   {id:"c2", must:1, t:"Steckrichtung und beide Schalter",
+    do:"micro:bit einstecken: Die Seite sagt „mit den 25 Lämpchen nach vorn“ — stimmt das bei eurem Chassis? Dann ohne Anleitung versuchen, den Roboter einzuschalten. Wenn du selbst suchen musst, suchen die Schüler garantiert länger. Mach ein Foto von Steckrichtung und beiden Schaltern — das kommt ins Handbuch.",
+    pass:"Beide Schalter in unter 15 Sekunden gefunden.",
+    f:[{k:"steckrichtung", l:"Steckrichtung des micro:bit", ph:"LEDs nach vorn/außen — Angabe auf der Seite stimmt"},
+       {k:"schalter", l:"Wo sitzen die Schalter genau?", ph:"Akkubrett hinten links, Bodenplatte vorne rechts"}]},
+   {id:"c3", must:1, t:"Motorblock und seine echte Beschriftung",
+    do:"Den Block zum Fahren aus der neuen Kategorie ziehen. Notiere die Beschriftung Wort für Wort samt der Auswahlfelder.",
+    pass:"Block gefunden, Beschriftung notiert.",
+    key:1,
+    f:[{k:"motor_block", l:"Beschriftung des Motorblocks", ph:"Motor alle vorwärts Geschwindigkeit 120"},
+       {k:"stop_block", l:"Beschriftung des Stopp-Blocks", ph:"Motor alle stoppen"},
+       {k:"tempo_min", l:"Ab welchem Tempo bewegt er sich? (Seite behauptet: etwa 30)", ph:"ab 35 auf Karton, ab 25 auf glattem Tisch"}]},
+   {id:"c4", must:1, t:"Wie weit fährt er in einer Sekunde?",
+    do:"Tempo 120, <kbd>pausiere 1000</kbd>, stoppen. Auf dem Untergrund, der auf der Messe liegen wird. Mit dem Lineal messen, zweimal wiederholen.",
+    pass:"Wert notiert. Daraus ergibt sich, wie groß der Parcours sinnvollerweise ist.",
+    key:1,
+    f:[{k:"strecke_1s", l:"Strecke bei Tempo 120 in 1 s", ph:"ca. 38 cm"}]},
+   {id:"c5", must:1, t:"Wie viele Millisekunden sind 90 Grad?",
+    do:"Linkes Rad vorwärts, rechtes rückwärts, Tempo 100. Die Pausenzeit so lange anpassen, bis eine saubere Vierteldrehung herauskommt.",
+    pass:"Zahl gefunden. Genau diese Zahl brauchen die Teams für die Quadrat-Challenge — gut, wenn du sie kennst, ohne sie zu verraten.",
+    key:1,
+    f:[{k:"ms_90", l:"Millisekunden für 90°", ph:"ca. 420 ms bei Tempo 100"}]},
+   {id:"c6", must:0, t:"Fährt er geradeaus?",
+    do:"Zwei Meter geradeaus fahren lassen und die seitliche Abweichung messen.",
+    pass:"Abweichung notiert. Bei mehr als etwa 15 cm auf 2 m lohnt sich der Hinweis zum Nachjustieren im Workshop.",
+    f:[{k:"abweichung", l:"Abweichung auf 2 m", ph:"8 cm nach rechts"}]}
+  ]
+},
+{
+  L:"D", t:"Liniensensoren und Strecke", dur:"15 Min",
+  why:"Der Linienfolger ist der Wow-Moment des Workshops. Er ist auch das Einzige, was an der Beschaffenheit der Strecke scheitern kann — und die baust du selbst.",
+  tests:[
+   {id:"d1", must:1, t:"Kalibrieren",
+    do:"Alle fünf Sensoren auf die schwarze Linie stellen, einschalten, <b>Calc-Key</b> etwa zwei Sekunden halten. Beschreibe, was dabei sichtbar passiert — das musst du auf der Messe erklären können.",
+    pass:"Rückmeldung am Gerät erkennbar, Kalibrierung abgeschlossen.",
+    f:[{k:"kalibrieren", l:"Wo sitzt der Calc-Key, was passiert sichtbar?", ph:"kleine Taste neben dem Summer, LED-Reihe blinkt zweimal"}]},
+   {id:"d7", must:1, t:"Rohwerte auf Weiß und Schwarz",
+    do:"Den Analogwert eines Liniensensors mit <kbd>zeige Zahl</kbd> anzeigen, erst auf Weiß, dann auf der Linie. Station 4 behauptet: Weiß ≈ 3800, Schwarz ≈ 2700, also <b>niedriger Wert = schwarz</b>. Daran hängt auch die Quizfrage dort.",
+    pass:"Beide Werte notiert — und vor allem, welcher der höhere ist.",
+    key:1,
+    f:[{k:"linie_rohwerte", l:"Wert auf Weiß / auf Schwarz — welcher ist höher?", ph:"weiß 3750, schwarz 2650 → weiß ist höher, Seite stimmt"}]},
+   {id:"d2", must:1, t:"Blockname der Linienverfolgung",
+    do:"Den Block für die eingebaute Linienverfolgung suchen und die Beschriftung notieren. Prüfe auch, ob wirklich fünf Stufen zur Auswahl stehen.",
+    pass:"Block gefunden, Stufen bestätigt.",
+    key:1,
+    f:[{k:"linie_block", l:"Beschriftung des Blocks", ph:"Linienverfolgung Stufe 1"},
+       {k:"linie_stufen", l:"Welche Stufen stehen zur Auswahl?", ph:"1 bis 5"},
+       {k:"linie_stop", l:"Womit hält man sie wieder an? (Seite nimmt an: Motor alle stoppen)", ph:"Motor alle stoppen reicht / eigener Block „Linienverfolgung beenden“"}]},
+   {id:"d3", must:1, t:"Welche Stufe ist die richtige für den Workshop?",
+    do:"Mit dem geplanten Klebeband eine Teststrecke legen: ein Meter gerade, dann eine Kurve. Stufen der Reihe nach durchprobieren, bis er herausfliegt.",
+    pass:"Du weißt, welche Stufe sicher läuft und ab welcher es spannend wird.",
+    key:1,
+    f:[{k:"stufe_sicher", l:"Sicher fahrbare Stufe", ph:"Stufe 2 läuft sauber, ab 4 fliegt er in Kurven raus"}]},
+   {id:"d4", must:1, t:"Kleinster Kurvenradius",
+    do:"Kurven mit abnehmendem Radius legen, bis er die Spur verliert. Mit dem Lineal messen.",
+    pass:"Zahl in Zentimetern. Das ist die harte Grenze für den Parcours-Bauplan.",
+    key:1,
+    f:[{k:"radius", l:"Kleinster sicherer Kurvenradius", ph:"18 cm bei Stufe 2"}]},
+   {id:"d5", must:0, t:"Untergrund und Licht",
+    do:"Dieselbe Strecke unter Messebedingungen prüfen: helles Deckenlicht, eventuell Sonnenlicht, glänzender Boden. Falls möglich am echten Standplatz.",
+    pass:"Läuft auch unter dem Licht, das am Messetag herrscht.",
+    f:[{k:"licht", l:"Beobachtungen zu Licht und Untergrund", ph:"auf glänzendem Messeboden unruhig, auf mattem Karton stabil"}]},
+   {id:"d6", must:0, t:"Klebebandbedarf",
+    do:"Die Teststrecke abmessen und hochrechnen, wie viele Meter der geplante Parcours braucht.",
+    pass:"Bedarf bekannt, Rollen besorgt.",
+    f:[{k:"band", l:"Benötigte Meter und Bandbreite", ph:"ca. 6 m, 19 mm mattschwarz"}]}
+  ]
+},
+{
+  L:"E", t:"Laserscanner", dur:"15 Min",
+  why:"Die offene Flanke. Die Blöcke dieser Kategorie sind zwischen Versionen umbenannt worden, und ich konnte ihre Beschriftung nicht verlässlich recherchieren. Was du hier notierst, geht direkt in Station 5.",
+  tests:[
+   {id:"e1", must:1, t:"Wie heißt die Kategorie?",
+    do:"Im Blockmenü die Sammlung für den Abstands- beziehungsweise Lasersensor suchen. Sie kann als eigene Kategorie oder als Unterpunkt der Maqueen-Kategorie auftauchen.",
+    pass:"Gefunden und benannt.",
+    key:1,
+    f:[{k:"laser_kategorie", l:"Name der Kategorie oder des Unterpunkts", ph:"z. B. Maqueen Plus V3 → Ranging"}]},
+   {id:"e2", must:1, t:"Der entscheidende Block: Abstand lesen",
+    do:"Den Block suchen, der einen Abstand zurückgibt. <b>Die Kernfrage:</b> Gibt es einen einfachen Block wie „Abstand“ — oder muss man Koordinaten des 8×8-Rasters angeben, also x und y? Davon hängt ab, wie Station 5 aufgebaut sein muss.",
+    pass:"Beschriftung Wort für Wort notiert, samt aller Parameter.",
+    key:1,
+    f:[{k:"laser_abstand", l:"Beschriftung des Abstandsblocks mit allen Feldern", ph:"Lidar Abstand an x 4 y 4  —  oder: Ultraschall Abstand (cm)"},
+       {k:"laser_einfach", l:"Einfacher Block oder Koordinaten nötig?", ph:"nur mit x/y-Koordinaten"}]},
+   {id:"e3", must:1, t:"Init-Block und Aufwärmzeit",
+    do:"Prüfen, ob es einen Initialisierungsblock gibt. Dann bewusst <em>ohne</em> Startpause messen und schauen, was in den ersten Sekunden herauskommt.",
+    pass:"Du weißt, ob die drei Sekunden Startpause wirklich nötig sind.",
+    key:1,
+    f:[{k:"laser_init", l:"Init-Block vorhanden? Wie heißt er?", ph:"ja: Lidar initialisieren / nein"},
+       {k:"laser_pause", l:"Was passiert ohne Startpause?", ph:"erste 2 s kommen 0-Werte"}]},
+   {id:"e4", must:1, t:"Stimmen die Werte?",
+    do:"Ein Buch in genau 10 cm und in 50 cm Abstand aufstellen und die Anzeige mit <kbd>zeige Zahl</kbd> gegen das Lineal prüfen.",
+    pass:"Angezeigte Werte passen zur gemessenen Entfernung — und du kennst die Einheit sicher.",
+    key:1,
+    f:[{k:"laser_einheit", l:"Einheit und Messwerte", ph:"bei 10 cm zeigt er 98, bei 50 cm 503 → Millimeter"}]},
+   {id:"e5", must:0, t:"Reicht die Station für 10 Minuten?",
+    do:"Das Bremsassistent-Programm aus Station 5 nachbauen und die Hand davor halten. Stoppuhr mitlaufen lassen: Wie lange brauchst du dafür?",
+    pass:"In zehn Minuten machbar. Sonst wandert die Station endgültig zur Bonusaufgabe.",
+    f:[{k:"e5_zeit", l:"Gebrauchte Zeit und Eindruck", ph:"7 Min, für Schüler eher 12 → als Bonus lassen"}]}
+  ]
+},
+{
+  L:"F", t:"micro:bit-Station gegenprüfen", dur:"8 Min",
+  why:"Station 2 läuft im Browser bereits — hier geht es nur darum, dass die echten Blöcke auch so heißen, wie die Seite es behauptet.",
+  tests:[
+   {id:"f1", must:1, t:"Würfel-Programm",
+    do:"<kbd>wenn geschüttelt</kbd> mit <kbd>zeige Zahl (zufällige Zahl von 1 bis 6)</kbd> bauen und flashen. Notiere, in welcher Kategorie die beiden Blöcke liegen.",
+    pass:"Würfel funktioniert, Schütteln wird zuverlässig erkannt.",
+    f:[{k:"wuerfel", l:"Kategorien der beiden Blöcke", ph:"„wenn geschüttelt“ liegt unter Eingabe, „zufällige Zahl“ unter Mathematik"}]},
+   {id:"f2", must:1, t:"Beschleunigungswerte",
+    do:"<kbd>zeige Zahl (Beschleunigung x)</kbd> dauerhaft anzeigen, den micro:bit flach halten und nach links und rechts kippen.",
+    pass:"Werte bewegen sich im erwarteten Bereich. Die Grenze 300 aus Station 2 passt oder muss angepasst werden.",
+    key:1,
+    f:[{k:"accel", l:"Beobachtete Werte flach / links / rechts", ph:"flach ~10, links −900, rechts +880 → Grenze 300 passt"}]},
+   {id:"f3", must:1, t:"Beschleunigung: Grenze 300 passt?",
+    do:"Den Neigungs-Test aus Station 2 auf dem echten micro:bit nachbauen (Pfeil rechts bei x > 300, Pfeil links bei x < −300). Wie schräg muss man halten, bis der Pfeil kommt — ist das für Kinderhände eindeutig?",
+    pass:"Pfeil kippt bei deutlicher, aber nicht extremer Neigung. Sonst Grenze anpassen und mir sagen.",
+    key:1,
+    f:[{k:"grenze300", l:"Passt die Grenze 300?", ph:"ja, kippt bei ca. 20° / nein, besser 400"}]}
+  ]
+},
+{
+  L:"G", t:"Ausdauer und Ablauf", dur:"10 Min",
+  why:"Läuft nebenher. Beantwortet die Frage, wie viele Ersatzakkus du brauchst und ob der Zeitplan realistisch ist.",
+  tests:[
+   {id:"g1", must:1, t:"Akkulaufzeit",
+    do:"Gleich zu Beginn des Trockenlaufs einen Roboter mit Linienverfolgung im Kreis fahren lassen und einfach laufen lassen. Nach 30, 60 und 90 Minuten kurz hinschauen: Wird er langsamer, hält er die Spur schlechter? 90 Minuten entsprechen einem Slot.",
+    pass:"Du weißt, ob ein Akku einen ganzen Slot durchhält — und ob zwischen zwei Slots gewechselt werden muss.",
+    key:1,
+    f:[{k:"akku", l:"Verhalten nach 30 / 60 / 90 Minuten", ph:"30: ok, 60: etwas langsamer, 90: Linienfolger unruhig → pro Slot ein Akku"}]},
+   {id:"g2", must:0, t:"Ladedauer",
+    do:"Einen leeren Akku laden und die Zeit notieren. Daraus ergibt sich, wie viele Reserveakkus für einen Messetag mit mehreren Slots nötig sind.",
+    pass:"Bedarf an Ersatzakkus berechenbar.",
+    f:[{k:"laden", l:"Ladedauer und Schluss daraus", ph:"3 h → pro Roboter 2 Akkus im Wechsel"}]},
+   {id:"g3", must:1, t:"Aufbauzeit am Stand",
+    do:"Einen kompletten Arbeitsplatz von Null aufbauen und die Zeit stoppen: Gerät hochfahren, Browser öffnen, beide Seiten laden, Roboter einschalten, kalibrieren.",
+    pass:"Zeit bekannt. Mal Anzahl der Plätze ergibt, wann du am Messetag anfangen musst.",
+    key:1,
+    f:[{k:"aufbau", l:"Zeit für einen Platz", ph:"6 min → bei 4 Plätzen 25 min plus Puffer"}]},
+   {id:"g4", must:0, t:"Zeitplan im Kopf durchgehen",
+    do:"Den Ablauf aus dem Betreuer-Handbuch mit den heute gemessenen Zeiten durchdenken. Wo wird es eng?",
+    pass:"Du hast eine Meinung dazu, welche Station als Erstes gekürzt wird.",
+    f:[{k:"zeitplan", l:"Wo wird es eng?", ph:"Flashen dauert länger als gedacht, Station 5 fällt bei vollem Slot weg"}]}
+  ]
+}
+];
+
+/* ---------------- state ---------------- */
+var KEY = "trockenlauf-v1";
+var ST = {meta:{}, status:{}, f:{}};
+var db = null, pushT = null;
+
+function lload(){
+  try{ var r = localStorage.getItem(KEY); if(r){ var o = JSON.parse(r); if(o && o.status){ ST = o; } } }catch(e){}
+}
+function lsave(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+function flag(t){ document.getElementById("saveflag").textContent = t; }
+function persist(){
+  lsave(); render();
+  if(!db) return;
+  clearTimeout(pushT);
+  pushT = setTimeout(function(){
+    db.doc("trockenlauf/protokoll").set({data:JSON.stringify(ST), at:Date.now()})
+      .then(function(){ flag("gesichert"); })
+      .catch(function(){ flag("nur lokal"); });
+  }, 700);
+}
+
+/* ---------------- render ---------------- */
+var blocksEl = document.getElementById("blocks");
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function build(){
+  BLOCKS.forEach(function(B){
+    var sec = document.createElement("section");
+    sec.className = "blk";
+    var h = '<header><span class="letter">' + B.L + '</span><h3>' + B.t + '</h3>' +
+            '<span class="dur">' + B.dur + '</span><p class="why">' + B.why + '</p></header>';
+    B.tests.forEach(function(T, i){
+      h += '<div class="test" id="row-' + T.id + '">' +
+           '<div class="tnum">' + B.L + (i+1) + '</div><div class="tbody">' +
+           '<div class="ttitle">' + T.t + '<span class="must' + (T.must ? '' : ' opt') + '">' +
+             (T.must ? 'Pflicht' : 'wenn Zeit') + '</span></div>' +
+           '<p class="tdo">' + T.do + '</p>' +
+           '<p class="tpass"><b>Bestanden heißt</b>' + T.pass + '</p>' +
+           '<div class="marks" data-id="' + T.id + '">' +
+             '<button class="mark" type="button" data-v="ok">✓ läuft</button>' +
+             '<button class="mark" type="button" data-v="warn">△ mit Einschränkung</button>' +
+             '<button class="mark" type="button" data-v="bad">✕ klappt nicht</button>' +
+           '</div>';
+      if(T.f && T.f.length){
+        h += '<div class="fields">';
+        T.f.forEach(function(F){
+          var long = (F.ph || "").length > 34;
+          h += '<label class="fld' + (T.key ? ' key' : '') + '"><span>' + F.l + '</span>' +
+               (long
+                 ? '<textarea rows="2" data-f="' + F.k + '" placeholder="' + esc(F.ph) + '"></textarea>'
+                 : '<input type="text" data-f="' + F.k + '" placeholder="' + esc(F.ph) + '" autocomplete="off">') +
+               '</label>';
+        });
+        h += '</div>';
+      }
+      h += '</div></div>';
+    });
+    sec.innerHTML = h;
+    blocksEl.appendChild(sec);
+  });
+
+  blocksEl.addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest(".mark") : null;
+    if(!b) return;
+    var id = b.parentElement.dataset.id, v = b.dataset.v;
+    ST.status[id] = (ST.status[id] === v) ? null : v;
+    persist();
+  });
+  blocksEl.addEventListener("input", function(e){
+    var t = e.target;
+    if(t.dataset && t.dataset.f){ ST.f[t.dataset.f] = t.value; persist(); }
+  });
+  ["datum","geraet","wer"].forEach(function(k){
+    var el = document.getElementById("m_" + k);
+    el.addEventListener("input", function(){ ST.meta[k] = el.value; persist(); });
+  });
+}
+
+function render(){
+  var total = 0, ok = 0, warn = 0, bad = 0;
+  BLOCKS.forEach(function(B){ B.tests.forEach(function(T){
+    total++;
+    var v = ST.status[T.id];
+    if(v === "ok") ok++; else if(v === "warn") warn++; else if(v === "bad") bad++;
+    var row = document.getElementById("row-" + T.id);
+    if(row){
+      row.classList.toggle("done", !!v);
+      row.querySelectorAll(".mark").forEach(function(m){
+        m.setAttribute("aria-pressed", m.dataset.v === v ? "true" : "false");
+      });
+    }
+  }); });
+  document.getElementById("ttotal").textContent = total;
+  document.getElementById("tdone").textContent = ok + warn + bad;
+  document.getElementById("tok").textContent = ok;
+  document.getElementById("twarn").textContent = warn;
+  document.getElementById("tbad").textContent = bad;
+  document.getElementById("out").textContent = summary(ok, warn, bad, total);
+}
+
+function fill(){
+  ["datum","geraet","wer"].forEach(function(k){
+    document.getElementById("m_" + k).value = ST.meta[k] || "";
+  });
+  blocksEl.querySelectorAll("[data-f]").forEach(function(el){
+    el.value = ST.f[el.dataset.f] || "";
+  });
+}
+
+var MARK = {ok:"✓ läuft", warn:"△ Einschränkung", bad:"✕ klappt nicht"};
+
+function summary(ok, warn, bad, total){
+  var L = [];
+  L.push("TROCKENLAUF-PROTOKOLL  ·  Maqueen Grand Prix");
+  L.push("Datum: " + (ST.meta.datum || "—") + "   Arbeitsplatz: " + (ST.meta.geraet || "—") + "   Getestet von: " + (ST.meta.wer || "—"));
+  L.push("Stand: " + (ok+warn+bad) + " von " + total + " geprüft  ·  " + ok + " läuft  ·  " + warn + " mit Einschränkung  ·  " + bad + " klappt nicht");
+  L.push("");
+  BLOCKS.forEach(function(B){
+    var lines = [];
+    B.tests.forEach(function(T, i){
+      var v = ST.status[T.id];
+      var vals = [];
+      (T.f || []).forEach(function(F){
+        var x = (ST.f[F.k] || "").trim();
+        if(x) vals.push("      " + F.l + ": " + x);
+      });
+      if(!v && !vals.length) return;
+      lines.push("   " + B.L + (i+1) + "  " + T.t + (v ? "   [" + MARK[v] + "]" : "   [offen]"));
+      if(vals.length) lines.push(vals.join("\n"));
+    });
+    if(lines.length){
+      L.push(B.L + " · " + B.t.toUpperCase());
+      L.push(lines.join("\n"));
+      L.push("");
+    }
+  });
+  var offen = [];
+  BLOCKS.forEach(function(B){ B.tests.forEach(function(T, i){
+    if(T.must && !ST.status[T.id]) offen.push(B.L + (i+1) + " " + T.t);
+  }); });
+  if(offen.length){
+    L.push("NOCH OFFEN (Pflichtpunkte)");
+    L.push("   " + offen.join("\n   "));
+  } else {
+    L.push("Alle Pflichtpunkte geprüft.");
+  }
+  return L.join("\n");
+}
+
+/* ---------------- actions ---------------- */
+document.getElementById("jump").addEventListener("click", function(){
+  document.getElementById("auswertung").scrollIntoView({behavior:"smooth", block:"start"});
+});
+document.getElementById("copy").addEventListener("click", function(){
+  var t = document.getElementById("out").textContent, hint = document.getElementById("copyhint");
+  function fallback(){
+    var r = document.createRange(); r.selectNodeContents(document.getElementById("out"));
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    hint.textContent = "Markiert — mit Strg+C kopieren.";
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(function(){
+      hint.textContent = "Kopiert.";
+      setTimeout(function(){ hint.textContent = ""; }, 2500);
+    }).catch(fallback);
+  } else fallback();
+});
+document.getElementById("clear").addEventListener("click", function(){
+  ST = {meta:{}, status:{}, f:{}};
+  fill(); persist();
+});
+
+/* ---------------- boot ---------------- */
+lload();
+build();
+fill();
+render();
+
+if(window.claude && window.claude.use){
+  window.claude.use("db").then(function(d){
+    if(!d) return;
+    db = d;
+    flag("gesichert");
+    return d.doc("trockenlauf/protokoll").get().then(function(snap){
+      if(snap && snap.exists){
+        var raw = snap.data();
+        try{
+          var remote = JSON.parse(raw.data);
+          var mine = Object.keys(ST.status).length + Object.keys(ST.f).length;
+          var theirs = Object.keys(remote.status || {}).length + Object.keys(remote.f || {}).length;
+          if(theirs > mine){ ST = remote; lsave(); fill(); render(); }
+        }catch(e){}
+      }
+    });
+  }).catch(function(){});
+}
+})();
+</script>

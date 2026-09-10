@@ -1,0 +1,56 @@
+  <section class="station" data-st="5" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 5</span><span>10 Minuten</span><span>Bonus</span></div>
+      <h2>Reflexe: wenn &hellip; dann &hellip; sonst</h2>
+      <p class="goal">Ein Roboter, der nur einem Plan folgt, fährt gegen die erste Wand. Jetzt bringst du ihm bei, seine Umgebung zu prüfen und selbst zu entscheiden &ndash; viele Male pro Sekunde.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Der Laserscanner vorne</h3>
+        <p class="lead">Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleines Lidar mit 8&times;8 = <b>64 Laserstrahlen</b>. Es misst in Millimetern, von 20&nbsp;mm bis 4000&nbsp;mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos &ndash; nur größer.</p>
+        <div class="note">
+          <span class="nt">Wichtig</span>
+          <p>Der Scanner braucht nach dem Einschalten etwa <b>3 Sekunden</b> zum Hochfahren. Setzt darum ganz oben in <kbd>beim Start</kbd> eine Pause von 3000&nbsp;ms, sonst misst er beim ersten Mal Unsinn.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Die Bedingung</h3>
+        <p class="lead">Der <kbd>dauerhaft</kbd>-Block wiederholt alles darin, immer und immer wieder. Darin sitzt die Entscheidung: Ist der Weg frei, wird gefahren. Ist etwas näher als 20&nbsp;cm, wird gebremst.</p>
+        <div class="mcstack">
+          <div class="mccap">Bremsassistent</div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-logic i1">wenn <b>Abstand</b> &lt; <b>200</b> mm dann</div>
+          <div class="mcb b-mq i2">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>rot</b></div>
+          <div class="mcb b-music i2">spiele Ton <b>hoch C</b></div>
+          <div class="mcb b-logic i1">sonst</div>
+          <div class="mcb b-mq i2">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>110</b></div>
+          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>grün</b></div>
+        </div>
+        <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
+      </div>
+
+      <div class="quiz" data-quiz="q4" data-answer="c">
+        <div class="qh">Denkfrage &middot; 10 Punkte</div>
+        <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Weil der Laser sonst zu heiß wird</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Weil einmal messen nichts nützt &ndash; das Hindernis kommt ja erst später</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+
+      <div class="note aha">
+        <span class="nt">Bonus &middot; 15 Punkte</span>
+        <p>Schafft ihr es, dass der Roboter beim Hindernis nicht nur stoppt, sondern <b>zurücksetzt, sich dreht und weiterfährt</b>? Dann habt ihr einen Staubsaugerroboter gebaut.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="4">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Bremsassistent</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="6">Ab zum Rennen &rarr;</button>
+    </div>
+  </section>

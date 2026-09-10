@@ -1,0 +1,119 @@
+  <section class="station" data-st="2" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 2</span><span>20 Minuten</span><span>Der micro:bit allein</span></div>
+      <h2>25 Lämpchen und ein Gleichgewichtssinn</h2>
+      <p class="goal">Bevor Räder ins Spiel kommen: Der micro:bit ist schon für sich ein vollständiger Computer. Auf vier mal fünf Zentimetern sitzen 25 LEDs, zwei Knöpfe, ein Lautsprecher, ein Mikrofon, Funk &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
+    </div>
+    <div class="st-body">
+
+      <div class="sim" id="mbsim">
+        <div class="simbar">
+          <span class="title">micro:bit-Simulator</span>
+          <div class="levsel" id="mbtabs"></div>
+        </div>
+        <div class="simgrid">
+          <div class="simcol">
+            <div class="colhead">Auftrag</div>
+            <p class="missionbox" id="mbmission"></p>
+            <div id="mbextra"></div>
+            <div class="mbchips" id="mbchips"></div>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Gerät</div>
+            <div class="mbwrap">
+              <div class="mbboard">
+                <div class="mbrow">
+                  <button class="mbbtn" id="mbA" type="button">A</button>
+                  <div class="mbmatrix" id="mbmatrix"></div>
+                  <button class="mbbtn" id="mbB" type="button">B</button>
+                </div>
+                <div class="mbedge"><i class="big"></i><i class="big"></i><i class="big"></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <div class="mbctl" id="mbctl" hidden>
+                <label for="mbtilt">Neigung nach links / rechts</label>
+                <input type="range" id="mbtilt" min="-1023" max="1023" value="0" step="1">
+                <div class="mbreadout"><span>Beschleunigung&nbsp;x</span><b id="mbxval">0</b></div>
+                <button class="btn sec" id="mbshake" type="button">Schütteln!</button>
+              </div>
+            </div>
+          </div>
+          <div class="simcol">
+            <div class="colhead">Der passende Block</div>
+            <div class="mcstack" id="mbcode"></div>
+            <div class="simstatus" id="mbstatus">Wähl oben eine Aufgabe.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
+        <p class="lead">Der micro:bit hat keinen Bildschirm, nur 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
+        <div class="note">
+          <span class="nt">Warum das clever ist</span>
+          <p>25 Lämpchen, jedes an oder aus &ndash; das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Auf Knopfdruck reagieren</h3>
+        <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse.</p>
+        <div class="mcstack">
+          <div class="mccap">Zwei Ereignisse nebeneinander</div>
+          <div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>
+          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
+          <div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>
+          <div class="mcb b-basic i1">lösche Bildschirm</div>
+        </div>
+        <p class="lead">Beide Blöcke liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide Aufträge und führt den passenden aus, sobald der Knopf kommt.</p>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er misst in drei Richtungen, wie stark er beschleunigt oder gekippt wird. Für uns reicht heute eine davon: <b>x</b>, das Kippen nach links und rechts.</p>
+        <div class="tablewrap">
+          <table class="fix">
+            <tr><th>Was ihr tut</th><th>Wert von x</th><th>Was das Programm daraus macht</th></tr>
+            <tr><td>flach hinlegen</td><td>ungefähr 0</td><td>&bdquo;liegt gerade&ldquo;</td></tr>
+            <tr><td>nach rechts kippen</td><td>deutlich über 0, bis +1023</td><td>&bdquo;Pfeil nach rechts&ldquo;</td></tr>
+            <tr><td>nach links kippen</td><td>deutlich unter 0, bis &minus;1023</td><td>&bdquo;Pfeil nach links&ldquo;</td></tr>
+          </table>
+        </div>
+        <div class="mcstack">
+          <div class="mccap">Der Würfel &ndash; drei Blöcke, fertiges Spielzeug</div>
+          <div class="mcb b-input">wenn geschüttelt</div>
+          <div class="mcb b-basic i1">zeige Zahl <b>zufällige Zahl von 1 bis 6</b></div>
+        </div>
+        <div class="note aha">
+          <span class="nt">Der wichtigste Satz des Workshops</span>
+          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Nach rechts gekippt&ldquo; steht nirgends &ndash; das seid ihr, die entscheidet, ab welcher Zahl das gilt. Programmieren heißt: Zahlenbereiche in Entscheidungen übersetzen. Genau diesen Trick braucht ihr gleich wieder, wenn der Roboter Schwarz von Weiß unterscheiden soll.</p>
+        </div>
+      </div>
+
+      <div class="quiz" data-quiz="q2" data-answer="b">
+        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <p class="q">Euer Würfel zeigt bei jedem Schütteln dieselbe Zahl. Was ist am wahrscheinlichsten passiert?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Ihr schüttelt nicht kräftig genug</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Im Block <kbd>zeige Zahl</kbd> steht eine feste Zahl statt dem Block <kbd>zufällige Zahl</kbd></button>
+          <button class="opt" data-k="c"><span class="k">C</span> Der micro:bit braucht Internet, um zu würfeln</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+
+      <div class="note aha">
+        <span class="nt">Team-Challenge &middot; 15 Punkte</span>
+        <p>Baut den <b>Würfel</b> auf eurem echten micro:bit und lasst ihn dreimal würfeln. Wer danach noch Zeit hat: Sorgt dafür, dass nach dem Würfeln kurz ein Herz erscheint, bevor die Zahl kommt &ndash; eine kleine Trommelwirbel-Pause.</p>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Nichts passiert beim Schütteln?</b> Kräftig ruckartig schütteln, nicht sanft wedeln &ndash; der Sensor braucht eine echte Beschleunigung.<br><b>Die Zahl ist kaum zu lesen?</b> Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.</p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="1">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Pixelkünstler</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="3">Jetzt kommt der Roboter &rarr;</button>
+    </div>
+  </section>

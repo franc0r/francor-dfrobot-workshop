@@ -1,0 +1,60 @@
+  <section class="station" data-st="1" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Station 1</span><span>10 Minuten</span><span>Erster Kontakt</span></div>
+      <h2>Dein erstes Programm auf echter Hardware</h2>
+      <p class="goal">In den nächsten Minuten wandert Code, den du selbst geschrieben hast, über ein Kabel in einen echten Computer &ndash; und der macht dann genau das, was du gesagt hast. Nicht mehr und nicht weniger.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>MakeCode öffnen</h3>
+        <ol class="steps">
+          <li><span><kbd>makecode.microbit.org</kbd> im Browser öffnen und <b>Neues Projekt</b> anlegen. Name: euer Teamname.</span></li>
+          <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder.</span></li>
+        </ol>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Das Programm: Lebenszeichen</h3>
+        <p class="lead">Zieht diese Blöcke unter <kbd>beim Start</kbd> zusammen &ndash; der läuft genau einmal, wenn der micro:bit Strom bekommt. Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.</p>
+        <div class="mcstack">
+          <div class="mccap">Blöcke</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
+          <div class="mcb b-basic i1">pausiere <b>1000</b> ms</div>
+          <div class="mcb b-basic i1">zeige Text <b>&quot;Hallo&quot;</b></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Auf den Roboter übertragen</h3>
+        <ol class="steps">
+          <li><span>micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel &ndash; den Roboter braucht ihr jetzt noch nicht.</span></li>
+          <li><span>In MakeCode auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät &rarr; <b>micro:bit koppeln</b> &rarr; auswählen &rarr; verbinden.</span></li>
+          <li><span>Klappt das Koppeln nicht, geht es immer auch von Hand: Die heruntergeladene Datei endet auf <kbd>.hex</kbd> und liegt in eurem Download-Ordner. Zieht sie auf das Laufwerk <kbd>MICROBIT</kbd>, das sich beim Anstecken öffnet.</span></li>
+          <li><span>Auf dem micro:bit blinkt eine gelbe LED &ndash; das ist der Code, der hinüberfließt. Wenn sie aufhört, läuft euer Programm.</span></li>
+        </ol>
+      </div>
+
+      <div class="note warn">
+        <span class="nt">Wenn es klemmt</span>
+        <p><b>Kein Download möglich?</b> Sehr oft liegt es am Kabel: viele USB-Kabel können nur laden, keine Daten übertragen. Anderes Kabel probieren.<br><b>Der Browser fragt nicht nach dem Gerät?</b> Es muss Chrome oder Edge sein. Notfalls die heruntergeladene <kbd>.hex</kbd>-Datei einfach auf das Laufwerk <kbd>MICROBIT</kbd> ziehen &ndash; das geht immer.</p>
+      </div>
+
+      <div class="quiz" data-quiz="q1" data-answer="b">
+        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <p class="q">Du ziehst das USB-Kabel ab. Was passiert mit deinem Programm?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Es ist weg, der micro:bit ist wieder leer</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Es bleibt drauf und läuft, sobald Strom da ist</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Es läuft nur, solange der Laptop verbunden ist</button>
+        </div>
+        <p class="qfb" hidden></p>
+      </div>
+    </div>
+    <div class="stfoot">
+      <button class="btn sec" data-next="0">&larr; Zurück</button>
+      <span class="pts">Abzeichen: Ersteinschalter</span>
+      <span class="spacer"></span>
+      <button class="btn" data-next="2">Herz leuchtet &rarr;</button>
+    </div>
+  </section>

@@ -1,0 +1,152 @@
+<aside class="drawer" id="coach" aria-hidden="true" aria-label="Hinweise für Betreuer">
+  <div class="dhead">
+    <h2>Betreuer-Handbuch</h2>
+    <button class="ghost" id="coachclose" type="button">Schließen</button>
+  </div>
+  <div class="dbody">
+    <section>
+      <h3>Zeitplan · 90-Minuten-Slot</h3>
+      <table class="plan">
+        <tr><td>0:00–0:06</td><td><b>Boxenstopp.</b> Begrüßung, Teamnamen, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
+        <tr><td>0:06–0:16</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen.</td></tr>
+        <tr><td>0:16–0:36</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Beschleunigungssensor, Würfel. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em> – beides brauchen sie später beim Roboter wieder.</td></tr>
+        <tr><td>0:36–0:52</td><td><b>Fahrschule.</b> Erweiterung nachladen, Simulator, dann Motorblöcke real. Quadrat-Challenge als Puffer für schnelle Teams.</td></tr>
+        <tr><td>0:52–1:08</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
+        <tr><td>1:08–1:18</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
+        <tr><td>1:18–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h3>Material pro Team (2 Schüler)</h3>
+      <ul>
+        <li>1× micro:bit V2 + <b>USB-Datenkabel</b> (reine Ladekabel funktionieren nicht)</li>
+        <li>1× Maqueen Plus V3 mit geladenem Akku (18650 oder AA)</li>
+        <li>1× Arbeitsplatz: Laptop <b>oder Raspberry Pi 4 (4 GB, besser 8 GB) mit Monitor, Tastatur, Maus</b> – Details im Abschnitt „Stationen auf Raspberry Pi“ unten</li>
+        <li>Browser: <b>Chrome, Chromium oder Edge</b> ab Version 126 – Safari und Firefox können nicht direkt flashen</li>
+        <li>Diese Seite in einem Tab, MakeCode im zweiten</li>
+      </ul>
+      <h3 style="margin-top:16px">Für den Stand insgesamt</h3>
+      <ul>
+        <li>Parcours: schwarzes Isolierband, 19 mm breit, auf hellem, mattem Untergrund</li>
+        <li>Kurvenradius mindestens 15 cm – keine spitzen Ecken, daran scheitern Linienfolger</li>
+        <li>Reserve: 2 geladene Ersatzakkus, 1 Ersatz-micro:bit, 2 Ersatzkabel</li>
+        <li>Stoppuhr oder Handy fürs Rennen, kleine Urkunden zum Mitnehmen</li>
+        <li>Flipchart oder Plakat als <b>Bestenliste</b> für Rundenzeiten &ndash; die Seite selbst führt keine, jeder Arbeitsplatz läuft für sich</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Am Vorabend</h3>
+      <ul class="check">
+        <li>Alle Akkus laden – ein halbvoller Akku ruiniert den Linienfolger</li>
+        <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s)</li>
+        <li>Ein MakeCode-Projekt mit bereits geladener Erweiterung anlegen und als <b>Vorlage teilen</b> – spart pro Team 5 Minuten (erst ab Station 3 nötig)</li>
+        <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
+        <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
+        <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
+        <li>Parcours aufkleben und mit einem Roboter komplett abfahren</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Ohne Internet arbeiten</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Messe-WLAN ist unzuverlässig, und der Workshop darf nicht daran hängen. Die gute Nachricht: <b>Er muss es nicht.</b> Es braucht genau eine Internetverbindung – vorher, bei der Vorbereitung. Danach läuft alles lokal.</p>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Zwei Dinge machen das möglich. Erstens ist der MakeCode-Editor eine Web-App, die sich beim ersten Laden vollständig im Browser ablegt – rufst du die Adresse später ohne Netz auf, startet sie aus dem Cache. Zweitens ist die DFRobot-Erweiterung in TypeScript geschrieben und wird <b>im Browser</b> übersetzt; sie braucht keinen Compiler in der Cloud. (Erweiterungen mit C++-Anteil gingen offline nicht – diese hier schon.)</p>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Die eine Hürde: <b>Eine Erweiterung <em>nachzuladen</em> braucht Internet.</b> Deshalb lädst du sie einmal vorher und verteilst das fertige Projekt.</p>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
+      <ul class="check">
+        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b> – noch keinen Code schreiben</li>
+        <li>Dieses leere Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
+        <li>Vorlagendatei auf jeden Arbeitsplatz kopieren (USB-Stick oder direkt ins SD-Image) und dort einmal <b>importieren</b></li>
+        <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
+        <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
+        <li>MakeCode im Chromium über „Installieren“ als App ablegen – der Cache ist dann stabiler gegen Aufräumaktionen des Browsers</li>
+      </ul>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Und dann der eigentliche Test</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)"><b>WLAN am Gerät ausschalten, Browser neu starten und den kompletten Workshop einmal offline durchspielen.</b> Erst wenn das funktioniert hat, ist der Stand messefertig. Alles andere ist Hoffnung.</p>
+
+      <div class="tablewrap" style="margin-top:14px">
+        <table class="fix">
+          <tr><th>Geht offline</th><th>Geht offline nicht</th></tr>
+          <tr><td>Editor öffnen, Blöcke bauen, übersetzen, flashen</td><td>Eine Erweiterung neu nachladen</td></tr>
+          <tr><td>Bereits importierte Erweiterungen benutzen</td><td>Projekte über Link teilen</td></tr>
+          <tr><td>Projekte lokal speichern und laden</td><td>Die Sprache des Editors umstellen (vorher wählen)</td></tr>
+          <tr><td>Diese Seite samt beider Simulatoren</td><td>Beispielprojekte aus der MakeCode-Galerie öffnen</td></tr>
+        </table>
+      </div>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:14px"><b>Wenn doch etwas fehlt:</b> Ein Handy-Hotspot reicht, um einem einzelnen Gerät den Cache nachzuladen – rechne mit einigen zehn Megabyte, nicht mit Sekunden. Bei Raspberry-Pi-Arbeitsplätzen ist der schnellere Weg oft, die SD-Karte eines fertig vorbereiteten Geräts zu klonen und zu tauschen.</p>
+
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Und die letzte Rückfallebene: <b>Station 2 dieser Seite braucht überhaupt nichts</b> außer der lokalen Datei. Wenn am Messetag alles schiefgeht, ist der micro:bit-Simulator im Browser immer noch ein vollständiges kleines Erlebnis für Vorbeigehende.</p>
+    </section>
+
+    <section>
+      <h3>Stationen auf Raspberry Pi</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Läuft grundsätzlich: Die micro:bit Foundation führt <b>Linux inklusive Raspberry Pi OS</b> (Debian 11 Bullseye und 12 Bookworm) als unterstützte Plattform, und Chrome bzw. Chromium ab Version 126 beherrscht das Flashen per WebUSB. Vier Punkte solltest du vorher trotzdem geklärt haben.</p>
+      <div class="tablewrap" style="margin-top:12px">
+        <table class="fix">
+          <tr><th>Thema</th><th>Was zu tun ist</th></tr>
+          <tr><td>Zwei Wege zum Flashen</td><td><b>A:</b> „Herunterladen“ → Gerät koppeln (WebUSB). <b>B:</b> die <kbd>.hex</kbd>-Datei aus dem Download-Ordner auf das automatisch eingehängte Laufwerk <kbd>MICROBIT</kbd> ziehen. <b>Weg B funktioniert praktisch immer</b> – wenn das Koppeln auf dem Pi scheitert, liegt es unter Linux meist daran, dass der Browser als normaler Benutzer nicht auf das USB-Gerät zugreifen darf. Beide Wege vorher durchspielen und den Schülern den funktionierenden zeigen.</td></tr>
+          <tr><td>WebUSB unter Linux freischalten</td><td>Wenn Weg A gehen soll: eine udev-Regel für den micro:bit anlegen, z.&nbsp;B. in <kbd>/etc/udev/rules.d/50-microbit.rules</kbd> die Zeile <kbd>SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0666"</kbd>, danach <kbd>sudo udevadm control --reload</kbd> und den micro:bit neu anstecken. 0d28/0204 ist die USB-Kennung der micro:bit-Firmware. <b>Vorher auf einem Pi testen</b> – und wenn es nicht auf Anhieb klappt, ist Weg B die bessere Investition der Zeit.</td></tr>
+          <tr><td>Firmware der micro:bits</td><td>Für WebUSB muss die Firmware aktuell sein. Am Pi das Laufwerk <kbd>MICROBIT</kbd> öffnen, <kbd>DETAILS.TXT</kbd> lesen: Version <b>0249 oder höher</b> ist in Ordnung, ältere vorher einmal aktualisieren.</td></tr>
+          <tr><td>Leistung</td><td>MakeCode im Browser ist speicherhungrig. <b>4 GB RAM als Minimum</b>, 8 GB entspannter. Nur zwei Tabs offen (diese Seite + MakeCode), in MakeCode den eingebauten Simulator einklappen – das spart auf dem Pi spürbar Leistung. Aktive Kühlung einplanen, ein Messetag ist lang.</td></tr>
+          <tr><td>Internet</td><td>Die MakeCode-Offline-App gibt es nicht für ARM – der Pi braucht den Browser-Editor. Der cacht sich aber selbst: <b>einmal online geladen, läuft er danach ohne Netz weiter.</b> Wie du den Stand komplett offline vorbereitest, steht im nächsten Abschnitt.</td></tr>
+          <tr><td>Strom und Kabel</td><td>Offizielles Pi-Netzteil verwenden. Der micro:bit zieht seinen Strom über USB vom Pi; das ist unkritisch, solange der Roboter seinen eigenen Akku hat. Und auch hier gilt: <b>Datenkabel, keine Ladekabel.</b></td></tr>
+          <tr><td>Bildschirm</td><td>Mindestens 1280×720. Diese Workshop-Seite legt das Layout unter etwa 900 px Breite automatisch um, bleibt also auch auf kleinen Displays bedienbar – der Simulator wird dann untereinander gestapelt.</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Ein Vorteil, der oft untergeht: Auf einem Pi sind alle Stationen identisch eingerichtet und lassen sich per Image klonen. Ein Ersatz-Pi mit derselben SD-Karte ist in zwei Minuten einsatzbereit – das ist auf einer Messe mehr wert als ein schnellerer Laptop.</p>
+    </section>
+
+    <section>
+      <h3>Störungen und ihre Ursachen</h3>
+      <div class="tablewrap">
+        <table class="fix">
+          <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
+          <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
+          <tr><td>Koppeln schlägt am Pi fehl</td><td>Nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
+          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte</td></tr>
+          <tr><td>Motoren brummen, fahren aber nicht</td><td>Tempo unter 30, oder Akku schwach</td></tr>
+          <tr><td>Fährt Bogen statt gerade</td><td>Normal. Tempo eines Rads um 5–10 reduzieren</td></tr>
+          <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
+          <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
+          <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 2 der Workshop-Seite braucht kein MakeCode</td></tr>
+          <tr><td>Erweiterung fehlt im Projekt</td><td>Vorlagenprojekt importieren statt neu zu suchen – Nachladen bräuchte Internet</td></tr>
+          <tr><td>Nichts geht mehr</td><td>Reset-Knopf auf der Rückseite des micro:bit</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h3>Blocknamen vorab prüfen</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Die hier gezeigten Beschriftungen der Motor-, Licht- und Linienblöcke sind aus der DFRobot-Dokumentation abgeleitet und werden erst im Trockenlauf wortwörtlich bestätigt. Die Blöcke für den <b>8×8-Laserscanner</b> stecken in einer eigenen Unterkategorie und ihre Beschriftung wechselt zwischen Versionen – bitte einmal vor der Messe durchklicken und mit der Blockdarstellung in Station 5 abgleichen.</p>
+    </section>
+
+    <section>
+      <h3>Didaktik am Messestand</h3>
+      <ul>
+        <li><b>Nie den Code vorsagen.</b> Erst fragen: „Was soll passieren?", dann: „Welcher Block könnte das können?"</li>
+        <li><b>Rollen tauschen alle 15 Minuten</b> – ein Kind an der Tastatur, eins am Roboter. Sonst tippt eines allein.</li>
+        <li><b>Nachzügler</b> steigen am besten bei Station 2 ein: micro:bit-Simulator im Browser, sofortiger Erfolg, kein Setup und keine Hardware nötig.</li>
+        <li><b>Station 2 funktioniert auch ohne Roboter.</b> Wer nur 25 Minuten Zeit hat oder wenn ein Maqueen ausfällt: micro:bit plus LED/Sensor-Teil allein ist bereits ein vollständiges kleines Erlebnis mit Würfel zum Mitnehmen.</li>
+        <li><b>Zu schnelle Teams</b> bekommen die Quadrat-Challenge aus Station 3, das Bonus-Level im Parcours-Simulator und die Staubsauger-Aufgabe aus Station 5.</li>
+        <li><b>Fehler nicht wegräumen.</b> Ein Roboter, der im Kreis fährt, ist die beste Lernsituation des Tages.</li>
+        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Punkte, Abzeichen und Simulator zurück.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Sicherheit</h3>
+      <ul>
+        <li>18650-Akkus nur von Betreuenden wechseln, nie mit spitzen Gegenständen heraushebeln (Zuglasche benutzen)</li>
+        <li>Roboter nur auf dem Boden oder mit Randbegrenzung auf dem Tisch fahren lassen</li>
+        <li>Haare und lose Bänder von den Rädern fernhalten</li>
+      </ul>
+    </section>
+  </div>
+</aside>

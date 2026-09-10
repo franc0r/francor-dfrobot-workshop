@@ -1,0 +1,14 @@
+{
+  "name": "maqueen-grand-prix",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline-Workshopseite: micro:bit V2 + Maqueen Plus V3, 90 Minuten, Klasse 7+",
+  "scripts": {
+    "build": "python3 build.py",
+    "test": "node test/smoke.cjs",
+    "check": "python3 build.py && node test/smoke.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
+}
