@@ -61,6 +61,13 @@ jobs:
           cp dist/maqueen-grand-prix-pages.html _site/index.html
           cp dist/maqueen-grand-prix-offline.html _site/maqueen-grand-prix-offline.html
 
+      # Schaltet Pages beim ersten Lauf selbst ein und stellt die Quelle auf
+      # "GitHub Actions" — spart den Gang in die Repo-Einstellungen.
+      - name: Pages vorbereiten
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: website/_site
