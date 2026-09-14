@@ -13,7 +13,7 @@ artifact — Fassung zum Veröffentlichen als claude.ai-Artefakt (ohne
            <html>/<head>/<body>, mit Google-Fonts-Verknüpfung). Nur zum
            Teilen und Planen; braucht Internet.
 """
-import io, os, re, sys
+import base64, io, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "src")
@@ -47,6 +47,31 @@ img{max-width:100%}
 
 def read(rel):
     return io.open(os.path.join(SRC, rel), encoding="utf-8").read().rstrip("\n")
+
+
+MIMES = {".png": "image/png", ".svg": "image/svg+xml", ".jpg": "image/jpeg",
+         ".jpeg": "image/jpeg", ".webp": "image/webp"}
+
+
+def inline_assets(html):
+    """src="assets/datei" wird zur data:-URI.
+
+    Bilder liegen als Datei in src/assets/, damit die Quellen lesbar bleiben;
+    in der fertigen Seite stecken sie eingebettet drin. Sonst wäre die
+    Offline-Regel verletzt, sobald die HTML-Datei allein weitergereicht wird.
+    """
+    def one(m):
+        rel = m.group(1)
+        path = os.path.join(SRC, "assets", rel)
+        if not os.path.exists(path):
+            raise SystemExit("Asset fehlt: src/assets/" + rel)
+        mime = MIMES.get(os.path.splitext(rel)[1].lower())
+        if not mime:
+            raise SystemExit("unbekannter Asset-Typ: " + rel)
+        data = base64.b64encode(io.open(path, "rb").read()).decode("ascii")
+        return 'src="data:%s;base64,%s"' % (mime, data)
+
+    return re.sub(r'src="assets/([A-Za-z0-9._-]+)"', one, html)
 
 
 def stations():
@@ -99,6 +124,10 @@ def assemble(target):
             '  <main id="stage">\n\n' + st + "\n  </main>\n</div>\n\n"
             '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
+    body = inline_assets(body)
+    if "assets/" in body:
+        raise SystemExit('Asset nicht eingebettet – src="assets/…" mit doppelten '
+                         "Anführungszeichen schreiben")
 
     if target == "offline":
         page = SKELETON_HEAD + head + "</head>\n<body>" + body + "</body>\n</html>\n"

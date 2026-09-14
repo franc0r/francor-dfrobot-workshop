@@ -56,6 +56,8 @@ Alles unterhalb von `website/`:
   in `src/app.js`, Zeitplan in `src/handbuch.html`. Der Build meckert, wenn die ersten beiden
   auseinanderlaufen oder die Summe nicht 90 ist.
 - Simulator-Level: `LEVELS` in `src/app.js`.
+- Bild einbauen: Datei nach `src/assets/`, im HTML `src="assets/datei.png"` schreiben.
+  Der Build bettet sie ein – nie eine URL verwenden, sonst bricht der Offline-Build ab.
 
 Ändert sich ein Blocktext, gehört die Musterlösung unter `microbit/stations/NN-*/`
 mit angefasst — gleiche Nummer, gleicher Name.

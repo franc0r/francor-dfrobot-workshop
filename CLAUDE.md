@@ -15,6 +15,10 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    abgeschaltetem Netzwerk. Diese Regel ist nicht verhandelbar.
 2. **Eine Datei.** Die Offline-Ausgabe ist eine einzelne HTML-Datei, die per Doppelklick
    aus dem Dateisystem läuft (`file://`). Keine Build-Abhängigkeit zur Laufzeit.
+   Bilder gehören deshalb nach `website/src/assets/` und werden im Quelltext als
+   `src="assets/datei.png"` (doppelte Anführungszeichen) geschrieben; `build.py` ersetzt das
+   durch eine `data:`-URI und bricht ab, wenn danach noch ein `assets/` übrig ist.
+   Nie ein Bild von einer URL einbinden.
 3. **Nur Blöcke, kein Textcode.** Codebeispiele auf der Seite sind MakeCode-Blöcke,
    nachgebildet mit den `.mcb`-Klassen (Farben wie in MakeCode: Grundlagen blau, Eingabe
    magenta, Schleifen grün, Logik türkis, Maqueen dunkelblau).
@@ -40,6 +44,7 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     topbar.html       Kopfzeile: Teamname, Punkte, 90-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
+    assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
     app.js            Fortschritt/Punkte (localStorage), Quiz, Timer, beide Simulatoren
   build.py            baut dist/…-offline.html und dist/…-artifact.html
@@ -76,6 +81,17 @@ die Offline-Datei auf die Arbeitsplätze kopieren.
 
 Roter Faden: Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest";
 Station 4 greift das am Liniensensor (weiß ≈ 3800 / schwarz ≈ 2700) wieder auf.
+
+## Verein und Logo
+
+Träger des Workshops ist **FRANCOR e. V.** Der Name steht in der Kopfzeile (Wortmarke neben
+dem Logo) und im Kolophon am Ende des Betreuer-Handbuchs.
+
+`website/src/assets/francor-logo.png` (105×120) stammt von
+`https://www.francor.de/wp-content/uploads/2019/11/cropped-g3811.png`. Zwei Änderungen
+gegenüber dem Original: die deckend weißen Trennfugen und Kanten des Originals sind
+transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Datei ist auf
+120 px Höhe verkleinert. Farbe der Marke: `#E9483F`.
 
 ## Technische Fakten (recherchiert, Quellen in docs/)
 
