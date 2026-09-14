@@ -1,5 +1,10 @@
 node_modules/
 
 # Build-Ausgabe: die Offline-Datei ist absichtlich eingecheckt (Messe-Deliverable),
-# die Artefakt-Fassung nicht — die ist nur zum Teilen/Planen.
+# die beiden anderen nicht — die Artefakt-Fassung ist nur zum Teilen/Planen,
+# die Pages-Fassung baut der Workflow bei jedem Push neu.
 website/dist/maqueen-grand-prix-artifact.html
+website/dist/maqueen-grand-prix-pages.html
+
+# Zwischenordner des Pages-Workflows
+website/_site/

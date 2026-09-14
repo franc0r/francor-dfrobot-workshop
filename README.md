@@ -24,7 +24,7 @@ Entscheidungen, Konventionen und der Stand der Dinge stehen in `CLAUDE.md`.
 cd website
 npm install            # holt Playwright (nur für den Test)
 npx playwright install chromium
-python3 build.py       # erzeugt dist/maqueen-grand-prix-offline.html (+ artifact-Fassung)
+python3 build.py       # erzeugt offline-, pages- und artifact-Fassung in dist/
 npm test               # Smoketest mit abgeschaltetem Netzwerk
 ```
 
@@ -46,6 +46,21 @@ Beenden mit Ctrl-C. Der Server liefert nur `website/dist/` aus, nichts anderes a
 Nur zum Ansehen und Entwickeln — für die Messe zählt weiter die Datei selbst,
 nicht der Server. Über `http://` liegt der Fortschritt in einem anderen
 `localStorage`-Bereich als über `file://`, Punkte wandern also nicht mit.
+
+## Online-Fassung (GitHub Pages)
+
+Jeder Push auf `master`, der `website/` anfasst, baut die Seite neu, lässt den Smoketest
+laufen und veröffentlicht sie — schlägt der Test fehl, wird nichts veröffentlicht
+(`.github/workflows/pages.yml`).
+
+- <https://franc0r.github.io/francor-dfrobot-workshop/> — die Seite
+- `…/maqueen-grand-prix-offline.html` daneben — die Datei zum Herunterladen
+
+Gehostet wird das Ziel `pages`: inhaltsgleich mit der Offline-Fassung, nur ohne deren
+Zusatz im Titel, und ebenfalls ohne jeden externen Aufruf.
+
+Die Online-Fassung ist zum Vorbereiten, Briefen und Herumzeigen. **Auf der Messe gibt es
+kein Netz** — die Arbeitsplätze bekommen weiterhin die Datei.
 
 ## Ändern
 

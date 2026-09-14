@@ -3,12 +3,17 @@
 """
 Baut aus den Quellbausteinen in src/ die fertigen Seiten in dist/.
 
-    python3 build.py            # beide Ziele
+    python3 build.py            # alle drei Ziele
     python3 build.py offline    # nur dist/maqueen-grand-prix-offline.html
+    python3 build.py pages      # nur dist/maqueen-grand-prix-pages.html
     python3 build.py artifact   # nur dist/maqueen-grand-prix-artifact.html
 
 offline  — eine einzige Datei, keine externen Aufrufe, Systemschriften.
            Das ist die Datei für die Arbeitsplätze auf der Messe.
+pages    — dasselbe, nur ohne den Zusatz „Offline-Ausgabe“ in Titel und
+           Kopfzeile. Das ist die Fassung für GitHub Pages. Auch sie lädt
+           nichts von außen — ein öffentlich gehosteter Verein sollte keine
+           Google-Fonts nachladen (DSGVO), und so bleibt es eine Datei.
 artifact — Fassung zum Veröffentlichen als claude.ai-Artefakt (ohne
            <html>/<head>/<body>, mit Google-Fonts-Verknüpfung). Nur zum
            Teilen und Planen; braucht Internet.
@@ -20,6 +25,9 @@ SRC = os.path.join(HERE, "src")
 DIST = os.path.join(HERE, "dist")
 
 TITLE = "Maqueen Grand Prix"
+# Ziele, die eine vollständige, in sich geschlossene HTML-Datei ergeben.
+STANDALONE = ("offline", "pages")
+TARGETS = ("offline", "pages", "artifact")
 FONTS = ('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
          'family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600'
          '&family=IBM+Plex+Sans:wght@400;500;600&display=swap">')
@@ -104,7 +112,7 @@ def assemble(target):
     st = stations()
     check_times(st, app)
 
-    if target == "offline":
+    if target in STANDALONE:
         if FONTS_ONLINE not in css:
             raise SystemExit("Schriftstapel in styles.css nicht gefunden – FONTS_ONLINE in build.py anpassen")
         css = css.replace(FONTS_ONLINE, FONTS_OFFLINE)
@@ -129,22 +137,22 @@ def assemble(target):
         raise SystemExit('Asset nicht eingebettet – src="assets/…" mit doppelten '
                          "Anführungszeichen schreiben")
 
-    if target == "offline":
+    if target in STANDALONE:
         page = SKELETON_HEAD + head + "</head>\n<body>" + body + "</body>\n</html>\n"
         # harte Regel: nichts Externes
         bad = re.findall(r'(?:src|href)="https?://[^"]*"|url\(\s*["\']?https?://', page)
         if bad:
-            raise SystemExit("Offline-Build enthält externe Verweise: %s" % bad[:3])
+            raise SystemExit("%s-Build enthält externe Verweise: %s" % (target, bad[:3]))
     else:
         page = head + body
     return page
 
 
 def main(argv):
-    targets = argv[1:] or ["offline", "artifact"]
+    targets = argv[1:] or list(TARGETS)
     os.makedirs(DIST, exist_ok=True)
     for t in targets:
-        if t not in ("offline", "artifact"):
+        if t not in TARGETS:
             raise SystemExit("unbekanntes Ziel: " + t)
         out = os.path.join(DIST, "maqueen-grand-prix-%s.html" % t)
         page = assemble(t)

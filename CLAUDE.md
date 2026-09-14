@@ -47,7 +47,7 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
     app.js            Fortschritt/Punkte (localStorage), Quiz, Timer, beide Simulatoren
-  build.py            baut dist/…-offline.html und dist/…-artifact.html
+  build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
 microbit/             was auf den Roboter kommt — wird nicht gebaut
@@ -66,6 +66,14 @@ die Dateien unter `website/src/stations/`: `04-augen/` gehört zu `04-augen.html
 
 Arbeitsablauf: `cd website && python3 build.py && npm test`. Erst wenn beides grün ist,
 die Offline-Datei auf die Arbeitsplätze kopieren.
+
+`.github/workflows/pages.yml` macht dasselbe bei jedem Push auf `master` und
+veröffentlicht das Ziel `pages` auf GitHub Pages
+(<https://franc0r.github.io/francor-dfrobot-workshop/>). Der Smoketest ist die Schranke
+davor. `pages` ist inhaltsgleich mit `offline`, nur ohne den Zusatz „Offline-Ausgabe“ in
+Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fassung lädt
+nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
+ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
 ## Die Stationen (Stand 10.09.2026)
 

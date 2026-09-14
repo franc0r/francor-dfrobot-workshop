@@ -1,0 +1,76 @@
+# Baut die Workshop-Seite und veröffentlicht sie auf GitHub Pages.
+#
+# Gehostet wird das Ziel `pages` als index.html — inhaltsgleich mit der
+# Offline-Ausgabe, nur ohne deren Zusatz im Titel. Daneben liegt die
+# Offline-Datei unter ihrem eigenen Namen zum Herunterladen.
+# Die Artefakt-Fassung kommt hier nie hin — sie hat kein <html>/<head>/<body>
+# und lädt Schriften von außen.
+#
+# Achtung: Die Online-Fassung ist zum Vorbereiten und Herumzeigen. Auf der
+# Messe gibt es kein Netz; die Arbeitsplätze bekommen weiterhin die Datei.
+name: Seite bauen und auf Pages veröffentlichen
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'website/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Läuft ein Deploy noch, wartet der nächste, statt ihn abzuwürgen.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Abhängigkeiten
+        run: npm ci
+
+      - name: Chromium für den Smoketest
+        run: npx playwright install --with-deps chromium
+
+      - name: Bauen
+        run: python3 build.py
+
+      - name: Smoketest (Offline-Datei, Netzwerk aus)
+        run: node test/smoke.cjs
+
+      - name: Seite zusammenstellen
+        run: |
+          mkdir -p _site
+          cp dist/maqueen-grand-prix-pages.html _site/index.html
+          cp dist/maqueen-grand-prix-offline.html _site/maqueen-grand-prix-offline.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/_site
+
+  veroeffentlichen:
+    needs: bauen
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
