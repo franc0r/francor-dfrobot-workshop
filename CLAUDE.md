@@ -9,9 +9,9 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 
 ## Harte Regeln
 
-1. **Offline-only.** Auf der Messe gibt es kein Internet. `dist/maqueen-grand-prix-offline.html`
+1. **Offline-only.** Auf der Messe gibt es kein Internet. `website/dist/maqueen-grand-prix-offline.html`
    darf keinen einzigen externen Verweis enthalten — keine Webfonts, keine CDN-Skripte, keine
-   Bilder von außen. `build.py` bricht ab, wenn doch; `test/smoke.cjs` prüft es mit
+   Bilder von außen. `build.py` bricht ab, wenn doch; `website/test/smoke.cjs` prüft es mit
    abgeschaltetem Netzwerk. Diese Regel ist nicht verhandelbar.
 2. **Eine Datei.** Die Offline-Ausgabe ist eine einzelne HTML-Datei, die per Doppelklick
    aus dem Dateisystem läuft (`file://`). Keine Build-Abhängigkeit zur Laufzeit.
@@ -19,9 +19,9 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    nachgebildet mit den `.mcb`-Klassen (Farben wie in MakeCode: Grundlagen blau, Eingabe
    magenta, Schleifen grün, Logik türkis, Maqueen dunkelblau).
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
-   Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`src/handbuch.html`),
+   Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
    nicht in die Stationen.
-5. **90 Minuten exakt.** Eyebrow-Minuten der Stationen, das `STATIONS`-Array in `app.js`
+5. **90 Minuten exakt.** Eyebrow-Minuten der Stationen, das `STATIONS`-Array in `website/src/app.js`
    und der Zeitplan im Handbuch müssen übereinstimmen. `build.py` prüft die ersten beiden.
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
    `docs/offline-betrieb-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
@@ -30,22 +30,37 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 
 ## Aufbau
 
+Das Repo hat zwei Hälften: die Seite, die gebaut wird, und die Programme, die auf
+die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
+
 ```
-src/
-  styles.css          Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
-  topbar.html         Kopfzeile: Teamname, Punkte, 90-Min-Timer, Betreuer, Neues Team
-  rail.html           linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
-  stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
-  handbuch.html       Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
-  app.js              Fortschritt/Punkte (localStorage), Quiz, Timer, beide Simulatoren
-build.py              baut dist/…-offline.html und dist/…-artifact.html
-test/smoke.cjs        Playwright-Smoketest gegen die Offline-Datei
-tools/trockenlauf.html  Prüfprotokoll (läuft nur als claude.ai-Artefakt, siehe unten)
+website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
+  src/
+    styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
+    topbar.html       Kopfzeile: Teamname, Punkte, 90-Min-Timer, Betreuer, Neues Team
+    rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
+    stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
+    handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
+    app.js            Fortschritt/Punkte (localStorage), Quiz, Timer, beide Simulatoren
+  build.py            baut dist/…-offline.html und dist/…-artifact.html
+  test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
+  dist/               Bauergebnis; die Offline-Datei ist eingecheckt
+microbit/             was auf den Roboter kommt — wird nicht gebaut
+  vorlage/            MakeCode-Startprojekt mit geladener DFRobot-Erweiterung
+  stations/NN-name/   Musterlösung je Station: loesung.hex, bloecke.png, README.md
+  python/             MicroPython: Hardware-Check, Zugabe für Schnelle
+tools/                Werkzeuge für Stand und Arbeitsplätze
+  trockenlauf.html    Prüfprotokoll (läuft nur als claude.ai-Artefakt, siehe unten)
+  pi/                 udev-Regel, Flash-Skript für den Raspberry Pi
 docs/                 Konzept, Offline-Recherche, Review-Notizen
 ```
 
-Arbeitsablauf: `python3 build.py && npm test`. Erst wenn beides grün ist, die Offline-Datei
-auf die Arbeitsplätze kopieren.
+Die Ordner unter `microbit/stations/` tragen dieselbe Nummer und denselben Namen wie
+die Dateien unter `website/src/stations/`: `04-augen/` gehört zu `04-augen.html`.
+Ändert sich ein Blocktext, werden beide zusammen angefasst — zusammen mit dem Handbuch.
+
+Arbeitsablauf: `cd website && python3 build.py && npm test`. Erst wenn beides grün ist,
+die Offline-Datei auf die Arbeitsplätze kopieren.
 
 ## Die Stationen (Stand 10.09.2026)
 
@@ -81,7 +96,7 @@ Station 4 greift das am Liniensensor (weiß ≈ 3800 / schwarz ≈ 2700) wieder 
 
 ## Was der Simulator-Code kann und was nicht
 
-- **Parcours-Simulator** (`app.js`, Abschnitt SIMULATOR): Gitter, Roboter, Bausteine per Klick
+- **Parcours-Simulator** (`website/src/app.js`, Abschnitt SIMULATOR): Gitter, Roboter, Bausteine per Klick
   (kein Drag & Drop — auf Messe-Touchscreens robuster), `wiederhole`-Block mit einer Ebene
   Verschachtelung, drei Level in `LEVELS`. Koordinaten: x nach rechts, y nach unten, dir 0=rechts,
   1=unten, 2=links, 3=oben. Level 3 ist mit 5 Bausteinen lösbar (Schleife), sonst 16.
@@ -106,5 +121,5 @@ Station 4 greift das am Liniensensor (weiß ≈ 3800 / schwarz ≈ 2700) wieder 
 - `tools/trockenlauf.html` ist nur als Referenz hier. Die lebende Fassung ist ein
   claude.ai-Artefakt mit Datenablage, in das Martin die Messwerte einträgt; das Cowork-Projekt
   „Anfänger Robotik Workshop" liest sie aus. Änderungen am Protokoll dort machen, nicht hier.
-- Die Artefakt-Fassung (`dist/…-artifact.html`) ist nur zum Teilen/Planen. Für die Messe zählt
+- Die Artefakt-Fassung (`website/dist/…-artifact.html`) ist nur zum Teilen/Planen. Für die Messe zählt
   ausschließlich die Offline-Datei.
