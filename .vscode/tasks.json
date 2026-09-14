@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Seite bereitstellen (serve)",
+      "type": "npm",
+      "path": "website/",
+      "script": "serve",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^never matches$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^> maqueen-grand-prix@.* serve$",
+          "endsPattern": "Serving HTTP on"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "close": false
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Baut die Seite und startet http://localhost:8000/maqueen-grand-prix-offline.html — mit Strg+C im Terminal oder über 'Aufgaben ausführen > Aufgabe beenden' stoppen"
+    },
+    {
+      "label": "Bauen (build)",
+      "type": "npm",
+      "path": "website/",
+      "script": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "detail": "Erzeugt website/dist/maqueen-grand-prix-offline.html und -artifact.html aus website/src/"
+    },
+    {
+      "label": "Testen (build + smoke)",
+      "type": "npm",
+      "path": "website/",
+      "script": "check",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "in website/: python3 build.py && node test/smoke.cjs — vor jedem Kopieren auf die Arbeitsplätze ausführen"
+    }
+  ]
+}
