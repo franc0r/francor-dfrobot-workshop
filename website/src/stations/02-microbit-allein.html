@@ -1,6 +1,6 @@
   <section class="station" data-st="2" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 2</span><span>20 Minuten</span><span>Der micro:bit allein</span></div>
+      <div class="eyebrow"><span class="tag">Station 2</span><span>15 Minuten</span><span>Der micro:bit allein</span></div>
       <h2>25 Lämpchen und ein Gleichgewichtssinn</h2>
       <p class="goal">Bevor Räder ins Spiel kommen: Der micro:bit ist schon für sich ein vollständiger Computer. Auf vier mal fünf Zentimetern sitzen 25 LEDs, zwei Knöpfe, ein Lautsprecher, ein Mikrofon, Funk &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
     </div>
@@ -69,7 +69,7 @@
 
       <div class="block">
         <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
-        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er misst in drei Richtungen, wie stark er beschleunigt oder gekippt wird. Für uns reicht heute eine davon: <b>x</b>, das Kippen nach links und rechts.</p>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er misst in drei Richtungen, wie stark er beschleunigt oder gekippt wird. Für uns reicht heute eine davon: <b>x</b>, das Kippen nach links und rechts. Probiert es im Simulator oben aus &ndash; ihr müsst dafür noch nichts programmieren, nur beobachten.</p>
         <div class="tablewrap">
           <table class="fix">
             <tr><th>Was ihr tut</th><th>Wert von x</th><th>Was das Programm daraus macht</th></tr>
@@ -85,7 +85,12 @@
         </div>
         <div class="note aha">
           <span class="nt">Der wichtigste Satz des Workshops</span>
-          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Nach rechts gekippt&ldquo; steht nirgends &ndash; das seid ihr, die entscheidet, ab welcher Zahl das gilt. Programmieren heißt: Zahlenbereiche in Entscheidungen übersetzen. Genau diesen Trick braucht ihr gleich wieder, wenn der Roboter Schwarz von Weiß unterscheiden soll.</p>
+          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Nach rechts gekippt&ldquo; steht nirgends &ndash; das legt euer Programm fest, ab welcher Zahl das gilt. Genau diesen Trick braucht ihr gleich wieder, wenn der Roboter Schwarz von Weiß unterscheiden soll.</p>
+        </div>
+
+        <div class="note">
+          <span class="nt">Extra, wenn noch Zeit ist</span>
+          <p>Baut aus der Beobachtung eine echte Entscheidung: <kbd>wenn Beschleunigung x &gt; 300 dann zeige Pfeil Osten</kbd>. Der Simulator oben zeigt euch im Neigen-Tab den passenden Block dazu.</p>
         </div>
       </div>
 

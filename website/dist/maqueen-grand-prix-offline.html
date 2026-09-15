@@ -522,7 +522,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 0 ============ -->
   <section class="station" data-st="0">
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 0</span><span>6 Minuten</span><span>Boxenstopp</span></div>
+      <div class="eyebrow"><span class="tag">Station 0</span><span>5 Minuten</span><span>Boxenstopp</span></div>
       <h2>Was macht einen Roboter zum Roboter?</h2>
       <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter trifft eigene Entscheidungen. In den nächsten 90 Minuten baust du genau das: ein Fahrzeug, das die Welt wahrnimmt und selbst reagiert.</p>
     </div>
@@ -579,7 +579,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 1 ============ -->
   <section class="station" data-st="1" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 1</span><span>10 Minuten</span><span>Erster Kontakt</span></div>
+      <div class="eyebrow"><span class="tag">Station 1</span><span>12 Minuten</span><span>Erster Kontakt</span></div>
       <h2>Dein erstes Programm auf echter Hardware</h2>
       <p class="goal">In den nächsten Minuten wandert Code, den du selbst geschrieben hast, über ein Kabel in einen echten Computer &ndash; und der macht dann genau das, was du gesagt hast. Nicht mehr und nicht weniger.</p>
     </div>
@@ -605,7 +605,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="block">
-        <h3><span class="idx">03</span>Auf den Roboter übertragen</h3>
+        <h3><span class="idx">03</span>Auf den micro:bit übertragen</h3>
         <ol class="steps">
           <li><span>micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel &ndash; den Roboter braucht ihr jetzt noch nicht.</span></li>
           <li><span>In MakeCode auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät &rarr; <b>micro:bit koppeln</b> &rarr; auswählen &rarr; verbinden.</span></li>
@@ -640,7 +640,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 2 ============ -->
   <section class="station" data-st="2" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 2</span><span>20 Minuten</span><span>Der micro:bit allein</span></div>
+      <div class="eyebrow"><span class="tag">Station 2</span><span>15 Minuten</span><span>Der micro:bit allein</span></div>
       <h2>25 Lämpchen und ein Gleichgewichtssinn</h2>
       <p class="goal">Bevor Räder ins Spiel kommen: Der micro:bit ist schon für sich ein vollständiger Computer. Auf vier mal fünf Zentimetern sitzen 25 LEDs, zwei Knöpfe, ein Lautsprecher, ein Mikrofon, Funk &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
     </div>
@@ -709,7 +709,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="block">
         <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
-        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er misst in drei Richtungen, wie stark er beschleunigt oder gekippt wird. Für uns reicht heute eine davon: <b>x</b>, das Kippen nach links und rechts.</p>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er misst in drei Richtungen, wie stark er beschleunigt oder gekippt wird. Für uns reicht heute eine davon: <b>x</b>, das Kippen nach links und rechts. Probiert es im Simulator oben aus &ndash; ihr müsst dafür noch nichts programmieren, nur beobachten.</p>
         <div class="tablewrap">
           <table class="fix">
             <tr><th>Was ihr tut</th><th>Wert von x</th><th>Was das Programm daraus macht</th></tr>
@@ -725,7 +725,12 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         </div>
         <div class="note aha">
           <span class="nt">Der wichtigste Satz des Workshops</span>
-          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Nach rechts gekippt&ldquo; steht nirgends &ndash; das seid ihr, die entscheidet, ab welcher Zahl das gilt. Programmieren heißt: Zahlenbereiche in Entscheidungen übersetzen. Genau diesen Trick braucht ihr gleich wieder, wenn der Roboter Schwarz von Weiß unterscheiden soll.</p>
+          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Nach rechts gekippt&ldquo; steht nirgends &ndash; das legt euer Programm fest, ab welcher Zahl das gilt. Genau diesen Trick braucht ihr gleich wieder, wenn der Roboter Schwarz von Weiß unterscheiden soll.</p>
+        </div>
+
+        <div class="note">
+          <span class="nt">Extra, wenn noch Zeit ist</span>
+          <p>Baut aus der Beobachtung eine echte Entscheidung: <kbd>wenn Beschleunigung x &gt; 300 dann zeige Pfeil Osten</kbd>. Der Simulator oben zeigt euch im Neigen-Tab den passenden Block dazu.</p>
         </div>
       </div>
 
@@ -760,7 +765,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 3 ============ -->
   <section class="station" data-st="3" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 3</span><span>16 Minuten</span><span>Fahrschule</span></div>
+      <div class="eyebrow"><span class="tag">Station 3</span><span>15 Minuten</span><span>Fahrschule</span></div>
       <h2>Erst denken, dann fahren</h2>
       <p class="goal">Profis testen ihren Code, bevor er auf die Hardware geht &ndash; sonst fährt der Roboter vom Tisch. Löse die ersten beiden Parcours im Simulator, danach fährst du dasselbe in echt. Parcours 3 ist für die, die schneller fertig sind.</p>
     </div>
@@ -768,13 +773,15 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="block">
         <h3><span class="idx">01</span>Zuerst: dem micro:bit den Roboter beibringen</h3>
-        <p class="lead">MakeCode kennt den Maqueen noch nicht. Ihr müsst die passende Block-Sammlung einmal nachladen &ndash; danach steht sie in eurem Projekt für immer bereit.</p>
+        <p class="lead">MakeCode kennt den Maqueen erst, wenn eine Block-Sammlung dafür geladen ist. Euer Betreuer gibt euch dafür ein <b>Vorlagenprojekt</b>, in dem sie schon drinsteckt &ndash; ihr müsst nichts nachladen.</p>
         <ol class="steps">
-          <li><span>Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b>.</span></li>
-          <li><span>Nach <kbd>dfrobot</kbd> suchen und <b>DFRobot_MaqueenPlus_V2</b> auswählen. Keine Sorge &ndash; die Erweiterung heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3.</span></li>
-          <li><span>Links gibt es jetzt eine neue Kategorie mit dem Maqueen-Namen. Da liegen alle Roboter-Blöcke.</span></li>
+          <li><span>Vorlagenprojekt öffnen (vom Betreuer). Links seht ihr sofort eine neue Kategorie mit dem Maqueen-Namen &ndash; da liegen alle Roboter-Blöcke.</span></li>
           <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
         </ol>
+        <div class="note">
+          <span class="nt">Extra, wenn ihr wissen wollt, wie die Erweiterung entsteht</span>
+          <p>Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b> &rarr; nach <kbd>dfrobot</kbd> suchen &rarr; <b>DFRobot_MaqueenPlus_V2</b> auswählen (heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3). Genau das steckt schon in eurer Vorlage.</p>
+        </div>
       </div>
 
       <div class="sim" id="sim">
@@ -852,7 +859,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 4 ============ -->
   <section class="station" data-st="4" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 4</span><span>16 Minuten</span><span>Sensoren</span></div>
+      <div class="eyebrow"><span class="tag">Station 4</span><span>18 Minuten</span><span>Sensoren</span></div>
       <h2>Der Roboter bekommt Augen</h2>
       <p class="goal">Bis jetzt hast du dem Roboter gesagt, <em>was</em> er tun soll. Ab jetzt sagst du ihm, <em>worauf er achten</em> soll. Das ist der Moment, in dem aus einem Fahrzeug ein Roboter wird.</p>
     </div>
@@ -989,7 +996,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 6 ============ -->
   <section class="station" data-st="6" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 6</span><span>12 Minuten</span><span>Finale</span></div>
+      <div class="eyebrow"><span class="tag">Station 6</span><span>15 Minuten</span><span>Finale</span></div>
       <h2>Grand Prix</h2>
       <p class="goal">Jetzt gehört der Roboter euch. Tunt ihn, gebt ihm einen Auftritt &ndash; und dann fahrt ihr um die schnellste Runde.</p>
     </div>
@@ -1002,12 +1009,10 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
             <tr><th>Idee</th><th>Was ihr braucht</th><th>Schwierigkeit</th></tr>
             <tr><td>Schnellste Runde</td><td>Linienverfolgung Stufe hochdrehen, bis er fliegt statt fährt</td><td>leicht</td></tr>
             <tr><td>Startampel</td><td><kbd>beim Knopf A</kbd>: rot, gelb, grün leuchten, dann losfahren</td><td>leicht</td></tr>
-            <tr><td>Zieleinlauf-Fanfare</td><td>Musik-Block, wenn der Laser die Zielwand sieht</td><td>mittel</td></tr>
-            <tr><td>Fernsteuerung</td><td>IR-Empfänger + Fernbedienung: Tasten auf Fahrbefehle legen</td><td>mittel</td></tr>
             <tr><td>Discomodus</td><td>Zufallsfarben auf allen 6 LEDs im <kbd>dauerhaft</kbd>-Block</td><td>leicht</td></tr>
-            <tr><td>Kreuzungs-Erkennung</td><td>Der Maqueen meldet selbst, ob er eine Kreuzung oder Abzweigung sieht</td><td>schwer</td></tr>
           </table>
         </div>
+        <p class="lead">Wer die Zeit dafür hat, kann auch eine <b>Zieleinlauf-Fanfare</b> bauen (Musik-Block, wenn der Laser die Zielwand sieht) oder den Maqueen selbst <b>Kreuzungen erkennen</b> lassen &ndash; beides schwerer, fragt einfach eure Betreuenden.</p>
       </div>
 
       <div class="block">
@@ -1051,13 +1056,13 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     <section>
       <h3>Zeitplan · 90-Minuten-Slot</h3>
       <table class="plan">
-        <tr><td>0:00–0:06</td><td><b>Boxenstopp.</b> Begrüßung, Teamnamen, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
-        <tr><td>0:06–0:16</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen.</td></tr>
-        <tr><td>0:16–0:36</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Beschleunigungssensor, Würfel. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em> – beides brauchen sie später beim Roboter wieder.</td></tr>
-        <tr><td>0:36–0:52</td><td><b>Fahrschule.</b> Erweiterung nachladen, Simulator, dann Motorblöcke real. Quadrat-Challenge als Puffer für schnelle Teams.</td></tr>
-        <tr><td>0:52–1:08</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
-        <tr><td>1:08–1:18</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
-        <tr><td>1:18–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+        <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Teamnamen, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
+        <tr><td>0:05–0:17</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte.</td></tr>
+        <tr><td>0:17–0:32</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Würfel. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em> – beides brauchen sie später beim Roboter wieder. Die Neigung wird nur beobachtet, nicht mehr abgefragt (siehe unten).</td></tr>
+        <tr><td>0:32–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams.</td></tr>
+        <tr><td>0:47–1:05</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
+        <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
+        <tr><td>1:15–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
       </table>
     </section>
 
@@ -1208,13 +1213,13 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 /* ================= state ================= */
 var KEY = "mgp-v1";
 var STATIONS = [
-  {n:"Boxenstopp", m:"6 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"10 Min", badge:"Ersteinschalter"},
-  {n:"micro:bit allein", m:"20 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"16 Min", badge:"Fahrlehrer"},
-  {n:"Augen", m:"16 Min", badge:"Spurhalter"},
+  {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
+  {n:"Erster Kontakt", m:"12 Min", badge:"Ersteinschalter"},
+  {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
+  {n:"Fahrschule", m:"15 Min", badge:"Fahrlehrer"},
+  {n:"Augen", m:"18 Min", badge:"Spurhalter"},
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"12 Min", badge:"Champion"}
+  {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
 var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
 
@@ -1825,7 +1830,7 @@ var MBTABS = [
 ];
 var MBMISSION = {
   draw:"<b>Auftrag:</b> Klick die Lämpchen an, bis das Zielbild rechts daneben entsteht. Rechts siehst du live, wie der Block <em>zeige LEDs</em> dafür aussieht.",
-  btn:"<b>Auftrag:</b> Drück A, drück B, und drück beide zusammen. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
+  btn:"<b>Auftrag:</b> Drück A, dann drück B. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst. <em>Extra:</em> Was passiert, wenn du beide zusammen drückst?",
   tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach links und nach rechts, und schüttle ihn einmal. Beobachte dabei die Zahl unter dem Gerät."
 };
 
@@ -1869,22 +1874,23 @@ function mbCode(){
         '<div class="mcb b-basic i1">zeige LEDs</div>' +
         '<div class="ledsrc">' + rows.join("\n") + '</div>';
   } else if(mbMode === "btn"){
-    h = '<div class="mccap">Drei Ereignisse</div>' +
+    h = '<div class="mccap">Zwei Ereignisse</div>' +
         '<div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>' +
         '<div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>' +
+        '<div class="mccap" style="margin-top:8px">Extra: ein drittes Ereignis</div>' +
         '<div class="mcb b-input">beim Knopf <b>A+B</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Symbol <b>☺</b></div>';
   } else {
-    h = '<div class="mccap">Neigung auswerten</div>' +
+    h = '<div class="mccap">Beobachten reicht heute</div>' +
         '<div class="mcb b-basic">dauerhaft</div>' +
+        '<div class="mcb b-basic i1">zeige Zahl <b>Beschleunigung x</b></div>' +
+        '<div class="mccap" style="margin-top:8px">Extra für schnelle Teams: daraus eine Entscheidung bauen</div>' +
         '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
         '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
         '<div class="mcb b-logic i1">sonst wenn <b>Beschleunigung x</b> &lt; <b>−300</b> dann</div>' +
         '<div class="mcb b-basic i2">zeige Pfeil <b>Westen</b></div>' +
-        '<div class="mcb b-logic i1">sonst</div>' +
-        '<div class="mcb b-basic i2">zeige LEDs <b>Punkt</b></div>' +
         '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
         '<div class="mcb b-input">wenn geschüttelt</div>' +
         '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';
@@ -1957,8 +1963,11 @@ function mbPress(which){
   mbBtn[which + "_recent"] = true;
   setTimeout(function(){ mbBtn[which + "_recent"] = false; }, 600);
   mbChips();
-  if(mbSeen.a && mbSeen.b && mbSeen.ab){
-    mbAward("btn", 10, "Alle drei Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+  if(mbSeen.a && mbSeen.b){
+    mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+  }
+  if(mbSeen.ab){
+    mbAward("btn_extra", 5, "Extra entdeckt: A und B zusammen sind ein drittes, eigenes Ereignis.");
   }
 }
 function mbTiltPaint(){

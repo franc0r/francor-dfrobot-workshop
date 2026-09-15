@@ -4,13 +4,13 @@
 /* ================= state ================= */
 var KEY = "mgp-v1";
 var STATIONS = [
-  {n:"Boxenstopp", m:"6 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"10 Min", badge:"Ersteinschalter"},
-  {n:"micro:bit allein", m:"20 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"16 Min", badge:"Fahrlehrer"},
-  {n:"Augen", m:"16 Min", badge:"Spurhalter"},
+  {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
+  {n:"Erster Kontakt", m:"12 Min", badge:"Ersteinschalter"},
+  {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
+  {n:"Fahrschule", m:"15 Min", badge:"Fahrlehrer"},
+  {n:"Augen", m:"18 Min", badge:"Spurhalter"},
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"12 Min", badge:"Champion"}
+  {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
 var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
 
@@ -621,7 +621,7 @@ var MBTABS = [
 ];
 var MBMISSION = {
   draw:"<b>Auftrag:</b> Klick die Lämpchen an, bis das Zielbild rechts daneben entsteht. Rechts siehst du live, wie der Block <em>zeige LEDs</em> dafür aussieht.",
-  btn:"<b>Auftrag:</b> Drück A, drück B, und drück beide zusammen. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
+  btn:"<b>Auftrag:</b> Drück A, dann drück B. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst. <em>Extra:</em> Was passiert, wenn du beide zusammen drückst?",
   tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach links und nach rechts, und schüttle ihn einmal. Beobachte dabei die Zahl unter dem Gerät."
 };
 
@@ -665,22 +665,23 @@ function mbCode(){
         '<div class="mcb b-basic i1">zeige LEDs</div>' +
         '<div class="ledsrc">' + rows.join("\n") + '</div>';
   } else if(mbMode === "btn"){
-    h = '<div class="mccap">Drei Ereignisse</div>' +
+    h = '<div class="mccap">Zwei Ereignisse</div>' +
         '<div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>' +
         '<div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>' +
+        '<div class="mccap" style="margin-top:8px">Extra: ein drittes Ereignis</div>' +
         '<div class="mcb b-input">beim Knopf <b>A+B</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Symbol <b>☺</b></div>';
   } else {
-    h = '<div class="mccap">Neigung auswerten</div>' +
+    h = '<div class="mccap">Beobachten reicht heute</div>' +
         '<div class="mcb b-basic">dauerhaft</div>' +
+        '<div class="mcb b-basic i1">zeige Zahl <b>Beschleunigung x</b></div>' +
+        '<div class="mccap" style="margin-top:8px">Extra für schnelle Teams: daraus eine Entscheidung bauen</div>' +
         '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
         '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
         '<div class="mcb b-logic i1">sonst wenn <b>Beschleunigung x</b> &lt; <b>−300</b> dann</div>' +
         '<div class="mcb b-basic i2">zeige Pfeil <b>Westen</b></div>' +
-        '<div class="mcb b-logic i1">sonst</div>' +
-        '<div class="mcb b-basic i2">zeige LEDs <b>Punkt</b></div>' +
         '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
         '<div class="mcb b-input">wenn geschüttelt</div>' +
         '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';
@@ -753,8 +754,11 @@ function mbPress(which){
   mbBtn[which + "_recent"] = true;
   setTimeout(function(){ mbBtn[which + "_recent"] = false; }, 600);
   mbChips();
-  if(mbSeen.a && mbSeen.b && mbSeen.ab){
-    mbAward("btn", 10, "Alle drei Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+  if(mbSeen.a && mbSeen.b){
+    mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+  }
+  if(mbSeen.ab){
+    mbAward("btn_extra", 5, "Extra entdeckt: A und B zusammen sind ein drittes, eigenes Ereignis.");
   }
 }
 function mbTiltPaint(){
