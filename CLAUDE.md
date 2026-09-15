@@ -75,20 +75,29 @@ Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fas
 nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
 ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
-## Die Stationen (Stand 10.09.2026)
+## Die Stationen (Stand 15.09.2026)
 
 | Nr | Datei | Min | Kern | Abzeichen |
 |---|---|---|---|---|
-| 0 | 00-boxenstopp | 6 | Regelkreis wahrnehmen → entscheiden → handeln | Rookie |
-| 1 | 01-erster-kontakt | 10 | MakeCode, erstes Programm flashen, nur micro:bit am USB | Ersteinschalter |
-| 2 | 02-microbit-allein | 20 | LED-Matrix, Knopf-Ereignisse, Beschleunigung, Würfel; micro:bit-Simulator | Pixelkünstler |
-| 3 | 03-fahrschule | 16 | Erweiterung laden, Parcours-Simulator (Level 3 = Bonus), Motorblöcke | Fahrlehrer |
-| 4 | 04-augen | 16 | Kalibrieren, Linienverfolgung auf Knopf A — der Wow-Moment | Spurhalter |
+| 0 | 00-boxenstopp | 5 | Regelkreis wahrnehmen → entscheiden → handeln | Rookie |
+| 1 | 01-erster-kontakt | 13 | MakeCode-Bedienung, beim Start (einmal) vs. dauerhaft (ohne Ende), erstes Flashen | Ersteinschalter |
+| 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Würfel; Neigung nur beobachtet (Bedingung ist Extra) | Pixelkünstler |
+| 3 | 03-fahrschule | 14 | Vorlage öffnen (Erweiterung ist schon geladen), Parcours-Simulator, Motorblöcke | Fahrlehrer |
+| 4 | 04-augen | 18 | Kalibrieren, Linienverfolgung auf Knopf A — der Wow-Moment | Spurhalter |
 | 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/sonst — **Bonus, streichbar** | Bremsassistent |
-| 6 | 06-grand-prix | 12 | Tuning, ein Lauf auf Zeit — nie streichen | Champion |
+| 6 | 06-grand-prix | 15 | Tuning (3 Ideen), ein Lauf auf Zeit — nie streichen | Champion |
 
-Roter Faden: Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest";
-Station 4 greift das am Liniensensor (weiß ≈ 3800 / schwarz ≈ 2700) wieder auf.
+Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
+Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest";
+Station 4 greift beides wieder auf — die Linienverfolgung läuft dauerhaft, die Grenze ist
+weiß ≈ 3800 / schwarz ≈ 2700.
+
+Entlastung vom 15.09.2026 (siehe Cowork-Projekt „Anfänger Robotik Workshop",
+`claude/vorschlag-entlastung-stationen.md`): Zeitplan neu verteilt, Station 2 gekürzt
+(Bedingung am Neigungssensor ist jetzt Extra statt Pflicht), Station 3 startet mit fertiger
+Vorlage statt eigenem Erweiterung-Laden, Station 6 auf drei Tuning-Ideen reduziert. Im Gegenzug
+baut Station 1 jetzt explizit eine dauerhaft-Schleife neben beim Start, damit jedes Team das
+im Pflichtteil einmal selbst sieht (vorher nur im überspringbaren Bonus in Station 5 erklärt).
 
 ## Verein und Logo
 

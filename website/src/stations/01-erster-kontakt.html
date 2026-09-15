@@ -1,6 +1,6 @@
   <section class="station" data-st="1" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 1</span><span>12 Minuten</span><span>Erster Kontakt</span></div>
+      <div class="eyebrow"><span class="tag">Station 1</span><span>13 Minuten</span><span>Erster Kontakt</span></div>
       <h2>Dein erstes Programm auf echter Hardware</h2>
       <p class="goal">In den nächsten Minuten wandert Code, den du selbst geschrieben hast, über ein Kabel in einen echten Computer &ndash; und der macht dann genau das, was du gesagt hast. Nicht mehr und nicht weniger.</p>
     </div>
@@ -9,19 +9,30 @@
         <h3><span class="idx">01</span>MakeCode öffnen</h3>
         <ol class="steps">
           <li><span><kbd>makecode.microbit.org</kbd> im Browser öffnen und <b>Neues Projekt</b> anlegen. Name: euer Teamname.</span></li>
-          <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder.</span></li>
+          <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Ein Block wird mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster gezogen &ndash; er rastet dort ein wie ein Puzzleteil.</span></li>
+          <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus.</span></li>
         </ol>
       </div>
 
       <div class="block">
         <h3><span class="idx">02</span>Das Programm: Lebenszeichen</h3>
-        <p class="lead">Zieht diese Blöcke unter <kbd>beim Start</kbd> zusammen &ndash; der läuft genau einmal, wenn der micro:bit Strom bekommt. Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.</p>
+        <p class="lead">Baut zwei Blockgruppen &ndash; eine für <b>einmal</b>, eine für <b>immer wieder</b>. Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.</p>
         <div class="mcstack">
-          <div class="mccap">Blöcke</div>
+          <div class="mccap">Einmal, direkt beim Einschalten</div>
           <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
-          <div class="mcb b-basic i1">pausiere <b>1000</b> ms</div>
           <div class="mcb b-basic i1">zeige Text <b>&quot;Hallo&quot;</b></div>
+        </div>
+        <div class="mcstack" style="margin-top:10px">
+          <div class="mccap">Immer wieder, ohne Ende</div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+          <div class="mcb b-basic i1">lösche Bildschirm</div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+        </div>
+        <div class="note aha">
+          <span class="nt">Genau das ist der Unterschied</span>
+          <p><kbd>beim Start</kbd> zeigt &bdquo;Hallo&ldquo; nur einmal, direkt nach dem Einschalten &ndash; danach ist es weg. <kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Ein blinkendes Herz ist der Herzschlag eures micro:bit &ndash; das eigentliche Lebenszeichen. Genau dieses Muster &ndash; etwas läuft immer wieder, ohne Ende &ndash; braucht euer Roboter gleich für jeden Sensor.</p>
         </div>
       </div>
 

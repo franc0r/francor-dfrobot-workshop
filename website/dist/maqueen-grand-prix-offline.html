@@ -579,7 +579,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 1 ============ -->
   <section class="station" data-st="1" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 1</span><span>12 Minuten</span><span>Erster Kontakt</span></div>
+      <div class="eyebrow"><span class="tag">Station 1</span><span>13 Minuten</span><span>Erster Kontakt</span></div>
       <h2>Dein erstes Programm auf echter Hardware</h2>
       <p class="goal">In den nächsten Minuten wandert Code, den du selbst geschrieben hast, über ein Kabel in einen echten Computer &ndash; und der macht dann genau das, was du gesagt hast. Nicht mehr und nicht weniger.</p>
     </div>
@@ -588,19 +588,30 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <h3><span class="idx">01</span>MakeCode öffnen</h3>
         <ol class="steps">
           <li><span><kbd>makecode.microbit.org</kbd> im Browser öffnen und <b>Neues Projekt</b> anlegen. Name: euer Teamname.</span></li>
-          <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder.</span></li>
+          <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Ein Block wird mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster gezogen &ndash; er rastet dort ein wie ein Puzzleteil.</span></li>
+          <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus.</span></li>
         </ol>
       </div>
 
       <div class="block">
         <h3><span class="idx">02</span>Das Programm: Lebenszeichen</h3>
-        <p class="lead">Zieht diese Blöcke unter <kbd>beim Start</kbd> zusammen &ndash; der läuft genau einmal, wenn der micro:bit Strom bekommt. Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.</p>
+        <p class="lead">Baut zwei Blockgruppen &ndash; eine für <b>einmal</b>, eine für <b>immer wieder</b>. Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.</p>
         <div class="mcstack">
-          <div class="mccap">Blöcke</div>
+          <div class="mccap">Einmal, direkt beim Einschalten</div>
           <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
-          <div class="mcb b-basic i1">pausiere <b>1000</b> ms</div>
           <div class="mcb b-basic i1">zeige Text <b>&quot;Hallo&quot;</b></div>
+        </div>
+        <div class="mcstack" style="margin-top:10px">
+          <div class="mccap">Immer wieder, ohne Ende</div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+          <div class="mcb b-basic i1">lösche Bildschirm</div>
+          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+        </div>
+        <div class="note aha">
+          <span class="nt">Genau das ist der Unterschied</span>
+          <p><kbd>beim Start</kbd> zeigt &bdquo;Hallo&ldquo; nur einmal, direkt nach dem Einschalten &ndash; danach ist es weg. <kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Ein blinkendes Herz ist der Herzschlag eures micro:bit &ndash; das eigentliche Lebenszeichen. Genau dieses Muster &ndash; etwas läuft immer wieder, ohne Ende &ndash; braucht euer Roboter gleich für jeden Sensor.</p>
         </div>
       </div>
 
@@ -765,7 +776,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 3 ============ -->
   <section class="station" data-st="3" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 3</span><span>15 Minuten</span><span>Fahrschule</span></div>
+      <div class="eyebrow"><span class="tag">Station 3</span><span>14 Minuten</span><span>Fahrschule</span></div>
       <h2>Erst denken, dann fahren</h2>
       <p class="goal">Profis testen ihren Code, bevor er auf die Hardware geht &ndash; sonst fährt der Roboter vom Tisch. Löse die ersten beiden Parcours im Simulator, danach fährst du dasselbe in echt. Parcours 3 ist für die, die schneller fertig sind.</p>
     </div>
@@ -1057,9 +1068,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <h3>Zeitplan · 90-Minuten-Slot</h3>
       <table class="plan">
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Teamnamen, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
-        <tr><td>0:05–0:17</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte.</td></tr>
-        <tr><td>0:17–0:32</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Würfel. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em> – beides brauchen sie später beim Roboter wieder. Die Neigung wird nur beobachtet, nicht mehr abgefragt (siehe unten).</td></tr>
-        <tr><td>0:32–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams.</td></tr>
+        <tr><td>0:05–0:18</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
+        <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Würfel. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em> – beides brauchen sie später beim Roboter wieder. Die Neigung wird nur beobachtet, nicht mehr abgefragt (siehe unten).</td></tr>
+        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams.</td></tr>
         <tr><td>0:47–1:05</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
         <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
         <tr><td>1:15–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
@@ -1214,9 +1225,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 var KEY = "mgp-v1";
 var STATIONS = [
   {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"12 Min", badge:"Ersteinschalter"},
+  {n:"Erster Kontakt", m:"13 Min", badge:"Ersteinschalter"},
   {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"15 Min", badge:"Fahrlehrer"},
+  {n:"Fahrschule", m:"14 Min", badge:"Fahrlehrer"},
   {n:"Augen", m:"18 Min", badge:"Spurhalter"},
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}

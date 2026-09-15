@@ -5,9 +5,9 @@
 var KEY = "mgp-v1";
 var STATIONS = [
   {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"12 Min", badge:"Ersteinschalter"},
+  {n:"Erster Kontakt", m:"13 Min", badge:"Ersteinschalter"},
   {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"15 Min", badge:"Fahrlehrer"},
+  {n:"Fahrschule", m:"14 Min", badge:"Fahrlehrer"},
   {n:"Augen", m:"18 Min", badge:"Spurhalter"},
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
