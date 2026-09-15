@@ -252,6 +252,7 @@ kbd{
   text-transform:uppercase; margin-bottom:4px; color:var(--ink-2);
 }
 .note p{font-size:.95rem}
+.note [data-bonus]{margin-top:10px}
 
 /* fix-it table */
 .fix{width:100%; border-collapse:collapse; font-size:.93rem}

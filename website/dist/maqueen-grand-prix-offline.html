@@ -265,6 +265,7 @@ kbd{
   text-transform:uppercase; margin-bottom:4px; color:var(--ink-2);
 }
 .note p{font-size:.95rem}
+.note [data-bonus]{margin-top:10px}
 
 /* fix-it table */
 .fix{width:100%; border-collapse:collapse; font-size:.93rem}
@@ -759,6 +760,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="note aha">
         <span class="nt">Team-Challenge &middot; 15 Punkte</span>
         <p>Baut den <b>Würfel</b> auf eurem echten micro:bit und lasst ihn dreimal würfeln. Wer danach noch Zeit hat: Sorgt dafür, dass nach dem Würfeln kurz ein Herz erscheint, bevor die Zahl kommt &ndash; eine kleine Trommelwirbel-Pause.</p>
+        <button class="btn sec" type="button" data-bonus="wuerfel3x" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
       </div>
 
       <div class="note warn">
@@ -789,9 +791,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <li><span>Vorlagenprojekt öffnen (vom Betreuer). Links seht ihr sofort eine neue Kategorie mit dem Maqueen-Namen &ndash; da liegen alle Roboter-Blöcke.</span></li>
           <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
         </ol>
-        <div class="note">
-          <span class="nt">Extra, wenn ihr wissen wollt, wie die Erweiterung entsteht</span>
-          <p>Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b> &rarr; nach <kbd>dfrobot</kbd> suchen &rarr; <b>DFRobot_MaqueenPlus_V2</b> auswählen (heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3). Genau das steckt schon in eurer Vorlage.</p>
+        <div class="note warn">
+          <span class="nt">Extra, nur zum Lesen &ndash; heute bitte nicht anklicken</span>
+          <p>So entsteht die Erweiterung, falls es euch interessiert: Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b> &rarr; nach <kbd>dfrobot</kbd> suchen &rarr; <b>DFRobot_MaqueenPlus_V2</b> auswählen (heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3). Genau das steckt schon in eurer Vorlage &ndash; <b>hier gibt es kein Internet</b>, das Nachladen würde also nicht klappen. Bleibt bei der Vorlage.</p>
         </div>
       </div>
 
@@ -852,6 +854,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <div class="note aha">
           <span class="nt">Team-Challenge &middot; 15 Punkte</span>
           <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen. Ihr müsst die 400&nbsp;ms selbst herausfinden &ndash; probiert, messt, korrigiert. Genau so arbeiten Ingenieure.</p>
+          <button class="btn sec" type="button" data-bonus="quadrat" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
         </div>
       </div>
 
@@ -870,7 +873,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 4 ============ -->
   <section class="station" data-st="4" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 4</span><span>18 Minuten</span><span>Sensoren</span></div>
+      <div class="eyebrow"><span class="tag">Station 4</span><span>18 Minuten</span><span>Augen</span></div>
       <h2>Der Roboter bekommt Augen</h2>
       <p class="goal">Bis jetzt hast du dem Roboter gesagt, <em>was</em> er tun soll. Ab jetzt sagst du ihm, <em>worauf er achten</em> soll. Das ist der Moment, in dem aus einem Fahrzeug ein Roboter wird.</p>
     </div>
@@ -973,12 +976,15 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-logic i1">wenn <b>Abstand</b> &lt; <b>200</b> mm dann</div>
           <div class="mcb b-mq i2">Motor <b>alle</b> <b>stoppen</b></div>
           <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>rot</b></div>
-          <div class="mcb b-music i2">spiele Ton <b>hoch C</b></div>
           <div class="mcb b-logic i1">sonst</div>
           <div class="mcb b-mq i2">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>110</b></div>
           <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>grün</b></div>
         </div>
         <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
+        <div class="note warn">
+          <span class="nt">Extra, mit einer Warnung</span>
+          <p>Wer noch einen <kbd>spiele Ton</kbd>-Block dazuhängt: Der Roboter wartet, bis der Ton fertig ist, bevor er die Schleife von vorn beginnt und wieder misst. Er reagiert in dieser Zeit nicht &ndash; nehmt einen kurzen Ton, sonst wird der Bremsassistent träge.</p>
+        </div>
       </div>
 
       <div class="quiz" data-quiz="q4" data-answer="c">
@@ -995,6 +1001,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="note aha">
         <span class="nt">Bonus &middot; 15 Punkte</span>
         <p>Schafft ihr es, dass der Roboter beim Hindernis nicht nur stoppt, sondern <b>zurücksetzt, sich dreht und weiterfährt</b>? Dann habt ihr einen Staubsaugerroboter gebaut.</p>
+        <button class="btn sec" type="button" data-bonus="staubsauger" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
       </div>
     </div>
     <div class="stfoot">
@@ -1232,7 +1239,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -1327,6 +1334,19 @@ document.addEventListener("click", function(e){
 });
 
 teamIn.addEventListener("input", function(){ S.team = teamIn.value; save(); paintScore(); });
+
+/* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
+document.querySelectorAll("[data-bonus]").forEach(function(btn){
+  var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
+  function paint(){
+    if(S.bonus[id]){ btn.disabled = true; btn.textContent = "✓ Erledigt (+" + pts + ")"; }
+  }
+  paint();
+  btn.addEventListener("click", function(){
+    if(S.bonus[id]) return;
+    S.bonus[id] = 1; addPts(pts); save(); paint();
+  });
+});
 
 /* ================= quiz ================= */
 document.querySelectorAll(".quiz").forEach(function(q){
@@ -1900,8 +1920,6 @@ function mbCode(){
         '<div class="mccap" style="margin-top:8px">Extra für schnelle Teams: daraus eine Entscheidung bauen</div>' +
         '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
         '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
-        '<div class="mcb b-logic i1">sonst wenn <b>Beschleunigung x</b> &lt; <b>−300</b> dann</div>' +
-        '<div class="mcb b-basic i2">zeige Pfeil <b>Westen</b></div>' +
         '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
         '<div class="mcb b-input">wenn geschüttelt</div>' +
         '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';

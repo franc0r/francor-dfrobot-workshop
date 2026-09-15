@@ -12,7 +12,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -107,6 +107,19 @@ document.addEventListener("click", function(e){
 });
 
 teamIn.addEventListener("input", function(){ S.team = teamIn.value; save(); paintScore(); });
+
+/* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
+document.querySelectorAll("[data-bonus]").forEach(function(btn){
+  var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
+  function paint(){
+    if(S.bonus[id]){ btn.disabled = true; btn.textContent = "✓ Erledigt (+" + pts + ")"; }
+  }
+  paint();
+  btn.addEventListener("click", function(){
+    if(S.bonus[id]) return;
+    S.bonus[id] = 1; addPts(pts); save(); paint();
+  });
+});
 
 /* ================= quiz ================= */
 document.querySelectorAll(".quiz").forEach(function(q){
@@ -680,8 +693,6 @@ function mbCode(){
         '<div class="mccap" style="margin-top:8px">Extra für schnelle Teams: daraus eine Entscheidung bauen</div>' +
         '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
         '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
-        '<div class="mcb b-logic i1">sonst wenn <b>Beschleunigung x</b> &lt; <b>−300</b> dann</div>' +
-        '<div class="mcb b-basic i2">zeige Pfeil <b>Westen</b></div>' +
         '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
         '<div class="mcb b-input">wenn geschüttelt</div>' +
         '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';

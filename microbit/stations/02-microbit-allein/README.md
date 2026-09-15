@@ -1,6 +1,6 @@
-# Station 02 — Der micro
+# Station 02 — Der micro:bit allein
 
-bit allein:LED-Matrix, Knopf-Ereignisse, Schütteln — der Würfel.
+LED-Matrix, Knopf-Ereignisse, Schütteln — der Würfel.
 
 Noch leer. Nach dem Trockenlauf hier ablegen:
 

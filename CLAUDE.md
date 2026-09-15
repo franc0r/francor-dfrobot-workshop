@@ -28,7 +28,7 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 5. **90 Minuten exakt.** Eyebrow-Minuten der Stationen, das `STATIONS`-Array in `website/src/app.js`
    und der Zeitplan im Handbuch müssen übereinstimmen. `build.py` prüft die ersten beiden.
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
-   `docs/offline-betrieb-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
+   `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
    8×8-Laserscanners (Station 5). Beim Ändern von Blocktexten immer alle Stationen und das
    Handbuch gemeinsam anfassen.
 
