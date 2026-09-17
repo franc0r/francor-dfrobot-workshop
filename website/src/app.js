@@ -604,7 +604,6 @@ var PAT = {
   arrowR: "0010000010111110001000100",
   arrowL: "0010001000111110100000100",
   dot:    "0000000000001000000000000",
-  smiley: "0000001010000001000101110",
   d1:     "0000000000001000000000000",
   d2:     "0000100000000000000010000",
   d3:     "0000100000001000000010000",
@@ -614,7 +613,6 @@ var PAT = {
 };
 var mbMode = "draw";
 var mbDraw = "0000000000000000000000000";
-var mbBtn = {a:false, b:false};
 var mbTilt = 0, mbShown = "0000000000000000000000000";
 var mbSeen = {};
 var mbMatrix = document.getElementById("mbmatrix");
@@ -634,7 +632,7 @@ var MBTABS = [
 ];
 var MBMISSION = {
   draw:"<b>Auftrag:</b> Klick die Lämpchen an, bis das Zielbild rechts daneben entsteht. Rechts siehst du live, wie der Block <em>zeige LEDs</em> dafür aussieht.",
-  btn:"<b>Auftrag:</b> Drück A, dann drück B. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst. <em>Extra:</em> Was passiert, wenn du beide zusammen drückst?",
+  btn:"<b>Auftrag:</b> Drück A, dann drück B. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
   tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach links und nach rechts, und schüttle ihn einmal. Beobachte dabei die Zahl unter dem Gerät."
 };
 
@@ -682,10 +680,7 @@ function mbCode(){
         '<div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>' +
         '<div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>' +
-        '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>' +
-        '<div class="mccap" style="margin-top:8px">Extra: ein drittes Ereignis</div>' +
-        '<div class="mcb b-input">beim Knopf <b>A+B</b> gedrückt</div>' +
-        '<div class="mcb b-basic i1">zeige Symbol <b>☺</b></div>';
+        '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>';
   } else {
     h = '<div class="mccap">Beobachten reicht heute</div>' +
         '<div class="mcb b-basic">dauerhaft</div>' +
@@ -704,7 +699,6 @@ function mbChips(){
   if(mbMode === "btn"){
     h += '<span class="' + (mbSeen.a?"on":"") + '">Knopf A</span>';
     h += '<span class="' + (mbSeen.b?"on":"") + '">Knopf B</span>';
-    h += '<span class="' + (mbSeen.ab?"on":"") + '">A + B</span>';
   } else if(mbMode === "tilt"){
     h += '<span class="' + (mbSeen.left?"on":"") + '">links gekippt</span>';
     h += '<span class="' + (mbSeen.mid?"on":"") + '">flach</span>';
@@ -751,25 +745,14 @@ function mbPress(which){
   var el = document.getElementById(which === "a" ? "mbA" : "mbB");
   el.classList.add("pressed");
   setTimeout(function(){ el.classList.remove("pressed"); }, 220);
-  mbBtn[which] = true;
-  var other = which === "a" ? "b" : "a";
-  var both = mbBtn[other + "_recent"];
-  if(both){
-    mbSeen.ab = 1; mbPaint(PAT.smiley);
-    mbStatus("A und B zusammen &ndash; das ist ein drittes, eigenes Ereignis.", "");
-  } else if(which === "a"){
+  if(which === "a"){
     mbSeen.a = 1; mbPaint(PAT.heart);
   } else {
     mbSeen.b = 1; mbPaint(PAT.arrowR);
   }
-  mbBtn[which + "_recent"] = true;
-  setTimeout(function(){ mbBtn[which + "_recent"] = false; }, 600);
   mbChips();
   if(mbSeen.a && mbSeen.b){
     mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
-  }
-  if(mbSeen.ab){
-    mbAward("btn_extra", 5, "Extra entdeckt: A und B zusammen sind ein drittes, eigenes Ereignis.");
   }
 }
 function mbTiltPaint(){
@@ -816,7 +799,7 @@ function mbInit(){
 }
 function mbReset(){
   mbDraw = "0000000000000000000000000";
-  mbSeen = {}; mbBtn = {a:false,b:false}; mbTilt = 0;
+  mbSeen = {}; mbTilt = 0;
   document.getElementById("mbtilt").value = 0;
   mbSetMode("draw");
 }
