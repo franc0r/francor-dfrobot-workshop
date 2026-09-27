@@ -252,6 +252,7 @@ kbd{
   text-transform:uppercase; margin-bottom:4px; color:var(--ink-2);
 }
 .note p{font-size:.95rem}
+.note [data-bonus]{margin-top:10px}
 
 /* fix-it table */
 .fix{width:100%; border-collapse:collapse; font-size:.93rem}
@@ -263,6 +264,60 @@ kbd{
 .fix td{padding:9px 12px 9px 0; border-bottom:1px solid var(--line-soft); vertical-align:top}
 .fix td:first-child{font-weight:600; width:40%}
 .tablewrap{overflow-x:auto}
+
+/* Maqueen-Figuren (Übersicht in Station 0, Einsetzen in Station 3) */
+.mqfig{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px 24px; align-items:center; margin:0; max-width:900px}
+.mqfig svg{width:100%; height:auto; max-width:440px; display:block; font-family:var(--mono)}
+.mqfig figcaption{font-size:.95rem; color:var(--ink-2); max-width:44ch}
+@media (max-width:760px){ .mqfig{grid-template-columns:1fr} }
+.mqfig .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; fill:var(--ink-3)}
+.mqfig .lbl2{font-family:var(--sans); font-size:12px; fill:var(--ink-2)}
+.mqfig .ch{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:1.5}
+.mqfig .wh{fill:var(--ink-2)}
+.mqfig .mo{fill:var(--surface); stroke:var(--line)}
+.mqfig .ls,.mqfig .slot{fill:var(--track)}
+.mqfig .dots circle{fill:var(--paper)}
+.mqfig .ln{fill:none; stroke:#B4009E; stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .li{fill:var(--surface); stroke:#B4009E; stroke-width:2}
+.mqfig .rgb{fill:var(--accent)}
+.mqfig .rgb.u{fill:none; stroke:var(--accent); stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .bb{fill:var(--surface); stroke:var(--line)}
+.mqfig .cell{fill:var(--surface-2); stroke:var(--line)}
+.mqfig .col{stroke:var(--ink-3); stroke-width:2}
+.mqfig .bz{fill:none; stroke:#264F87; stroke-width:2}
+.mqfig .track{fill:var(--teal)}
+.mqfig .knob{fill:#fff}
+.mqfig .ld line,.mqfig .arr{stroke:var(--ink-3); stroke-width:1}
+.mqfig .ld line{stroke-dasharray:2 2}
+.mqfig marker path{fill:var(--ink-3)}
+.mqfig .mk text{fill:#fff; font-size:11px; font-weight:600; text-anchor:middle; dominant-baseline:central}
+.mqfig .mbb{fill:#1E2F37; stroke:#334A53}
+.mqfig .usb{fill:var(--ink-3)}
+.mqfig .pix{fill:rgba(255,255,255,.12)}
+.mqfig .pix.on{fill:#FF3D2E}
+.mqfig .mbtn{fill:#0E171B; stroke:#4A5A63}
+.mqfig .mbtn-l{fill:#9BADB5; font-size:7px; text-anchor:middle; dominant-baseline:central}
+.mqfig .edge{fill:#2A2A2A}
+.mqfig .pin{fill:#D8B45A}
+.mqlegend{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px; font-size:.92rem}
+.mqlegend li{display:grid; grid-template-columns:22px minmax(0,1fr); gap:10px; align-items:start}
+.mqlegend .n{width:22px; height:22px; border-radius:50%; color:#fff; font-family:var(--mono); font-size:11px; font-weight:600; display:grid; place-items:center; margin-top:1px}
+.mqlegend em{display:block; font-style:normal; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.r-input .n,.mk.r-input circle{background:#B4009E; fill:#B4009E}
+.r-logic .n,.mk.r-logic circle{background:#00A0B4; fill:#00A0B4}
+.r-mq .n,.mk.r-mq circle{background:#264F87; fill:#264F87}
+.r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
+.mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
+@keyframes mb-slide{
+  0%{transform:translateY(-80px); opacity:0}
+  10%{transform:translateY(-80px); opacity:1}
+  45%,88%{transform:translateY(0); opacity:1}
+  100%{transform:translateY(0); opacity:0}
+}
+.mqfig .sw-anim .knob{transform:translateX(18px); animation:sw-knob 4s ease-in-out infinite}
+.mqfig .sw-anim .track{animation:sw-track 4s ease-in-out infinite}
+@keyframes sw-knob{0%,50%{transform:translateX(0)} 62%,88%{transform:translateX(18px)} 100%{transform:translateX(0)}}
+@keyframes sw-track{0%,50%{fill:var(--line)} 62%,88%{fill:var(--teal)} 100%{fill:var(--line)}}
 
 /* quiz */
 .quiz{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:var(--surface-2)}
@@ -462,4 +517,5 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .mbchips span.on{border-style:solid; border-color:var(--teal); background:var(--teal-soft); color:var(--teal)}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+  .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
 }

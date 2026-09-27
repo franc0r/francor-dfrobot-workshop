@@ -4,15 +4,15 @@
 /* ================= state ================= */
 var KEY = "mgp-v1";
 var STATIONS = [
-  {n:"Boxenstopp", m:"6 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"10 Min", badge:"Ersteinschalter"},
-  {n:"micro:bit allein", m:"20 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"16 Min", badge:"Fahrlehrer"},
-  {n:"Augen", m:"16 Min", badge:"Spurhalter"},
+  {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
+  {n:"Erster Kontakt", m:"13 Min", badge:"Ersteinschalter"},
+  {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
+  {n:"Fahrschule", m:"14 Min", badge:"Fahrlehrer"},
+  {n:"Augen", m:"18 Min", badge:"Spurhalter"},
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"12 Min", badge:"Champion"}
+  {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -107,6 +107,19 @@ document.addEventListener("click", function(e){
 });
 
 teamIn.addEventListener("input", function(){ S.team = teamIn.value; save(); paintScore(); });
+
+/* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
+document.querySelectorAll("[data-bonus]").forEach(function(btn){
+  var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
+  function paint(){
+    if(S.bonus[id]){ btn.disabled = true; btn.textContent = "✓ Erledigt (+" + pts + ")"; }
+  }
+  paint();
+  btn.addEventListener("click", function(){
+    if(S.bonus[id]) return;
+    S.bonus[id] = 1; addPts(pts); save(); paint();
+  });
+});
 
 /* ================= quiz ================= */
 document.querySelectorAll(".quiz").forEach(function(q){
@@ -591,7 +604,6 @@ var PAT = {
   arrowR: "0010000010111110001000100",
   arrowL: "0010001000111110100000100",
   dot:    "0000000000001000000000000",
-  smiley: "0000001010000001000101110",
   d1:     "0000000000001000000000000",
   d2:     "0000100000000000000010000",
   d3:     "0000100000001000000010000",
@@ -601,7 +613,6 @@ var PAT = {
 };
 var mbMode = "draw";
 var mbDraw = "0000000000000000000000000";
-var mbBtn = {a:false, b:false};
 var mbTilt = 0, mbShown = "0000000000000000000000000";
 var mbSeen = {};
 var mbMatrix = document.getElementById("mbmatrix");
@@ -621,7 +632,7 @@ var MBTABS = [
 ];
 var MBMISSION = {
   draw:"<b>Auftrag:</b> Klick die Lämpchen an, bis das Zielbild rechts daneben entsteht. Rechts siehst du live, wie der Block <em>zeige LEDs</em> dafür aussieht.",
-  btn:"<b>Auftrag:</b> Drück A, drück B, und drück beide zusammen. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
+  btn:"<b>Auftrag:</b> Drück A, dann drück B. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
   tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach links und nach rechts, und schüttle ihn einmal. Beobachte dabei die Zahl unter dem Gerät."
 };
 
@@ -665,22 +676,18 @@ function mbCode(){
         '<div class="mcb b-basic i1">zeige LEDs</div>' +
         '<div class="ledsrc">' + rows.join("\n") + '</div>';
   } else if(mbMode === "btn"){
-    h = '<div class="mccap">Drei Ereignisse</div>' +
+    h = '<div class="mccap">Zwei Ereignisse</div>' +
         '<div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>' +
         '<div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>' +
         '<div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>' +
-        '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>' +
-        '<div class="mcb b-input">beim Knopf <b>A+B</b> gedrückt</div>' +
-        '<div class="mcb b-basic i1">zeige Symbol <b>☺</b></div>';
+        '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>';
   } else {
-    h = '<div class="mccap">Neigung auswerten</div>' +
+    h = '<div class="mccap">Beobachten reicht heute</div>' +
         '<div class="mcb b-basic">dauerhaft</div>' +
+        '<div class="mcb b-basic i1">zeige Zahl <b>Beschleunigung x</b></div>' +
+        '<div class="mccap" style="margin-top:8px">Extra für schnelle Teams: daraus eine Entscheidung bauen</div>' +
         '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
         '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
-        '<div class="mcb b-logic i1">sonst wenn <b>Beschleunigung x</b> &lt; <b>−300</b> dann</div>' +
-        '<div class="mcb b-basic i2">zeige Pfeil <b>Westen</b></div>' +
-        '<div class="mcb b-logic i1">sonst</div>' +
-        '<div class="mcb b-basic i2">zeige LEDs <b>Punkt</b></div>' +
         '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
         '<div class="mcb b-input">wenn geschüttelt</div>' +
         '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';
@@ -692,7 +699,6 @@ function mbChips(){
   if(mbMode === "btn"){
     h += '<span class="' + (mbSeen.a?"on":"") + '">Knopf A</span>';
     h += '<span class="' + (mbSeen.b?"on":"") + '">Knopf B</span>';
-    h += '<span class="' + (mbSeen.ab?"on":"") + '">A + B</span>';
   } else if(mbMode === "tilt"){
     h += '<span class="' + (mbSeen.left?"on":"") + '">links gekippt</span>';
     h += '<span class="' + (mbSeen.mid?"on":"") + '">flach</span>';
@@ -739,22 +745,14 @@ function mbPress(which){
   var el = document.getElementById(which === "a" ? "mbA" : "mbB");
   el.classList.add("pressed");
   setTimeout(function(){ el.classList.remove("pressed"); }, 220);
-  mbBtn[which] = true;
-  var other = which === "a" ? "b" : "a";
-  var both = mbBtn[other + "_recent"];
-  if(both){
-    mbSeen.ab = 1; mbPaint(PAT.smiley);
-    mbStatus("A und B zusammen &ndash; das ist ein drittes, eigenes Ereignis.", "");
-  } else if(which === "a"){
+  if(which === "a"){
     mbSeen.a = 1; mbPaint(PAT.heart);
   } else {
     mbSeen.b = 1; mbPaint(PAT.arrowR);
   }
-  mbBtn[which + "_recent"] = true;
-  setTimeout(function(){ mbBtn[which + "_recent"] = false; }, 600);
   mbChips();
-  if(mbSeen.a && mbSeen.b && mbSeen.ab){
-    mbAward("btn", 10, "Alle drei Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+  if(mbSeen.a && mbSeen.b){
+    mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
   }
 }
 function mbTiltPaint(){
@@ -801,7 +799,7 @@ function mbInit(){
 }
 function mbReset(){
   mbDraw = "0000000000000000000000000";
-  mbSeen = {}; mbBtn = {a:false,b:false}; mbTilt = 0;
+  mbSeen = {}; mbTilt = 0;
   document.getElementById("mbtilt").value = 0;
   mbSetMode("draw");
 }

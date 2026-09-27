@@ -28,7 +28,7 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 5. **90 Minuten exakt.** Eyebrow-Minuten der Stationen, das `STATIONS`-Array in `website/src/app.js`
    und der Zeitplan im Handbuch müssen übereinstimmen. `build.py` prüft die ersten beiden.
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
-   `docs/offline-betrieb-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
+   `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
    8×8-Laserscanners (Station 5). Beim Ändern von Blocktexten immer alle Stationen und das
    Handbuch gemeinsam anfassen.
 
@@ -75,20 +75,29 @@ Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fas
 nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
 ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
-## Die Stationen (Stand 10.09.2026)
+## Die Stationen (Stand 15.09.2026)
 
 | Nr | Datei | Min | Kern | Abzeichen |
 |---|---|---|---|---|
-| 0 | 00-boxenstopp | 6 | Regelkreis wahrnehmen → entscheiden → handeln | Rookie |
-| 1 | 01-erster-kontakt | 10 | MakeCode, erstes Programm flashen, nur micro:bit am USB | Ersteinschalter |
-| 2 | 02-microbit-allein | 20 | LED-Matrix, Knopf-Ereignisse, Beschleunigung, Würfel; micro:bit-Simulator | Pixelkünstler |
-| 3 | 03-fahrschule | 16 | Erweiterung laden, Parcours-Simulator (Level 3 = Bonus), Motorblöcke | Fahrlehrer |
-| 4 | 04-augen | 16 | Kalibrieren, Linienverfolgung auf Knopf A — der Wow-Moment | Spurhalter |
+| 0 | 00-boxenstopp | 5 | Regelkreis wahrnehmen → entscheiden → handeln | Rookie |
+| 1 | 01-erster-kontakt | 13 | MakeCode-Bedienung, beim Start (einmal) vs. dauerhaft (ohne Ende), erstes Flashen | Ersteinschalter |
+| 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Würfel; Neigung nur beobachtet (Bedingung ist Extra) | Pixelkünstler |
+| 3 | 03-fahrschule | 14 | Vorlage öffnen (Erweiterung ist schon geladen), Parcours-Simulator, Motorblöcke | Fahrlehrer |
+| 4 | 04-augen | 18 | Kalibrieren, Linienverfolgung auf Knopf A — der Wow-Moment | Spurhalter |
 | 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/sonst — **Bonus, streichbar** | Bremsassistent |
-| 6 | 06-grand-prix | 12 | Tuning, ein Lauf auf Zeit — nie streichen | Champion |
+| 6 | 06-grand-prix | 15 | Tuning (3 Ideen), ein Lauf auf Zeit — nie streichen | Champion |
 
-Roter Faden: Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest";
-Station 4 greift das am Liniensensor (weiß ≈ 3800 / schwarz ≈ 2700) wieder auf.
+Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
+Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest";
+Station 4 greift beides wieder auf — die Linienverfolgung läuft dauerhaft, die Grenze ist
+weiß ≈ 3800 / schwarz ≈ 2700.
+
+Entlastung vom 15.09.2026 (siehe Cowork-Projekt „Anfänger Robotik Workshop",
+`claude/vorschlag-entlastung-stationen.md`): Zeitplan neu verteilt, Station 2 gekürzt
+(Bedingung am Neigungssensor ist jetzt Extra statt Pflicht), Station 3 startet mit fertiger
+Vorlage statt eigenem Erweiterung-Laden, Station 6 auf drei Tuning-Ideen reduziert. Im Gegenzug
+baut Station 1 jetzt explizit eine dauerhaft-Schleife neben beim Start, damit jedes Team das
+im Pflichtteil einmal selbst sieht (vorher nur im überspringbaren Bonus in Station 5 erklärt).
 
 ## Verein und Logo
 
@@ -129,16 +138,27 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   liefert -1023..1023 wie der echte Sensor; Grenze ±300 für die Pfeile.
 - Fortschritt liegt in `localStorage` unter `mgp-v1`. „Neues Team" löscht ihn — das ist der
   Knopf zwischen zwei Messe-Slots.
+- **Maqueen-Figuren**: die Übersicht in Station 0 (`#mqmap`, Draufsicht mit nummerierter
+  Legende) und die Einsetz-Animation in Station 3 (`#mqinsert`, Blick von vorn, micro:bit
+  gleitet per CSS in den Schlitz, danach beide Schalter auf ON) sind handgezeichnete
+  Inline-SVGs; Farben kommen aus den Tokens, Rollenfarben aus den `.mcb`-Klassen. Sie sind
+  schematisch, nicht maßstäblich; Bauteilzahlen laut DFRobot-Wiki (5 Liniensensoren,
+  8×8-Laser, 2 Lichtsensoren, 4+2 RGB, Summer, zwei Schalter). Die genaue Lage der Schalter
+  und die Steckrichtung sind bis zum Trockenlauf Annahmen.
 
 ## Offen (nach dem Trockenlauf einarbeiten)
 
 - Exakte Blocktexte für Motor, Licht, Linienverfolgung, Laserscanner (Wortlaut aus Protokoll C/D/E)
 - Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90°, sichere Linienstufe, kleinster Kurvenradius
-- Steckrichtung des micro:bit auf dem Chassis („Lämpchen nach vorn" — bestätigen)
+- Steckrichtung des micro:bit auf dem Chassis („Lämpchen nach vorn" — bestätigen). Stimmt
+  sie nicht, gemeinsam ändern: Schritt 2 und Einsetz-Figur samt Bildunterschrift in
+  `03-fahrschule.html`, Legendenpunkt 4 in `00-boxenstopp.html`.
 - Entscheidung: Station 2 auf 12 Min kürzen, damit der Roboter früher fährt? (Review-Punkt, offen)
-- Station 0 entschlacken: Bauteil-Tabelle nach hinten?
 - Danach: Parcours-Bauplan (braucht den gemessenen Radius), Stand-Paket zum Drucken
   (Urkunde, Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
+- Fotos vom echten Gerät neben die beiden SVG-Figuren, falls die Zeichnung am Tisch nicht
+  reicht (erst nach dem Trockenlauf möglich). Eine USB-Animation für Station 1 ist
+  verworfen: Kabel einstecken kennt jeder, das echte Problem (reine Ladekabel) zeigt kein Bild.
 
 ## Was nicht in dieses Repo gehört
 

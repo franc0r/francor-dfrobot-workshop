@@ -49,6 +49,22 @@ function check(cond, msg) {
   const railMins = await page.$$eval('.stepbtn .min', s => s.map(x => parseInt(x.textContent, 10)));
   check(JSON.stringify(railMins) === JSON.stringify(mins), 'Rail-Minuten = Eyebrow-Minuten');
 
+  // Station 0: Maqueen-Übersicht statt Bauteil-Tabelle
+  const mapH = await page.$eval('#mqmap svg', e => e.getBoundingClientRect().height).catch(() => 0);
+  check(mapH > 120, 'Station 0: Maqueen-Übersicht wird gezeichnet (Höhe ' + Math.round(mapH) + ')');
+  const mapText = await page.$eval('#mqmap', e => e.textContent).catch(() => '');
+  for (const w of ['Liniensensoren', 'Laserscanner', 'Lichtsensoren', 'micro:bit', 'Motoren', 'Summer', 'Schalter'])
+    check(mapText.includes(w), 'Station 0: Übersicht beschriftet "' + w + '"');
+  check((await page.$$('.station[data-st="0"] table')).length === 0, 'Station 0: Bauteil-Tabelle ist weg');
+
+  // Station 3: Einsetz-Animation
+  await page.click('.stepbtn[data-go="3"]');
+  const insH = await page.$eval('#mqinsert svg', e => e.getBoundingClientRect().height).catch(() => 0);
+  check(insH > 120, 'Station 3: Einsetz-Figur wird gezeichnet (Höhe ' + Math.round(insH) + ')');
+  const anim = await page.$eval('#mqinsert .mb-slide', e => getComputedStyle(e).animationName).catch(() => 'none');
+  check(anim !== 'none', 'Station 3: micro:bit gleitet per CSS-Animation (' + anim + ')');
+  check(/Lämpchen nach vorn/.test(await page.$eval('#mqinsert', e => e.textContent).catch(() => '')), 'Station 3: Figur sagt "Lämpchen nach vorn"');
+
   // Station 2: micro:bit-Simulator
   await page.click('.stepbtn[data-go="2"]');
   const heart = '0101011111111110111000100';

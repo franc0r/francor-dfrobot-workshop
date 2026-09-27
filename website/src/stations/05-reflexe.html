@@ -23,12 +23,15 @@
           <div class="mcb b-logic i1">wenn <b>Abstand</b> &lt; <b>200</b> mm dann</div>
           <div class="mcb b-mq i2">Motor <b>alle</b> <b>stoppen</b></div>
           <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>rot</b></div>
-          <div class="mcb b-music i2">spiele Ton <b>hoch C</b></div>
           <div class="mcb b-logic i1">sonst</div>
           <div class="mcb b-mq i2">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>110</b></div>
           <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>grün</b></div>
         </div>
         <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
+        <div class="note warn">
+          <span class="nt">Extra, mit einer Warnung</span>
+          <p>Wer noch einen <kbd>spiele Ton</kbd>-Block dazuhängt: Der Roboter wartet, bis der Ton fertig ist, bevor er die Schleife von vorn beginnt und wieder misst. Er reagiert in dieser Zeit nicht &ndash; nehmt einen kurzen Ton, sonst wird der Bremsassistent träge.</p>
+        </div>
       </div>
 
       <div class="quiz" data-quiz="q4" data-answer="c">
@@ -45,6 +48,7 @@
       <div class="note aha">
         <span class="nt">Bonus &middot; 15 Punkte</span>
         <p>Schafft ihr es, dass der Roboter beim Hindernis nicht nur stoppt, sondern <b>zurücksetzt, sich dreht und weiterfährt</b>? Dann habt ihr einen Staubsaugerroboter gebaut.</p>
+        <button class="btn sec" type="button" data-bonus="staubsauger" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
       </div>
     </div>
     <div class="stfoot">
