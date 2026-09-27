@@ -278,6 +278,60 @@ kbd{
 .fix td:first-child{font-weight:600; width:40%}
 .tablewrap{overflow-x:auto}
 
+/* Maqueen-Figuren (Übersicht in Station 0, Einsetzen in Station 3) */
+.mqfig{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px 24px; align-items:center; margin:0; max-width:900px}
+.mqfig svg{width:100%; height:auto; max-width:440px; display:block; font-family:var(--mono)}
+.mqfig figcaption{font-size:.95rem; color:var(--ink-2); max-width:44ch}
+@media (max-width:760px){ .mqfig{grid-template-columns:1fr} }
+.mqfig .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; fill:var(--ink-3)}
+.mqfig .lbl2{font-family:var(--sans); font-size:12px; fill:var(--ink-2)}
+.mqfig .ch{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:1.5}
+.mqfig .wh{fill:var(--ink-2)}
+.mqfig .mo{fill:var(--surface); stroke:var(--line)}
+.mqfig .ls,.mqfig .slot{fill:var(--track)}
+.mqfig .dots circle{fill:var(--paper)}
+.mqfig .ln{fill:none; stroke:#B4009E; stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .li{fill:var(--surface); stroke:#B4009E; stroke-width:2}
+.mqfig .rgb{fill:var(--accent)}
+.mqfig .rgb.u{fill:none; stroke:var(--accent); stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .bb{fill:var(--surface); stroke:var(--line)}
+.mqfig .cell{fill:var(--surface-2); stroke:var(--line)}
+.mqfig .col{stroke:var(--ink-3); stroke-width:2}
+.mqfig .bz{fill:none; stroke:#264F87; stroke-width:2}
+.mqfig .track{fill:var(--teal)}
+.mqfig .knob{fill:#fff}
+.mqfig .ld line,.mqfig .arr{stroke:var(--ink-3); stroke-width:1}
+.mqfig .ld line{stroke-dasharray:2 2}
+.mqfig marker path{fill:var(--ink-3)}
+.mqfig .mk text{fill:#fff; font-size:11px; font-weight:600; text-anchor:middle; dominant-baseline:central}
+.mqfig .mbb{fill:#1E2F37; stroke:#334A53}
+.mqfig .usb{fill:var(--ink-3)}
+.mqfig .pix{fill:rgba(255,255,255,.12)}
+.mqfig .pix.on{fill:#FF3D2E}
+.mqfig .mbtn{fill:#0E171B; stroke:#4A5A63}
+.mqfig .mbtn-l{fill:#9BADB5; font-size:7px; text-anchor:middle; dominant-baseline:central}
+.mqfig .edge{fill:#2A2A2A}
+.mqfig .pin{fill:#D8B45A}
+.mqlegend{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px; font-size:.92rem}
+.mqlegend li{display:grid; grid-template-columns:22px minmax(0,1fr); gap:10px; align-items:start}
+.mqlegend .n{width:22px; height:22px; border-radius:50%; color:#fff; font-family:var(--mono); font-size:11px; font-weight:600; display:grid; place-items:center; margin-top:1px}
+.mqlegend em{display:block; font-style:normal; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.r-input .n,.mk.r-input circle{background:#B4009E; fill:#B4009E}
+.r-logic .n,.mk.r-logic circle{background:#00A0B4; fill:#00A0B4}
+.r-mq .n,.mk.r-mq circle{background:#264F87; fill:#264F87}
+.r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
+.mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
+@keyframes mb-slide{
+  0%{transform:translateY(-80px); opacity:0}
+  10%{transform:translateY(-80px); opacity:1}
+  45%,88%{transform:translateY(0); opacity:1}
+  100%{transform:translateY(0); opacity:0}
+}
+.mqfig .sw-anim .knob{transform:translateX(18px); animation:sw-knob 4s ease-in-out infinite}
+.mqfig .sw-anim .track{animation:sw-track 4s ease-in-out infinite}
+@keyframes sw-knob{0%,50%{transform:translateX(0)} 62%,88%{transform:translateX(18px)} 100%{transform:translateX(0)}}
+@keyframes sw-track{0%,50%{fill:var(--line)} 62%,88%{fill:var(--teal)} 100%{fill:var(--line)}}
+
 /* quiz */
 .quiz{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:var(--surface-2)}
 .quiz .qh{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:7px}
@@ -476,6 +530,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .mbchips span.on{border-style:solid; border-color:var(--teal); background:var(--teal-soft); color:var(--teal)}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+  .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
 }
 </style>
 </head>
@@ -541,17 +596,76 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="block">
         <h3><span class="idx">02</span>Dein Fahrzeug im Detail</h3>
-        <div class="tablewrap">
-          <table class="fix">
-            <tr><th>Bauteil</th><th>Wozu</th><th>Rolle</th></tr>
-            <tr><td>5 Liniensensoren</td><td>schauen nach unten und unterscheiden Schwarz von Weiß</td><td>Wahrnehmen</td></tr>
-            <tr><td>8&times;8&#8209;Laserscanner</td><td>misst Abstand nach vorn, 2&nbsp;cm bis 4&nbsp;m, 64 Messpunkte</td><td>Wahrnehmen</td></tr>
-            <tr><td>2 Lichtsensoren</td><td>messen Helligkeit links und rechts</td><td>Wahrnehmen</td></tr>
-            <tr><td>micro:bit&nbsp;V2</td><td>der Computer &ndash; führt dein Programm aus</td><td>Entscheiden</td></tr>
-            <tr><td>2 Metallmotoren</td><td>treiben die Räder an, jedes einzeln steuerbar</td><td>Handeln</td></tr>
-            <tr><td>6 RGB&#8209;LEDs + Summer</td><td>Licht und Ton in jeder Farbe</td><td>Handeln</td></tr>
-          </table>
-        </div>
+        <p class="lead">Von oben gesehen. Die Farben sind dieselben wie oben: Wahrnehmen, Entscheiden, Handeln.</p>
+        <figure class="mqfig" id="mqmap">
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="mqmap-t">
+            <title id="mqmap-t">Der Maqueen von oben, Vorderseite oben</title>
+            <text class="lbl" x="210" y="12" text-anchor="middle">&#9650; vorn</text>
+            <rect class="wh" x="82" y="128" width="26" height="76" rx="6"/>
+            <rect class="wh" x="312" y="128" width="26" height="76" rx="6"/>
+            <rect class="ch" x="108" y="46" width="204" height="220" rx="18"/>
+            <rect class="mo" x="112" y="140" width="30" height="52" rx="4"/>
+            <rect class="mo" x="278" y="140" width="30" height="52" rx="4"/>
+            <rect class="ls" x="188" y="20" width="44" height="30" rx="4"/>
+            <g class="dots">
+              <circle cx="197" cy="29" r="1.6"/><circle cx="210" cy="29" r="1.6"/><circle cx="223" cy="29" r="1.6"/>
+              <circle cx="197" cy="35" r="1.6"/><circle cx="210" cy="35" r="1.6"/><circle cx="223" cy="35" r="1.6"/>
+              <circle cx="197" cy="41" r="1.6"/><circle cx="210" cy="41" r="1.6"/><circle cx="223" cy="41" r="1.6"/>
+            </g>
+            <rect class="ln" x="150" y="54" width="14" height="10" rx="2"/>
+            <rect class="ln" x="178" y="54" width="14" height="10" rx="2"/>
+            <rect class="ln" x="206" y="54" width="14" height="10" rx="2"/>
+            <rect class="ln" x="234" y="54" width="14" height="10" rx="2"/>
+            <rect class="ln" x="262" y="54" width="14" height="10" rx="2"/>
+            <rect class="slot" x="150" y="72" width="120" height="12" rx="3"/>
+            <rect class="usb" x="204" y="68" width="12" height="4" rx="1"/>
+            <circle class="rgb" cx="122" cy="60" r="5"/>
+            <circle class="rgb" cx="298" cy="60" r="5"/>
+            <circle class="li" cx="132" cy="100" r="7"/>
+            <circle class="li" cx="288" cy="100" r="7"/>
+            <rect class="bb" x="140" y="118" width="140" height="98" rx="8"/>
+            <rect class="cell" x="150" y="130" width="24" height="54" rx="4"/>
+            <rect class="cell" x="182" y="130" width="24" height="54" rx="4"/>
+            <rect class="cell" x="214" y="130" width="24" height="54" rx="4"/>
+            <rect class="cell" x="246" y="130" width="24" height="54" rx="4"/>
+            <g class="sw"><rect class="track" x="196" y="196" width="28" height="12" rx="6"/><circle class="knob" cx="217" cy="202" r="4"/></g>
+            <circle class="rgb u" cx="150" cy="250" r="5"/>
+            <circle class="rgb u" cx="190" cy="250" r="5"/>
+            <circle class="rgb u" cx="230" cy="250" r="5"/>
+            <circle class="rgb u" cx="270" cy="250" r="5"/>
+            <circle class="bz" cx="132" cy="236" r="9"/><circle class="bz" cx="132" cy="236" r="3"/>
+            <g class="sw"><rect class="track" x="268" y="230" width="28" height="12" rx="6"/><circle class="knob" cx="289" cy="236" r="4"/></g>
+            <g class="ld">
+              <line x1="71" y1="52" x2="150" y2="59"/>
+              <line x1="251" y1="34" x2="232" y2="35"/>
+              <line x1="349" y1="100" x2="295" y2="100"/>
+              <line x1="71" y1="84" x2="150" y2="78"/>
+              <line x1="349" y1="166" x2="338" y2="166"/>
+              <line x1="349" y1="60" x2="303" y2="60"/>
+              <line x1="71" y1="236" x2="123" y2="236"/>
+              <line x1="349" y1="236" x2="296" y2="236"/>
+              <line x1="349" y1="236" x2="226" y2="204"/>
+            </g>
+            <g class="mk r-input" transform="translate(60,52)"><circle r="11"/><text>1</text></g>
+            <g class="mk r-input" transform="translate(262,34)"><circle r="11"/><text>2</text></g>
+            <g class="mk r-input" transform="translate(360,100)"><circle r="11"/><text>3</text></g>
+            <g class="mk r-logic" transform="translate(60,84)"><circle r="11"/><text>4</text></g>
+            <g class="mk r-mq" transform="translate(360,166)"><circle r="11"/><text>5</text></g>
+            <g class="mk r-mq" transform="translate(360,60)"><circle r="11"/><text>6</text></g>
+            <g class="mk r-mq" transform="translate(60,236)"><circle r="11"/><text>7</text></g>
+            <g class="mk r-pow" transform="translate(360,236)"><circle r="11"/><text>8</text></g>
+          </svg>
+          <ol class="mqlegend">
+            <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unter dem Fahrzeug &ndash; sie unterscheiden Schwarz von Weiß.<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">2</span><span><b>8&times;8&#8209;Laserscanner</b> misst den Abstand nach vorn: 2&nbsp;cm bis 4&nbsp;m, 64 Messpunkte.<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">3</span><span><b>2 Lichtsensoren</b> messen die Helligkeit links und rechts.<em>Wahrnehmen</em></span></li>
+            <li class="r-logic"><span class="n">4</span><span><b>micro:bit&nbsp;V2</b> steckt hochkant im Schlitz. Der Computer &ndash; er führt dein Programm aus.<em>Entscheiden</em></span></li>
+            <li class="r-mq"><span class="n">5</span><span><b>2 Motoren</b> aus Metall treiben die Räder an, jedes einzeln steuerbar.<em>Handeln</em></span></li>
+            <li class="r-mq"><span class="n">6</span><span><b>6 RGB&#8209;Lämpchen</b>, 2 vorn und 4 unten &ndash; Licht in jeder Farbe.<em>Handeln</em></span></li>
+            <li class="r-mq"><span class="n">7</span><span><b>Summer</b> für Töne.<em>Handeln</em></span></li>
+            <li class="r-pow"><span class="n">8</span><span><b>2 Schalter</b>: einer am Akkubrett, einer an der Bodenplatte. Beide müssen an sein.<em>Strom</em></span></li>
+          </ol>
+        </figure>
       </div>
 
       <div class="quiz" data-quiz="q0" data-answer="c">
@@ -791,6 +905,53 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <li><span>Vorlagenprojekt öffnen (vom Betreuer). Links seht ihr sofort eine neue Kategorie mit dem Maqueen-Namen &ndash; da liegen alle Roboter-Blöcke.</span></li>
           <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
         </ol>
+        <figure class="mqfig" id="mqinsert">
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="mqins-t">
+            <title id="mqins-t">Der micro:bit gleitet von oben in den Schlitz, die Lämpchen zeigen nach vorn</title>
+            <defs>
+              <marker id="mqarr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z"/></marker>
+              <pattern id="mqpins" width="5" height="10" patternUnits="userSpaceOnUse"><rect width="3" height="10" class="pin"/></pattern>
+            </defs>
+            <line class="col" x1="140" y1="152" x2="140" y2="172"/>
+            <line class="col" x1="280" y1="152" x2="280" y2="172"/>
+            <rect class="bb" x="120" y="138" width="180" height="14" rx="3"/>
+            <rect class="wh" x="58" y="150" width="30" height="96" rx="8"/>
+            <rect class="wh" x="332" y="150" width="30" height="96" rx="8"/>
+            <rect class="ch" x="88" y="172" width="244" height="66" rx="10"/>
+            <rect class="slot" x="152" y="166" width="116" height="12" rx="3"/>
+            <circle class="rgb" cx="112" cy="196" r="6"/>
+            <circle class="rgb" cx="308" cy="196" r="6"/>
+            <rect class="ls" x="184" y="196" width="52" height="34" rx="4"/>
+            <g class="dots">
+              <circle cx="195" cy="204" r="1.5"/><circle cx="205" cy="204" r="1.5"/><circle cx="215" cy="204" r="1.5"/><circle cx="225" cy="204" r="1.5"/>
+              <circle cx="195" cy="212" r="1.5"/><circle cx="205" cy="212" r="1.5"/><circle cx="215" cy="212" r="1.5"/><circle cx="225" cy="212" r="1.5"/>
+              <circle cx="195" cy="220" r="1.5"/><circle cx="205" cy="220" r="1.5"/><circle cx="215" cy="220" r="1.5"/><circle cx="225" cy="220" r="1.5"/>
+              <circle cx="195" cy="228" r="1.5"/><circle cx="205" cy="228" r="1.5"/><circle cx="215" cy="228" r="1.5"/><circle cx="225" cy="228" r="1.5"/>
+            </g>
+            <g class="mb-slide">
+              <g transform="translate(153,80)">
+                <rect class="mbb" x="0" y="0" width="114" height="92" rx="6"/>
+                <rect class="usb" x="49" y="-5" width="16" height="9" rx="2"/>
+                <rect class="pix" x="29" y="16" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="16" width="8" height="8" rx="1"/><rect class="pix" x="53" y="16" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="16" width="8" height="8" rx="1"/><rect class="pix" x="77" y="16" width="8" height="8" rx="1"/>
+                <rect class="pix on" x="29" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="77" y="28" width="8" height="8" rx="1"/>
+                <rect class="pix on" x="29" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="77" y="40" width="8" height="8" rx="1"/>
+                <rect class="pix" x="29" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="52" width="8" height="8" rx="1"/><rect class="pix" x="77" y="52" width="8" height="8" rx="1"/>
+                <rect class="pix" x="29" y="64" width="8" height="8" rx="1"/><rect class="pix" x="41" y="64" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="64" width="8" height="8" rx="1"/><rect class="pix" x="65" y="64" width="8" height="8" rx="1"/><rect class="pix" x="77" y="64" width="8" height="8" rx="1"/>
+                <circle class="mbtn" cx="13" cy="44" r="7"/><text class="mbtn-l" x="13" y="44">A</text>
+                <circle class="mbtn" cx="101" cy="44" r="7"/><text class="mbtn-l" x="101" y="44">B</text>
+                <rect class="edge" x="0" y="82" width="114" height="10"/>
+                <rect x="0" y="82" width="114" height="10" fill="url(#mqpins)"/>
+              </g>
+            </g>
+            <text class="lbl2" x="20" y="108">Lämpchen</text>
+            <text class="lbl2" x="20" y="122">zeigen zu dir</text>
+            <line class="arr" x1="112" y1="116" x2="180" y2="116" marker-end="url(#mqarr)"/>
+            <g class="sw sw-anim" transform="translate(120,262)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">1 Akkubrett</text></g>
+            <g class="sw sw-anim" transform="translate(240,262)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">2 Bodenplatte</text></g>
+            <text class="lbl" x="210" y="294" text-anchor="middle">Blick von vorn</text>
+          </svg>
+          <figcaption><b>Lämpchen nach vorn.</b> Schaust du von vorn auf den Roboter, siehst du alle 25. Der USB-Anschluss zeigt nach oben. Sitzt der micro:bit, kommen beide Schalter auf ON.</figcaption>
+        </figure>
         <div class="note warn">
           <span class="nt">Extra, nur zum Lesen &ndash; heute bitte nicht anklicken</span>
           <p>So entsteht die Erweiterung, falls es euch interessiert: Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b> &rarr; nach <kbd>dfrobot</kbd> suchen &rarr; <b>DFRobot_MaqueenPlus_V2</b> auswählen (heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3). Genau das steckt schon in eurer Vorlage &ndash; <b>hier gibt es kein Internet</b>, das Nachladen würde also nicht klappen. Bleibt bei der Vorlage.</p>

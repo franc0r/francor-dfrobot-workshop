@@ -138,16 +138,27 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   liefert -1023..1023 wie der echte Sensor; Grenze ±300 für die Pfeile.
 - Fortschritt liegt in `localStorage` unter `mgp-v1`. „Neues Team" löscht ihn — das ist der
   Knopf zwischen zwei Messe-Slots.
+- **Maqueen-Figuren**: die Übersicht in Station 0 (`#mqmap`, Draufsicht mit nummerierter
+  Legende) und die Einsetz-Animation in Station 3 (`#mqinsert`, Blick von vorn, micro:bit
+  gleitet per CSS in den Schlitz, danach beide Schalter auf ON) sind handgezeichnete
+  Inline-SVGs; Farben kommen aus den Tokens, Rollenfarben aus den `.mcb`-Klassen. Sie sind
+  schematisch, nicht maßstäblich; Bauteilzahlen laut DFRobot-Wiki (5 Liniensensoren,
+  8×8-Laser, 2 Lichtsensoren, 4+2 RGB, Summer, zwei Schalter). Die genaue Lage der Schalter
+  und die Steckrichtung sind bis zum Trockenlauf Annahmen.
 
 ## Offen (nach dem Trockenlauf einarbeiten)
 
 - Exakte Blocktexte für Motor, Licht, Linienverfolgung, Laserscanner (Wortlaut aus Protokoll C/D/E)
 - Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90°, sichere Linienstufe, kleinster Kurvenradius
-- Steckrichtung des micro:bit auf dem Chassis („Lämpchen nach vorn" — bestätigen)
+- Steckrichtung des micro:bit auf dem Chassis („Lämpchen nach vorn" — bestätigen). Stimmt
+  sie nicht, gemeinsam ändern: Schritt 2 und Einsetz-Figur samt Bildunterschrift in
+  `03-fahrschule.html`, Legendenpunkt 4 in `00-boxenstopp.html`.
 - Entscheidung: Station 2 auf 12 Min kürzen, damit der Roboter früher fährt? (Review-Punkt, offen)
-- Station 0 entschlacken: Bauteil-Tabelle nach hinten?
 - Danach: Parcours-Bauplan (braucht den gemessenen Radius), Stand-Paket zum Drucken
   (Urkunde, Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
+- Fotos vom echten Gerät neben die beiden SVG-Figuren, falls die Zeichnung am Tisch nicht
+  reicht (erst nach dem Trockenlauf möglich). Eine USB-Animation für Station 1 ist
+  verworfen: Kabel einstecken kennt jeder, das echte Problem (reine Ladekabel) zeigt kein Bild.
 
 ## Was nicht in dieses Repo gehört
 

@@ -13,6 +13,53 @@
           <li><span>Vorlagenprojekt öffnen (vom Betreuer). Links seht ihr sofort eine neue Kategorie mit dem Maqueen-Namen &ndash; da liegen alle Roboter-Blöcke.</span></li>
           <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
         </ol>
+        <figure class="mqfig" id="mqinsert">
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="mqins-t">
+            <title id="mqins-t">Der micro:bit gleitet von oben in den Schlitz, die Lämpchen zeigen nach vorn</title>
+            <defs>
+              <marker id="mqarr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z"/></marker>
+              <pattern id="mqpins" width="5" height="10" patternUnits="userSpaceOnUse"><rect width="3" height="10" class="pin"/></pattern>
+            </defs>
+            <line class="col" x1="140" y1="152" x2="140" y2="172"/>
+            <line class="col" x1="280" y1="152" x2="280" y2="172"/>
+            <rect class="bb" x="120" y="138" width="180" height="14" rx="3"/>
+            <rect class="wh" x="58" y="150" width="30" height="96" rx="8"/>
+            <rect class="wh" x="332" y="150" width="30" height="96" rx="8"/>
+            <rect class="ch" x="88" y="172" width="244" height="66" rx="10"/>
+            <rect class="slot" x="152" y="166" width="116" height="12" rx="3"/>
+            <circle class="rgb" cx="112" cy="196" r="6"/>
+            <circle class="rgb" cx="308" cy="196" r="6"/>
+            <rect class="ls" x="184" y="196" width="52" height="34" rx="4"/>
+            <g class="dots">
+              <circle cx="195" cy="204" r="1.5"/><circle cx="205" cy="204" r="1.5"/><circle cx="215" cy="204" r="1.5"/><circle cx="225" cy="204" r="1.5"/>
+              <circle cx="195" cy="212" r="1.5"/><circle cx="205" cy="212" r="1.5"/><circle cx="215" cy="212" r="1.5"/><circle cx="225" cy="212" r="1.5"/>
+              <circle cx="195" cy="220" r="1.5"/><circle cx="205" cy="220" r="1.5"/><circle cx="215" cy="220" r="1.5"/><circle cx="225" cy="220" r="1.5"/>
+              <circle cx="195" cy="228" r="1.5"/><circle cx="205" cy="228" r="1.5"/><circle cx="215" cy="228" r="1.5"/><circle cx="225" cy="228" r="1.5"/>
+            </g>
+            <g class="mb-slide">
+              <g transform="translate(153,80)">
+                <rect class="mbb" x="0" y="0" width="114" height="92" rx="6"/>
+                <rect class="usb" x="49" y="-5" width="16" height="9" rx="2"/>
+                <rect class="pix" x="29" y="16" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="16" width="8" height="8" rx="1"/><rect class="pix" x="53" y="16" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="16" width="8" height="8" rx="1"/><rect class="pix" x="77" y="16" width="8" height="8" rx="1"/>
+                <rect class="pix on" x="29" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="77" y="28" width="8" height="8" rx="1"/>
+                <rect class="pix on" x="29" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="77" y="40" width="8" height="8" rx="1"/>
+                <rect class="pix" x="29" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="52" width="8" height="8" rx="1"/><rect class="pix" x="77" y="52" width="8" height="8" rx="1"/>
+                <rect class="pix" x="29" y="64" width="8" height="8" rx="1"/><rect class="pix" x="41" y="64" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="64" width="8" height="8" rx="1"/><rect class="pix" x="65" y="64" width="8" height="8" rx="1"/><rect class="pix" x="77" y="64" width="8" height="8" rx="1"/>
+                <circle class="mbtn" cx="13" cy="44" r="7"/><text class="mbtn-l" x="13" y="44">A</text>
+                <circle class="mbtn" cx="101" cy="44" r="7"/><text class="mbtn-l" x="101" y="44">B</text>
+                <rect class="edge" x="0" y="82" width="114" height="10"/>
+                <rect x="0" y="82" width="114" height="10" fill="url(#mqpins)"/>
+              </g>
+            </g>
+            <text class="lbl2" x="20" y="108">Lämpchen</text>
+            <text class="lbl2" x="20" y="122">zeigen zu dir</text>
+            <line class="arr" x1="112" y1="116" x2="180" y2="116" marker-end="url(#mqarr)"/>
+            <g class="sw sw-anim" transform="translate(120,262)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">1 Akkubrett</text></g>
+            <g class="sw sw-anim" transform="translate(240,262)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">2 Bodenplatte</text></g>
+            <text class="lbl" x="210" y="294" text-anchor="middle">Blick von vorn</text>
+          </svg>
+          <figcaption><b>Lämpchen nach vorn.</b> Schaust du von vorn auf den Roboter, siehst du alle 25. Der USB-Anschluss zeigt nach oben. Sitzt der micro:bit, kommen beide Schalter auf ON.</figcaption>
+        </figure>
         <div class="note warn">
           <span class="nt">Extra, nur zum Lesen &ndash; heute bitte nicht anklicken</span>
           <p>So entsteht die Erweiterung, falls es euch interessiert: Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b> &rarr; nach <kbd>dfrobot</kbd> suchen &rarr; <b>DFRobot_MaqueenPlus_V2</b> auswählen (heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3). Genau das steckt schon in eurer Vorlage &ndash; <b>hier gibt es kein Internet</b>, das Nachladen würde also nicht klappen. Bleibt bei der Vorlage.</p>
