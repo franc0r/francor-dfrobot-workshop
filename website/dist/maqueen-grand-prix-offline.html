@@ -117,16 +117,6 @@ button{font:inherit; color:inherit; cursor:pointer}
 .brand h1{font-size:1.15rem; font-weight:800; letter-spacing:-.02em}
 .brand .sub{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.01em}
 .tbgroup{display:flex; align-items:center; gap:10px}
-.teamfield{
-  display:flex; align-items:center; gap:7px;
-  background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:4px 9px;
-}
-.teamfield label{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
-.teamfield input{
-  border:0; background:transparent; color:var(--ink); font:600 14px var(--sans);
-  width:120px; padding:2px 0;
-}
-.teamfield input:focus{outline:none}
 .score{
   display:flex; align-items:baseline; gap:6px; font-family:var(--mono);
   background:var(--accent-soft); border:1px solid var(--accent); border-radius:8px; padding:4px 11px;
@@ -243,6 +233,27 @@ kbd{
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
 }
 .mcb b{background:rgba(255,255,255,.22); border-radius:4px; padding:1px 7px; font-weight:600}
+.mcb b.ledico{display:inline-flex; align-items:center; gap:6px; padding:3px 6px 3px 5px; background:rgba(0,0,0,.2)}
+.ledico i{display:grid; grid-template-columns:repeat(5,4px); gap:1.5px}
+.ledico span{width:4px; height:4px; border-radius:1px; background:rgba(255,255,255,.25)}
+.ledico span.on{background:#fff}
+.ledico::after{content:"\25BE"; font-size:11px}
+/* Klammer: nur Kopf, Arm links und Fuß sind farbig, rechts offen wie in MakeCode */
+.mcc{display:flex; flex-direction:column; align-items:flex-start; align-self:flex-start}
+.mcc > .mch{box-shadow:none; min-width:140px; border-radius:6px 6px 6px 0}
+.mcc > .mcbody + .mch{border-radius:0 6px 6px 0}
+.mcbody{
+  display:flex; flex-direction:column; gap:3px; padding:3px 0 3px 4px; min-height:24px;
+  border-left:16px solid var(--c);
+}
+.mcfoot{height:14px; width:140px; background:var(--c); border-radius:0 6px 6px 6px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+/* zeige LEDs: Raster im Block, wie in MakeCode */
+.mcb.mcleds{flex-direction:column; align-items:flex-start; gap:10px; padding-bottom:12px}
+.ledgrid{display:grid; grid-template-columns:repeat(5,18px); gap:5px; margin-left:4px}
+.ledgrid span{width:18px; height:18px; border-radius:4px; background:rgba(0,0,0,.2)}
+.ledgrid span.on{background:#fff}
+/* in der schmalen Simulator-Spalte dürfen lange Blöcke umbrechen */
+#mbcode .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px}
 .mcb.i1{margin-left:20px} .mcb.i2{margin-left:40px}
 .b-basic{background:#1E90D6}
 .b-input{background:#B4009E}
@@ -251,6 +262,9 @@ kbd{
 .b-music{background:#D83B01}
 .b-var{background:#E07000}
 .b-mq{background:#264F87}
+.b-math{background:#7E2FC8}
+/* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
+.mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
 .mccap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
 
 /* callouts */
@@ -517,11 +531,6 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .mbmini{display:grid; grid-template-columns:repeat(5,1fr); gap:4px; width:78px; margin-top:8px}
 .mbmini span{display:block; width:12px; height:15px; border-radius:2px; background:var(--line)}
 .mbmini span.on{background:var(--accent)}
-.ledsrc{
-  font-family:var(--mono); font-size:14px; line-height:1.35; letter-spacing:.34em;
-  background:#1E90D6; color:#fff; padding:9px 12px; border-radius:6px; align-self:flex-start;
-  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18); margin-left:20px; white-space:pre;
-}
 .mbchips{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
 .mbchips span{
   font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
@@ -551,10 +560,6 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     </div>
   </div>
   <div class="tbgroup">
-    <div class="teamfield">
-      <label for="team">Team</label>
-      <input id="team" type="text" placeholder="Name eintippen" maxlength="22" autocomplete="off">
-    </div>
     <div class="score"><b id="ptsval">0</b><span>Punkte</span></div>
     <div class="timer" id="timer"><span id="tval">90:00</span><button id="tbtn" type="button">Start</button></div>
     <button class="ghost" id="coachbtn" type="button">Für Betreuer</button>
@@ -586,7 +591,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="block">
         <h3><span class="idx">01</span>Der Dreisatz jedes Roboters</h3>
         <p class="lead">Jeder Roboter auf der Welt &ndash; vom Staubsauger bis zum Marsrover &ndash; macht immer dieselben drei Dinge, tausendmal pro Minute:</p>
-        <div class="mcstack">
+        <div class="mcstack flat">
           <div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>
           <div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>dein Programm</b></div>
           <div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div>
@@ -679,11 +684,6 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         </div>
         <p class="qfb" hidden></p>
       </div>
-
-      <div class="note">
-        <span class="nt">Team-Auftrag</span>
-        <p>Tragt oben rechts euren Teamnamen ein. Er steht am Ende auf eurer Urkunde &ndash; und auf der Bestenliste am Stand.</p>
-      </div>
     </div>
     <div class="stfoot">
       <span class="pts">Station abschließen: +20 Punkte</span>
@@ -702,7 +702,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="block">
         <h3><span class="idx">01</span>MakeCode öffnen</h3>
         <ol class="steps">
-          <li><span><kbd>makecode.microbit.org</kbd> im Browser öffnen und <b>Neues Projekt</b> anlegen. Name: euer Teamname.</span></li>
+          <li><span><kbd>makecode.microbit.org</kbd> im Browser öffnen und <b>Neues Projekt</b> anlegen. Den Namen dürft ihr frei wählen.</span></li>
           <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Ein Block wird mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster gezogen &ndash; er rastet dort ein wie ein Puzzleteil.</span></li>
           <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus.</span></li>
         </ol>
@@ -719,10 +719,10 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <div class="mcstack" style="margin-top:10px">
           <div class="mccap">Immer wieder, ohne Ende</div>
           <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
-          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
-          <div class="mcb b-basic i1">lösche Bildschirm</div>
-          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+          <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="heart" role="img" aria-label="Herz"></b></div>
+          <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
+          <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
+          <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
         </div>
         <div class="note aha">
           <span class="nt">Genau das ist der Unterschied</span>
@@ -796,9 +796,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
                 <div class="mbedge"><i class="big"></i><i class="big"></i><i class="big"></i><i></i><i></i><i></i><i></i><i></i></div>
               </div>
               <div class="mbctl" id="mbctl" hidden>
-                <label for="mbtilt">Neigung nach links / rechts</label>
+                <label for="mbtilt">&larr; Logo nach oben &middot; Logo nach unten &rarr;</label>
                 <input type="range" id="mbtilt" min="-1023" max="1023" value="0" step="1">
-                <div class="mbreadout"><span>Beschleunigung&nbsp;x</span><b id="mbxval">0</b></div>
+                <div class="mbreadout"><span>Beschleunigung&nbsp;y</span><b id="mbxval">0</b></div>
                 <button class="btn sec" id="mbshake" type="button">Schütteln!</button>
               </div>
             </div>
@@ -813,7 +813,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="block">
         <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
-        <p class="lead">Der micro:bit hat keinen Bildschirm, nur 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
+        <p class="lead">Der Bildschirm des micro:bit sind 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
         <div class="note">
           <span class="nt">Warum das clever ist</span>
           <p>25 Lämpchen, jedes an oder aus &ndash; das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>.</p>
@@ -825,38 +825,39 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse.</p>
         <div class="mcstack">
           <div class="mccap">Zwei Ereignisse nebeneinander</div>
-          <div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>
-          <div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>
-          <div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>
-          <div class="mcb b-basic i1">lösche Bildschirm</div>
+          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+          <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="heart" role="img" aria-label="Herz"></b></div>
+          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+          <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
         </div>
         <p class="lead">Beide Blöcke liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide Aufträge und führt den passenden aus, sobald der Knopf kommt.</p>
       </div>
 
       <div class="block">
         <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
-        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er misst in drei Richtungen, wie stark er beschleunigt oder gekippt wird. Für uns reicht heute eine davon: <b>x</b>, das Kippen nach links und rechts. Probiert es im Simulator oben aus &ndash; ihr müsst dafür noch nichts programmieren, nur beobachten.</p>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. Die Blöcke dafür liegen in <b>Eingabe</b>.</p>
+        <div class="mcstack">
+          <div class="mccap">Drei Ereignisse &ndash; baut sie auf eurem micro:bit</div>
+          <div class="mcb b-input">wenn <b>Logo nach oben</b></div>
+          <div class="mcb b-basic i1">zeige Pfeil <b>Norden</b></div>
+          <div class="mcb b-input">wenn <b>Logo nach unten</b></div>
+          <div class="mcb b-basic i1">zeige Pfeil <b>Süden</b></div>
+          <div class="mcb b-input">wenn <b>geschüttelt</b></div>
+          <div class="mcb b-music i1">spiele Ton <b>Mittleres C</b> für <b>1 Schlag</b> <b>bis zum Ende</b></div>
+          <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="skull" role="img" aria-label="Totenkopf"></b></div>
+        </div>
+        <p class="lead">Und woher weiß der micro:bit, dass das Logo oben ist? Probiert es im Simulator oben aus, im Tab <b>3 &middot; Neigen</b>. Unter dem Gerät seht ihr die Zahl, die der Sensor wirklich liefert.</p>
         <div class="tablewrap">
           <table class="fix">
-            <tr><th>Was ihr tut</th><th>Wert von x</th><th>Was das Programm daraus macht</th></tr>
-            <tr><td>flach hinlegen</td><td>ungefähr 0</td><td>&bdquo;liegt gerade&ldquo;</td></tr>
-            <tr><td>nach rechts kippen</td><td>deutlich über 0, bis +1023</td><td>&bdquo;Pfeil nach rechts&ldquo;</td></tr>
-            <tr><td>nach links kippen</td><td>deutlich unter 0, bis &minus;1023</td><td>&bdquo;Pfeil nach links&ldquo;</td></tr>
+            <tr><th>Was ihr tut</th><th>Wert von y</th><th>Was der micro:bit meldet</th></tr>
+            <tr><td>flach hinlegen</td><td>ungefähr 0</td><td>nichts &ndash; die Anzeige bleibt</td></tr>
+            <tr><td>Logo nach oben kippen</td><td>unter &minus;200, bis &minus;1023</td><td>&bdquo;Logo nach oben&ldquo;</td></tr>
+            <tr><td>Logo nach unten kippen</td><td>über 200, bis +1023</td><td>&bdquo;Logo nach unten&ldquo;</td></tr>
           </table>
-        </div>
-        <div class="mcstack">
-          <div class="mccap">Der Würfel &ndash; drei Blöcke, fertiges Spielzeug</div>
-          <div class="mcb b-input">wenn geschüttelt</div>
-          <div class="mcb b-basic i1">zeige Zahl <b>zufällige Zahl von 1 bis 6</b></div>
         </div>
         <div class="note aha">
           <span class="nt">Der wichtigste Satz des Workshops</span>
-          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Nach rechts gekippt&ldquo; steht nirgends &ndash; das legt euer Programm fest, ab welcher Zahl das gilt. Genau diesen Trick braucht ihr gleich wieder, wenn der Roboter Schwarz von Weiß unterscheiden soll.</p>
-        </div>
-
-        <div class="note">
-          <span class="nt">Extra, wenn noch Zeit ist</span>
-          <p>Baut aus der Beobachtung eine echte Entscheidung: <kbd>wenn Beschleunigung x &gt; 300 dann zeige Pfeil Osten</kbd>. Der Simulator oben zeigt euch im Neigen-Tab den passenden Block dazu.</p>
+          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Logo nach oben&ldquo; steht nirgends im Sensor &ndash; der micro:bit vergleicht die Zahl mit einer Grenze. Die haben hier seine Erfinder festgelegt: 200. Beim Roboter legt ihr die Grenze gleich selbst fest, wenn er Schwarz von Weiß unterscheiden soll.</p>
         </div>
       </div>
 
@@ -865,7 +866,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <p class="q">Euer Würfel zeigt bei jedem Schütteln dieselbe Zahl. Was ist am wahrscheinlichsten passiert?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Ihr schüttelt nicht kräftig genug</button>
-          <button class="opt" data-k="b"><span class="k">B</span> Im Block <kbd>zeige Zahl</kbd> steht eine feste Zahl statt dem Block <kbd>zufällige Zahl</kbd></button>
+          <button class="opt" data-k="b"><span class="k">B</span> Im Block <kbd>zeige Zahl</kbd> steht eine feste Zahl statt dem Block <kbd>wähle eine zufällige Zahl</kbd></button>
           <button class="opt" data-k="c"><span class="k">C</span> Der micro:bit braucht Internet, um zu würfeln</button>
         </div>
         <p class="qfb" hidden></p>
@@ -873,13 +874,19 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="note aha">
         <span class="nt">Team-Challenge &middot; 15 Punkte</span>
-        <p>Baut den <b>Würfel</b> auf eurem echten micro:bit und lasst ihn dreimal würfeln. Wer danach noch Zeit hat: Sorgt dafür, dass nach dem Würfeln kurz ein Herz erscheint, bevor die Zahl kommt &ndash; eine kleine Trommelwirbel-Pause.</p>
+        <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf zeigt der micro:bit eine zufällige Zahl. Lasst ihn dreimal würfeln.</p>
+        <div class="mcstack" style="margin:10px 0">
+          <div class="mcb b-input">wenn <b>geschüttelt</b></div>
+          <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-math">wähle eine zufällige Zahl von <b>1</b> bis <b>6</b></span></div>
+        </div>
+        <p>Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b> &ndash; stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.</p>
+        <p>Wer danach noch Zeit hat: Lasst vor der Zahl kurz ein Herz erscheinen &ndash; eine kleine Trommelwirbel-Pause.</p>
         <button class="btn sec" type="button" data-bonus="wuerfel3x" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
       </div>
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Nichts passiert beim Schütteln?</b> Kräftig ruckartig schütteln, nicht sanft wedeln &ndash; der Sensor braucht eine echte Beschleunigung.<br><b>Die Zahl ist kaum zu lesen?</b> Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.</p>
+        <p><b>Kein Pfeil beim Kippen?</b> Deutlich kippen, fast senkrecht &ndash; erst ab 200 meldet der micro:bit das Ereignis.<br><b>Nichts passiert beim Schütteln?</b> Kräftig ruckartig schütteln, nicht sanft wedeln &ndash; der Sensor braucht eine echte Beschleunigung.<br><b>Würfelzahl kaum zu lesen?</b> Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.</p>
       </div>
     </div>
     <div class="stfoot">
@@ -993,7 +1000,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mccap">Geradeaus und anhalten</div>
           <div class="mcb b-basic">beim Start</div>
           <div class="mcb b-mq i1">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>120</b></div>
-          <div class="mcb b-basic i1">pausiere <b>1000</b> ms</div>
+          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
           <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
         </div>
         <div class="note">
@@ -1009,7 +1016,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mccap">Drehung auf der Stelle nach rechts</div>
           <div class="mcb b-mq">Motor <b>links</b> <b>vorwärts</b> Tempo <b>100</b></div>
           <div class="mcb b-mq">Motor <b>rechts</b> <b>rückwärts</b> Tempo <b>100</b></div>
-          <div class="mcb b-basic">pausiere <b>400</b> ms</div>
+          <div class="mcb b-basic">pausiere (ms) <b>400</b></div>
           <div class="mcb b-mq">Motor <b>alle</b> <b>stoppen</b></div>
         </div>
         <div class="note aha">
@@ -1060,9 +1067,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <p class="lead">Im Maqueen steckt der Linienfolge-Algorithmus schon fertig drin &ndash; in fünf Geschwindigkeitsstufen. Stufe 1 ist gemütlich, Stufe 5 ist mutig.</p>
         <div class="mcstack">
           <div class="mccap">Linienfolger &ndash; startet erst auf Knopfdruck</div>
-          <div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>
+          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
           <div class="mcb b-mq i1">Linienverfolgung <b>Stufe 2</b></div>
-          <div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>
+          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
           <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
         </div>
         <p class="lead">Warum nicht <kbd>beim Start</kbd>? Weil ihr nach dem Einschalten erst kalibrieren wollt &ndash; ein Roboter, der sofort losfährt, lässt euch keine Zeit dafür. Die Reihenfolge:</p>
@@ -1077,9 +1084,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mccap">Fahren und gleichzeitig leuchten</div>
           <div class="mcb b-basic">dauerhaft</div>
           <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>rot</b></div>
-          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+          <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
           <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>blau</b></div>
-          <div class="mcb b-basic i1">pausiere <b>300</b> ms</div>
+          <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
         </div>
       </div>
 
@@ -1187,7 +1194,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <table class="fix">
             <tr><th>Idee</th><th>Was ihr braucht</th><th>Schwierigkeit</th></tr>
             <tr><td>Schnellste Runde</td><td>Linienverfolgung Stufe hochdrehen, bis er fliegt statt fährt</td><td>leicht</td></tr>
-            <tr><td>Startampel</td><td><kbd>beim Knopf A</kbd>: rot, gelb, grün leuchten, dann losfahren</td><td>leicht</td></tr>
+            <tr><td>Startampel</td><td><kbd>wenn Knopf A geklickt</kbd>: rot, gelb, grün leuchten, dann losfahren</td><td>leicht</td></tr>
             <tr><td>Discomodus</td><td>Zufallsfarben auf allen 6 LEDs im <kbd>dauerhaft</kbd>-Block</td><td>leicht</td></tr>
           </table>
         </div>
@@ -1210,7 +1217,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="trophy">
         <div class="big" id="finaltitle">Ziel erreicht</div>
-        <div class="who" id="finalwho">Team &mdash; &middot; 0 Punkte</div>
+        <div class="who" id="finalwho">0 Punkte</div>
         <div class="pillrow" id="finalbadges" style="justify-content:center; margin-top:16px"></div>
       </div>
     </div>
@@ -1235,9 +1242,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     <section>
       <h3>Zeitplan · 90-Minuten-Slot</h3>
       <table class="plan">
-        <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Teamnamen, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
+        <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
         <tr><td>0:05–0:18</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
-        <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Würfel. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em> – beides brauchen sie später beim Roboter wieder. Die Neigung wird nur beobachtet, nicht mehr abgefragt (siehe unten).</td></tr>
+        <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: Im Simulator sehen sie, dass &bdquo;Logo nach oben&ldquo; nur eine Zahl jenseits der Grenze 200 ist. Beides brauchen sie später beim Roboter wieder.</td></tr>
         <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams.</td></tr>
         <tr><td>0:47–1:05</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
         <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
@@ -1259,7 +1266,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <li>Parcours: schwarzes Isolierband, 19 mm breit, auf hellem, mattem Untergrund</li>
         <li>Kurvenradius mindestens 15 cm – keine spitzen Ecken, daran scheitern Linienfolger</li>
         <li>Reserve: 2 geladene Ersatzakkus, 1 Ersatz-micro:bit, 2 Ersatzkabel</li>
-        <li>Stoppuhr oder Handy fürs Rennen, kleine Urkunden zum Mitnehmen</li>
+        <li>Stoppuhr oder Handy fürs Rennen</li>
         <li>Flipchart oder Plakat als <b>Bestenliste</b> für Rundenzeiten &ndash; die Seite selbst führt keine, jeder Arbeitsplatz läuft für sich</li>
       </ul>
     </section>
@@ -1400,7 +1407,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
+var S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -1413,7 +1420,6 @@ function addPts(n){ S.pts += n; save(); paintScore(); }
 
 /* ================= chrome ================= */
 var ptsval = document.getElementById("ptsval");
-var teamIn = document.getElementById("team");
 var rail = document.getElementById("rail");
 var railfoot = rail.querySelector(".railfoot");
 var badgesEl = document.getElementById("badges");
@@ -1423,9 +1429,8 @@ function paintScore(){
   ptsval.textContent = S.pts;
   var pct = Math.round(S.done.length / STATIONS.length * 100);
   progfill.style.width = pct + "%";
-  var t = S.team ? S.team : "—";
   var ft = document.getElementById("finalwho");
-  if(ft) ft.textContent = "Team " + t + " · " + S.pts + " Punkte";
+  if(ft) ft.textContent = S.pts + " Punkte";
   var fb = document.getElementById("finalbadges");
   if(fb){
     fb.innerHTML = "";
@@ -1494,8 +1499,6 @@ document.addEventListener("click", function(e){
   go(t);
 });
 
-teamIn.addEventListener("input", function(){ S.team = teamIn.value; save(); paintScore(); });
-
 /* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
   var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
@@ -1516,7 +1519,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
   var FB = {
     q0: "Richtig. Der Summer <em>erzeugt</em> etwas – er ist ein Aktor, kein Sensor. Sensoren nehmen auf, Aktoren geben aus.",
     q1: "Richtig. Der Code liegt im Flash-Speicher des micro:bit – wie eine App auf dem Handy. Er überlebt jedes Ausschalten.",
-    q2: "Richtig. Der Computer tut genau das, was da steht – steht eine 4 im Block, zeigt er eine 4. Erst der Block <kbd>zufällige Zahl</kbd> macht daraus einen Würfel. Merkt euch: Wenn etwas immer dasselbe tut, liegt es fast nie am Schütteln.",
+    q2: "Richtig. Der Computer tut genau das, was da steht – steht eine 4 im Block, zeigt er eine 4. Erst der Block <kbd>wähle eine zufällige Zahl</kbd> macht daraus einen Würfel. Merkt euch: Wenn etwas immer dasselbe tut, liegt es fast nie am Schütteln.",
     q3: "Richtig. Niedriger Wert = wenig Licht kommt zurück = schwarz. Nur der mittlere Sensor sieht die Linie, also liegt sie mittig.",
     q4: "Richtig. Ein Sensor ist nur nützlich, wenn er ständig gelesen wird. Der <kbd>dauerhaft</kbd>-Block macht daraus einen Regelkreis."
   };
@@ -1567,9 +1570,8 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape") openCoa
 
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+  S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
   save();
-  teamIn.value = "";
   document.querySelectorAll(".quiz").forEach(function(q){
     q.dataset.locked = "";
     q.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("right","wrong"); o.style.opacity=""; });
@@ -1991,6 +1993,9 @@ var PAT = {
   heart:  "0101011111111110111000100",
   arrowR: "0010000010111110001000100",
   arrowL: "0010001000111110100000100",
+  arrowN: "0010001110101010010000100",
+  arrowS: "0010000100101010111000100",
+  skull:  "0111010101111110111001110",
   dot:    "0000000000001000000000000",
   d1:     "0000000000001000000000000",
   d2:     "0000100000000000000010000",
@@ -2021,7 +2026,7 @@ var MBTABS = [
 var MBMISSION = {
   draw:"<b>Auftrag:</b> Klick die Lämpchen an, bis das Zielbild rechts daneben entsteht. Rechts siehst du live, wie der Block <em>zeige LEDs</em> dafür aussieht.",
   btn:"<b>Auftrag:</b> Drück A, dann drück B. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
-  tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach links und nach rechts, und schüttle ihn einmal. Beobachte dabei die Zahl unter dem Gerät."
+  tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach vorn und nach hinten, und schüttle ihn einmal. Beobachte die Zahl unter dem Gerät: Ab welcher Zahl kommt der Pfeil?"
 };
 
 function mbCells(){ return mbMatrix.querySelectorAll(".led"); }
@@ -2045,42 +2050,79 @@ function mbBuildMatrix(){
     mbMatrix.appendChild(b);
   }
 }
+/* Klammer-Blöcke wie in MakeCode: In den Stationen stehen die Blöcke flach
+   untereinander, eingerückt mit i1/i2. Hier wird daraus die Klammer-Form –
+   ein Block, auf den tiefer eingerückte folgen, umschließt sie. „sonst“ hängt
+   sich als Mittelsteg an das vorangehende „wenn“. */
+function mcLevel(el){ return el.classList.contains("i2") ? 2 : el.classList.contains("i1") ? 1 : 0; }
+function nestStack(stack){
+  if(stack.classList.contains("flat")) return;
+  var kids = Array.prototype.slice.call(stack.children), open = [];
+  function colorOf(el){ return (el.className.match(/\bb-[a-z]+/) || [""])[0]; }
+  kids.forEach(function(el, i){
+    if(!el.classList.contains("mcb")){ open = []; stack.appendChild(el); return; }
+    var lv = mcLevel(el);
+    while(open.length && open[open.length-1].lv >= lv) open.pop();
+    var parent = open.length ? open[open.length-1].body : stack;
+    var next = kids[i+1], deeper = next && next.classList.contains("mcb") && mcLevel(next) > lv;
+    el.classList.remove("i1", "i2");
+    if(!deeper){ parent.appendChild(el); return; }
+    var body = document.createElement("div"); body.className = "mcbody";
+    var prev = parent.lastElementChild;
+    if(el.textContent.trim() === "sonst" && prev && prev.classList.contains("mcc") && prev.dataset.c === colorOf(el)){
+      el.classList.add("mch");
+      prev.insertBefore(el, prev.lastElementChild);
+      prev.insertBefore(body, prev.lastElementChild);
+    } else {
+      var c = document.createElement("div"); c.className = "mcc"; c.dataset.c = colorOf(el);
+      c.style.setProperty("--c", getComputedStyle(el).backgroundColor);
+      el.classList.add("mch");
+      var foot = document.createElement("div"); foot.className = "mcfoot";
+      c.appendChild(el); c.appendChild(body); c.appendChild(foot);
+      parent.appendChild(c);
+    }
+    open.push({lv:lv, body:body});
+  });
+}
+
+/* Symbol im Block wie in MakeCode: 5×5-Bildchen mit Auswahlpfeil */
+function ledIcon(name){
+  var pat = PAT[name], h = '<b class="ledico" role="img" aria-label="' + ({heart:"Herz", skull:"Totenkopf"}[name] || name) + '"><i>';
+  for(var i=0;i<25;i++){ h += '<span' + (pat.charAt(i)==="1" ? ' class="on"' : '') + '></span>'; }
+  return h + '</i></b>';
+}
 function mini(pat){
   var h = '<div class="mbmini">';
   for(var i=0;i<25;i++){ h += '<span class="' + (pat.charAt(i)==="1"?"on":"") + '"></span>'; }
   return h + "</div>";
 }
+var TILTCODE =
+  '<div class="mcb b-input">wenn <b>Logo nach oben</b></div>' +
+  '<div class="mcb b-basic i1">zeige Pfeil <b>Norden</b></div>' +
+  '<div class="mcb b-input">wenn <b>Logo nach unten</b></div>' +
+  '<div class="mcb b-basic i1">zeige Pfeil <b>Süden</b></div>' +
+  '<div class="mcb b-input">wenn <b>geschüttelt</b></div>' +
+  '<div class="mcb b-music i1">spiele Ton <b>Mittleres C</b> für <b>1 Schlag</b> <b>bis zum Ende</b></div>' +
+  '<div class="mcb b-basic i1">zeige Symbol ' + ledIcon("skull") + '</div>';
 function mbCode(){
   var h = "";
   if(mbMode === "draw"){
-    var rows = [];
-    for(var r=0;r<5;r++){
-      var line = "";
-      for(var c=0;c<5;c++){ line += (mbDraw.charAt(r*5+c)==="1" ? "#" : "."); }
-      rows.push(line);
-    }
+    var grid = "";
+    for(var i=0;i<25;i++){ grid += '<span' + (mbDraw.charAt(i)==="1" ? ' class="on"' : '') + '></span>'; }
     h = '<div class="mccap">Live aus deiner Zeichnung</div>' +
         '<div class="mcb b-basic">beim Start</div>' +
-        '<div class="mcb b-basic i1">zeige LEDs</div>' +
-        '<div class="ledsrc">' + rows.join("\n") + '</div>';
+        '<div class="mcb b-basic i1 mcleds">zeige LEDs<i class="ledgrid">' + grid + '</i></div>';
   } else if(mbMode === "btn"){
     h = '<div class="mccap">Zwei Ereignisse</div>' +
-        '<div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>' +
-        '<div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>' +
-        '<div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>' +
+        '<div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>' +
+        '<div class="mcb b-basic i1">zeige Symbol ' + ledIcon("heart") + '</div>' +
+        '<div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>' +
         '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>';
   } else {
-    h = '<div class="mccap">Beobachten reicht heute</div>' +
-        '<div class="mcb b-basic">dauerhaft</div>' +
-        '<div class="mcb b-basic i1">zeige Zahl <b>Beschleunigung x</b></div>' +
-        '<div class="mccap" style="margin-top:8px">Extra für schnelle Teams: daraus eine Entscheidung bauen</div>' +
-        '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
-        '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
-        '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
-        '<div class="mcb b-input">wenn geschüttelt</div>' +
-        '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';
+    h = '<div class="mccap">Drei Ereignisse</div>' + TILTCODE;
   }
   mbCodeEl.innerHTML = h;
+  nestStack(mbCodeEl);
 }
 function mbChips(){
   var h = "";
@@ -2088,9 +2130,8 @@ function mbChips(){
     h += '<span class="' + (mbSeen.a?"on":"") + '">Knopf A</span>';
     h += '<span class="' + (mbSeen.b?"on":"") + '">Knopf B</span>';
   } else if(mbMode === "tilt"){
-    h += '<span class="' + (mbSeen.left?"on":"") + '">links gekippt</span>';
-    h += '<span class="' + (mbSeen.mid?"on":"") + '">flach</span>';
-    h += '<span class="' + (mbSeen.right?"on":"") + '">rechts gekippt</span>';
+    h += '<span class="' + (mbSeen.up?"on":"") + '">Logo nach oben</span>';
+    h += '<span class="' + (mbSeen.down?"on":"") + '">Logo nach unten</span>';
     h += '<span class="' + (mbSeen.shake?"on":"") + '">geschüttelt</span>';
   }
   mbChipsEl.innerHTML = h;
@@ -2125,7 +2166,7 @@ function mbSetMode(m){
   document.getElementById("mbB").disabled = (m !== "btn");
   if(m === "draw"){ mbPaint(mbDraw); mbStatus("Klick die Lämpchen an. Wenn dein Bild stimmt, sag ich Bescheid.", ""); }
   else if(m === "btn"){ mbPaint("0000000000000000000000000"); mbStatus("Der Bildschirm ist leer &ndash; das Programm wartet auf dich.", ""); }
-  else { mbTiltPaint(); mbStatus("Zieh den Regler. Die Zahl unten ist genau das, was der echte Sensor liefert.", ""); }
+  else { mbPaint("0000000000000000000000000"); mbTiltPaint(); mbStatus("Zieh den Regler. Die Zahl unten ist genau das, was der echte Sensor liefert.", ""); }
   mbChips(); mbCode();
 }
 function mbPress(which){
@@ -2143,30 +2184,46 @@ function mbPress(which){
     mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
   }
 }
+/* Neigen: Der Regler liefert y wie der echte Sensor (-1023..1023). „Logo nach oben“
+   meldet der micro:bit selbst, sobald y unter -200 fällt, „Logo nach unten“ über 200 –
+   diese Grenze steckt in seiner Firmware (CODAL, Tilt-Toleranz 200). Dazwischen kommt
+   kein Ereignis, die Anzeige bleibt stehen wie auf dem echten Gerät. */
+var TILT = 200;
 function mbTiltPaint(){
   mbXval.textContent = mbTilt;
-  if(mbTilt > 300){ mbPaint(PAT.arrowR); mbSeen.right = 1; }
-  else if(mbTilt < -300){ mbPaint(PAT.arrowL); mbSeen.left = 1; }
-  else { mbPaint(PAT.dot); mbSeen.mid = 1; }
-  mbChips();
-  if(mbSeen.left && mbSeen.right && mbSeen.mid && mbSeen.shake){
-    mbAward("tilt", 10, "Alle vier Zustände gesehen. Die Grenze bei 300 hast nicht der micro:bit und nicht ich festgelegt &ndash; die legt das Programm fest. Also ihr.");
+  if(mbTilt < -TILT){
+    mbPaint(PAT.arrowN); mbSeen.up = 1;
+    mbStatus("y = " + mbTilt + ", also kleiner als &minus;" + TILT + " &rarr; der micro:bit meldet <b>Logo nach oben</b>.", "");
+  } else if(mbTilt > TILT){
+    mbPaint(PAT.arrowS); mbSeen.down = 1;
+    mbStatus("y = " + mbTilt + ", also größer als " + TILT + " &rarr; der micro:bit meldet <b>Logo nach unten</b>.", "");
+  } else {
+    mbStatus("y = " + mbTilt + ", zwischen &minus;" + TILT + " und " + TILT + " &rarr; kein Ereignis, die Anzeige bleibt, wie sie ist.", "");
+  }
+  mbChips(); mbCheckTilt();
+}
+function mbCheckTilt(){
+  if(mbSeen.up && mbSeen.down && mbSeen.shake){
+    mbAward("tilt", 10, "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
   }
 }
-function mbShakeRoll(){
+/* Schütteln: Ton „Mittleres C“ für einen Schlag (bei Tempo 120 eine halbe Sekunde),
+   „bis zum Ende“ – erst danach erscheint der Totenkopf. */
+function mbShake(){
   mbSeen.shake = 1;
-  var n = 0, t = 0;
-  var iv = setInterval(function(){
-    mbPaint(PAT["d" + (1 + Math.floor(Math.random()*6))]);
-    t++;
-    if(t > 7){
-      clearInterval(iv);
-      n = 1 + Math.floor(Math.random()*6);
-      mbPaint(PAT["d" + n]);
-      mbStatus("Gewürfelt: <b>" + n + "</b>. Drei Blöcke, und ihr habt ein Spielzeug gebaut.", "");
-      setTimeout(mbTiltPaint, 1400);
-    }
-  }, reduced() ? 1 : 70);
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext, ac = new AC(), o = ac.createOscillator(), g = ac.createGain();
+    o.type = "square"; o.frequency.value = 262; g.gain.value = 0.06;
+    o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.5);
+    o.onended = function(){ ac.close(); };
+  }catch(e){}
+  mbPaint("0000000000000000000000000");
+  mbStatus("&#9835; Mittleres C, ein Schlag &hellip;", "");
+  setTimeout(function(){
+    mbPaint(PAT.skull);
+    mbStatus("Geschüttelt: Ton gespielt, dann der Totenkopf.", "");
+    mbChips(); mbCheckTilt();
+  }, reduced() ? 1 : 500);
   mbChips();
 }
 function mbInit(){
@@ -2182,7 +2239,7 @@ function mbInit(){
   document.getElementById("mbtilt").addEventListener("input", function(){
     mbTilt = Number(this.value); mbTiltPaint();
   });
-  document.getElementById("mbshake").addEventListener("click", mbShakeRoll);
+  document.getElementById("mbshake").addEventListener("click", mbShake);
   mbSetMode("draw");
 }
 function mbReset(){
@@ -2194,8 +2251,9 @@ function mbReset(){
 
 /* ================= boot ================= */
 load();
+document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
+document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
-teamIn.value = S.team || "";
 paintBadges(); paintScore(); paintRail();
 setLevel(0);
 go(S.cur || 0);

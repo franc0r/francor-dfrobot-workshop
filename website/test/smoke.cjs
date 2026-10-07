@@ -7,7 +7,7 @@
  *   1. Die Datei lädt mit komplett abgeschaltetem Netzwerk, ohne JS-Fehler.
  *   2. Es gibt keine externen Verweise (Schriften, Skripte, Bilder).
  *   3. Sieben Stationen, Minuten summieren auf 90, Rail und Eyebrows passen.
- *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Neigen/Schütteln laufen.
+ *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln laufen.
  *   5. Parcours-Simulator: Level 1 mit "fahre 5" → im Ziel.
  *   6. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
  */
@@ -57,6 +57,17 @@ function check(cond, msg) {
     check(mapText.includes(w), 'Station 0: Übersicht beschriftet "' + w + '"');
   check((await page.$$('.station[data-st="0"] table')).length === 0, 'Station 0: Bauteil-Tabelle ist weg');
 
+  // Symbole in Blöcken wie in MakeCode: 5×5-Bildchen statt Emoji
+  const icoOn = await page.$$eval('.station .mcb .ledico[aria-label="Herz"]', l => l.map(e => e.querySelectorAll('span.on').length));
+  check(icoOn.length >= 2 && icoOn.every(n => n === 16), 'Herz-Symbol in Blöcken als 5×5-Bild (' + icoOn.join(',') + ')');
+  check(!(await page.$$eval('.mcb', l => l.some(e => e.textContent.includes('❤')))), 'kein ❤-Emoji in Blöcken');
+
+  // Klammer-Blöcke: "dauerhaft" in Station 1 umschließt seine vier Blöcke
+  const loopKids = await page.$$eval('.station[data-st="1"] .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim() + ':' + c.querySelectorAll(':scope > .mcbody > .mcb').length));
+  check(loopKids.includes('beim Start:1') && loopKids.includes('dauerhaft:4'), 'Station 1: Klammer-Blöcke (' + loopKids.join(', ') + ')');
+  const ifElse = await page.$$eval('.station[data-st="5"] .mcc[data-c="b-logic"] > .mcbody', l => l.length).catch(() => 0);
+  check(ifElse === 2, 'Station 5: wenn/sonst als ein Block mit zwei Fächern (' + ifElse + ')');
+
   // Station 3: Einsetz-Animation
   await page.click('.stepbtn[data-go="3"]');
   const insH = await page.$eval('#mqinsert svg', e => e.getBoundingClientRect().height).catch(() => 0);
@@ -72,12 +83,21 @@ function check(cond, msg) {
   await page.waitForTimeout(200);
   check(await page.$eval('#mbstatus', e => e.classList.contains('ok')), 'micro:bit: Herz gezeichnet → Erfolg');
   await page.click('#mbtabs button:nth-child(3)');
+  const shown = () => page.$$eval('#mbmatrix .led', l => l.map(e => e.classList.contains('on') ? '1' : '0').join(''));
+  await page.fill('#mbtilt', '-700');
+  await page.dispatchEvent('#mbtilt', 'input');
+  check(await page.$eval('#mbxval', e => e.textContent) === '-700', 'micro:bit: Neigung -700 angezeigt');
+  check(await shown() === '0010001110101010010000100', 'micro:bit: Logo nach oben → Pfeil Norden');
+  await page.fill('#mbtilt', '100');
+  await page.dispatchEvent('#mbtilt', 'input');
+  check(await shown() === '0010001110101010010000100', 'micro:bit: unter der Grenze bleibt die Anzeige stehen');
   await page.fill('#mbtilt', '700');
   await page.dispatchEvent('#mbtilt', 'input');
-  check(await page.$eval('#mbxval', e => e.textContent) === '700', 'micro:bit: Neigung 700 angezeigt');
+  check(await shown() === '0010000100101010111000100', 'micro:bit: Logo nach unten → Pfeil Süden');
   await page.click('#mbshake');
   await page.waitForTimeout(900);
-  check(/Gewürfelt/.test(await page.textContent('#mbstatus')), 'micro:bit: Schütteln würfelt');
+  check(await shown() === '0111010101111110111001110', 'micro:bit: Schütteln zeigt Totenkopf');
+  check(await page.$eval('#mbstatus', e => e.classList.contains('ok')), 'micro:bit: alle drei Ereignisse → Erfolg');
 
   // Station 3: Parcours-Simulator
   await page.click('.stepbtn[data-go="3"]');

@@ -41,7 +41,7 @@ die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
 website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
   src/
     styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
-    topbar.html       Kopfzeile: Teamname, Punkte, 90-Min-Timer, Betreuer, Neues Team
+    topbar.html       Kopfzeile: Punkte, 90-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
     assets/           Bilder; build.py bettet sie als data:-URI ein
@@ -81,14 +81,16 @@ ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 |---|---|---|---|---|
 | 0 | 00-boxenstopp | 5 | Regelkreis wahrnehmen → entscheiden → handeln | Rookie |
 | 1 | 01-erster-kontakt | 13 | MakeCode-Bedienung, beim Start (einmal) vs. dauerhaft (ohne Ende), erstes Flashen | Ersteinschalter |
-| 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Würfel; Neigung nur beobachtet (Bedingung ist Extra) | Pixelkünstler |
+| 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Logo oben/unten + Schütteln; Würfel ist Team-Challenge | Pixelkünstler |
 | 3 | 03-fahrschule | 14 | Vorlage öffnen (Erweiterung ist schon geladen), Parcours-Simulator, Motorblöcke | Fahrlehrer |
 | 4 | 04-augen | 18 | Kalibrieren, Linienverfolgung auf Knopf A — der Wow-Moment | Spurhalter |
 | 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/sonst — **Bonus, streichbar** | Bremsassistent |
 | 6 | 06-grand-prix | 15 | Tuning (3 Ideen), ein Lauf auf Zeit — nie streichen | Champion |
 
 Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
-Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest";
+Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest" — auf dem
+Gerät mit fertigen Ereignissen (Logo nach oben/unten), im Simulator sieht man die Zahl y und
+die Grenze 200, die die micro:bit-Erfinder gesetzt haben;
 Station 4 greift beides wieder auf — die Linienverfolgung läuft dauerhaft, die Grenze ist
 weiß ≈ 3800 / schwarz ≈ 2700.
 
@@ -135,7 +137,17 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   1=unten, 2=links, 3=oben. Level 3 ist mit 5 Bausteinen lösbar (Schleife), sonst 16.
 - **micro:bit-Simulator** (Abschnitt micro:bit SIMULATOR): 5×5-LEDs als Buttons, Muster als
   25-Zeichen-Strings in `PAT`, drei Modi (Zeichnen / Knöpfe / Neigen). Der Neigungsregler
-  liefert -1023..1023 wie der echte Sensor; Grenze ±300 für die Pfeile.
+  liefert y in -1023..1023 wie der echte Sensor; unter -200 meldet er „Logo nach oben“
+  (Pfeil Norden), über 200 „Logo nach unten“ (Pfeil Süden), dazwischen bleibt die Anzeige.
+  200 ist die Tilt-Toleranz der micro:bit-Firmware (CODAL) — bis zum Trockenlauf
+  (Block F) nicht am Gerät bestätigt, ebenso das Vorzeichen. Schütteln spielt ein
+  Mittleres C (0,5 s) und zeigt den Totenkopf.
+- **Block-Optik**: In den Stationen stehen die `.mcb`-Blöcke flach untereinander, eingerückt
+  mit `i1`/`i2`. `nestStack()` in `app.js` baut daraus beim Laden die Klammer-Form wie in
+  MakeCode (Kopf, Arm, Fuß); ein `sonst` direkt nach seinem `wenn` wird dessen Mittelsteg.
+  Die Einrückung ist also die Struktur — sie muss stimmen. `.mcstack.flat` bleibt flach
+  (die Regelkreis-Treppe in Station 0). Symbole wie das Herz sind 5×5-Bildchen aus `PAT`
+  (`<b data-led="heart">`), kein Emoji.
 - Fortschritt liegt in `localStorage` unter `mgp-v1`. „Neues Team" löscht ihn — das ist der
   Knopf zwischen zwei Messe-Slots.
 - **Maqueen-Figuren**: die Übersicht in Station 0 (`#mqmap`, Draufsicht mit nummerierter
@@ -155,7 +167,7 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   `03-fahrschule.html`, Legendenpunkt 4 in `00-boxenstopp.html`.
 - Entscheidung: Station 2 auf 12 Min kürzen, damit der Roboter früher fährt? (Review-Punkt, offen)
 - Danach: Parcours-Bauplan (braucht den gemessenen Radius), Stand-Paket zum Drucken
-  (Urkunde, Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
+  (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
 - Fotos vom echten Gerät neben die beiden SVG-Figuren, falls die Zeichnung am Tisch nicht
   reicht (erst nach dem Trockenlauf möglich). Eine USB-Animation für Station 1 ist
   verworfen: Kabel einstecken kennt jeder, das echte Problem (reine Ladekabel) zeigt kein Bild.

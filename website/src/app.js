@@ -12,7 +12,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
+var S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -25,7 +25,6 @@ function addPts(n){ S.pts += n; save(); paintScore(); }
 
 /* ================= chrome ================= */
 var ptsval = document.getElementById("ptsval");
-var teamIn = document.getElementById("team");
 var rail = document.getElementById("rail");
 var railfoot = rail.querySelector(".railfoot");
 var badgesEl = document.getElementById("badges");
@@ -35,9 +34,8 @@ function paintScore(){
   ptsval.textContent = S.pts;
   var pct = Math.round(S.done.length / STATIONS.length * 100);
   progfill.style.width = pct + "%";
-  var t = S.team ? S.team : "—";
   var ft = document.getElementById("finalwho");
-  if(ft) ft.textContent = "Team " + t + " · " + S.pts + " Punkte";
+  if(ft) ft.textContent = S.pts + " Punkte";
   var fb = document.getElementById("finalbadges");
   if(fb){
     fb.innerHTML = "";
@@ -106,8 +104,6 @@ document.addEventListener("click", function(e){
   go(t);
 });
 
-teamIn.addEventListener("input", function(){ S.team = teamIn.value; save(); paintScore(); });
-
 /* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
   var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
@@ -128,7 +124,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
   var FB = {
     q0: "Richtig. Der Summer <em>erzeugt</em> etwas – er ist ein Aktor, kein Sensor. Sensoren nehmen auf, Aktoren geben aus.",
     q1: "Richtig. Der Code liegt im Flash-Speicher des micro:bit – wie eine App auf dem Handy. Er überlebt jedes Ausschalten.",
-    q2: "Richtig. Der Computer tut genau das, was da steht – steht eine 4 im Block, zeigt er eine 4. Erst der Block <kbd>zufällige Zahl</kbd> macht daraus einen Würfel. Merkt euch: Wenn etwas immer dasselbe tut, liegt es fast nie am Schütteln.",
+    q2: "Richtig. Der Computer tut genau das, was da steht – steht eine 4 im Block, zeigt er eine 4. Erst der Block <kbd>wähle eine zufällige Zahl</kbd> macht daraus einen Würfel. Merkt euch: Wenn etwas immer dasselbe tut, liegt es fast nie am Schütteln.",
     q3: "Richtig. Niedriger Wert = wenig Licht kommt zurück = schwarz. Nur der mittlere Sensor sieht die Linie, also liegt sie mittig.",
     q4: "Richtig. Ein Sensor ist nur nützlich, wenn er ständig gelesen wird. Der <kbd>dauerhaft</kbd>-Block macht daraus einen Regelkreis."
   };
@@ -179,9 +175,8 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape") openCoa
 
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {team:"", pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+  S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
   save();
-  teamIn.value = "";
   document.querySelectorAll(".quiz").forEach(function(q){
     q.dataset.locked = "";
     q.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("right","wrong"); o.style.opacity=""; });
@@ -603,6 +598,9 @@ var PAT = {
   heart:  "0101011111111110111000100",
   arrowR: "0010000010111110001000100",
   arrowL: "0010001000111110100000100",
+  arrowN: "0010001110101010010000100",
+  arrowS: "0010000100101010111000100",
+  skull:  "0111010101111110111001110",
   dot:    "0000000000001000000000000",
   d1:     "0000000000001000000000000",
   d2:     "0000100000000000000010000",
@@ -633,7 +631,7 @@ var MBTABS = [
 var MBMISSION = {
   draw:"<b>Auftrag:</b> Klick die Lämpchen an, bis das Zielbild rechts daneben entsteht. Rechts siehst du live, wie der Block <em>zeige LEDs</em> dafür aussieht.",
   btn:"<b>Auftrag:</b> Drück A, dann drück B. Achte darauf: Das Programm wartet – es passiert erst etwas, wenn du drückst.",
-  tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach links und nach rechts, und schüttle ihn einmal. Beobachte dabei die Zahl unter dem Gerät."
+  tilt:"<b>Auftrag:</b> Kipp den micro:bit mit dem Regler nach vorn und nach hinten, und schüttle ihn einmal. Beobachte die Zahl unter dem Gerät: Ab welcher Zahl kommt der Pfeil?"
 };
 
 function mbCells(){ return mbMatrix.querySelectorAll(".led"); }
@@ -657,42 +655,79 @@ function mbBuildMatrix(){
     mbMatrix.appendChild(b);
   }
 }
+/* Klammer-Blöcke wie in MakeCode: In den Stationen stehen die Blöcke flach
+   untereinander, eingerückt mit i1/i2. Hier wird daraus die Klammer-Form –
+   ein Block, auf den tiefer eingerückte folgen, umschließt sie. „sonst“ hängt
+   sich als Mittelsteg an das vorangehende „wenn“. */
+function mcLevel(el){ return el.classList.contains("i2") ? 2 : el.classList.contains("i1") ? 1 : 0; }
+function nestStack(stack){
+  if(stack.classList.contains("flat")) return;
+  var kids = Array.prototype.slice.call(stack.children), open = [];
+  function colorOf(el){ return (el.className.match(/\bb-[a-z]+/) || [""])[0]; }
+  kids.forEach(function(el, i){
+    if(!el.classList.contains("mcb")){ open = []; stack.appendChild(el); return; }
+    var lv = mcLevel(el);
+    while(open.length && open[open.length-1].lv >= lv) open.pop();
+    var parent = open.length ? open[open.length-1].body : stack;
+    var next = kids[i+1], deeper = next && next.classList.contains("mcb") && mcLevel(next) > lv;
+    el.classList.remove("i1", "i2");
+    if(!deeper){ parent.appendChild(el); return; }
+    var body = document.createElement("div"); body.className = "mcbody";
+    var prev = parent.lastElementChild;
+    if(el.textContent.trim() === "sonst" && prev && prev.classList.contains("mcc") && prev.dataset.c === colorOf(el)){
+      el.classList.add("mch");
+      prev.insertBefore(el, prev.lastElementChild);
+      prev.insertBefore(body, prev.lastElementChild);
+    } else {
+      var c = document.createElement("div"); c.className = "mcc"; c.dataset.c = colorOf(el);
+      c.style.setProperty("--c", getComputedStyle(el).backgroundColor);
+      el.classList.add("mch");
+      var foot = document.createElement("div"); foot.className = "mcfoot";
+      c.appendChild(el); c.appendChild(body); c.appendChild(foot);
+      parent.appendChild(c);
+    }
+    open.push({lv:lv, body:body});
+  });
+}
+
+/* Symbol im Block wie in MakeCode: 5×5-Bildchen mit Auswahlpfeil */
+function ledIcon(name){
+  var pat = PAT[name], h = '<b class="ledico" role="img" aria-label="' + ({heart:"Herz", skull:"Totenkopf"}[name] || name) + '"><i>';
+  for(var i=0;i<25;i++){ h += '<span' + (pat.charAt(i)==="1" ? ' class="on"' : '') + '></span>'; }
+  return h + '</i></b>';
+}
 function mini(pat){
   var h = '<div class="mbmini">';
   for(var i=0;i<25;i++){ h += '<span class="' + (pat.charAt(i)==="1"?"on":"") + '"></span>'; }
   return h + "</div>";
 }
+var TILTCODE =
+  '<div class="mcb b-input">wenn <b>Logo nach oben</b></div>' +
+  '<div class="mcb b-basic i1">zeige Pfeil <b>Norden</b></div>' +
+  '<div class="mcb b-input">wenn <b>Logo nach unten</b></div>' +
+  '<div class="mcb b-basic i1">zeige Pfeil <b>Süden</b></div>' +
+  '<div class="mcb b-input">wenn <b>geschüttelt</b></div>' +
+  '<div class="mcb b-music i1">spiele Ton <b>Mittleres C</b> für <b>1 Schlag</b> <b>bis zum Ende</b></div>' +
+  '<div class="mcb b-basic i1">zeige Symbol ' + ledIcon("skull") + '</div>';
 function mbCode(){
   var h = "";
   if(mbMode === "draw"){
-    var rows = [];
-    for(var r=0;r<5;r++){
-      var line = "";
-      for(var c=0;c<5;c++){ line += (mbDraw.charAt(r*5+c)==="1" ? "#" : "."); }
-      rows.push(line);
-    }
+    var grid = "";
+    for(var i=0;i<25;i++){ grid += '<span' + (mbDraw.charAt(i)==="1" ? ' class="on"' : '') + '></span>'; }
     h = '<div class="mccap">Live aus deiner Zeichnung</div>' +
         '<div class="mcb b-basic">beim Start</div>' +
-        '<div class="mcb b-basic i1">zeige LEDs</div>' +
-        '<div class="ledsrc">' + rows.join("\n") + '</div>';
+        '<div class="mcb b-basic i1 mcleds">zeige LEDs<i class="ledgrid">' + grid + '</i></div>';
   } else if(mbMode === "btn"){
     h = '<div class="mccap">Zwei Ereignisse</div>' +
-        '<div class="mcb b-input">beim Knopf <b>A</b> gedrückt</div>' +
-        '<div class="mcb b-basic i1">zeige Symbol <b>❤</b></div>' +
-        '<div class="mcb b-input">beim Knopf <b>B</b> gedrückt</div>' +
+        '<div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>' +
+        '<div class="mcb b-basic i1">zeige Symbol ' + ledIcon("heart") + '</div>' +
+        '<div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>' +
         '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>';
   } else {
-    h = '<div class="mccap">Beobachten reicht heute</div>' +
-        '<div class="mcb b-basic">dauerhaft</div>' +
-        '<div class="mcb b-basic i1">zeige Zahl <b>Beschleunigung x</b></div>' +
-        '<div class="mccap" style="margin-top:8px">Extra für schnelle Teams: daraus eine Entscheidung bauen</div>' +
-        '<div class="mcb b-logic i1">wenn <b>Beschleunigung x</b> &gt; <b>300</b> dann</div>' +
-        '<div class="mcb b-basic i2">zeige Pfeil <b>Osten</b></div>' +
-        '<div class="mccap" style="margin-top:8px">Und der Würfel</div>' +
-        '<div class="mcb b-input">wenn geschüttelt</div>' +
-        '<div class="mcb b-basic i1">zeige Zahl <b>zufällig 1 bis 6</b></div>';
+    h = '<div class="mccap">Drei Ereignisse</div>' + TILTCODE;
   }
   mbCodeEl.innerHTML = h;
+  nestStack(mbCodeEl);
 }
 function mbChips(){
   var h = "";
@@ -700,9 +735,8 @@ function mbChips(){
     h += '<span class="' + (mbSeen.a?"on":"") + '">Knopf A</span>';
     h += '<span class="' + (mbSeen.b?"on":"") + '">Knopf B</span>';
   } else if(mbMode === "tilt"){
-    h += '<span class="' + (mbSeen.left?"on":"") + '">links gekippt</span>';
-    h += '<span class="' + (mbSeen.mid?"on":"") + '">flach</span>';
-    h += '<span class="' + (mbSeen.right?"on":"") + '">rechts gekippt</span>';
+    h += '<span class="' + (mbSeen.up?"on":"") + '">Logo nach oben</span>';
+    h += '<span class="' + (mbSeen.down?"on":"") + '">Logo nach unten</span>';
     h += '<span class="' + (mbSeen.shake?"on":"") + '">geschüttelt</span>';
   }
   mbChipsEl.innerHTML = h;
@@ -737,7 +771,7 @@ function mbSetMode(m){
   document.getElementById("mbB").disabled = (m !== "btn");
   if(m === "draw"){ mbPaint(mbDraw); mbStatus("Klick die Lämpchen an. Wenn dein Bild stimmt, sag ich Bescheid.", ""); }
   else if(m === "btn"){ mbPaint("0000000000000000000000000"); mbStatus("Der Bildschirm ist leer &ndash; das Programm wartet auf dich.", ""); }
-  else { mbTiltPaint(); mbStatus("Zieh den Regler. Die Zahl unten ist genau das, was der echte Sensor liefert.", ""); }
+  else { mbPaint("0000000000000000000000000"); mbTiltPaint(); mbStatus("Zieh den Regler. Die Zahl unten ist genau das, was der echte Sensor liefert.", ""); }
   mbChips(); mbCode();
 }
 function mbPress(which){
@@ -755,30 +789,46 @@ function mbPress(which){
     mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
   }
 }
+/* Neigen: Der Regler liefert y wie der echte Sensor (-1023..1023). „Logo nach oben“
+   meldet der micro:bit selbst, sobald y unter -200 fällt, „Logo nach unten“ über 200 –
+   diese Grenze steckt in seiner Firmware (CODAL, Tilt-Toleranz 200). Dazwischen kommt
+   kein Ereignis, die Anzeige bleibt stehen wie auf dem echten Gerät. */
+var TILT = 200;
 function mbTiltPaint(){
   mbXval.textContent = mbTilt;
-  if(mbTilt > 300){ mbPaint(PAT.arrowR); mbSeen.right = 1; }
-  else if(mbTilt < -300){ mbPaint(PAT.arrowL); mbSeen.left = 1; }
-  else { mbPaint(PAT.dot); mbSeen.mid = 1; }
-  mbChips();
-  if(mbSeen.left && mbSeen.right && mbSeen.mid && mbSeen.shake){
-    mbAward("tilt", 10, "Alle vier Zustände gesehen. Die Grenze bei 300 hast nicht der micro:bit und nicht ich festgelegt &ndash; die legt das Programm fest. Also ihr.");
+  if(mbTilt < -TILT){
+    mbPaint(PAT.arrowN); mbSeen.up = 1;
+    mbStatus("y = " + mbTilt + ", also kleiner als &minus;" + TILT + " &rarr; der micro:bit meldet <b>Logo nach oben</b>.", "");
+  } else if(mbTilt > TILT){
+    mbPaint(PAT.arrowS); mbSeen.down = 1;
+    mbStatus("y = " + mbTilt + ", also größer als " + TILT + " &rarr; der micro:bit meldet <b>Logo nach unten</b>.", "");
+  } else {
+    mbStatus("y = " + mbTilt + ", zwischen &minus;" + TILT + " und " + TILT + " &rarr; kein Ereignis, die Anzeige bleibt, wie sie ist.", "");
+  }
+  mbChips(); mbCheckTilt();
+}
+function mbCheckTilt(){
+  if(mbSeen.up && mbSeen.down && mbSeen.shake){
+    mbAward("tilt", 10, "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
   }
 }
-function mbShakeRoll(){
+/* Schütteln: Ton „Mittleres C“ für einen Schlag (bei Tempo 120 eine halbe Sekunde),
+   „bis zum Ende“ – erst danach erscheint der Totenkopf. */
+function mbShake(){
   mbSeen.shake = 1;
-  var n = 0, t = 0;
-  var iv = setInterval(function(){
-    mbPaint(PAT["d" + (1 + Math.floor(Math.random()*6))]);
-    t++;
-    if(t > 7){
-      clearInterval(iv);
-      n = 1 + Math.floor(Math.random()*6);
-      mbPaint(PAT["d" + n]);
-      mbStatus("Gewürfelt: <b>" + n + "</b>. Drei Blöcke, und ihr habt ein Spielzeug gebaut.", "");
-      setTimeout(mbTiltPaint, 1400);
-    }
-  }, reduced() ? 1 : 70);
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext, ac = new AC(), o = ac.createOscillator(), g = ac.createGain();
+    o.type = "square"; o.frequency.value = 262; g.gain.value = 0.06;
+    o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.5);
+    o.onended = function(){ ac.close(); };
+  }catch(e){}
+  mbPaint("0000000000000000000000000");
+  mbStatus("&#9835; Mittleres C, ein Schlag &hellip;", "");
+  setTimeout(function(){
+    mbPaint(PAT.skull);
+    mbStatus("Geschüttelt: Ton gespielt, dann der Totenkopf.", "");
+    mbChips(); mbCheckTilt();
+  }, reduced() ? 1 : 500);
   mbChips();
 }
 function mbInit(){
@@ -794,7 +844,7 @@ function mbInit(){
   document.getElementById("mbtilt").addEventListener("input", function(){
     mbTilt = Number(this.value); mbTiltPaint();
   });
-  document.getElementById("mbshake").addEventListener("click", mbShakeRoll);
+  document.getElementById("mbshake").addEventListener("click", mbShake);
   mbSetMode("draw");
 }
 function mbReset(){
@@ -806,8 +856,9 @@ function mbReset(){
 
 /* ================= boot ================= */
 load();
+document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
+document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
-teamIn.value = S.team || "";
 paintBadges(); paintScore(); paintRail();
 setLevel(0);
 go(S.cur || 0);
