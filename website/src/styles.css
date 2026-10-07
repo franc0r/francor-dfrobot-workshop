@@ -104,16 +104,6 @@ button{font:inherit; color:inherit; cursor:pointer}
 .brand h1{font-size:1.15rem; font-weight:800; letter-spacing:-.02em}
 .brand .sub{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.01em}
 .tbgroup{display:flex; align-items:center; gap:10px}
-.teamfield{
-  display:flex; align-items:center; gap:7px;
-  background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:4px 9px;
-}
-.teamfield label{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
-.teamfield input{
-  border:0; background:transparent; color:var(--ink); font:600 14px var(--sans);
-  width:120px; padding:2px 0;
-}
-.teamfield input:focus{outline:none}
 .score{
   display:flex; align-items:baseline; gap:6px; font-family:var(--mono);
   background:var(--accent-soft); border:1px solid var(--accent); border-radius:8px; padding:4px 11px;
@@ -230,6 +220,27 @@ kbd{
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
 }
 .mcb b{background:rgba(255,255,255,.22); border-radius:4px; padding:1px 7px; font-weight:600}
+.mcb b.ledico{display:inline-flex; align-items:center; gap:6px; padding:3px 6px 3px 5px; background:rgba(0,0,0,.2)}
+.ledico i{display:grid; grid-template-columns:repeat(5,4px); gap:1.5px}
+.ledico span{width:4px; height:4px; border-radius:1px; background:rgba(255,255,255,.25)}
+.ledico span.on{background:#fff}
+.ledico::after{content:"\25BE"; font-size:11px}
+/* Klammer: nur Kopf, Arm links und Fuß sind farbig, rechts offen wie in MakeCode */
+.mcc{display:flex; flex-direction:column; align-items:flex-start; align-self:flex-start}
+.mcc > .mch{box-shadow:none; min-width:140px; border-radius:6px 6px 6px 0}
+.mcc > .mcbody + .mch{border-radius:0 6px 6px 0}
+.mcbody{
+  display:flex; flex-direction:column; gap:3px; padding:3px 0 3px 4px; min-height:24px;
+  border-left:16px solid var(--c);
+}
+.mcfoot{height:14px; width:140px; background:var(--c); border-radius:0 6px 6px 6px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+/* zeige LEDs: Raster im Block, wie in MakeCode */
+.mcb.mcleds{flex-direction:column; align-items:flex-start; gap:10px; padding-bottom:12px}
+.ledgrid{display:grid; grid-template-columns:repeat(5,18px); gap:5px; margin-left:4px}
+.ledgrid span{width:18px; height:18px; border-radius:4px; background:rgba(0,0,0,.2)}
+.ledgrid span.on{background:#fff}
+/* in der schmalen Simulator-Spalte dürfen lange Blöcke umbrechen */
+#mbcode .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px}
 .mcb.i1{margin-left:20px} .mcb.i2{margin-left:40px}
 .b-basic{background:#1E90D6}
 .b-input{background:#B4009E}
@@ -238,6 +249,9 @@ kbd{
 .b-music{background:#D83B01}
 .b-var{background:#E07000}
 .b-mq{background:#264F87}
+.b-math{background:#7E2FC8}
+/* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
+.mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
 .mccap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
 
 /* callouts */
@@ -504,11 +518,6 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .mbmini{display:grid; grid-template-columns:repeat(5,1fr); gap:4px; width:78px; margin-top:8px}
 .mbmini span{display:block; width:12px; height:15px; border-radius:2px; background:var(--line)}
 .mbmini span.on{background:var(--accent)}
-.ledsrc{
-  font-family:var(--mono); font-size:14px; line-height:1.35; letter-spacing:.34em;
-  background:#1E90D6; color:#fff; padding:9px 12px; border-radius:6px; align-self:flex-start;
-  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18); margin-left:20px; white-space:pre;
-}
 .mbchips{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
 .mbchips span{
   font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;

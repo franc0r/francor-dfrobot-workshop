@@ -8,3 +8,6 @@ website/dist/maqueen-grand-prix-pages.html
 
 # Zwischenordner des Pages-Workflows
 website/_site/
+
+# macOS-Ordnerdaten
+.DS_Store

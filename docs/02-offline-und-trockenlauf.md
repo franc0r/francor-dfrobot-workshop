@@ -50,7 +50,7 @@ teuersten schiefgeht":
 | C | Der Roboter fährt (Messwerte: cm/s, ms für 90°, Steckrichtung, Tempo-Schwelle) | 15 Min |
 | D | Liniensensoren und Strecke (Rohwerte, Stufe, Kurvenradius, Stopp-Block) | 15 Min |
 | E | Laserscanner — die offene Flanke | 15 Min |
-| F | micro:bit-Station gegenprüfen (Würfel, Beschleunigungsgrenze 300) | 8 Min |
+| F | micro:bit-Station gegenprüfen (Würfel, Logo oben/unten ab y = ±200) | 8 Min |
 | G | Ausdauer und Ablauf (Akku über 90 Min, Aufbauzeit) | 10 Min |
 
 Ergebnisse, die in `src/` zurückfließen müssen:
@@ -59,7 +59,8 @@ Ergebnisse, die in `src/` zurückfließen müssen:
 - sichere Linienstufe, kleinster Kurvenradius → Station 4, Handbuch, Parcours-Bauplan
 - Rohwerte weiß/schwarz und deren Richtung → Station 4 Tabelle und Quiz q3
 - Steckrichtung micro:bit → Station 3
-- Beschleunigungsgrenze 300 → Station 2 und micro:bit-Simulator (`app.js`, `mbTiltPaint`)
+- Grenze für „Logo nach oben/unten“ (angenommen y = ±200) und deren Vorzeichen → Station 2
+  (Tabelle, „wichtigster Satz“) und micro:bit-Simulator (`app.js`, `TILT`)
 - Akkulaufzeit, Aufbauzeit → Handbuch
 
 ## Quellen
