@@ -609,6 +609,7 @@ var mbDraw = "0000000000000000000000000";
 var mbTilt = 0, mbShown = "0000000000000000000000000";
 var mbSeen = {};
 var mbMatrix = document.getElementById("mbmatrix");
+var mbBoard = document.getElementById("mbboard");
 var mbCtl = document.getElementById("mbctl");
 var mbTabsEl = document.getElementById("mbtabs");
 var mbMissionEl = document.getElementById("mbmission");
@@ -763,6 +764,7 @@ function mbSetMode(m){
   mbCells().forEach(function(c){ c.classList.toggle("tap", m === "draw"); });
   document.getElementById("mbA").disabled = (m !== "btn");
   document.getElementById("mbB").disabled = (m !== "btn");
+  if(m !== "tilt") mbBoard.style.setProperty("--tilt", "0deg");
   if(m === "draw"){ mbPaint(mbDraw); mbStatus("Klick die Lämpchen an. Wenn dein Bild stimmt, sag ich Bescheid.", ""); }
   else if(m === "btn"){ mbPaint("0000000000000000000000000"); mbStatus("Der Bildschirm ist leer &ndash; das Programm wartet auf dich.", ""); }
   else { mbPaint("0000000000000000000000000"); mbTiltPaint(); mbStatus("Zieh den Regler. Die Zahl unten ist genau das, was der echte Sensor liefert.", ""); }
@@ -790,6 +792,7 @@ function mbPress(which){
 var TILT = 200;
 function mbTiltPaint(){
   mbXval.textContent = mbTilt;
+  mbBoard.style.setProperty("--tilt", (mbTilt / 1023 * 35).toFixed(1) + "deg");
   if(mbTilt < -TILT){
     mbPaint(PAT.arrowN); mbSeen.up = 1;
     mbStatus("y = " + mbTilt + ", also kleiner als &minus;" + TILT + " &rarr; der micro:bit meldet <b>Logo nach oben</b>.", "");
@@ -816,6 +819,7 @@ function mbShake(){
     o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.5);
     o.onended = function(){ ac.close(); };
   }catch(e){}
+  mbBoard.classList.remove("shake"); void mbBoard.offsetWidth; mbBoard.classList.add("shake");
   mbPaint("0000000000000000000000000");
   mbStatus("&#9835; Mittleres C, ein Schlag &hellip;", "");
   setTimeout(function(){

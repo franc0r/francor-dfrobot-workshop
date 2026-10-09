@@ -495,30 +495,60 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
 /* ---------- micro:bit board ---------- */
 .mbwrap{display:flex; flex-direction:column; align-items:center; gap:14px}
+/* Platine wie im MakeCode-Simulator: Grafik als SVG (Koordinaten 400×320),
+   LEDs und Knöpfe als Buttons darüber, in Prozent derselben Koordinaten. */
 .mbboard{
-  background:linear-gradient(178deg,#22343C 0%,#16242B 100%);
-  border:1px solid #334A53; border-radius:16px; padding:16px 16px 10px;
-  display:flex; flex-direction:column; align-items:center; gap:12px;
-  width:100%; max-width:280px; box-shadow:0 14px 34px -20px rgba(0,0,0,.85);
+  position:relative; width:100%; max-width:330px; aspect-ratio:400/320;
+  transform:perspective(900px) rotateX(var(--tilt,0deg)); transform-origin:50% 55%;
+  transition:transform .18s ease-out;
 }
-.mbrow{display:flex; align-items:center; gap:16px}
-.mbmatrix{display:grid; grid-template-columns:repeat(5,1fr); gap:6px}
-.led{
-  width:14px; height:18px; border-radius:3px; padding:0; border:0;
-  background:rgba(255,255,255,.09); transition:background .12s, box-shadow .12s;
+.mbboard.shake{animation:mb-shake .5s linear}
+@keyframes mb-shake{
+  0%,100%{translate:0 0; rotate:0deg} 15%{translate:-7px 2px; rotate:-3deg} 30%{translate:6px -2px; rotate:3deg}
+  45%{translate:-5px 1px; rotate:-2deg} 60%{translate:4px -1px; rotate:2deg} 80%{translate:-2px 0; rotate:-1deg}
 }
-.led.on{background:#FF3D2E; box-shadow:0 0 10px 1px rgba(255,61,46,.7)}
+.mbart{position:absolute; inset:0; width:100%; height:100%; overflow:visible; filter:drop-shadow(0 12px 16px rgba(0,0,0,.28))}
+.mbart .pcb{fill:#141414; stroke:#2E2E2E; stroke-width:1}
+.mbart .usb{fill:#9AA0A4; stroke:#6E7478}
+.mbart .yel{fill:#FFC800}
+.mbart .gold,.mbart .pad{fill:#D9AE2E}
+.mbart .pad{stroke:#B8901C; stroke-width:1}
+.mbart .slot rect{fill:#8E6E12}
+.mbart .hole{fill:var(--surface-2); stroke:#B8901C; stroke-width:1.5}
+.mbart circle.hole[r="3.5"]{stroke:#3A3A3A}
+.mbart .pins text{font:700 15px var(--sans); fill:#111; text-anchor:middle}
+.mbart .logo{fill:none; stroke:#D9AE2E; stroke-width:5}
+.mbart .logodot{fill:#D9AE2E}
+.mbart .micled{fill:none; stroke:#D9AE2E; stroke-width:1.2}
+.mbart .mic{fill:none; stroke:#E8443A; stroke-width:2; stroke-linecap:round}
+.mbart .btnl{font:800 14px var(--sans); fill:#111; text-anchor:middle}
+.mbmatrix{
+  position:absolute; left:32.19%; top:29.53%; width:35.63%; height:42.19%;
+  display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows:repeat(5,1fr);
+}
+.led{position:relative; padding:0; border:0; background:none; border-radius:4px}
+.led::before{
+  content:""; position:absolute; left:50%; top:50%; width:27%; height:50%; translate:-50% -50%;
+  border-radius:1.5px; background:linear-gradient(90deg,#5A5A5A,#B9B9B9 35%,#B9B9B9 65%,#5A5A5A);
+  transition:background .12s, box-shadow .12s;
+}
+.led.on::before{background:#FF2A1A; box-shadow:0 0 6px 2px rgba(255,40,26,.85), 0 0 14px 4px rgba(255,40,26,.45)}
 .led.tap{cursor:pointer}
-.led.tap:hover{background:rgba(255,255,255,.26)}
+.led.tap:hover{background:rgba(255,255,255,.08)}
+.led.tap:not(.on):hover::before{background:#7A3530}
 .mbbtn{
-  width:40px; height:40px; border-radius:50%; background:#101E23;
-  border:2px solid #3B535D; color:#93AAB2; font-family:var(--mono); font-size:14px; font-weight:600;
+  position:absolute; left:8%; top:41.56%; width:11%; height:13.75%; padding:0;
+  border:1px solid #5C5C5C; border-radius:3px; background:linear-gradient(180deg,#BDBDBD,#8C8C8C);
 }
-.mbbtn:hover{border-color:#FF3D2E; color:#FF6A5A}
-.mbbtn.pressed{background:#FF3D2E; border-color:#FF3D2E; color:#fff}
-.mbedge{display:flex; gap:5px; margin-top:4px}
-.mbedge i{display:block; width:11px; height:13px; background:#C9A227; border-radius:0 0 2px 2px}
-.mbedge i.big{width:24px}
+.mbbtn.b{left:81%}
+.mbbtn::after{
+  content:""; position:absolute; inset:17%; border-radius:50%; background:#0C0C0C;
+  box-shadow:inset 0 -2px 2px rgba(255,255,255,.15); transition:transform .08s;
+}
+.mbbtn:disabled{cursor:default}
+.mbbtn:not(:disabled){cursor:pointer}
+.mbbtn:not(:disabled):hover{outline:2px solid #FFC800; outline-offset:2px}
+.mbbtn.pressed::after{transform:scale(.86); background:#2A2A2A}
 .mbctl{width:100%; max-width:280px; display:flex; flex-direction:column; gap:9px}
 .mbctl[hidden]{display:none}
 .mbctl label{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
@@ -539,6 +569,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .mbchips span.on{border-style:solid; border-color:var(--teal); background:var(--teal-soft); color:var(--teal)}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+  .mbboard{transition:none}
+  .mbboard.shake{animation:none}
   .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
 }
 </style>
@@ -786,13 +818,28 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="simcol">
             <div class="colhead">Gerät</div>
             <div class="mbwrap">
-              <div class="mbboard">
-                <div class="mbrow">
-                  <button class="mbbtn" id="mbA" type="button">A</button>
-                  <div class="mbmatrix" id="mbmatrix"></div>
-                  <button class="mbbtn" id="mbB" type="button">B</button>
-                </div>
-                <div class="mbedge"><i class="big"></i><i class="big"></i><i class="big"></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="mbboard" id="mbboard">
+                <svg class="mbart" viewBox="0 0 400 320" aria-hidden="true">
+                  <defs><clipPath id="mbclip"><rect x="10" y="12" width="380" height="298" rx="24"/></clipPath></defs>
+                  <rect class="usb" x="170" y="2" width="60" height="16" rx="2"/>
+                  <rect class="pcb" x="10" y="12" width="380" height="298" rx="24"/>
+                  <g clip-path="url(#mbclip)">
+                    <path class="yel" d="M10 12H98L10 96Z M102 12H142L102 52Z M146 12H162L146 28Z"/>
+                    <rect class="gold" x="10" y="262" width="380" height="48"/>
+                    <g class="slot"><rect x="71" y="268" width="3" height="30"/><rect x="78" y="268" width="3" height="30"/><rect x="85" y="268" width="3" height="30"/><rect x="92" y="268" width="3" height="30"/><rect x="148" y="268" width="3" height="30"/><rect x="155" y="268" width="3" height="30"/><rect x="162" y="268" width="3" height="30"/><rect x="169" y="268" width="3" height="30"/><rect x="225" y="268" width="3" height="30"/><rect x="232" y="268" width="3" height="30"/><rect x="239" y="268" width="3" height="30"/><rect x="246" y="268" width="3" height="30"/><rect x="253" y="268" width="3" height="30"/><rect x="309" y="268" width="3" height="30"/><rect x="316" y="268" width="3" height="30"/><rect x="323" y="268" width="3" height="30"/><rect x="379" y="268" width="3" height="30"/></g>
+                    <g class="pins"><path class="pad" d="M26 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="46" cy="252" r="11"/><text x="46" y="291">0</text><path class="pad" d="M100 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="120" cy="252" r="11"/><text x="120" y="291">1</text><path class="pad" d="M180 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="200" cy="252" r="11"/><text x="200" y="291">2</text><path class="pad" d="M260 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="280" cy="252" r="11"/><text x="280" y="291">3V</text><path class="pad" d="M334 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="354" cy="252" r="11"/><text x="354" y="291">GND</text></g>
+                  </g>
+                  <rect class="logo" x="170" y="48" width="60" height="30" rx="15"/>
+                  <circle class="logodot" cx="187" cy="63" r="4.5"/><circle class="logodot" cx="213" cy="63" r="4.5"/>
+                  <circle class="micled" cx="252" cy="79" r="3"/>
+                  <path class="mic" d="M262 66a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0z M259 72a6 6 0 0 0 12 0 M265 78v4 M261.5 82h7"/>
+                  <circle class="hole" cx="24" cy="155" r="3.5"/><circle class="hole" cx="376" cy="155" r="3.5"/>
+                  <path class="yel" d="M56 182V205H32Z M344 105H368L344 129Z"/>
+                  <text class="btnl" x="48" y="201">A</text><text class="btnl" x="352" y="120">B</text>
+                </svg>
+                <button class="mbbtn" id="mbA" type="button" aria-label="Knopf A"></button>
+                <div class="mbmatrix" id="mbmatrix"></div>
+                <button class="mbbtn b" id="mbB" type="button" aria-label="Knopf B"></button>
               </div>
               <div class="mbctl" id="mbctl" hidden>
                 <label for="mbtilt">&larr; Logo nach oben &middot; Logo nach unten &rarr;</label>
@@ -2043,6 +2090,7 @@ var mbDraw = "0000000000000000000000000";
 var mbTilt = 0, mbShown = "0000000000000000000000000";
 var mbSeen = {};
 var mbMatrix = document.getElementById("mbmatrix");
+var mbBoard = document.getElementById("mbboard");
 var mbCtl = document.getElementById("mbctl");
 var mbTabsEl = document.getElementById("mbtabs");
 var mbMissionEl = document.getElementById("mbmission");
@@ -2197,6 +2245,7 @@ function mbSetMode(m){
   mbCells().forEach(function(c){ c.classList.toggle("tap", m === "draw"); });
   document.getElementById("mbA").disabled = (m !== "btn");
   document.getElementById("mbB").disabled = (m !== "btn");
+  if(m !== "tilt") mbBoard.style.setProperty("--tilt", "0deg");
   if(m === "draw"){ mbPaint(mbDraw); mbStatus("Klick die Lämpchen an. Wenn dein Bild stimmt, sag ich Bescheid.", ""); }
   else if(m === "btn"){ mbPaint("0000000000000000000000000"); mbStatus("Der Bildschirm ist leer &ndash; das Programm wartet auf dich.", ""); }
   else { mbPaint("0000000000000000000000000"); mbTiltPaint(); mbStatus("Zieh den Regler. Die Zahl unten ist genau das, was der echte Sensor liefert.", ""); }
@@ -2224,6 +2273,7 @@ function mbPress(which){
 var TILT = 200;
 function mbTiltPaint(){
   mbXval.textContent = mbTilt;
+  mbBoard.style.setProperty("--tilt", (mbTilt / 1023 * 35).toFixed(1) + "deg");
   if(mbTilt < -TILT){
     mbPaint(PAT.arrowN); mbSeen.up = 1;
     mbStatus("y = " + mbTilt + ", also kleiner als &minus;" + TILT + " &rarr; der micro:bit meldet <b>Logo nach oben</b>.", "");
@@ -2250,6 +2300,7 @@ function mbShake(){
     o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.5);
     o.onended = function(){ ac.close(); };
   }catch(e){}
+  mbBoard.classList.remove("shake"); void mbBoard.offsetWidth; mbBoard.classList.add("shake");
   mbPaint("0000000000000000000000000");
   mbStatus("&#9835; Mittleres C, ein Schlag &hellip;", "");
   setTimeout(function(){
