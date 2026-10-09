@@ -249,6 +249,7 @@ kbd{
 .b-music{background:#D83B01}
 .b-var{background:#E07000}
 .b-mq{background:#264F87}
+.b-lidar{background:#5B3FE8}
 .b-math{background:#7E2FC8}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
 .mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
@@ -267,6 +268,11 @@ kbd{
 }
 .note p{font-size:.95rem}
 .note [data-bonus]{margin-top:10px}
+.note p + p{margin-top:8px}
+.hint{margin-top:10px}
+.hint summary{cursor:pointer; font-weight:600; font-size:.95rem}
+.hint[open] summary{margin-bottom:8px}
+.hint .mcstack + p{margin-top:8px}
 
 /* fix-it table */
 .fix{width:100%; border-collapse:collapse; font-size:.93rem}

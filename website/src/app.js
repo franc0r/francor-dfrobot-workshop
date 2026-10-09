@@ -657,7 +657,7 @@ function mbBuildMatrix(){
 }
 /* Klammer-Blöcke wie in MakeCode: In den Stationen stehen die Blöcke flach
    untereinander, eingerückt mit i1/i2. Hier wird daraus die Klammer-Form –
-   ein Block, auf den tiefer eingerückte folgen, umschließt sie. „sonst“ hängt
+   ein Block, auf den tiefer eingerückte folgen, umschließt sie. „sonst“/„ansonsten“ hängt
    sich als Mittelsteg an das vorangehende „wenn“. */
 function mcLevel(el){ return el.classList.contains("i2") ? 2 : el.classList.contains("i1") ? 1 : 0; }
 function nestStack(stack){
@@ -674,7 +674,7 @@ function nestStack(stack){
     if(!deeper){ parent.appendChild(el); return; }
     var body = document.createElement("div"); body.className = "mcbody";
     var prev = parent.lastElementChild;
-    if(el.textContent.trim() === "sonst" && prev && prev.classList.contains("mcc") && prev.dataset.c === colorOf(el)){
+    if(/^(an)?sonst$/.test(el.textContent.trim()) && prev && prev.classList.contains("mcc") && prev.dataset.c === colorOf(el)){
       el.classList.add("mch");
       prev.insertBefore(el, prev.lastElementChild);
       prev.insertBefore(body, prev.lastElementChild);

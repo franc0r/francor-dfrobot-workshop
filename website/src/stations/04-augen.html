@@ -16,35 +16,38 @@
           </table>
         </div>
         <div class="note">
-          <span class="nt">Kalibrieren &ndash; einmal pro Strecke</span>
-          <p>Jeder Raum hat anderes Licht, also muss der Roboter lernen, was hier „schwarz" heißt: alle fünf Sensoren auf die schwarze Linie stellen, einschalten, die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis die Anzeige blinkt. Fertig.</p>
+          <span class="nt">Kalibrieren &ndash; schon erledigt</span>
+          <p>Jeder Raum hat anderes Licht. Damit der Roboter weiß, was hier „schwarz" heißt, lernt er das einmal: Das nennt man <b>kalibrieren</b>. Bei euren Robotern hat das der Betreuer schon gemacht. Nur wenn eurer die Linie nicht findet, kalibriert ihr neu &ndash; wie, steht unten bei <b>Wenn es klemmt</b>.</p>
         </div>
       </div>
 
       <div class="block">
-        <h3><span class="idx">02</span>Zwei Zeilen, und er fährt allein</h3>
+        <h3><span class="idx">02</span>Drei Blöcke, und er fährt allein</h3>
         <p class="lead">Im Maqueen steckt der Linienfolge-Algorithmus schon fertig drin &ndash; in fünf Geschwindigkeitsstufen. Stufe 1 ist gemütlich, Stufe 5 ist mutig.</p>
+        <p class="lead">Die Blöcke dafür findet ihr in der Maqueen-Kategorie unter <b>&hellip; mehr</b>, Gruppe <b>V3</b>. Sie sind auf Englisch: <b>Line patrolling</b> heißt &bdquo;Linie abfahren&ldquo;, <b>ON</b> ist an, <b>OFF</b> ist aus. <b>Speed</b> ist die Geschwindigkeit.</p>
         <div class="mcstack">
           <div class="mccap">Linienfolger &ndash; startet erst auf Knopfdruck</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+          <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
           <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-          <div class="mcb b-mq i1">Linienverfolgung <b>Stufe 2</b></div>
+          <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
           <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
         </div>
-        <p class="lead">Warum nicht <kbd>beim Start</kbd>? Weil ihr nach dem Einschalten erst kalibrieren wollt &ndash; ein Roboter, der sofort losfährt, lässt euch keine Zeit dafür. Die Reihenfolge:</p>
+        <p class="lead">Warum nicht <kbd>beim Start</kbd>? Weil der Roboter sonst schon losfährt, während ihr ihn noch auf die Linie stellt. Die Reihenfolge:</p>
         <ol class="steps">
           <li><span>Programm herunterladen, USB-Kabel abziehen.</span></li>
-          <li><span>Roboter mit allen fünf Sensoren auf die schwarze Linie setzen und einschalten.</span></li>
-          <li><span>Calc-Key etwa 2 Sekunden halten, bis es blinkt &ndash; kalibriert.</span></li>
-          <li><span>Roboter auf den Start stellen, <b>Knopf A</b> drücken. Er fährt. <b>Knopf B</b> hält ihn an.</span></li>
+          <li><span>Roboter auf den Start stellen, mit der Mitte über der schwarzen Linie, und einschalten.</span></li>
+          <li><span><b>Knopf A</b> drücken. Er fährt. <b>Knopf B</b> hält ihn an.</span></li>
         </ol>
-        <p class="lead">Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie stoppt &ndash; der micro:bit kann nebenher noch andere Dinge tun, zum Beispiel eine Lichtshow.</p>
+        <p class="lead">Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie mit <b>OFF</b> stoppt &ndash; der micro:bit kann nebenher noch andere Dinge tun, zum Beispiel eine Lichtshow.</p>
         <div class="mcstack">
           <div class="mccap">Fahren und gleichzeitig leuchten</div>
           <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>rot</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
-          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>blau</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>blue</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
         </div>
       </div>
@@ -67,7 +70,7 @@
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Er verlässt die Linie in Kurven?</b> Eine Stufe langsamer fahren &ndash; oder die Kurve ist zu eng. Als Faustregel braucht der Maqueen mindestens etwa 15&nbsp;cm Kurvenradius.<br><b>Er zuckt wild hin und her?</b> Neu kalibrieren. Oft ist Sonnenlicht oder glänzendes Klebeband schuld.</p>
+        <p><b>Er verlässt die Linie in Kurven?</b> Bei <b>Speed</b> eine kleinere Zahl wählen &ndash; oder die Kurve ist zu eng. Als Faustregel braucht der Maqueen mindestens etwa 15&nbsp;cm Kurvenradius.<br><b>Er findet die Linie nicht oder zuckt wild hin und her?</b> Neu kalibrieren: alle fünf Sensoren auf die schwarze Linie stellen, einschalten, die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis es blinkt. Hilft das nicht, ist oft Sonnenlicht oder glänzendes Klebeband schuld &ndash; sagt dem Betreuer Bescheid.</p>
       </div>
     </div>
     <div class="stfoot">

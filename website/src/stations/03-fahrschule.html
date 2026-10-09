@@ -96,17 +96,26 @@
 
       <div class="block">
         <h3><span class="idx">02</span>Dieselbe Idee auf dem echten Roboter</h3>
-        <p class="lead">Der echte Maqueen kennt keine „Felder". Er kennt <b>Tempo</b> (0&ndash;255) und <b>Zeit</b>. Aus „fahre 3 Felder" wird also: fahren, warten, stoppen.</p>
+        <p class="lead">Der echte Maqueen kennt keine „Felder". Er kennt <b>Geschwindigkeit</b> (0&ndash;255) und <b>Zeit</b>. Aus „fahre 3 Felder" wird also: fahren, warten, stoppen.</p>
+        <div class="note warn">
+          <span class="nt">Erst aufbocken, dann fahren</span>
+          <p>Stell den Roboter <b>vor dem Flashen</b> auf eine kleine Schachtel oder eine Rolle Klebeband &ndash; so, dass <b>die Räder in der Luft hängen</b>. Wie ein Auto in der Werkstatt. Dann siehst du, ob sich die Räder richtig drehen, und der Roboter fährt nicht vom Tisch.<br>Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren. Das gilt für <b>jedes neue Programm</b>.</p>
+        </div>
         <div class="mcstack">
           <div class="mccap">Geradeaus und anhalten</div>
           <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-mq i1">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>120</b></div>
+          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+          <div class="mcb b-mq i1">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>120</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq i1">stop <b>beide Räder</b></div>
+        </div>
+        <div class="note">
+          <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
+          <p>Dieser Block gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In eurer Vorlage steht er schon &ndash; nicht löschen. Mit ihm fragt der micro:bit beim Roboter an: &bdquo;Bist du da?&ldquo; Blinkt ein <b>X</b>, antwortet der Roboter nicht &ndash; prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt. Ein <b>Haken</b> heißt: verbunden, es kann losgehen.</p>
         </div>
         <div class="note">
           <span class="nt">Zahlengefühl</span>
-          <p>Tempo geht von 0 bis 255. Unter etwa <b>30</b> bewegt sich nichts &ndash; da ist der Motor zu schwach, um das Fahrzeug loszureißen. 1000&nbsp;ms sind eine Sekunde.</p>
+          <p>Die Geschwindigkeit geht von 0 bis 255. Unter etwa <b>30</b> bewegt sich nichts &ndash; da ist der Motor zu schwach, um das Fahrzeug loszureißen. 1000&nbsp;ms sind eine Sekunde.</p>
         </div>
       </div>
 
@@ -115,21 +124,41 @@
         <p class="lead">Der Maqueen hat keine Lenkung. Er dreht, indem die beiden Räder <em>unterschiedlich schnell</em> laufen. Läuft ein Rad vorwärts und das andere rückwärts, dreht er sich auf der Stelle.</p>
         <div class="mcstack">
           <div class="mccap">Drehung auf der Stelle nach rechts</div>
-          <div class="mcb b-mq">Motor <b>links</b> <b>vorwärts</b> Tempo <b>100</b></div>
-          <div class="mcb b-mq">Motor <b>rechts</b> <b>rückwärts</b> Tempo <b>100</b></div>
+          <div class="mcb b-mq">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+          <div class="mcb b-mq">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
           <div class="mcb b-basic">pausiere (ms) <b>400</b></div>
-          <div class="mcb b-mq">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq">stop <b>beide Räder</b></div>
         </div>
         <div class="note aha">
           <span class="nt">Team-Challenge &middot; 15 Punkte</span>
-          <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen. Ihr müsst die 400&nbsp;ms selbst herausfinden &ndash; probiert, messt, korrigiert. Genau so arbeiten Ingenieure.</p>
+          <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.</p>
+          <p><b>Tipp 1:</b> Nehmt <b>wenn Knopf A geklickt</b> statt <b>beim Start</b> (kennt ihr aus Station 2). Dann fährt der Roboter erst los, wenn er auf dem Boden steht und ihr drückt.<br>
+          <b>Tipp 2:</b> Eine Seite vom Quadrat = die Blöcke von <b>Geradeaus</b> + die Blöcke von <b>Drehung</b>. Das braucht ihr 4-mal. Rechtsklick auf einen Block &rarr; <b>Duplizieren</b> spart Arbeit.<br>
+          <b>Tipp 3:</b> 400&nbsp;ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800 &ndash; probieren, messen, korrigieren. Genau so arbeiten Ingenieure.</p>
+          <details class="hint">
+            <summary>Ihr kommt nicht weiter? Gerüst aufklappen</summary>
+            <div class="mcstack">
+              <div class="mccap">Quadrat mit Schleife &ndash; die ??? findet ihr heraus</div>
+              <div class="mcb b-basic">beim Start</div>
+              <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+              <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+              <div class="mcb b-loop i1">wiederhole <b>4</b> mal</div>
+              <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+              <div class="mcb b-basic i2">pausiere (ms) <b>1000</b></div>
+              <div class="mcb b-mq i2">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+              <div class="mcb b-mq i2">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
+              <div class="mcb b-basic i2">pausiere (ms) <b>???</b></div>
+              <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+            </div>
+            <p>Die <b>wiederhole</b>-Schleife kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>.</p>
+          </details>
           <button class="btn sec" type="button" data-bonus="quadrat" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
         </div>
       </div>
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Fährt einen Bogen statt geradeaus?</b> Normal. Die Motoren sind nie exakt gleich. Dreht das Tempo des schnelleren Rads um 5&ndash;10 runter.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen später zählt das wirklich.</p>
+        <p><b>Fährt einen Bogen statt geradeaus?</b> Normal. Die Motoren sind nie exakt gleich. Dreht die Geschwindigkeit des schnelleren Rads um 5&ndash;10 runter.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen später zählt das wirklich.</p>
       </div>
     </div>
     <div class="stfoot">

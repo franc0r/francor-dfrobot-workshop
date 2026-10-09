@@ -1,7 +1,7 @@
   <section class="station" data-st="5" hidden>
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 5</span><span>10 Minuten</span><span>Bonus</span></div>
-      <h2>Reflexe: wenn &hellip; dann &hellip; sonst</h2>
+      <h2>Reflexe: wenn &hellip; dann &hellip; ansonsten</h2>
       <p class="goal">Ein Roboter, der nur einem Plan folgt, fährt gegen die erste Wand. Jetzt bringst du ihm bei, seine Umgebung zu prüfen und selbst zu entscheiden &ndash; viele Male pro Sekunde.</p>
     </div>
     <div class="st-body">
@@ -9,8 +9,8 @@
         <h3><span class="idx">01</span>Der Laserscanner vorne</h3>
         <p class="lead">Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleines Lidar mit 8&times;8 = <b>64 Laserstrahlen</b>. Es misst in Millimetern, von 20&nbsp;mm bis 4000&nbsp;mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos &ndash; nur größer.</p>
         <div class="note">
-          <span class="nt">Wichtig</span>
-          <p>Der Scanner braucht nach dem Einschalten etwa <b>3 Sekunden</b> zum Hochfahren. Setzt darum ganz oben in <kbd>beim Start</kbd> eine Pause von 3000&nbsp;ms, sonst misst er beim ersten Mal Unsinn.</p>
+          <span class="nt">Eigene Blöcke</span>
+          <p>Der Scanner hat seine eigene Kategorie mit lila Blöcken: <b>Matrix LiDAR Entfernung</b>. Er wird in <kbd>beim Start</kbd> eingeschaltet (<b>&hellip; initialisieren</b>). In <kbd>dauerhaft</kbd> holt ihr zuerst neue Messwerte ab (<b>Hindernisvermeidungsdaten abrufen</b>) und fragt dann den Abstand nach vorn ab.</p>
         </div>
       </div>
 
@@ -19,13 +19,19 @@
         <p class="lead">Der <kbd>dauerhaft</kbd>-Block wiederholt alles darin, immer und immer wieder. Darin sitzt die Entscheidung: Ist der Weg frei, wird gefahren. Ist etwas näher als 20&nbsp;cm, wird gebremst.</p>
         <div class="mcstack">
           <div class="mccap">Bremsassistent</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+          <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+          <div class="mcb b-mq i1">setze die Helligkeit der RGB LEDs auf <b>255</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>white</b></div>
           <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-logic i1">wenn <b>Abstand</b> &lt; <b>200</b> mm dann</div>
-          <div class="mcb b-mq i2">Motor <b>alle</b> <b>stoppen</b></div>
-          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>rot</b></div>
-          <div class="mcb b-logic i1">sonst</div>
-          <div class="mcb b-mq i2">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>110</b></div>
-          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>grün</b></div>
+          <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+          <div class="mcb b-logic i1">wenn <span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b> dann</div>
+          <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+          <div class="mcb b-logic i1">ansonsten</div>
+          <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
         </div>
         <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
         <div class="note warn">
