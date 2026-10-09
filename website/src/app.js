@@ -12,7 +12,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -21,21 +21,18 @@ function load(){
   }catch(e){}
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-function addPts(n){ S.pts += n; save(); paintScore(); }
 
 /* ================= chrome ================= */
-var ptsval = document.getElementById("ptsval");
 var rail = document.getElementById("rail");
 var railfoot = rail.querySelector(".railfoot");
 var badgesEl = document.getElementById("badges");
 var progfill = document.getElementById("progfill");
 
-function paintScore(){
-  ptsval.textContent = S.pts;
+function paintProgress(){
   var pct = Math.round(S.done.length / STATIONS.length * 100);
   progfill.style.width = pct + "%";
   var ft = document.getElementById("finalwho");
-  if(ft) ft.textContent = S.pts + " Punkte";
+  if(ft) ft.textContent = S.done.length + " von " + STATIONS.length + " Abzeichen";
   var fb = document.getElementById("finalbadges");
   if(fb){
     fb.innerHTML = "";
@@ -78,14 +75,14 @@ function go(i){
   S.cur = i; save();
   var secs = document.querySelectorAll(".station");
   for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
-  paintRail(); paintScore();
+  paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
 }
 function reduced(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
 
 function complete(i){
-  if(S.done.indexOf(i) === -1){ S.done.push(i); addPts(20); }
-  paintRail(); paintBadges(); paintScore(); save();
+  if(S.done.indexOf(i) === -1) S.done.push(i);
+  paintRail(); paintBadges(); paintProgress(); save();
 }
 
 document.addEventListener("click", function(e){
@@ -96,7 +93,7 @@ document.addEventListener("click", function(e){
   if(v === "done"){
     complete(cur);
     document.getElementById("finaltitle").textContent = "Workshop geschafft!";
-    paintScore();
+    paintProgress();
     return;
   }
   var t = Number(v);
@@ -106,14 +103,15 @@ document.addEventListener("click", function(e){
 
 /* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
-  var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
-  function paint(){
-    if(S.bonus[id]){ btn.disabled = true; btn.textContent = "✓ Erledigt (+" + pts + ")"; }
-  }
-  paint();
+  var id = btn.dataset.bonus, label = btn.innerHTML;
+  btn.paintBonus = function(){
+    btn.disabled = !!S.bonus[id];
+    if(S.bonus[id]) btn.textContent = "✓ Erledigt"; else btn.innerHTML = label;
+  };
+  btn.paintBonus();
   btn.addEventListener("click", function(){
     if(S.bonus[id]) return;
-    S.bonus[id] = 1; addPts(pts); save(); paint();
+    S.bonus[id] = 1; save(); btn.paintBonus();
   });
 });
 
@@ -138,7 +136,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
         q.querySelectorAll(".opt").forEach(function(x){ if(x!==o) x.style.opacity = ".45"; });
         fb.innerHTML = FB[id] || "Richtig!";
         fb.hidden = false;
-        if(!S.quiz[id]){ S.quiz[id] = 1; addPts(10); save(); }
+        if(!S.quiz[id]){ S.quiz[id] = 1; save(); }
       } else {
         fb.innerHTML = "Nicht ganz – denk nochmal nach und probier eine andere Antwort.";
         fb.hidden = false;
@@ -175,8 +173,9 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape") openCoa
 
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
   save();
+  document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
     q.dataset.locked = "";
     q.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("right","wrong"); o.style.opacity=""; });
@@ -186,7 +185,7 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   left = TOTAL; running = false; clearInterval(tick);
   tbtn.textContent = "Start"; tbox.classList.remove("running"); paintT();
   prog = []; setLevel(0); mbReset();
-  paintBadges(); paintScore(); go(0);
+  paintBadges(); paintProgress(); go(0);
 });
 
 /* ================= SIMULATOR ================= */
@@ -578,14 +577,10 @@ async function run(){
     setStatus("💥 Rumms — da war eine Wand. Kein Problem: Ingenieure fahren beim ersten Versuch fast immer dagegen. Schau, wo er stecken blieb, und ändere einen Baustein.", "bad");
   } else if(Math.round(robot.x)===L.goal.x && Math.round(robot.y)===L.goal.y){
     var c = countBlocks(), star = c <= L.max;
-    var gained = 0;
-    if(!S.levels[lev]){ gained += 15; }
-    if(star && S.levels[lev] !== "star"){ gained += 10; }
-    S.levels[lev] = star ? "star" : "ok";
-    if(gained > 0){ addPts(gained); }
+    if(S.levels[lev] !== "star") S.levels[lev] = star ? "star" : "ok";
     save();
     levselEl.querySelectorAll("button")[lev].classList.add("solved");
-    setStatus("🏁 Im Ziel!" + (star ? " Und das mit nur " + c + " Bausteinen — Bestwert erreicht." : " Es geht aber noch kürzer: " + L.max + " Bausteine reichen.") + (gained?" <b>+"+gained+" Punkte</b>":""), "ok");
+    setStatus("🏁 Im Ziel!" + (star ? " Und das mit nur " + c + " Bausteinen — Bestwert erreicht." : " Es geht aber noch kürzer: " + L.max + " Bausteine reichen."), "ok");
   } else {
     setStatus("Angekommen — aber nicht auf der Zielflagge. Zähl die Felder nochmal genau ab.", "bad");
   }
@@ -745,15 +740,14 @@ function mbStatus(t, cls){
   mbStatusEl.innerHTML = t;
   mbStatusEl.className = "simstatus" + (cls ? " " + cls : "");
 }
-function mbAward(key, n, msg){
+function mbAward(key, msg){
   if(!S.mb) S.mb = {};
-  if(S.mb[key]) { mbStatus(msg, "ok"); return; }
-  S.mb[key] = 1; save(); addPts(n);
-  mbStatus(msg + " <b>+" + n + " Punkte</b>", "ok");
+  if(!S.mb[key]){ S.mb[key] = 1; save(); }
+  mbStatus(msg, "ok");
 }
 function mbCheckDraw(){
   if(mbDraw === PAT.heart){
-    mbAward("draw", 10, "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
+    mbAward("draw", "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
   }
 }
 function mbSetMode(m){
@@ -786,7 +780,7 @@ function mbPress(which){
   }
   mbChips();
   if(mbSeen.a && mbSeen.b){
-    mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+    mbAward("btn", "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
   }
 }
 /* Neigen: Der Regler liefert y wie der echte Sensor (-1023..1023). „Logo nach oben“
@@ -809,7 +803,7 @@ function mbTiltPaint(){
 }
 function mbCheckTilt(){
   if(mbSeen.up && mbSeen.down && mbSeen.shake){
-    mbAward("tilt", 10, "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
+    mbAward("tilt", "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
   }
 }
 /* Schütteln: Ton „Mittleres C“ für einen Schlag (bei Tempo 120 eine halbe Sekunde),
@@ -859,7 +853,7 @@ load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
 document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
-paintBadges(); paintScore(); paintRail();
+paintBadges(); paintProgress(); paintRail();
 setLevel(0);
 go(S.cur || 0);
 

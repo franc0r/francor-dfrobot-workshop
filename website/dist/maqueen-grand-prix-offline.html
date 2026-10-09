@@ -117,12 +117,6 @@ button{font:inherit; color:inherit; cursor:pointer}
 .brand h1{font-size:1.15rem; font-weight:800; letter-spacing:-.02em}
 .brand .sub{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.01em}
 .tbgroup{display:flex; align-items:center; gap:10px}
-.score{
-  display:flex; align-items:baseline; gap:6px; font-family:var(--mono);
-  background:var(--accent-soft); border:1px solid var(--accent); border-radius:8px; padding:4px 11px;
-}
-.score b{font-size:17px; font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums}
-.score span{font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-2)}
 .timer{
   font-family:var(--mono); font-size:15px; font-variant-numeric:tabular-nums;
   border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
@@ -566,7 +560,6 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     </div>
   </div>
   <div class="tbgroup">
-    <div class="score"><b id="ptsval">0</b><span>Punkte</span></div>
     <div class="timer" id="timer"><span id="tval">90:00</span><button id="tbtn" type="button">Start</button></div>
     <button class="ghost" id="coachbtn" type="button">Für Betreuer</button>
     <button class="ghost" id="resetbtn" type="button">Neues Team</button>
@@ -680,7 +673,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q0" data-answer="c">
-        <div class="qh">Aufwärm-Frage &middot; 10 Punkte</div>
+        <div class="qh">Aufwärm-Frage</div>
         <p class="q">Welches Bauteil am Maqueen ist <em>kein</em> Sensor?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Der Liniensensor unter dem Fahrzeug</button>
@@ -692,7 +685,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
     </div>
     <div class="stfoot">
-      <span class="pts">Station abschließen: +20 Punkte</span>
+      <span class="pts">Abzeichen: Rookie</span>
       <span class="spacer"></span>
       <button class="btn" data-next="1">Los geht's &rarr;</button>
     </div>
@@ -752,7 +745,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q1" data-answer="b">
-        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <div class="qh">Kontrollfrage</div>
         <p class="q">Du ziehst das USB-Kabel ab. Was passiert mit deinem Programm?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Es ist weg, der micro:bit ist wieder leer</button>
@@ -868,7 +861,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q2" data-answer="b">
-        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <div class="qh">Kontrollfrage</div>
         <p class="q">Euer Würfel zeigt bei jedem Schütteln dieselbe Zahl. Was ist am wahrscheinlichsten passiert?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Ihr schüttelt nicht kräftig genug</button>
@@ -879,7 +872,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="note aha">
-        <span class="nt">Team-Challenge &middot; 15 Punkte</span>
+        <span class="nt">Team-Challenge</span>
         <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf zeigt der micro:bit eine zufällige Zahl. Lasst ihn dreimal würfeln.</p>
         <div class="mcstack" style="margin:10px 0">
           <div class="mcb b-input">wenn <b>geschüttelt</b></div>
@@ -887,7 +880,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         </div>
         <p>Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b> &ndash; stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.</p>
         <p>Wer danach noch Zeit hat: Lasst vor der Zahl kurz ein Herz erscheinen &ndash; eine kleine Trommelwirbel-Pause.</p>
-        <button class="btn sec" type="button" data-bonus="wuerfel3x" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
+        <button class="btn sec" type="button" data-bonus="wuerfel3x">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
 
       <div class="note warn">
@@ -1035,7 +1028,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-mq">stop <b>beide Räder</b></div>
         </div>
         <div class="note aha">
-          <span class="nt">Team-Challenge &middot; 15 Punkte</span>
+          <span class="nt">Team-Challenge</span>
           <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.</p>
           <p><b>Tipp 1:</b> Nehmt <b>wenn Knopf A geklickt</b> statt <b>beim Start</b> (kennt ihr aus Station 2). Dann fährt der Roboter erst los, wenn er auf dem Boden steht und ihr drückt.<br>
           <b>Tipp 2:</b> Eine Seite vom Quadrat = die Blöcke von <b>Geradeaus</b> + die Blöcke von <b>Drehung</b>. Das braucht ihr 4-mal. Rechtsklick auf einen Block &rarr; <b>Duplizieren</b> spart Arbeit.<br>
@@ -1057,7 +1050,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
             </div>
             <p>Die <b>wiederhole</b>-Schleife kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>.</p>
           </details>
-          <button class="btn sec" type="button" data-bonus="quadrat" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
+          <button class="btn sec" type="button" data-bonus="quadrat">Geschafft, zeig&apos;s dem Betreuer</button>
         </div>
       </div>
 
@@ -1134,7 +1127,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q3" data-answer="a">
-        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <div class="qh">Kontrollfrage</div>
         <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
@@ -1200,7 +1193,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q4" data-answer="c">
-        <div class="qh">Denkfrage &middot; 10 Punkte</div>
+        <div class="qh">Denkfrage</div>
         <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</button>
@@ -1211,9 +1204,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="note aha">
-        <span class="nt">Bonus &middot; 15 Punkte</span>
+        <span class="nt">Bonus</span>
         <p>Schafft ihr es, dass der Roboter beim Hindernis nicht nur stoppt, sondern <b>zurücksetzt, sich dreht und weiterfährt</b>? Dann habt ihr einen Staubsaugerroboter gebaut.</p>
-        <button class="btn sec" type="button" data-bonus="staubsauger" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
+        <button class="btn sec" type="button" data-bonus="staubsauger">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
     </div>
     <div class="stfoot">
@@ -1261,7 +1254,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="trophy">
         <div class="big" id="finaltitle">Ziel erreicht</div>
-        <div class="who" id="finalwho">0 Punkte</div>
+        <div class="who" id="finalwho">0 von 7 Abzeichen</div>
         <div class="pillrow" id="finalbadges" style="justify-content:center; margin-top:16px"></div>
       </div>
     </div>
@@ -1416,7 +1409,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <li><b>Station 2 funktioniert auch ohne Roboter.</b> Wer nur 25 Minuten Zeit hat oder wenn ein Maqueen ausfällt: micro:bit plus LED/Sensor-Teil allein ist bereits ein vollständiges kleines Erlebnis mit Würfel zum Mitnehmen.</li>
         <li><b>Zu schnelle Teams</b> bekommen die Quadrat-Challenge aus Station 3, das Bonus-Level im Parcours-Simulator und die Staubsauger-Aufgabe aus Station 5.</li>
         <li><b>Fehler nicht wegräumen.</b> Ein Roboter, der im Kreis fährt, ist die beste Lernsituation des Tages.</li>
-        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Punkte, Abzeichen und Simulator zurück.</li>
+        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Abzeichen, Simulator und Timer zurück.</li>
       </ul>
     </section>
 
@@ -1453,7 +1446,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -1462,21 +1455,18 @@ function load(){
   }catch(e){}
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-function addPts(n){ S.pts += n; save(); paintScore(); }
 
 /* ================= chrome ================= */
-var ptsval = document.getElementById("ptsval");
 var rail = document.getElementById("rail");
 var railfoot = rail.querySelector(".railfoot");
 var badgesEl = document.getElementById("badges");
 var progfill = document.getElementById("progfill");
 
-function paintScore(){
-  ptsval.textContent = S.pts;
+function paintProgress(){
   var pct = Math.round(S.done.length / STATIONS.length * 100);
   progfill.style.width = pct + "%";
   var ft = document.getElementById("finalwho");
-  if(ft) ft.textContent = S.pts + " Punkte";
+  if(ft) ft.textContent = S.done.length + " von " + STATIONS.length + " Abzeichen";
   var fb = document.getElementById("finalbadges");
   if(fb){
     fb.innerHTML = "";
@@ -1519,14 +1509,14 @@ function go(i){
   S.cur = i; save();
   var secs = document.querySelectorAll(".station");
   for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
-  paintRail(); paintScore();
+  paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
 }
 function reduced(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
 
 function complete(i){
-  if(S.done.indexOf(i) === -1){ S.done.push(i); addPts(20); }
-  paintRail(); paintBadges(); paintScore(); save();
+  if(S.done.indexOf(i) === -1) S.done.push(i);
+  paintRail(); paintBadges(); paintProgress(); save();
 }
 
 document.addEventListener("click", function(e){
@@ -1537,7 +1527,7 @@ document.addEventListener("click", function(e){
   if(v === "done"){
     complete(cur);
     document.getElementById("finaltitle").textContent = "Workshop geschafft!";
-    paintScore();
+    paintProgress();
     return;
   }
   var t = Number(v);
@@ -1547,14 +1537,15 @@ document.addEventListener("click", function(e){
 
 /* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
-  var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
-  function paint(){
-    if(S.bonus[id]){ btn.disabled = true; btn.textContent = "✓ Erledigt (+" + pts + ")"; }
-  }
-  paint();
+  var id = btn.dataset.bonus, label = btn.innerHTML;
+  btn.paintBonus = function(){
+    btn.disabled = !!S.bonus[id];
+    if(S.bonus[id]) btn.textContent = "✓ Erledigt"; else btn.innerHTML = label;
+  };
+  btn.paintBonus();
   btn.addEventListener("click", function(){
     if(S.bonus[id]) return;
-    S.bonus[id] = 1; addPts(pts); save(); paint();
+    S.bonus[id] = 1; save(); btn.paintBonus();
   });
 });
 
@@ -1579,7 +1570,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
         q.querySelectorAll(".opt").forEach(function(x){ if(x!==o) x.style.opacity = ".45"; });
         fb.innerHTML = FB[id] || "Richtig!";
         fb.hidden = false;
-        if(!S.quiz[id]){ S.quiz[id] = 1; addPts(10); save(); }
+        if(!S.quiz[id]){ S.quiz[id] = 1; save(); }
       } else {
         fb.innerHTML = "Nicht ganz – denk nochmal nach und probier eine andere Antwort.";
         fb.hidden = false;
@@ -1616,8 +1607,9 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape") openCoa
 
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
   save();
+  document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
     q.dataset.locked = "";
     q.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("right","wrong"); o.style.opacity=""; });
@@ -1627,7 +1619,7 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   left = TOTAL; running = false; clearInterval(tick);
   tbtn.textContent = "Start"; tbox.classList.remove("running"); paintT();
   prog = []; setLevel(0); mbReset();
-  paintBadges(); paintScore(); go(0);
+  paintBadges(); paintProgress(); go(0);
 });
 
 /* ================= SIMULATOR ================= */
@@ -2019,14 +2011,10 @@ async function run(){
     setStatus("💥 Rumms — da war eine Wand. Kein Problem: Ingenieure fahren beim ersten Versuch fast immer dagegen. Schau, wo er stecken blieb, und ändere einen Baustein.", "bad");
   } else if(Math.round(robot.x)===L.goal.x && Math.round(robot.y)===L.goal.y){
     var c = countBlocks(), star = c <= L.max;
-    var gained = 0;
-    if(!S.levels[lev]){ gained += 15; }
-    if(star && S.levels[lev] !== "star"){ gained += 10; }
-    S.levels[lev] = star ? "star" : "ok";
-    if(gained > 0){ addPts(gained); }
+    if(S.levels[lev] !== "star") S.levels[lev] = star ? "star" : "ok";
     save();
     levselEl.querySelectorAll("button")[lev].classList.add("solved");
-    setStatus("🏁 Im Ziel!" + (star ? " Und das mit nur " + c + " Bausteinen — Bestwert erreicht." : " Es geht aber noch kürzer: " + L.max + " Bausteine reichen.") + (gained?" <b>+"+gained+" Punkte</b>":""), "ok");
+    setStatus("🏁 Im Ziel!" + (star ? " Und das mit nur " + c + " Bausteinen — Bestwert erreicht." : " Es geht aber noch kürzer: " + L.max + " Bausteine reichen."), "ok");
   } else {
     setStatus("Angekommen — aber nicht auf der Zielflagge. Zähl die Felder nochmal genau ab.", "bad");
   }
@@ -2186,15 +2174,14 @@ function mbStatus(t, cls){
   mbStatusEl.innerHTML = t;
   mbStatusEl.className = "simstatus" + (cls ? " " + cls : "");
 }
-function mbAward(key, n, msg){
+function mbAward(key, msg){
   if(!S.mb) S.mb = {};
-  if(S.mb[key]) { mbStatus(msg, "ok"); return; }
-  S.mb[key] = 1; save(); addPts(n);
-  mbStatus(msg + " <b>+" + n + " Punkte</b>", "ok");
+  if(!S.mb[key]){ S.mb[key] = 1; save(); }
+  mbStatus(msg, "ok");
 }
 function mbCheckDraw(){
   if(mbDraw === PAT.heart){
-    mbAward("draw", 10, "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
+    mbAward("draw", "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
   }
 }
 function mbSetMode(m){
@@ -2227,7 +2214,7 @@ function mbPress(which){
   }
   mbChips();
   if(mbSeen.a && mbSeen.b){
-    mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+    mbAward("btn", "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
   }
 }
 /* Neigen: Der Regler liefert y wie der echte Sensor (-1023..1023). „Logo nach oben“
@@ -2250,7 +2237,7 @@ function mbTiltPaint(){
 }
 function mbCheckTilt(){
   if(mbSeen.up && mbSeen.down && mbSeen.shake){
-    mbAward("tilt", 10, "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
+    mbAward("tilt", "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
   }
 }
 /* Schütteln: Ton „Mittleres C“ für einen Schlag (bei Tempo 120 eine halbe Sekunde),
@@ -2300,7 +2287,7 @@ load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
 document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
-paintBadges(); paintScore(); paintRail();
+paintBadges(); paintProgress(); paintRail();
 setLevel(0);
 go(S.cur || 0);
 

@@ -41,12 +41,12 @@ die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
 website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
   src/
     styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
-    topbar.html       Kopfzeile: Punkte, 90-Min-Timer, Betreuer, Neues Team
+    topbar.html       Kopfzeile: 90-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
-    app.js            Fortschritt/Punkte (localStorage), Quiz, Timer, beide Simulatoren
+    app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, beide Simulatoren
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
