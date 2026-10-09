@@ -141,7 +141,10 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   (Pfeil Norden), über 200 „Logo nach unten“ (Pfeil Süden), dazwischen bleibt die Anzeige.
   200 ist die Tilt-Toleranz der micro:bit-Firmware (CODAL) — bis zum Trockenlauf
   (Block F) nicht am Gerät bestätigt, ebenso das Vorzeichen. Schütteln spielt ein
-  Mittleres C (0,5 s) und zeigt den Totenkopf.
+  Mittleres C (0,5 s) und zeigt den Totenkopf. Die Platine ist dem MakeCode-Simulator
+  nachgezeichnet: Grafik als Inline-SVG (viewBox 400×320), LEDs und Knöpfe A/B als
+  HTML-Buttons darüber, positioniert in Prozent derselben Koordinaten. Beim Neigen kippt
+  sie per CSS (`--tilt`), beim Schütteln wackelt sie.
 - **Block-Optik**: In den Stationen stehen die `.mcb`-Blöcke flach untereinander, eingerückt
   mit `i1`/`i2`. `nestStack()` in `app.js` baut daraus beim Laden die Klammer-Form wie in
   MakeCode (Kopf, Arm, Fuß); ein `sonst` direkt nach seinem `wenn` wird dessen Mittelsteg.

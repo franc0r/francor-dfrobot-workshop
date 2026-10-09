@@ -21,13 +21,28 @@
           <div class="simcol">
             <div class="colhead">Gerät</div>
             <div class="mbwrap">
-              <div class="mbboard">
-                <div class="mbrow">
-                  <button class="mbbtn" id="mbA" type="button">A</button>
-                  <div class="mbmatrix" id="mbmatrix"></div>
-                  <button class="mbbtn" id="mbB" type="button">B</button>
-                </div>
-                <div class="mbedge"><i class="big"></i><i class="big"></i><i class="big"></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="mbboard" id="mbboard">
+                <svg class="mbart" viewBox="0 0 400 320" aria-hidden="true">
+                  <defs><clipPath id="mbclip"><rect x="10" y="12" width="380" height="298" rx="24"/></clipPath></defs>
+                  <rect class="usb" x="170" y="2" width="60" height="16" rx="2"/>
+                  <rect class="pcb" x="10" y="12" width="380" height="298" rx="24"/>
+                  <g clip-path="url(#mbclip)">
+                    <path class="yel" d="M10 12H98L10 96Z M102 12H142L102 52Z M146 12H162L146 28Z"/>
+                    <rect class="gold" x="10" y="262" width="380" height="48"/>
+                    <g class="slot"><rect x="71" y="268" width="3" height="30"/><rect x="78" y="268" width="3" height="30"/><rect x="85" y="268" width="3" height="30"/><rect x="92" y="268" width="3" height="30"/><rect x="148" y="268" width="3" height="30"/><rect x="155" y="268" width="3" height="30"/><rect x="162" y="268" width="3" height="30"/><rect x="169" y="268" width="3" height="30"/><rect x="225" y="268" width="3" height="30"/><rect x="232" y="268" width="3" height="30"/><rect x="239" y="268" width="3" height="30"/><rect x="246" y="268" width="3" height="30"/><rect x="253" y="268" width="3" height="30"/><rect x="309" y="268" width="3" height="30"/><rect x="316" y="268" width="3" height="30"/><rect x="323" y="268" width="3" height="30"/><rect x="379" y="268" width="3" height="30"/></g>
+                    <g class="pins"><path class="pad" d="M26 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="46" cy="252" r="11"/><text x="46" y="291">0</text><path class="pad" d="M100 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="120" cy="252" r="11"/><text x="120" y="291">1</text><path class="pad" d="M180 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="200" cy="252" r="11"/><text x="200" y="291">2</text><path class="pad" d="M260 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="280" cy="252" r="11"/><text x="280" y="291">3V</text><path class="pad" d="M334 310V252a20 20 0 0 1 40 0V310z"/><circle class="hole" cx="354" cy="252" r="11"/><text x="354" y="291">GND</text></g>
+                  </g>
+                  <rect class="logo" x="170" y="48" width="60" height="30" rx="15"/>
+                  <circle class="logodot" cx="187" cy="63" r="4.5"/><circle class="logodot" cx="213" cy="63" r="4.5"/>
+                  <circle class="micled" cx="252" cy="79" r="3"/>
+                  <path class="mic" d="M262 66a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0z M259 72a6 6 0 0 0 12 0 M265 78v4 M261.5 82h7"/>
+                  <circle class="hole" cx="24" cy="155" r="3.5"/><circle class="hole" cx="376" cy="155" r="3.5"/>
+                  <path class="yel" d="M56 182V205H32Z M344 105H368L344 129Z"/>
+                  <text class="btnl" x="48" y="201">A</text><text class="btnl" x="352" y="120">B</text>
+                </svg>
+                <button class="mbbtn" id="mbA" type="button" aria-label="Knopf A"></button>
+                <div class="mbmatrix" id="mbmatrix"></div>
+                <button class="mbbtn b" id="mbB" type="button" aria-label="Knopf B"></button>
               </div>
               <div class="mbctl" id="mbctl" hidden>
                 <label for="mbtilt">&larr; Logo nach oben &middot; Logo nach unten &rarr;</label>
