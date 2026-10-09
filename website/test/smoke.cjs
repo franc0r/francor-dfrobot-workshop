@@ -108,9 +108,11 @@ function check(cond, msg) {
   await page.waitForTimeout(2600);
   check(await page.$eval('#status', e => e.classList.contains('ok')), 'Parcours: Level 1 mit "fahre 5" im Ziel');
 
-  // Punkte sind angekommen
-  const pts = parseInt(await page.textContent('#ptsval'), 10);
-  check(pts > 0, 'Punkte gezählt (' + pts + ')');
+  // Keine Punkteanzeige mehr
+  check((await page.$('#ptsval')) === null, 'keine Punkteanzeige');
+  await page.click('.stepbtn[data-go="0"]');
+  await page.click('.station[data-st="0"] [data-next="1"]');
+  check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 1), 'Station 0 abgeschlossen → Abzeichen');
 
   // Betreuer-Handbuch
   await page.click('#coachbtn');
@@ -121,7 +123,7 @@ function check(cond, msg) {
   // Reset
   await page.click('#resetbtn');
   await page.waitForTimeout(200);
-  check((await page.textContent('#ptsval')) === '0', '"Neues Team" setzt Punkte zurück');
+  check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), '"Neues Team" setzt Abzeichen zurück');
   check(await page.$eval('.station[data-st="0"]', e => !e.hidden), '"Neues Team" springt zu Station 0');
 
   check(errors.length === 0, 'keine JavaScript-Fehler' + (errors.length ? ': ' + errors.join(' | ') : ''));

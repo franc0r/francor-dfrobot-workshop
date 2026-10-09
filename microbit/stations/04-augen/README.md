@@ -1,6 +1,6 @@
 # Station 04 — Augen
 
-Kalibrieren und Linienverfolgung auf Knopf A — der Wow-Moment.
+Linienverfolgung auf Knopf A (Kalibrieren nur bei Bedarf) — der Wow-Moment.
 
 Noch leer. Nach dem Trockenlauf hier ablegen:
 

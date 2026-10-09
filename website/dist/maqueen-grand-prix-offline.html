@@ -117,12 +117,6 @@ button{font:inherit; color:inherit; cursor:pointer}
 .brand h1{font-size:1.15rem; font-weight:800; letter-spacing:-.02em}
 .brand .sub{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.01em}
 .tbgroup{display:flex; align-items:center; gap:10px}
-.score{
-  display:flex; align-items:baseline; gap:6px; font-family:var(--mono);
-  background:var(--accent-soft); border:1px solid var(--accent); border-radius:8px; padding:4px 11px;
-}
-.score b{font-size:17px; font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums}
-.score span{font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-2)}
 .timer{
   font-family:var(--mono); font-size:15px; font-variant-numeric:tabular-nums;
   border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
@@ -262,6 +256,7 @@ kbd{
 .b-music{background:#D83B01}
 .b-var{background:#E07000}
 .b-mq{background:#264F87}
+.b-lidar{background:#5B3FE8}
 .b-math{background:#7E2FC8}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
 .mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
@@ -280,6 +275,11 @@ kbd{
 }
 .note p{font-size:.95rem}
 .note [data-bonus]{margin-top:10px}
+.note p + p{margin-top:8px}
+.hint{margin-top:10px}
+.hint summary{cursor:pointer; font-weight:600; font-size:.95rem}
+.hint[open] summary{margin-bottom:8px}
+.hint .mcstack + p{margin-top:8px}
 
 /* fix-it table */
 .fix{width:100%; border-collapse:collapse; font-size:.93rem}
@@ -560,7 +560,6 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     </div>
   </div>
   <div class="tbgroup">
-    <div class="score"><b id="ptsval">0</b><span>Punkte</span></div>
     <div class="timer" id="timer"><span id="tval">90:00</span><button id="tbtn" type="button">Start</button></div>
     <button class="ghost" id="coachbtn" type="button">Für Betreuer</button>
     <button class="ghost" id="resetbtn" type="button">Neues Team</button>
@@ -674,7 +673,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q0" data-answer="c">
-        <div class="qh">Aufwärm-Frage &middot; 10 Punkte</div>
+        <div class="qh">Aufwärm-Frage</div>
         <p class="q">Welches Bauteil am Maqueen ist <em>kein</em> Sensor?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Der Liniensensor unter dem Fahrzeug</button>
@@ -686,7 +685,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
     </div>
     <div class="stfoot">
-      <span class="pts">Station abschließen: +20 Punkte</span>
+      <span class="pts">Abzeichen: Rookie</span>
       <span class="spacer"></span>
       <button class="btn" data-next="1">Los geht's &rarr;</button>
     </div>
@@ -746,7 +745,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q1" data-answer="b">
-        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <div class="qh">Kontrollfrage</div>
         <p class="q">Du ziehst das USB-Kabel ab. Was passiert mit deinem Programm?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Es ist weg, der micro:bit ist wieder leer</button>
@@ -862,7 +861,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q2" data-answer="b">
-        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <div class="qh">Kontrollfrage</div>
         <p class="q">Euer Würfel zeigt bei jedem Schütteln dieselbe Zahl. Was ist am wahrscheinlichsten passiert?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Ihr schüttelt nicht kräftig genug</button>
@@ -873,7 +872,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="note aha">
-        <span class="nt">Team-Challenge &middot; 15 Punkte</span>
+        <span class="nt">Team-Challenge</span>
         <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf zeigt der micro:bit eine zufällige Zahl. Lasst ihn dreimal würfeln.</p>
         <div class="mcstack" style="margin:10px 0">
           <div class="mcb b-input">wenn <b>geschüttelt</b></div>
@@ -881,7 +880,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         </div>
         <p>Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b> &ndash; stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.</p>
         <p>Wer danach noch Zeit hat: Lasst vor der Zahl kurz ein Herz erscheinen &ndash; eine kleine Trommelwirbel-Pause.</p>
-        <button class="btn sec" type="button" data-bonus="wuerfel3x" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
+        <button class="btn sec" type="button" data-bonus="wuerfel3x">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
 
       <div class="note warn">
@@ -995,17 +994,26 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="block">
         <h3><span class="idx">02</span>Dieselbe Idee auf dem echten Roboter</h3>
-        <p class="lead">Der echte Maqueen kennt keine „Felder". Er kennt <b>Tempo</b> (0&ndash;255) und <b>Zeit</b>. Aus „fahre 3 Felder" wird also: fahren, warten, stoppen.</p>
+        <p class="lead">Der echte Maqueen kennt keine „Felder". Er kennt <b>Geschwindigkeit</b> (0&ndash;255) und <b>Zeit</b>. Aus „fahre 3 Felder" wird also: fahren, warten, stoppen.</p>
+        <div class="note warn">
+          <span class="nt">Erst aufbocken, dann fahren</span>
+          <p>Stell den Roboter <b>vor dem Flashen</b> auf eine kleine Schachtel oder eine Rolle Klebeband &ndash; so, dass <b>die Räder in der Luft hängen</b>. Wie ein Auto in der Werkstatt. Dann siehst du, ob sich die Räder richtig drehen, und der Roboter fährt nicht vom Tisch.<br>Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren. Das gilt für <b>jedes neue Programm</b>.</p>
+        </div>
         <div class="mcstack">
           <div class="mccap">Geradeaus und anhalten</div>
           <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-mq i1">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>120</b></div>
+          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+          <div class="mcb b-mq i1">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>120</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq i1">stop <b>beide Räder</b></div>
+        </div>
+        <div class="note">
+          <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
+          <p>Dieser Block gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In eurer Vorlage steht er schon &ndash; nicht löschen. Mit ihm fragt der micro:bit beim Roboter an: &bdquo;Bist du da?&ldquo; Blinkt ein <b>X</b>, antwortet der Roboter nicht &ndash; prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt. Ein <b>Haken</b> heißt: verbunden, es kann losgehen.</p>
         </div>
         <div class="note">
           <span class="nt">Zahlengefühl</span>
-          <p>Tempo geht von 0 bis 255. Unter etwa <b>30</b> bewegt sich nichts &ndash; da ist der Motor zu schwach, um das Fahrzeug loszureißen. 1000&nbsp;ms sind eine Sekunde.</p>
+          <p>Die Geschwindigkeit geht von 0 bis 255. Unter etwa <b>30</b> bewegt sich nichts &ndash; da ist der Motor zu schwach, um das Fahrzeug loszureißen. 1000&nbsp;ms sind eine Sekunde.</p>
         </div>
       </div>
 
@@ -1014,21 +1022,41 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <p class="lead">Der Maqueen hat keine Lenkung. Er dreht, indem die beiden Räder <em>unterschiedlich schnell</em> laufen. Läuft ein Rad vorwärts und das andere rückwärts, dreht er sich auf der Stelle.</p>
         <div class="mcstack">
           <div class="mccap">Drehung auf der Stelle nach rechts</div>
-          <div class="mcb b-mq">Motor <b>links</b> <b>vorwärts</b> Tempo <b>100</b></div>
-          <div class="mcb b-mq">Motor <b>rechts</b> <b>rückwärts</b> Tempo <b>100</b></div>
+          <div class="mcb b-mq">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+          <div class="mcb b-mq">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
           <div class="mcb b-basic">pausiere (ms) <b>400</b></div>
-          <div class="mcb b-mq">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq">stop <b>beide Räder</b></div>
         </div>
         <div class="note aha">
-          <span class="nt">Team-Challenge &middot; 15 Punkte</span>
-          <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen. Ihr müsst die 400&nbsp;ms selbst herausfinden &ndash; probiert, messt, korrigiert. Genau so arbeiten Ingenieure.</p>
-          <button class="btn sec" type="button" data-bonus="quadrat" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
+          <span class="nt">Team-Challenge</span>
+          <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.</p>
+          <p><b>Tipp 1:</b> Nehmt <b>wenn Knopf A geklickt</b> statt <b>beim Start</b> (kennt ihr aus Station 2). Dann fährt der Roboter erst los, wenn er auf dem Boden steht und ihr drückt.<br>
+          <b>Tipp 2:</b> Eine Seite vom Quadrat = die Blöcke von <b>Geradeaus</b> + die Blöcke von <b>Drehung</b>. Das braucht ihr 4-mal. Rechtsklick auf einen Block &rarr; <b>Duplizieren</b> spart Arbeit.<br>
+          <b>Tipp 3:</b> 400&nbsp;ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800 &ndash; probieren, messen, korrigieren. Genau so arbeiten Ingenieure.</p>
+          <details class="hint">
+            <summary>Ihr kommt nicht weiter? Gerüst aufklappen</summary>
+            <div class="mcstack">
+              <div class="mccap">Quadrat mit Schleife &ndash; die ??? findet ihr heraus</div>
+              <div class="mcb b-basic">beim Start</div>
+              <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+              <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+              <div class="mcb b-loop i1">wiederhole <b>4</b> mal</div>
+              <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+              <div class="mcb b-basic i2">pausiere (ms) <b>1000</b></div>
+              <div class="mcb b-mq i2">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+              <div class="mcb b-mq i2">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
+              <div class="mcb b-basic i2">pausiere (ms) <b>???</b></div>
+              <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+            </div>
+            <p>Die <b>wiederhole</b>-Schleife kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>.</p>
+          </details>
+          <button class="btn sec" type="button" data-bonus="quadrat">Geschafft, zeig&apos;s dem Betreuer</button>
         </div>
       </div>
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Fährt einen Bogen statt geradeaus?</b> Normal. Die Motoren sind nie exakt gleich. Dreht das Tempo des schnelleren Rads um 5&ndash;10 runter.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen später zählt das wirklich.</p>
+        <p><b>Fährt einen Bogen statt geradeaus?</b> Normal. Die Motoren sind nie exakt gleich. Dreht die Geschwindigkeit des schnelleren Rads um 5&ndash;10 runter.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen später zählt das wirklich.</p>
       </div>
     </div>
     <div class="stfoot">
@@ -1057,35 +1085,38 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           </table>
         </div>
         <div class="note">
-          <span class="nt">Kalibrieren &ndash; einmal pro Strecke</span>
-          <p>Jeder Raum hat anderes Licht, also muss der Roboter lernen, was hier „schwarz" heißt: alle fünf Sensoren auf die schwarze Linie stellen, einschalten, die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis die Anzeige blinkt. Fertig.</p>
+          <span class="nt">Kalibrieren &ndash; schon erledigt</span>
+          <p>Jeder Raum hat anderes Licht. Damit der Roboter weiß, was hier „schwarz" heißt, lernt er das einmal: Das nennt man <b>kalibrieren</b>. Bei euren Robotern hat das der Betreuer schon gemacht. Nur wenn eurer die Linie nicht findet, kalibriert ihr neu &ndash; wie, steht unten bei <b>Wenn es klemmt</b>.</p>
         </div>
       </div>
 
       <div class="block">
-        <h3><span class="idx">02</span>Zwei Zeilen, und er fährt allein</h3>
+        <h3><span class="idx">02</span>Drei Blöcke, und er fährt allein</h3>
         <p class="lead">Im Maqueen steckt der Linienfolge-Algorithmus schon fertig drin &ndash; in fünf Geschwindigkeitsstufen. Stufe 1 ist gemütlich, Stufe 5 ist mutig.</p>
+        <p class="lead">Die Blöcke dafür findet ihr in der Maqueen-Kategorie unter <b>&hellip; mehr</b>, Gruppe <b>V3</b>. Sie sind auf Englisch: <b>Line patrolling</b> heißt &bdquo;Linie abfahren&ldquo;, <b>ON</b> ist an, <b>OFF</b> ist aus. <b>Speed</b> ist die Geschwindigkeit.</p>
         <div class="mcstack">
           <div class="mccap">Linienfolger &ndash; startet erst auf Knopfdruck</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+          <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
           <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-          <div class="mcb b-mq i1">Linienverfolgung <b>Stufe 2</b></div>
+          <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
           <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-          <div class="mcb b-mq i1">Motor <b>alle</b> <b>stoppen</b></div>
+          <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
         </div>
-        <p class="lead">Warum nicht <kbd>beim Start</kbd>? Weil ihr nach dem Einschalten erst kalibrieren wollt &ndash; ein Roboter, der sofort losfährt, lässt euch keine Zeit dafür. Die Reihenfolge:</p>
+        <p class="lead">Warum nicht <kbd>beim Start</kbd>? Weil der Roboter sonst schon losfährt, während ihr ihn noch auf die Linie stellt. Die Reihenfolge:</p>
         <ol class="steps">
           <li><span>Programm herunterladen, USB-Kabel abziehen.</span></li>
-          <li><span>Roboter mit allen fünf Sensoren auf die schwarze Linie setzen und einschalten.</span></li>
-          <li><span>Calc-Key etwa 2 Sekunden halten, bis es blinkt &ndash; kalibriert.</span></li>
-          <li><span>Roboter auf den Start stellen, <b>Knopf A</b> drücken. Er fährt. <b>Knopf B</b> hält ihn an.</span></li>
+          <li><span>Roboter auf den Start stellen, mit der Mitte über der schwarzen Linie, und einschalten.</span></li>
+          <li><span><b>Knopf A</b> drücken. Er fährt. <b>Knopf B</b> hält ihn an.</span></li>
         </ol>
-        <p class="lead">Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie stoppt &ndash; der micro:bit kann nebenher noch andere Dinge tun, zum Beispiel eine Lichtshow.</p>
+        <p class="lead">Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie mit <b>OFF</b> stoppt &ndash; der micro:bit kann nebenher noch andere Dinge tun, zum Beispiel eine Lichtshow.</p>
         <div class="mcstack">
           <div class="mccap">Fahren und gleichzeitig leuchten</div>
           <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>rot</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
-          <div class="mcb b-mq i1">setze RGB <b>alle</b> auf <b>blau</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>blue</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
         </div>
       </div>
@@ -1096,7 +1127,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q3" data-answer="a">
-        <div class="qh">Kontrollfrage &middot; 10 Punkte</div>
+        <div class="qh">Kontrollfrage</div>
         <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
@@ -1108,7 +1139,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Er verlässt die Linie in Kurven?</b> Eine Stufe langsamer fahren &ndash; oder die Kurve ist zu eng. Als Faustregel braucht der Maqueen mindestens etwa 15&nbsp;cm Kurvenradius.<br><b>Er zuckt wild hin und her?</b> Neu kalibrieren. Oft ist Sonnenlicht oder glänzendes Klebeband schuld.</p>
+        <p><b>Er verlässt die Linie in Kurven?</b> Bei <b>Speed</b> eine kleinere Zahl wählen &ndash; oder die Kurve ist zu eng. Als Faustregel braucht der Maqueen mindestens etwa 15&nbsp;cm Kurvenradius.<br><b>Er findet die Linie nicht oder zuckt wild hin und her?</b> Neu kalibrieren: alle fünf Sensoren auf die schwarze Linie stellen, einschalten, die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis es blinkt. Hilft das nicht, ist oft Sonnenlicht oder glänzendes Klebeband schuld &ndash; sagt dem Betreuer Bescheid.</p>
       </div>
     </div>
     <div class="stfoot">
@@ -1122,7 +1153,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <section class="station" data-st="5" hidden>
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 5</span><span>10 Minuten</span><span>Bonus</span></div>
-      <h2>Reflexe: wenn &hellip; dann &hellip; sonst</h2>
+      <h2>Reflexe: wenn &hellip; dann &hellip; ansonsten</h2>
       <p class="goal">Ein Roboter, der nur einem Plan folgt, fährt gegen die erste Wand. Jetzt bringst du ihm bei, seine Umgebung zu prüfen und selbst zu entscheiden &ndash; viele Male pro Sekunde.</p>
     </div>
     <div class="st-body">
@@ -1130,8 +1161,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <h3><span class="idx">01</span>Der Laserscanner vorne</h3>
         <p class="lead">Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleines Lidar mit 8&times;8 = <b>64 Laserstrahlen</b>. Es misst in Millimetern, von 20&nbsp;mm bis 4000&nbsp;mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos &ndash; nur größer.</p>
         <div class="note">
-          <span class="nt">Wichtig</span>
-          <p>Der Scanner braucht nach dem Einschalten etwa <b>3 Sekunden</b> zum Hochfahren. Setzt darum ganz oben in <kbd>beim Start</kbd> eine Pause von 3000&nbsp;ms, sonst misst er beim ersten Mal Unsinn.</p>
+          <span class="nt">Eigene Blöcke</span>
+          <p>Der Scanner hat seine eigene Kategorie mit lila Blöcken: <b>Matrix LiDAR Entfernung</b>. Er wird in <kbd>beim Start</kbd> eingeschaltet (<b>&hellip; initialisieren</b>). In <kbd>dauerhaft</kbd> holt ihr zuerst neue Messwerte ab (<b>Hindernisvermeidungsdaten abrufen</b>) und fragt dann den Abstand nach vorn ab.</p>
         </div>
       </div>
 
@@ -1140,13 +1171,19 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <p class="lead">Der <kbd>dauerhaft</kbd>-Block wiederholt alles darin, immer und immer wieder. Darin sitzt die Entscheidung: Ist der Weg frei, wird gefahren. Ist etwas näher als 20&nbsp;cm, wird gebremst.</p>
         <div class="mcstack">
           <div class="mccap">Bremsassistent</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+          <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+          <div class="mcb b-mq i1">setze die Helligkeit der RGB LEDs auf <b>255</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>white</b></div>
           <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-logic i1">wenn <b>Abstand</b> &lt; <b>200</b> mm dann</div>
-          <div class="mcb b-mq i2">Motor <b>alle</b> <b>stoppen</b></div>
-          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>rot</b></div>
-          <div class="mcb b-logic i1">sonst</div>
-          <div class="mcb b-mq i2">Motor <b>alle</b> <b>vorwärts</b> Tempo <b>110</b></div>
-          <div class="mcb b-mq i2">setze RGB <b>alle</b> auf <b>grün</b></div>
+          <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+          <div class="mcb b-logic i1">wenn <span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b> dann</div>
+          <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+          <div class="mcb b-logic i1">ansonsten</div>
+          <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
         </div>
         <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
         <div class="note warn">
@@ -1156,7 +1193,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="quiz" data-quiz="q4" data-answer="c">
-        <div class="qh">Denkfrage &middot; 10 Punkte</div>
+        <div class="qh">Denkfrage</div>
         <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
         <div class="opts">
           <button class="opt" data-k="a"><span class="k">A</span> Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</button>
@@ -1167,9 +1204,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </div>
 
       <div class="note aha">
-        <span class="nt">Bonus &middot; 15 Punkte</span>
+        <span class="nt">Bonus</span>
         <p>Schafft ihr es, dass der Roboter beim Hindernis nicht nur stoppt, sondern <b>zurücksetzt, sich dreht und weiterfährt</b>? Dann habt ihr einen Staubsaugerroboter gebaut.</p>
-        <button class="btn sec" type="button" data-bonus="staubsauger" data-pts="15">Geschafft, zeig&apos;s dem Betreuer &rarr; +15 Punkte</button>
+        <button class="btn sec" type="button" data-bonus="staubsauger">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
     </div>
     <div class="stfoot">
@@ -1193,7 +1230,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <div class="tablewrap">
           <table class="fix">
             <tr><th>Idee</th><th>Was ihr braucht</th><th>Schwierigkeit</th></tr>
-            <tr><td>Schnellste Runde</td><td>Linienverfolgung Stufe hochdrehen, bis er fliegt statt fährt</td><td>leicht</td></tr>
+            <tr><td>Schnellste Runde</td><td>Bei <b>Line Following Settings Speed</b> die Zahl hochdrehen, bis er fliegt statt fährt</td><td>leicht</td></tr>
             <tr><td>Startampel</td><td><kbd>wenn Knopf A geklickt</kbd>: rot, gelb, grün leuchten, dann losfahren</td><td>leicht</td></tr>
             <tr><td>Discomodus</td><td>Zufallsfarben auf allen 6 LEDs im <kbd>dauerhaft</kbd>-Block</td><td>leicht</td></tr>
           </table>
@@ -1217,7 +1254,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="trophy">
         <div class="big" id="finaltitle">Ziel erreicht</div>
-        <div class="who" id="finalwho">0 Punkte</div>
+        <div class="who" id="finalwho">0 von 7 Abzeichen</div>
         <div class="pillrow" id="finalbadges" style="justify-content:center; margin-top:16px"></div>
       </div>
     </div>
@@ -1245,8 +1282,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
         <tr><td>0:05–0:18</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
         <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: Im Simulator sehen sie, dass &bdquo;Logo nach oben&ldquo; nur eine Zahl jenseits der Grenze 200 ist. Beides brauchen sie später beim Roboter wieder.</td></tr>
-        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams.</td></tr>
-        <tr><td>0:47–1:05</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
+        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams. Die Seite gibt Tipps und ein Gerüst mit <em>wiederhole 4&nbsp;mal</em>. Wer das schnell schafft, dem zeigt ihr <em>Funktionen</em> (Musterlösung in <kbd>microbit/stations/03-fahrschule/</kbd>): Ein Stück Programm bekommt einen Namen wie <em>dreheRechts</em> und wird dann nur noch aufgerufen. Richtwert: 650&nbsp;ms bei Geschwindigkeit 100 ergeben etwa 90°.</td></tr>
+        <tr><td>0:47–1:05</td><td><b>Augen.</b> Linienverfolgung. Kalibrieren nur bei Bedarf – die Roboter sind beim Aufbau schon kalibriert. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
         <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
         <tr><td>1:15–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
       </table>
@@ -1275,7 +1312,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <h3>Am Vorabend</h3>
       <ul class="check">
         <li>Alle Akkus laden – ein halbvoller Akku ruiniert den Linienfolger</li>
-        <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s)</li>
+        <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s) – am Stand, unter dem Messelicht, auf dem echten Parcoursband. Ab Werk sind sie zwar kalibriert, aber nicht auf euer Band und euer Licht. Die Schüler kalibrieren danach nur noch, wenn ein Roboter die Linie verliert.</li>
         <li>Ein MakeCode-Projekt mit bereits geladener Erweiterung anlegen und als <b>Vorlage teilen</b> – spart pro Team 5 Minuten (erst ab Station 3 nötig)</li>
         <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
@@ -1294,8 +1331,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
       <ul class="check">
-        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b> – noch keinen Code schreiben</li>
-        <li>Dieses leere Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
+        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b>. Zweite Erweiterung <b>Matrix LiDAR Entfernung</b> für den Laserscanner laden (Station 5). Einzigen Block <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em> ziehen, sonst nichts</li>
+        <li>Dieses Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
         <li>Vorlagendatei auf jeden Arbeitsplatz kopieren (USB-Stick oder direkt ins SD-Image) und dort einmal <b>importieren</b></li>
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
@@ -1345,7 +1382,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
           <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
           <tr><td>Koppeln schlägt am Pi fehl</td><td>Nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
-          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte</td></tr>
+          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em>?</td></tr>
+          <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>initialisiere Maqueen Plus V2</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
           <tr><td>Motoren brummen, fahren aber nicht</td><td>Tempo unter 30, oder Akku schwach</td></tr>
           <tr><td>Fährt Bogen statt gerade</td><td>Normal. Tempo eines Rads um 5–10 reduzieren</td></tr>
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
@@ -1359,7 +1397,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
     <section>
       <h3>Blocknamen vorab prüfen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Die hier gezeigten Beschriftungen der Motor-, Licht- und Linienblöcke sind aus der DFRobot-Dokumentation abgeleitet und werden erst im Trockenlauf wortwörtlich bestätigt. Die Blöcke für den <b>8×8-Laserscanner</b> stecken in einer eigenen Unterkategorie und ihre Beschriftung wechselt zwischen Versionen – bitte einmal vor der Messe durchklicken und mit der Blockdarstellung in Station 5 abgleichen.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Motor-, Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Auch sie muss schon in der Vorlage stecken, sonst fehlt Station 5 auf der Messe.</p>
     </section>
 
     <section>
@@ -1371,7 +1409,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <li><b>Station 2 funktioniert auch ohne Roboter.</b> Wer nur 25 Minuten Zeit hat oder wenn ein Maqueen ausfällt: micro:bit plus LED/Sensor-Teil allein ist bereits ein vollständiges kleines Erlebnis mit Würfel zum Mitnehmen.</li>
         <li><b>Zu schnelle Teams</b> bekommen die Quadrat-Challenge aus Station 3, das Bonus-Level im Parcours-Simulator und die Staubsauger-Aufgabe aus Station 5.</li>
         <li><b>Fehler nicht wegräumen.</b> Ein Roboter, der im Kreis fährt, ist die beste Lernsituation des Tages.</li>
-        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Punkte, Abzeichen und Simulator zurück.</li>
+        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Abzeichen, Simulator und Timer zurück.</li>
       </ul>
     </section>
 
@@ -1379,6 +1417,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <h3>Sicherheit</h3>
       <ul>
         <li>18650-Akkus nur von Betreuenden wechseln, nie mit spitzen Gegenständen heraushebeln (Zuglasche benutzen)</li>
+        <li>Jedes neue Programm zuerst <b>aufgebockt</b> testen (Räder in der Luft, z.&nbsp;B. auf einer Klebebandrolle) – steht so auch in Station 3. Pro Tisch eine Unterlage bereitlegen.</li>
         <li>Roboter nur auf dem Boden oder mit Randbegrenzung auf dem Tisch fahren lassen</li>
         <li>Haare und lose Bänder von den Rädern fernhalten</li>
       </ul>
@@ -1407,7 +1446,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"15 Min", badge:"Champion"}
 ];
-var S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
 function load(){
   try{
@@ -1416,21 +1455,18 @@ function load(){
   }catch(e){}
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-function addPts(n){ S.pts += n; save(); paintScore(); }
 
 /* ================= chrome ================= */
-var ptsval = document.getElementById("ptsval");
 var rail = document.getElementById("rail");
 var railfoot = rail.querySelector(".railfoot");
 var badgesEl = document.getElementById("badges");
 var progfill = document.getElementById("progfill");
 
-function paintScore(){
-  ptsval.textContent = S.pts;
+function paintProgress(){
   var pct = Math.round(S.done.length / STATIONS.length * 100);
   progfill.style.width = pct + "%";
   var ft = document.getElementById("finalwho");
-  if(ft) ft.textContent = S.pts + " Punkte";
+  if(ft) ft.textContent = S.done.length + " von " + STATIONS.length + " Abzeichen";
   var fb = document.getElementById("finalbadges");
   if(fb){
     fb.innerHTML = "";
@@ -1473,14 +1509,14 @@ function go(i){
   S.cur = i; save();
   var secs = document.querySelectorAll(".station");
   for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
-  paintRail(); paintScore();
+  paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
 }
 function reduced(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
 
 function complete(i){
-  if(S.done.indexOf(i) === -1){ S.done.push(i); addPts(20); }
-  paintRail(); paintBadges(); paintScore(); save();
+  if(S.done.indexOf(i) === -1) S.done.push(i);
+  paintRail(); paintBadges(); paintProgress(); save();
 }
 
 document.addEventListener("click", function(e){
@@ -1491,7 +1527,7 @@ document.addEventListener("click", function(e){
   if(v === "done"){
     complete(cur);
     document.getElementById("finaltitle").textContent = "Workshop geschafft!";
-    paintScore();
+    paintProgress();
     return;
   }
   var t = Number(v);
@@ -1501,14 +1537,15 @@ document.addEventListener("click", function(e){
 
 /* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
-  var id = btn.dataset.bonus, pts = Number(btn.dataset.pts || 15);
-  function paint(){
-    if(S.bonus[id]){ btn.disabled = true; btn.textContent = "✓ Erledigt (+" + pts + ")"; }
-  }
-  paint();
+  var id = btn.dataset.bonus, label = btn.innerHTML;
+  btn.paintBonus = function(){
+    btn.disabled = !!S.bonus[id];
+    if(S.bonus[id]) btn.textContent = "✓ Erledigt"; else btn.innerHTML = label;
+  };
+  btn.paintBonus();
   btn.addEventListener("click", function(){
     if(S.bonus[id]) return;
-    S.bonus[id] = 1; addPts(pts); save(); paint();
+    S.bonus[id] = 1; save(); btn.paintBonus();
   });
 });
 
@@ -1533,7 +1570,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
         q.querySelectorAll(".opt").forEach(function(x){ if(x!==o) x.style.opacity = ".45"; });
         fb.innerHTML = FB[id] || "Richtig!";
         fb.hidden = false;
-        if(!S.quiz[id]){ S.quiz[id] = 1; addPts(10); save(); }
+        if(!S.quiz[id]){ S.quiz[id] = 1; save(); }
       } else {
         fb.innerHTML = "Nicht ganz – denk nochmal nach und probier eine andere Antwort.";
         fb.hidden = false;
@@ -1570,8 +1607,9 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape") openCoa
 
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {pts:0, done:[], quiz:{}, levels:{}, mb:{}, cur:0};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
   save();
+  document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
     q.dataset.locked = "";
     q.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("right","wrong"); o.style.opacity=""; });
@@ -1581,7 +1619,7 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   left = TOTAL; running = false; clearInterval(tick);
   tbtn.textContent = "Start"; tbox.classList.remove("running"); paintT();
   prog = []; setLevel(0); mbReset();
-  paintBadges(); paintScore(); go(0);
+  paintBadges(); paintProgress(); go(0);
 });
 
 /* ================= SIMULATOR ================= */
@@ -1973,14 +2011,10 @@ async function run(){
     setStatus("💥 Rumms — da war eine Wand. Kein Problem: Ingenieure fahren beim ersten Versuch fast immer dagegen. Schau, wo er stecken blieb, und ändere einen Baustein.", "bad");
   } else if(Math.round(robot.x)===L.goal.x && Math.round(robot.y)===L.goal.y){
     var c = countBlocks(), star = c <= L.max;
-    var gained = 0;
-    if(!S.levels[lev]){ gained += 15; }
-    if(star && S.levels[lev] !== "star"){ gained += 10; }
-    S.levels[lev] = star ? "star" : "ok";
-    if(gained > 0){ addPts(gained); }
+    if(S.levels[lev] !== "star") S.levels[lev] = star ? "star" : "ok";
     save();
     levselEl.querySelectorAll("button")[lev].classList.add("solved");
-    setStatus("🏁 Im Ziel!" + (star ? " Und das mit nur " + c + " Bausteinen — Bestwert erreicht." : " Es geht aber noch kürzer: " + L.max + " Bausteine reichen.") + (gained?" <b>+"+gained+" Punkte</b>":""), "ok");
+    setStatus("🏁 Im Ziel!" + (star ? " Und das mit nur " + c + " Bausteinen — Bestwert erreicht." : " Es geht aber noch kürzer: " + L.max + " Bausteine reichen."), "ok");
   } else {
     setStatus("Angekommen — aber nicht auf der Zielflagge. Zähl die Felder nochmal genau ab.", "bad");
   }
@@ -2052,7 +2086,7 @@ function mbBuildMatrix(){
 }
 /* Klammer-Blöcke wie in MakeCode: In den Stationen stehen die Blöcke flach
    untereinander, eingerückt mit i1/i2. Hier wird daraus die Klammer-Form –
-   ein Block, auf den tiefer eingerückte folgen, umschließt sie. „sonst“ hängt
+   ein Block, auf den tiefer eingerückte folgen, umschließt sie. „sonst“/„ansonsten“ hängt
    sich als Mittelsteg an das vorangehende „wenn“. */
 function mcLevel(el){ return el.classList.contains("i2") ? 2 : el.classList.contains("i1") ? 1 : 0; }
 function nestStack(stack){
@@ -2069,7 +2103,7 @@ function nestStack(stack){
     if(!deeper){ parent.appendChild(el); return; }
     var body = document.createElement("div"); body.className = "mcbody";
     var prev = parent.lastElementChild;
-    if(el.textContent.trim() === "sonst" && prev && prev.classList.contains("mcc") && prev.dataset.c === colorOf(el)){
+    if(/^(an)?sonst$/.test(el.textContent.trim()) && prev && prev.classList.contains("mcc") && prev.dataset.c === colorOf(el)){
       el.classList.add("mch");
       prev.insertBefore(el, prev.lastElementChild);
       prev.insertBefore(body, prev.lastElementChild);
@@ -2140,15 +2174,14 @@ function mbStatus(t, cls){
   mbStatusEl.innerHTML = t;
   mbStatusEl.className = "simstatus" + (cls ? " " + cls : "");
 }
-function mbAward(key, n, msg){
+function mbAward(key, msg){
   if(!S.mb) S.mb = {};
-  if(S.mb[key]) { mbStatus(msg, "ok"); return; }
-  S.mb[key] = 1; save(); addPts(n);
-  mbStatus(msg + " <b>+" + n + " Punkte</b>", "ok");
+  if(!S.mb[key]){ S.mb[key] = 1; save(); }
+  mbStatus(msg, "ok");
 }
 function mbCheckDraw(){
   if(mbDraw === PAT.heart){
-    mbAward("draw", 10, "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
+    mbAward("draw", "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
   }
 }
 function mbSetMode(m){
@@ -2181,7 +2214,7 @@ function mbPress(which){
   }
   mbChips();
   if(mbSeen.a && mbSeen.b){
-    mbAward("btn", 10, "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+    mbAward("btn", "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
   }
 }
 /* Neigen: Der Regler liefert y wie der echte Sensor (-1023..1023). „Logo nach oben“
@@ -2204,7 +2237,7 @@ function mbTiltPaint(){
 }
 function mbCheckTilt(){
   if(mbSeen.up && mbSeen.down && mbSeen.shake){
-    mbAward("tilt", 10, "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
+    mbAward("tilt", "Alle drei Ereignisse gesehen. &bdquo;Logo nach oben&ldquo; ist auch nur eine Zahl: Die Grenze bei " + TILT + " haben die Erfinder des micro:bit festgelegt. Beim Roboter legt ihr sie gleich selbst fest.");
   }
 }
 /* Schütteln: Ton „Mittleres C“ für einen Schlag (bei Tempo 120 eine halbe Sekunde),
@@ -2254,7 +2287,7 @@ load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
 document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
-paintBadges(); paintScore(); paintRail();
+paintBadges(); paintProgress(); paintRail();
 setLevel(0);
 go(S.cur || 0);
 

@@ -44,8 +44,8 @@ cd website && npm run serve      # http://<ip-des-rechners>:8000/maqueen-grand-p
 Beenden mit Ctrl-C. Der Server liefert nur `website/dist/` aus, nichts anderes aus dem Repo.
 
 Nur zum Ansehen und Entwickeln — für die Messe zählt weiter die Datei selbst,
-nicht der Server. Über `http://` liegt der Fortschritt in einem anderen
-`localStorage`-Bereich als über `file://`, Punkte wandern also nicht mit.
+nicht der Server. Über `http://` liegt der gespeicherte Stand in einem anderen
+`localStorage`-Bereich als über `file://`, der Fortschritt wandert also nicht mit.
 
 ## Online-Fassung (GitHub Pages)
 

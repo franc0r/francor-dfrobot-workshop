@@ -2,6 +2,12 @@
 
 Ein MakeCode-Projekt, in dem die Erweiterung **DFRobot_MaqueenPlus_V2** bereits
 geladen ist (gilt auch für die V3-Hardware, siehe `../../CLAUDE.md`).
+Zweite Erweiterung für den Laserscanner (Station 5): **Matrix LiDAR Entfernung**
+(github.com/DFRobot/pxt-DFRobot_matrixLidarDistanceSensor, reines TypeScript, läuft offline).
+
+In `beim Start` steht schon der Block **initialisiere Maqueen Plus V2**, sonst nichts.
+Er gehört in jedes Roboterprogramm (setzt die Roboterplatine zurück und wartet, bis sie
+antwortet: blinkendes X = keine Verbindung, Haken = verbunden).
 
 Warum: MakeCode cacht sich beim ersten Laden vollständig, nur das *Nachladen*
 einer Erweiterung braucht Netz. Ohne Vorlage stehen die Maqueen-Blöcke auf der

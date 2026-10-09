@@ -10,8 +10,8 @@
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
         <tr><td>0:05–0:18</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
         <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: Im Simulator sehen sie, dass &bdquo;Logo nach oben&ldquo; nur eine Zahl jenseits der Grenze 200 ist. Beides brauchen sie später beim Roboter wieder.</td></tr>
-        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams.</td></tr>
-        <tr><td>0:47–1:05</td><td><b>Augen.</b> Kalibrieren, Linienverfolgung. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
+        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams. Die Seite gibt Tipps und ein Gerüst mit <em>wiederhole 4&nbsp;mal</em>. Wer das schnell schafft, dem zeigt ihr <em>Funktionen</em> (Musterlösung in <kbd>microbit/stations/03-fahrschule/</kbd>): Ein Stück Programm bekommt einen Namen wie <em>dreheRechts</em> und wird dann nur noch aufgerufen. Richtwert: 650&nbsp;ms bei Geschwindigkeit 100 ergeben etwa 90°.</td></tr>
+        <tr><td>0:47–1:05</td><td><b>Augen.</b> Linienverfolgung. Kalibrieren nur bei Bedarf – die Roboter sind beim Aufbau schon kalibriert. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
         <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
         <tr><td>1:15–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
       </table>
@@ -40,7 +40,7 @@
       <h3>Am Vorabend</h3>
       <ul class="check">
         <li>Alle Akkus laden – ein halbvoller Akku ruiniert den Linienfolger</li>
-        <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s)</li>
+        <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s) – am Stand, unter dem Messelicht, auf dem echten Parcoursband. Ab Werk sind sie zwar kalibriert, aber nicht auf euer Band und euer Licht. Die Schüler kalibrieren danach nur noch, wenn ein Roboter die Linie verliert.</li>
         <li>Ein MakeCode-Projekt mit bereits geladener Erweiterung anlegen und als <b>Vorlage teilen</b> – spart pro Team 5 Minuten (erst ab Station 3 nötig)</li>
         <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
@@ -59,8 +59,8 @@
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
       <ul class="check">
-        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b> – noch keinen Code schreiben</li>
-        <li>Dieses leere Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
+        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b>. Zweite Erweiterung <b>Matrix LiDAR Entfernung</b> für den Laserscanner laden (Station 5). Einzigen Block <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em> ziehen, sonst nichts</li>
+        <li>Dieses Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
         <li>Vorlagendatei auf jeden Arbeitsplatz kopieren (USB-Stick oder direkt ins SD-Image) und dort einmal <b>importieren</b></li>
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
@@ -110,7 +110,8 @@
           <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
           <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
           <tr><td>Koppeln schlägt am Pi fehl</td><td>Nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
-          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte</td></tr>
+          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em>?</td></tr>
+          <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>initialisiere Maqueen Plus V2</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
           <tr><td>Motoren brummen, fahren aber nicht</td><td>Tempo unter 30, oder Akku schwach</td></tr>
           <tr><td>Fährt Bogen statt gerade</td><td>Normal. Tempo eines Rads um 5–10 reduzieren</td></tr>
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
@@ -124,7 +125,7 @@
 
     <section>
       <h3>Blocknamen vorab prüfen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Die hier gezeigten Beschriftungen der Motor-, Licht- und Linienblöcke sind aus der DFRobot-Dokumentation abgeleitet und werden erst im Trockenlauf wortwörtlich bestätigt. Die Blöcke für den <b>8×8-Laserscanner</b> stecken in einer eigenen Unterkategorie und ihre Beschriftung wechselt zwischen Versionen – bitte einmal vor der Messe durchklicken und mit der Blockdarstellung in Station 5 abgleichen.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Motor-, Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Auch sie muss schon in der Vorlage stecken, sonst fehlt Station 5 auf der Messe.</p>
     </section>
 
     <section>
@@ -136,7 +137,7 @@
         <li><b>Station 2 funktioniert auch ohne Roboter.</b> Wer nur 25 Minuten Zeit hat oder wenn ein Maqueen ausfällt: micro:bit plus LED/Sensor-Teil allein ist bereits ein vollständiges kleines Erlebnis mit Würfel zum Mitnehmen.</li>
         <li><b>Zu schnelle Teams</b> bekommen die Quadrat-Challenge aus Station 3, das Bonus-Level im Parcours-Simulator und die Staubsauger-Aufgabe aus Station 5.</li>
         <li><b>Fehler nicht wegräumen.</b> Ein Roboter, der im Kreis fährt, ist die beste Lernsituation des Tages.</li>
-        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Punkte, Abzeichen und Simulator zurück.</li>
+        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Abzeichen, Simulator und Timer zurück.</li>
       </ul>
     </section>
 
@@ -144,6 +145,7 @@
       <h3>Sicherheit</h3>
       <ul>
         <li>18650-Akkus nur von Betreuenden wechseln, nie mit spitzen Gegenständen heraushebeln (Zuglasche benutzen)</li>
+        <li>Jedes neue Programm zuerst <b>aufgebockt</b> testen (Räder in der Luft, z.&nbsp;B. auf einer Klebebandrolle) – steht so auch in Station 3. Pro Tisch eine Unterlage bereitlegen.</li>
         <li>Roboter nur auf dem Boden oder mit Randbegrenzung auf dem Tisch fahren lassen</li>
         <li>Haare und lose Bänder von den Rädern fernhalten</li>
       </ul>

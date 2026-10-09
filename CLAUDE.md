@@ -41,12 +41,12 @@ die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
 website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
   src/
     styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
-    topbar.html       Kopfzeile: Punkte, 90-Min-Timer, Betreuer, Neues Team
+    topbar.html       Kopfzeile: 90-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
-    app.js            Fortschritt/Punkte (localStorage), Quiz, Timer, beide Simulatoren
+    app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, beide Simulatoren
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
@@ -83,8 +83,8 @@ ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 | 1 | 01-erster-kontakt | 13 | MakeCode-Bedienung, beim Start (einmal) vs. dauerhaft (ohne Ende), erstes Flashen | Ersteinschalter |
 | 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Logo oben/unten + Schütteln; Würfel ist Team-Challenge | Pixelkünstler |
 | 3 | 03-fahrschule | 14 | Vorlage öffnen (Erweiterung ist schon geladen), Parcours-Simulator, Motorblöcke | Fahrlehrer |
-| 4 | 04-augen | 18 | Kalibrieren, Linienverfolgung auf Knopf A — der Wow-Moment | Spurhalter |
-| 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/sonst — **Bonus, streichbar** | Bremsassistent |
+| 4 | 04-augen | 18 | Linienverfolgung auf Knopf A — der Wow-Moment; Kalibrieren macht der Betreuer beim Aufbau, Schüler nur bei Bedarf | Spurhalter |
+| 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/ansonsten — **Bonus, streichbar** | Bremsassistent |
 | 6 | 06-grand-prix | 15 | Tuning (3 Ideen), ein Lauf auf Zeit — nie streichen | Champion |
 
 Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
@@ -124,8 +124,8 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   auf das Laufwerk `MICROBIT` ziehen. Weg B geht immer und ist auf Linux/Raspberry Pi oft der
   Hauptweg (USB-Berechtigung; optionale udev-Regel VID 0d28 / PID 0204 steht im Handbuch).
 - Maqueen: Tempo 0–255, unter ~30 keine Bewegung; zwei Schalter (Akkubrett + Bodenplatte);
-  Kalibrierung Calc-Key ~2 s auf Schwarz; Linienverfolgung Stufe 1–5 läuft im Hintergrund;
-  Laserscanner 8×8, 20–4000 mm, ~3 s Init.
+  Kalibrierung Calc-Key ~2 s auf Schwarz; Linienverfolgung (`Line patrolling ON/OFF`, Tempo über `Line Following Settings Speed 1–5`) läuft im Hintergrund;
+  Laserscanner 8×8, 20–4000 mm, eigene Erweiterung (siehe Offen).
 - Arbeitsplätze: Laptop oder **Raspberry Pi 4 (4 GB+)**; Raspberry Pi OS ist von der micro:bit
   Foundation offiziell unterstützt. 2–4 Plätze pro Slot, je zwei Schüler.
 
@@ -160,8 +160,24 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 
 ## Offen (nach dem Trockenlauf einarbeiten)
 
-- Exakte Blocktexte für Motor, Licht, Linienverfolgung, Laserscanner (Wortlaut aus Protokoll C/D/E)
-- Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90°, sichere Linienstufe, kleinster Kurvenradius
+- Blocktexte: am Gerät bestätigt bis auf `wiederhole 4 mal` (Quadrat-Hilfe, Station 3).
+  Motor ist bestätigt (Screenshot 08.10.2026): `steuere [beide Räder] [vorwärts], Geschwindigkeit 120`
+  und `stop [beide Räder]`, einzeln `linkes Rad` / `rechtes Rad`. Noch offen: die Kategoriefarbe
+  — in MakeCode sind die Maqueen-Blöcke grün, nicht dunkelblau wie in Regel 3.
+  Quellcode der Erweiterung (github.com/DFRobot/pxt-DFRobot_MaqueenPlus_v20, master am
+  08.10.2026) bestätigt: Kategoriefarbe `#0fbc11`; `initialisiere Maqueen Plus V2` gehört in
+  jedes Roboterprogramm (setzt die V3-Platine zurück, wartet mit blinkendem X auf Antwort,
+  dann Haken) und steht in allen Stationen ab 3. Die Linienverfolgung heißt
+  `Line patrolling ON/OFF` plus `Line Following Settings Speed 1–5` (Gruppe „V3“ unter „Mehr“,
+  ohne deutsche Übersetzung); von Martin am Gerät bestätigt (08.10.2026), Stationen 4 und 6
+  sind umgestellt. Laserscanner: eigene Erweiterung **Matrix LiDAR Entfernung**
+  (github.com/DFRobot/pxt-DFRobot_matrixLidarDistanceSensor, reines TypeScript, Farbe `#5b3fe8`,
+  in den Stationen `.b-lidar`); muss mit in die Vorlage. Laser- und Lichtblöcke
+  (`RGB Car Lights`, `SET PIN P1 RGB show color`) in Station 4/5 am Gerät bestätigt
+  (Screenshot 08.10.2026); die 3-s-Pause nach dem Einschalten war dabei nicht nötig.
+  MakeCode-Logik heißt deutsch `wenn … dann … ansonsten`; `nestStack()` kennt beides.
+- Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90° (erster Wert von Martin, 08.10.2026:
+  ~650 ms bei Geschwindigkeit 100 — die Quadrat-Hilfe in Station 3 nennt deshalb 500–800), sichere Linienstufe, kleinster Kurvenradius
 - Steckrichtung des micro:bit auf dem Chassis („Lämpchen nach vorn" — bestätigen). Stimmt
   sie nicht, gemeinsam ändern: Schritt 2 und Einsetz-Figur samt Bildunterschrift in
   `03-fahrschule.html`, Legendenpunkt 4 in `00-boxenstopp.html`.
