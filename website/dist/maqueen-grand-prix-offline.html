@@ -299,19 +299,47 @@ kbd{
 @media (max-width:760px){ .mqfig{grid-template-columns:1fr} }
 .mqfig .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; fill:var(--ink-3)}
 .mqfig .lbl2{font-family:var(--sans); font-size:12px; fill:var(--ink-2)}
-.mqfig .ch{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:1.5}
-.mqfig .wh{fill:var(--ink-2)}
-.mqfig .mo{fill:var(--surface); stroke:var(--line)}
-.mqfig .ls,.mqfig .slot{fill:var(--track)}
-.mqfig .dots circle{fill:var(--paper)}
-.mqfig .ln{fill:none; stroke:#B4009E; stroke-width:1.5; stroke-dasharray:3 2}
-.mqfig .li{fill:var(--surface); stroke:#B4009E; stroke-width:2}
-.mqfig .rgb{fill:var(--accent)}
+/* Maqueen-Figuren: Platinenfarben sind fest (schwarze Platine wie im Original), damit hell und dunkel gleich aussehen */
+.mqfig .ch{fill:#262B30; stroke:#55616A; stroke-width:1.2}
+.mqfig .chs{fill:#121517}
+.mqfig .wh{fill:#2A2F33; stroke:#4C565E; stroke-width:1}
+.mqfig .tread line{stroke:#4C565E; stroke-width:1.2}
+.mqfig .axle{stroke:#9AA3A9; stroke-width:3}
+.mqfig .mo{fill:#3A4147; stroke:#6C777F; stroke-width:1}
+.mqfig .wire{fill:none; stroke:#D63A2F; stroke-width:1.4}
+.mqfig .slot{fill:#0B0D0F; stroke:#4C565E; stroke-width:.8}
+.mqfig .mbedge{fill:#1E2F37}
+.mqfig .ln{fill:none; stroke:#E255CC; stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .li{fill:#3A4147; stroke:#E255CC; stroke-width:2}
+.mqfig .under{fill:none; stroke:#C9D1D6; stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .dome{fill:#F2F4F5; stroke:#B8C0C5; stroke-width:1}
+.mqfig .domehl{fill:#fff}
+.mqfig .caster{fill:#F2F4F5; stroke:#B8C0C5; stroke-width:1}
 .mqfig .rgb.u{fill:none; stroke:var(--accent); stroke-width:1.5; stroke-dasharray:3 2}
-.mqfig .bb{fill:var(--surface); stroke:var(--line)}
-.mqfig .cell{fill:var(--surface-2); stroke:var(--line)}
-.mqfig .col{stroke:var(--ink-3); stroke-width:2}
-.mqfig .bz{fill:none; stroke:#264F87; stroke-width:2}
+.mqfig .btn2{fill:#B8C0C5; stroke:#7B8B94; stroke-width:.8}
+.mqfig .jst{fill:#F2F4F5; stroke:#B8C0C5; stroke-width:.8}
+.mqfig .hole{fill:#C9A24A; stroke:#262B30; stroke-width:1}
+.mqfig .cap{fill:#D63A2F}
+.mqfig .chip{fill:#121517; stroke:#55616A; stroke-width:.8}
+.mqfig .bz{fill:#121517; stroke:#8A959C; stroke-width:1.5}
+.mqfig .bzc{fill:#8A959C}
+.mqfig .hdr rect{fill:#C9A24A}
+.mqfig .silk{font-size:7px; letter-spacing:.06em; fill:#C9D1D6}
+.mqfig .lbl3{font-size:6px; letter-spacing:.08em; fill:#C9D1D6}
+.mqfig .deck{fill:rgba(255,255,255,.10); stroke:#C9D1D6; stroke-width:1; stroke-dasharray:4 3}
+.mqfig .decklbl{font-family:var(--sans); font-size:8px; fill:#E6EDEF}
+.mqfig .lid{fill:#262B30; stroke:#8A959C; stroke-width:1}
+.mqfig .lens{fill:#0B0D0F; stroke:#8A959C; stroke-width:.8}
+.mqfig .lensdot{fill:#3B2C6E; stroke:#9A8AD6; stroke-width:.8}
+.mqfig .lidarr{fill:#C9D1D6}
+.mqfig .post{fill:#C9A24A}
+.mqfig .shadow{fill:var(--line-soft)}
+#mqinsert .deck{fill:#262B30; stroke:#55616A; stroke-dasharray:none}
+.mqfig .deckside{fill:#121517}
+.mqfig .holder{fill:#3A4147; stroke:#6C777F; stroke-width:1}
+.mqfig .cellf{fill:#D9DEE2; stroke:#9AA3A9; stroke-width:1}
+.mqfig .cellnub{fill:#9AA3A9}
+#mqinsert .silk{fill:#4A5A63}
 .mqfig .track{fill:var(--teal)}
 .mqfig .knob{fill:#fff}
 .mqfig .ld line,.mqfig .arr{stroke:var(--ink-3); stroke-width:1}
@@ -319,7 +347,7 @@ kbd{
 .mqfig marker path{fill:var(--ink-3)}
 .mqfig .mk text{fill:#fff; font-size:11px; font-weight:600; text-anchor:middle; dominant-baseline:central}
 .mqfig .mbb{fill:#1E2F37; stroke:#334A53}
-.mqfig .usb{fill:var(--ink-3)}
+.mqfig .usb{fill:#9AA0A4}
 .mqfig .pix{fill:rgba(255,255,255,.12)}
 .mqfig .pix.on{fill:#FF3D2E}
 .mqfig .mbtn{fill:#0E171B; stroke:#4A5A63}
@@ -336,8 +364,8 @@ kbd{
 .r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
 .mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
 @keyframes mb-slide{
-  0%{transform:translateY(-80px); opacity:0}
-  10%{transform:translateY(-80px); opacity:1}
+  0%{transform:translateY(-110px); opacity:0}
+  10%{transform:translateY(-110px); opacity:1}
   45%,88%{transform:translateY(0); opacity:1}
   100%{transform:translateY(0); opacity:0}
 }
@@ -634,62 +662,86 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <h3><span class="idx">02</span>Dein Fahrzeug im Detail</h3>
         <p class="lead">Von oben gesehen. Die Farben sind dieselben wie oben: Wahrnehmen, Entscheiden, Handeln.</p>
         <figure class="mqfig" id="mqmap">
-          <svg viewBox="0 0 420 300" role="img" aria-labelledby="mqmap-t">
+          <svg viewBox="0 0 420 310" role="img" aria-labelledby="mqmap-t">
             <title id="mqmap-t">Der Maqueen von oben, Vorderseite oben</title>
             <text class="lbl" x="210" y="12" text-anchor="middle">&#9650; vorn</text>
-            <rect class="wh" x="82" y="128" width="26" height="76" rx="6"/>
-            <rect class="wh" x="312" y="128" width="26" height="76" rx="6"/>
-            <rect class="ch" x="108" y="46" width="204" height="220" rx="18"/>
-            <rect class="mo" x="112" y="140" width="30" height="52" rx="4"/>
-            <rect class="mo" x="278" y="140" width="30" height="52" rx="4"/>
-            <rect class="ls" x="188" y="20" width="44" height="30" rx="4"/>
-            <g class="dots">
-              <circle cx="197" cy="29" r="1.6"/><circle cx="210" cy="29" r="1.6"/><circle cx="223" cy="29" r="1.6"/>
-              <circle cx="197" cy="35" r="1.6"/><circle cx="210" cy="35" r="1.6"/><circle cx="223" cy="35" r="1.6"/>
-              <circle cx="197" cy="41" r="1.6"/><circle cx="210" cy="41" r="1.6"/><circle cx="223" cy="41" r="1.6"/>
-            </g>
-            <rect class="ln" x="150" y="54" width="14" height="10" rx="2"/>
-            <rect class="ln" x="178" y="54" width="14" height="10" rx="2"/>
-            <rect class="ln" x="206" y="54" width="14" height="10" rx="2"/>
-            <rect class="ln" x="234" y="54" width="14" height="10" rx="2"/>
-            <rect class="ln" x="262" y="54" width="14" height="10" rx="2"/>
-            <rect class="slot" x="150" y="72" width="120" height="12" rx="3"/>
-            <rect class="usb" x="204" y="68" width="12" height="4" rx="1"/>
-            <circle class="rgb" cx="122" cy="60" r="5"/>
-            <circle class="rgb" cx="298" cy="60" r="5"/>
-            <circle class="li" cx="132" cy="100" r="7"/>
-            <circle class="li" cx="288" cy="100" r="7"/>
-            <rect class="bb" x="140" y="118" width="140" height="98" rx="8"/>
-            <rect class="cell" x="150" y="130" width="24" height="54" rx="4"/>
-            <rect class="cell" x="182" y="130" width="24" height="54" rx="4"/>
-            <rect class="cell" x="214" y="130" width="24" height="54" rx="4"/>
-            <rect class="cell" x="246" y="130" width="24" height="54" rx="4"/>
-            <g class="sw"><rect class="track" x="196" y="196" width="28" height="12" rx="6"/><circle class="knob" cx="217" cy="202" r="4"/></g>
-            <circle class="rgb u" cx="150" cy="250" r="5"/>
-            <circle class="rgb u" cx="190" cy="250" r="5"/>
-            <circle class="rgb u" cx="230" cy="250" r="5"/>
-            <circle class="rgb u" cx="270" cy="250" r="5"/>
-            <circle class="bz" cx="132" cy="236" r="9"/><circle class="bz" cx="132" cy="236" r="3"/>
-            <g class="sw"><rect class="track" x="268" y="230" width="28" height="12" rx="6"/><circle class="knob" cx="289" cy="236" r="4"/></g>
+            <!-- Räder (hinten, außerhalb der Platine) -->
+            <rect class="wh" x="96" y="156" width="22" height="90" rx="5"/>
+            <rect class="wh" x="302" y="156" width="22" height="90" rx="5"/>
+            <g class="tread"><line x1="99" y1="162" x2="115" y2="162"/><line x1="99" y1="175" x2="115" y2="175"/><line x1="99" y1="188" x2="115" y2="188"/><line x1="99" y1="201" x2="115" y2="201"/><line x1="99" y1="214" x2="115" y2="214"/><line x1="99" y1="227" x2="115" y2="227"/><line x1="99" y1="240" x2="115" y2="240"/></g><g class="tread"><line x1="305" y1="162" x2="321" y2="162"/><line x1="305" y1="175" x2="321" y2="175"/><line x1="305" y1="188" x2="321" y2="188"/><line x1="305" y1="201" x2="321" y2="201"/><line x1="305" y1="214" x2="321" y2="214"/><line x1="305" y1="227" x2="321" y2="227"/><line x1="305" y1="240" x2="321" y2="240"/></g>
+            <line class="axle" x1="116" y1="201" x2="126" y2="201"/>
+            <line class="axle" x1="294" y1="201" x2="304" y2="201"/>
+            <!-- Platine -->
+            <path class="ch" d="M150 30 H270 Q276 30 279 35 L325 110 Q327 113 327 117 V146 Q327 150 323 150 H300 V258 Q300 262 296 262 H124 Q120 262 120 258 V150 H97 Q93 150 93 146 V117 Q93 113 95 110 L141 35 Q144 30 150 30 Z"/>
+            <!-- unter der Platte: Stützkugel, 5 Liniensensoren, 4 RGB -->
+            <circle class="under" cx="210" cy="46" r="10"/>
+            <rect class="ln" x="181" y="70" width="10" height="7" rx="1.5"/>
+            <rect class="ln" x="205" y="70" width="10" height="7" rx="1.5"/>
+            <rect class="ln" x="229" y="70" width="10" height="7" rx="1.5"/>
+            <rect class="ln" x="104" y="123" width="10" height="7" rx="1.5"/>
+            <rect class="ln" x="306" y="123" width="10" height="7" rx="1.5"/>
+            <circle class="rgb u" cx="134" cy="96" r="4.5"/>
+            <circle class="rgb u" cx="286" cy="96" r="4.5"/>
+            <circle class="rgb u" cx="134" cy="232" r="4.5"/>
+            <circle class="rgb u" cx="286" cy="232" r="4.5"/>
+            <!-- vorn: zwei weiße Kuppeln (RGB), Lichtsensoren an den Schrägen -->
+            <circle class="dome" cx="170" cy="46" r="8"/><circle class="domehl" cx="167" cy="43" r="2.5"/>
+            <circle class="dome" cx="250" cy="46" r="8"/><circle class="domehl" cx="247" cy="43" r="2.5"/>
+            <circle class="li" cx="147" cy="66" r="5"/>
+            <circle class="li" cx="273" cy="66" r="5"/>
+            <!-- Schlitz mit eingestecktem micro:bit (man sieht nur die Oberkante) -->
+            <rect class="slot" x="146" y="86" width="128" height="14" rx="2"/>
+            <rect class="mbedge" x="150" y="90" width="120" height="6" rx="1"/>
+            <rect class="usb" x="204" y="83" width="12" height="4" rx="1"/>
+            <!-- Taster und Schalter am Rand -->
+            <rect class="btn2" x="100" y="104" width="10" height="8" rx="2"/>
+            <text class="lbl3" x="105" y="122" text-anchor="middle">CALC</text>
+            <rect class="btn2" x="136" y="108" width="9" height="8" rx="2"/>
+            <text class="lbl3" x="140" y="125" text-anchor="middle">RST</text>
+            <g class="sw" transform="translate(306,95)"><rect class="track" x="0" y="0" width="18" height="9" rx="4.5"/><circle class="knob" cx="13" cy="4.5" r="3"/></g>
+            <rect class="jst" x="276" y="106" width="12" height="9" rx="1.5"/>
+            <!-- Mitte: Schraube, Kondensator, Chip, Summer -->
+            <circle class="hole" cx="210" cy="118" r="4"/>
+            <circle class="cap" cx="228" cy="127" r="4"/>
+            <rect class="chip" x="176" y="132" width="16" height="12" rx="1"/>
+            <circle class="bz" cx="256" cy="131" r="8"/><circle class="bzc" cx="256" cy="131" r="2.5"/>
+            <!-- Motoren mit roten Kabeln -->
+            <rect class="mo" x="124" y="182" width="42" height="38" rx="3"/>
+            <rect class="mo" x="254" y="182" width="42" height="38" rx="3"/>
+            <path class="wire" d="M166 190 Q200 170 204 184 M166 196 Q200 178 206 190"/>
+            <path class="wire" d="M254 190 Q220 170 216 184 M254 196 Q220 178 214 190"/>
+            <text class="silk" x="210" y="236" text-anchor="middle">Maqueen Plus V3</text>
+            <g class="hdr"><rect x="158" y="244" width="4" height="4"/><rect x="165" y="244" width="4" height="4"/><rect x="172" y="244" width="4" height="4"/><rect x="179" y="244" width="4" height="4"/><rect x="186" y="244" width="4" height="4"/><rect x="193" y="244" width="4" height="4"/><rect x="200" y="244" width="4" height="4"/><rect x="207" y="244" width="4" height="4"/><rect x="214" y="244" width="4" height="4"/><rect x="221" y="244" width="4" height="4"/><rect x="228" y="244" width="4" height="4"/><rect x="235" y="244" width="4" height="4"/><rect x="242" y="244" width="4" height="4"/><rect x="249" y="244" width="4" height="4"/><rect x="256" y="244" width="4" height="4"/></g><g class="hdr"><rect x="158" y="251" width="4" height="4"/><rect x="165" y="251" width="4" height="4"/><rect x="172" y="251" width="4" height="4"/><rect x="179" y="251" width="4" height="4"/><rect x="186" y="251" width="4" height="4"/><rect x="193" y="251" width="4" height="4"/><rect x="200" y="251" width="4" height="4"/><rect x="207" y="251" width="4" height="4"/><rect x="214" y="251" width="4" height="4"/><rect x="221" y="251" width="4" height="4"/><rect x="228" y="251" width="4" height="4"/><rect x="235" y="251" width="4" height="4"/><rect x="242" y="251" width="4" height="4"/><rect x="249" y="251" width="4" height="4"/><rect x="256" y="251" width="4" height="4"/></g>
+            <!-- Akkubrett: eigenes Deck, liegt darüber -->
+            <rect class="deck" x="128" y="112" width="164" height="146" rx="6"/>
+            <text class="decklbl" x="136" y="124">Akkubrett &ndash; liegt oben drauf</text>
+            <g class="sw" transform="translate(270,242)"><rect class="track" x="0" y="0" width="18" height="9" rx="4.5"/><circle class="knob" cx="13" cy="4.5" r="3"/></g>
+            <!-- Laserscanner steht hochkant auf dem Deck, schaut nach vorn -->
+            <rect class="lid" x="186" y="150" width="48" height="6" rx="1"/>
+            <rect class="lens" x="203" y="144" width="14" height="6" rx="1"/>
+            <path class="lidarr" d="M210 140 L206 134 L214 134 Z"/>
+            <!-- Verbindungslinien zur Legende -->
             <g class="ld">
-              <line x1="71" y1="52" x2="150" y2="59"/>
-              <line x1="251" y1="34" x2="232" y2="35"/>
-              <line x1="349" y1="100" x2="295" y2="100"/>
-              <line x1="71" y1="84" x2="150" y2="78"/>
-              <line x1="349" y1="166" x2="338" y2="166"/>
-              <line x1="349" y1="60" x2="303" y2="60"/>
-              <line x1="71" y1="236" x2="123" y2="236"/>
-              <line x1="349" y1="236" x2="296" y2="236"/>
-              <line x1="349" y1="236" x2="226" y2="204"/>
+              <line x1="67" y1="74" x2="180" y2="74"/>
+              <line x1="67" y1="96" x2="146" y2="93"/>
+              <line x1="353" y1="46" x2="259" y2="46"/>
+              <line x1="353" y1="70" x2="279" y2="67"/>
+              <line x1="353" y1="100" x2="325" y2="100"/>
+              <line x1="353" y1="131" x2="265" y2="131"/>
+              <line x1="353" y1="164" x2="235" y2="153"/>
+              <line x1="353" y1="200" x2="297" y2="200"/>
+              <line x1="300" y1="275" x2="288" y2="252"/>
             </g>
-            <g class="mk r-input" transform="translate(60,52)"><circle r="11"/><text>1</text></g>
-            <g class="mk r-input" transform="translate(262,34)"><circle r="11"/><text>2</text></g>
-            <g class="mk r-input" transform="translate(360,100)"><circle r="11"/><text>3</text></g>
-            <g class="mk r-logic" transform="translate(60,84)"><circle r="11"/><text>4</text></g>
-            <g class="mk r-mq" transform="translate(360,166)"><circle r="11"/><text>5</text></g>
-            <g class="mk r-mq" transform="translate(360,60)"><circle r="11"/><text>6</text></g>
-            <g class="mk r-mq" transform="translate(60,236)"><circle r="11"/><text>7</text></g>
-            <g class="mk r-pow" transform="translate(360,236)"><circle r="11"/><text>8</text></g>
+            <g class="mk r-input" transform="translate(56,74)"><circle r="11"/><text>1</text></g>
+            <g class="mk r-logic" transform="translate(56,96)"><circle r="11"/><text>4</text></g>
+            <g class="mk r-mq" transform="translate(364,46)"><circle r="11"/><text>6</text></g>
+            <g class="mk r-input" transform="translate(364,70)"><circle r="11"/><text>3</text></g>
+            <g class="mk r-pow" transform="translate(364,100)"><circle r="11"/><text>8</text></g>
+            <g class="mk r-mq" transform="translate(364,131)"><circle r="11"/><text>7</text></g>
+            <g class="mk r-input" transform="translate(364,164)"><circle r="11"/><text>2</text></g>
+            <g class="mk r-mq" transform="translate(364,200)"><circle r="11"/><text>5</text></g>
+            <g class="mk r-pow" transform="translate(302,286)"><circle r="11"/><text>8</text></g>
+            <text class="lbl2" x="22" y="291">gestrichelt = unter der Platte</text>
           </svg>
           <ol class="mqlegend">
             <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unter dem Fahrzeug &ndash; sie unterscheiden Schwarz von Weiß.<em>Wahrnehmen</em></span></li>
@@ -959,51 +1011,71 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
         </ol>
         <figure class="mqfig" id="mqinsert">
-          <svg viewBox="0 0 420 300" role="img" aria-labelledby="mqins-t">
+          <svg viewBox="0 0 420 326" role="img" aria-labelledby="mqins-t">
             <title id="mqins-t">Der micro:bit gleitet von oben in den Schlitz, die Lämpchen zeigen nach vorn</title>
             <defs>
               <marker id="mqarr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z"/></marker>
               <pattern id="mqpins" width="5" height="10" patternUnits="userSpaceOnUse"><rect width="3" height="10" class="pin"/></pattern>
             </defs>
-            <line class="col" x1="140" y1="152" x2="140" y2="172"/>
-            <line class="col" x1="280" y1="152" x2="280" y2="172"/>
-            <rect class="bb" x="120" y="138" width="180" height="14" rx="3"/>
-            <rect class="wh" x="58" y="150" width="30" height="96" rx="8"/>
-            <rect class="wh" x="332" y="150" width="30" height="96" rx="8"/>
-            <rect class="ch" x="88" y="172" width="244" height="66" rx="10"/>
-            <rect class="slot" x="152" y="166" width="116" height="12" rx="3"/>
-            <circle class="rgb" cx="112" cy="196" r="6"/>
-            <circle class="rgb" cx="308" cy="196" r="6"/>
-            <rect class="ls" x="184" y="196" width="52" height="34" rx="4"/>
-            <g class="dots">
-              <circle cx="195" cy="204" r="1.5"/><circle cx="205" cy="204" r="1.5"/><circle cx="215" cy="204" r="1.5"/><circle cx="225" cy="204" r="1.5"/>
-              <circle cx="195" cy="212" r="1.5"/><circle cx="205" cy="212" r="1.5"/><circle cx="215" cy="212" r="1.5"/><circle cx="225" cy="212" r="1.5"/>
-              <circle cx="195" cy="220" r="1.5"/><circle cx="205" cy="220" r="1.5"/><circle cx="215" cy="220" r="1.5"/><circle cx="225" cy="220" r="1.5"/>
-              <circle cx="195" cy="228" r="1.5"/><circle cx="205" cy="228" r="1.5"/><circle cx="215" cy="228" r="1.5"/><circle cx="225" cy="228" r="1.5"/>
-            </g>
+            <ellipse class="shadow" cx="210" cy="270" rx="150" ry="6"/>
+            <!-- Räder -->
+            <rect class="wh" x="88" y="178" width="28" height="92" rx="8"/>
+            <rect class="wh" x="304" y="178" width="28" height="92" rx="8"/>
+            <g class="tread"><line x1="91" y1="187" x2="113" y2="187"/><line x1="91" y1="196" x2="113" y2="196"/><line x1="91" y1="205" x2="113" y2="205"/><line x1="91" y1="215" x2="113" y2="215"/><line x1="91" y1="224" x2="113" y2="224"/><line x1="91" y1="233" x2="113" y2="233"/><line x1="91" y1="243" x2="113" y2="243"/><line x1="91" y1="252" x2="113" y2="252"/><line x1="91" y1="261" x2="113" y2="261"/></g><g class="tread"><line x1="307" y1="187" x2="329" y2="187"/><line x1="307" y1="196" x2="329" y2="196"/><line x1="307" y1="205" x2="329" y2="205"/><line x1="307" y1="215" x2="329" y2="215"/><line x1="307" y1="224" x2="329" y2="224"/><line x1="307" y1="233" x2="329" y2="233"/><line x1="307" y1="243" x2="329" y2="243"/><line x1="307" y1="252" x2="329" y2="252"/><line x1="307" y1="261" x2="329" y2="261"/></g>
+            <!-- Laserscanner am Bügel, ganz oben -->
+            <rect class="post" x="182" y="38" width="4" height="52"/>
+            <rect class="post" x="234" y="38" width="4" height="52"/>
+            <rect class="lid" x="176" y="24" width="68" height="46" rx="4"/>
+            <circle class="hole" cx="183" cy="31" r="2.5"/><circle class="hole" cx="237" cy="31" r="2.5"/>
+            <circle class="hole" cx="183" cy="63" r="2.5"/><circle class="hole" cx="237" cy="63" r="2.5"/>
+            <rect class="lens" x="200" y="39" width="20" height="14" rx="2"/>
+            <circle class="lensdot" cx="206" cy="46" r="2.5"/><circle class="lensdot" cx="214" cy="46" r="2.5"/>
+            <!-- Akkubrett: Deck mit Batteriehalter -->
+            <rect class="deckside" x="128" y="121" width="164" height="6"/>
+            <rect class="deck" x="128" y="96" width="164" height="25"/>
+            <rect class="holder" x="142" y="86" width="136" height="36" rx="3"/>
+            <rect class="cellf" x="150" y="94" width="120" height="20" rx="10"/>
+            <rect class="cellnub" x="146" y="100" width="5" height="8" rx="1"/>
+            <text class="silk" x="210" y="108" text-anchor="middle">AA</text>
+            <g class="sw" transform="translate(281,109)"><rect class="track" x="0" y="0" width="18" height="9" rx="4.5"/><circle class="knob" cx="13" cy="4.5" r="3"/></g>
+            <!-- Stützkugel (vorn unten, halb unter der Platte) -->
+            <circle class="caster" cx="210" cy="246" r="11"/>
+            <!-- Platine: Heck dahinter, Oberseite plus Dicke; Abstandshalter tragen das Deck -->
+            <rect class="post" x="132" y="127" width="4" height="80"/>
+            <rect class="post" x="284" y="127" width="4" height="80"/>
+            <rect class="chs" x="120" y="190" width="180" height="28"/>
+            <path class="chs" d="M150 236 H270 L325 219 V212 H95 V219 Z" transform="translate(0,6)"/>
+            <path class="ch" d="M150 236 H270 L325 219 V212 H95 V219 Z"/>
+            <rect class="slot" x="146" y="220" width="128" height="7" rx="1.5"/>
+            <circle class="dome" cx="170" cy="234" r="8"/><circle class="domehl" cx="167" cy="231" r="2.5"/>
+            <circle class="dome" cx="250" cy="234" r="8"/><circle class="domehl" cx="247" cy="231" r="2.5"/>
+            <g class="sw" transform="translate(306,219)"><rect class="track" x="0" y="0" width="18" height="9" rx="4.5"/><circle class="knob" cx="13" cy="4.5" r="3"/></g>
             <g class="mb-slide">
-              <g transform="translate(153,80)">
-                <rect class="mbb" x="0" y="0" width="114" height="92" rx="6"/>
-                <rect class="usb" x="49" y="-5" width="16" height="9" rx="2"/>
-                <rect class="pix" x="29" y="16" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="16" width="8" height="8" rx="1"/><rect class="pix" x="53" y="16" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="16" width="8" height="8" rx="1"/><rect class="pix" x="77" y="16" width="8" height="8" rx="1"/>
-                <rect class="pix on" x="29" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="28" width="8" height="8" rx="1"/><rect class="pix on" x="77" y="28" width="8" height="8" rx="1"/>
-                <rect class="pix on" x="29" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="40" width="8" height="8" rx="1"/><rect class="pix on" x="77" y="40" width="8" height="8" rx="1"/>
-                <rect class="pix" x="29" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="41" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="52" width="8" height="8" rx="1"/><rect class="pix on" x="65" y="52" width="8" height="8" rx="1"/><rect class="pix" x="77" y="52" width="8" height="8" rx="1"/>
-                <rect class="pix" x="29" y="64" width="8" height="8" rx="1"/><rect class="pix" x="41" y="64" width="8" height="8" rx="1"/><rect class="pix on" x="53" y="64" width="8" height="8" rx="1"/><rect class="pix" x="65" y="64" width="8" height="8" rx="1"/><rect class="pix" x="77" y="64" width="8" height="8" rx="1"/>
-                <circle class="mbtn" cx="13" cy="44" r="7"/><text class="mbtn-l" x="13" y="44">A</text>
-                <circle class="mbtn" cx="101" cy="44" r="7"/><text class="mbtn-l" x="101" y="44">B</text>
-                <rect class="edge" x="0" y="82" width="114" height="10"/>
-                <rect x="0" y="82" width="114" height="10" fill="url(#mqpins)"/>
+              <g transform="translate(156,137)">
+                <rect class="usb" x="47" y="-6" width="16" height="8" rx="2"/>
+                <rect class="mbb" x="0" y="0" width="108" height="86" rx="5"/>
+                <rect class="pix" x="28" y="14" width="8" height="8" rx="1"/><rect class="pix on" x="39" y="14" width="8" height="8" rx="1"/><rect class="pix" x="50" y="14" width="8" height="8" rx="1"/><rect class="pix on" x="61" y="14" width="8" height="8" rx="1"/><rect class="pix" x="72" y="14" width="8" height="8" rx="1"/>
+                <rect class="pix on" x="28" y="25" width="8" height="8" rx="1"/><rect class="pix on" x="39" y="25" width="8" height="8" rx="1"/><rect class="pix on" x="50" y="25" width="8" height="8" rx="1"/><rect class="pix on" x="61" y="25" width="8" height="8" rx="1"/><rect class="pix on" x="72" y="25" width="8" height="8" rx="1"/>
+                <rect class="pix on" x="28" y="36" width="8" height="8" rx="1"/><rect class="pix on" x="39" y="36" width="8" height="8" rx="1"/><rect class="pix on" x="50" y="36" width="8" height="8" rx="1"/><rect class="pix on" x="61" y="36" width="8" height="8" rx="1"/><rect class="pix on" x="72" y="36" width="8" height="8" rx="1"/>
+                <rect class="pix" x="28" y="47" width="8" height="8" rx="1"/><rect class="pix on" x="39" y="47" width="8" height="8" rx="1"/><rect class="pix on" x="50" y="47" width="8" height="8" rx="1"/><rect class="pix on" x="61" y="47" width="8" height="8" rx="1"/><rect class="pix" x="72" y="47" width="8" height="8" rx="1"/>
+                <rect class="pix" x="28" y="58" width="8" height="8" rx="1"/><rect class="pix" x="39" y="58" width="8" height="8" rx="1"/><rect class="pix on" x="50" y="58" width="8" height="8" rx="1"/><rect class="pix" x="61" y="58" width="8" height="8" rx="1"/><rect class="pix" x="72" y="58" width="8" height="8" rx="1"/>
+                <circle class="mbtn" cx="13" cy="40" r="6.5"/><text class="mbtn-l" x="13" y="40">A</text>
+                <circle class="mbtn" cx="95" cy="40" r="6.5"/><text class="mbtn-l" x="95" y="40">B</text>
+                <rect class="edge" x="0" y="76" width="108" height="10"/>
+                <rect x="0" y="76" width="108" height="10" fill="url(#mqpins)"/>
               </g>
             </g>
-            <text class="lbl2" x="20" y="108">Lämpchen</text>
-            <text class="lbl2" x="20" y="122">zeigen zu dir</text>
-            <line class="arr" x1="112" y1="116" x2="180" y2="116" marker-end="url(#mqarr)"/>
-            <g class="sw sw-anim" transform="translate(120,262)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">1 Akkubrett</text></g>
-            <g class="sw sw-anim" transform="translate(240,262)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">2 Bodenplatte</text></g>
-            <text class="lbl" x="210" y="294" text-anchor="middle">Blick von vorn</text>
+            <text class="lbl2" x="14" y="150">Lämpchen</text>
+            <text class="lbl2" x="14" y="164">zeigen zu dir</text>
+            <line class="arr" x1="98" y1="158" x2="148" y2="158" marker-end="url(#mqarr)"/>
+            <g class="ld"><line x1="300" y1="113" x2="330" y2="104"/><line x1="320" y1="223" x2="344" y2="238"/></g>
+            <g class="mk r-pow" transform="translate(340,104)"><circle r="9"/><text>1</text></g>
+            <g class="mk r-pow" transform="translate(354,238)"><circle r="9"/><text>2</text></g>
+            <g class="sw sw-anim" transform="translate(104,294)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">1 Akkubrett</text></g>
+            <g class="sw sw-anim" transform="translate(224,294)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">2 Bodenplatte</text></g>
+            <text class="lbl" x="210" y="322" text-anchor="middle">Blick von vorn</text>
           </svg>
-          <figcaption><b>Lämpchen nach vorn.</b> Schaust du von vorn auf den Roboter, siehst du alle 25. Der USB-Anschluss zeigt nach oben. Sitzt der micro:bit, kommen beide Schalter auf ON.</figcaption>
+          <figcaption><b>Lämpchen nach vorn.</b> Schaust du von vorn auf den Roboter, siehst du alle 25. Der USB-Anschluss zeigt nach oben. Sitzt der micro:bit, kommen beide Schalter auf ON: Schalter 1 oben am Akkubrett, Schalter 2 rechts am Rand der Bodenplatte, vor dem Rad.</figcaption>
         </figure>
         <div class="note warn">
           <span class="nt">Extra, nur zum Lesen &ndash; heute bitte nicht anklicken</span>

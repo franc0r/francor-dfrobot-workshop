@@ -286,19 +286,47 @@ kbd{
 @media (max-width:760px){ .mqfig{grid-template-columns:1fr} }
 .mqfig .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; fill:var(--ink-3)}
 .mqfig .lbl2{font-family:var(--sans); font-size:12px; fill:var(--ink-2)}
-.mqfig .ch{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:1.5}
-.mqfig .wh{fill:var(--ink-2)}
-.mqfig .mo{fill:var(--surface); stroke:var(--line)}
-.mqfig .ls,.mqfig .slot{fill:var(--track)}
-.mqfig .dots circle{fill:var(--paper)}
-.mqfig .ln{fill:none; stroke:#B4009E; stroke-width:1.5; stroke-dasharray:3 2}
-.mqfig .li{fill:var(--surface); stroke:#B4009E; stroke-width:2}
-.mqfig .rgb{fill:var(--accent)}
+/* Maqueen-Figuren: Platinenfarben sind fest (schwarze Platine wie im Original), damit hell und dunkel gleich aussehen */
+.mqfig .ch{fill:#262B30; stroke:#55616A; stroke-width:1.2}
+.mqfig .chs{fill:#121517}
+.mqfig .wh{fill:#2A2F33; stroke:#4C565E; stroke-width:1}
+.mqfig .tread line{stroke:#4C565E; stroke-width:1.2}
+.mqfig .axle{stroke:#9AA3A9; stroke-width:3}
+.mqfig .mo{fill:#3A4147; stroke:#6C777F; stroke-width:1}
+.mqfig .wire{fill:none; stroke:#D63A2F; stroke-width:1.4}
+.mqfig .slot{fill:#0B0D0F; stroke:#4C565E; stroke-width:.8}
+.mqfig .mbedge{fill:#1E2F37}
+.mqfig .ln{fill:none; stroke:#E255CC; stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .li{fill:#3A4147; stroke:#E255CC; stroke-width:2}
+.mqfig .under{fill:none; stroke:#C9D1D6; stroke-width:1.5; stroke-dasharray:3 2}
+.mqfig .dome{fill:#F2F4F5; stroke:#B8C0C5; stroke-width:1}
+.mqfig .domehl{fill:#fff}
+.mqfig .caster{fill:#F2F4F5; stroke:#B8C0C5; stroke-width:1}
 .mqfig .rgb.u{fill:none; stroke:var(--accent); stroke-width:1.5; stroke-dasharray:3 2}
-.mqfig .bb{fill:var(--surface); stroke:var(--line)}
-.mqfig .cell{fill:var(--surface-2); stroke:var(--line)}
-.mqfig .col{stroke:var(--ink-3); stroke-width:2}
-.mqfig .bz{fill:none; stroke:#264F87; stroke-width:2}
+.mqfig .btn2{fill:#B8C0C5; stroke:#7B8B94; stroke-width:.8}
+.mqfig .jst{fill:#F2F4F5; stroke:#B8C0C5; stroke-width:.8}
+.mqfig .hole{fill:#C9A24A; stroke:#262B30; stroke-width:1}
+.mqfig .cap{fill:#D63A2F}
+.mqfig .chip{fill:#121517; stroke:#55616A; stroke-width:.8}
+.mqfig .bz{fill:#121517; stroke:#8A959C; stroke-width:1.5}
+.mqfig .bzc{fill:#8A959C}
+.mqfig .hdr rect{fill:#C9A24A}
+.mqfig .silk{font-size:7px; letter-spacing:.06em; fill:#C9D1D6}
+.mqfig .lbl3{font-size:6px; letter-spacing:.08em; fill:#C9D1D6}
+.mqfig .deck{fill:rgba(255,255,255,.10); stroke:#C9D1D6; stroke-width:1; stroke-dasharray:4 3}
+.mqfig .decklbl{font-family:var(--sans); font-size:8px; fill:#E6EDEF}
+.mqfig .lid{fill:#262B30; stroke:#8A959C; stroke-width:1}
+.mqfig .lens{fill:#0B0D0F; stroke:#8A959C; stroke-width:.8}
+.mqfig .lensdot{fill:#3B2C6E; stroke:#9A8AD6; stroke-width:.8}
+.mqfig .lidarr{fill:#C9D1D6}
+.mqfig .post{fill:#C9A24A}
+.mqfig .shadow{fill:var(--line-soft)}
+#mqinsert .deck{fill:#262B30; stroke:#55616A; stroke-dasharray:none}
+.mqfig .deckside{fill:#121517}
+.mqfig .holder{fill:#3A4147; stroke:#6C777F; stroke-width:1}
+.mqfig .cellf{fill:#D9DEE2; stroke:#9AA3A9; stroke-width:1}
+.mqfig .cellnub{fill:#9AA3A9}
+#mqinsert .silk{fill:#4A5A63}
 .mqfig .track{fill:var(--teal)}
 .mqfig .knob{fill:#fff}
 .mqfig .ld line,.mqfig .arr{stroke:var(--ink-3); stroke-width:1}
@@ -306,7 +334,7 @@ kbd{
 .mqfig marker path{fill:var(--ink-3)}
 .mqfig .mk text{fill:#fff; font-size:11px; font-weight:600; text-anchor:middle; dominant-baseline:central}
 .mqfig .mbb{fill:#1E2F37; stroke:#334A53}
-.mqfig .usb{fill:var(--ink-3)}
+.mqfig .usb{fill:#9AA0A4}
 .mqfig .pix{fill:rgba(255,255,255,.12)}
 .mqfig .pix.on{fill:#FF3D2E}
 .mqfig .mbtn{fill:#0E171B; stroke:#4A5A63}
@@ -323,8 +351,8 @@ kbd{
 .r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
 .mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
 @keyframes mb-slide{
-  0%{transform:translateY(-80px); opacity:0}
-  10%{transform:translateY(-80px); opacity:1}
+  0%{transform:translateY(-110px); opacity:0}
+  10%{transform:translateY(-110px); opacity:1}
   45%,88%{transform:translateY(0); opacity:1}
   100%{transform:translateY(0); opacity:0}
 }

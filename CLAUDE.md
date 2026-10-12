@@ -154,12 +154,20 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 - Fortschritt liegt in `localStorage` unter `mgp-v1`. „Neues Team" löscht ihn — das ist der
   Knopf zwischen zwei Messe-Slots.
 - **Maqueen-Figuren**: die Übersicht in Station 0 (`#mqmap`, Draufsicht mit nummerierter
-  Legende) und die Einsetz-Animation in Station 3 (`#mqinsert`, Blick von vorn, micro:bit
-  gleitet per CSS in den Schlitz, danach beide Schalter auf ON) sind handgezeichnete
-  Inline-SVGs; Farben kommen aus den Tokens, Rollenfarben aus den `.mcb`-Klassen. Sie sind
-  schematisch, nicht maßstäblich; Bauteilzahlen laut DFRobot-Wiki (5 Liniensensoren,
-  8×8-Laser, 2 Lichtsensoren, 4+2 RGB, Summer, zwei Schalter). Die genaue Lage der Schalter
-  und die Steckrichtung sind bis zum Trockenlauf Annahmen.
+  Legende) und die Einsetz-Animation in Station 3 (`#mqinsert`, leicht erhöhter Blick von
+  vorn, micro:bit gleitet per CSS in den Schlitz, danach beide Schalter auf ON) sind
+  handgezeichnete Inline-SVGs. Umriss und Bauteillage sind seit 12.10.2026 aus den
+  DFRobot-Produktfotos des Maqueen Plus V3.1 abgeleitet (Platine ≈ 110 mm breit → 2,1 px/mm):
+  schmale Front mit zwei weißen RGB-Kuppeln und Stützkugel darunter, Schrägen mit den
+  Lichtsensoren, Schlitz im vorderen Drittel, Calc-Taste und RST links, Schalter und
+  Akkustecker rechts, Summer rechts der Mitte, Motoren vor den Rädern im Einschnitt, Stiftleiste
+  hinten. Das Akkubrett ist ein eigenes Deck auf Abstandshaltern über dem Heck (in der
+  Draufsicht gestrichelt, damit die Platine sichtbar bleibt), der Laserscanner steht hochkant
+  darauf. Unterseite-Teile (5 Liniensensoren: 3 vorn, 2 außen; Stützkugel; 4 RGB) sind
+  gestrichelt. Platinenfarben sind feste Hex-Werte (schwarze Platine), nur Marker, Leitlinien
+  und Schalter nutzen Tokens; die `.mk`-Marker tragen die Rollenfarben der Legende. Beide
+  Figuren teilen sich die `.mqfig`-Klassen in `styles.css`. Die genaue Lage des Schalters am
+  Akkubrett und die Steckrichtung sind bis zum Trockenlauf Annahmen.
 
 ## Offen (nach dem Trockenlauf einarbeiten)
 
