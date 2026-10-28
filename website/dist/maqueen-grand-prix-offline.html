@@ -453,6 +453,8 @@ kbd{
   border-radius:8px; padding:8px 15px; font-weight:600; font-size:.92rem;
 }
 .btn:hover{filter:brightness(1.06)}
+a.btn{display:inline-block; text-decoration:none}
+.steps a.btn{margin-top:8px}
 .btn:disabled{opacity:.5; cursor:not-allowed}
 .btn.sec{background:var(--surface); color:var(--ink-2); border-color:var(--line)}
 .btn.sec:hover{border-color:var(--accent); color:var(--accent); filter:none}
@@ -785,7 +787,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="block">
         <h3><span class="idx">01</span>MakeCode öffnen</h3>
         <ol class="steps">
-          <li><span><kbd>makecode.microbit.org</kbd> im Browser öffnen und <b>Neues Projekt</b> anlegen. Den Namen dürft ihr frei wählen.</span></li>
+          <li><span>Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.<br><a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">MakeCode öffnen &rarr;</a></span></li>
           <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Ein Block wird mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster gezogen &ndash; er rastet dort ein wie ein Puzzleteil.</span></li>
           <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus.</span></li>
         </ol>
@@ -1005,9 +1007,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="block">
         <h3><span class="idx">01</span>Zuerst: dem micro:bit den Roboter beibringen</h3>
-        <p class="lead">MakeCode kennt den Maqueen erst, wenn eine Block-Sammlung dafür geladen ist. Euer Betreuer gibt euch dafür ein <b>Vorlagenprojekt</b>, in dem sie schon drinsteckt &ndash; ihr müsst nichts nachladen.</p>
+        <p class="lead">MakeCode kennt den Maqueen erst, wenn eine Block-Sammlung dafür geladen ist. Dafür gibt es ein <b>Vorlagenprojekt</b>, in dem sie schon drinsteckt &ndash; ihr müsst nichts nachladen.</p>
         <ol class="steps">
-          <li><span>Vorlagenprojekt öffnen (vom Betreuer). Links seht ihr sofort eine neue Kategorie mit dem Maqueen-Namen &ndash; da liegen alle Roboter-Blöcke.</span></li>
+          <li><span>Klickt auf den Knopf. Die Vorlage geht in MakeCode in einem neuen Tab auf. Links seht ihr sofort eine neue Kategorie <b>Maqueen Plus V2</b> &ndash; da liegen alle Roboter-Blöcke.<br><a class="btn" href="https://makecode.microbit.org/#project:XQAAEADMAwAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5XpXNznlU85QOk6uNXG6c2Vbfv5hclxMl7dhOM6EypVewCb7fLELo66EnCI0OzPib3RYfJg/ndEE2omMeguRxSeMmT5K4mx7nQPcem5K84RvxvcuJ5xMv0Eh+sPKBgTtleLshLcKUtxk1SJbKiMw6HOKkUfaz74cvagCaGjeusYQ/A0nveFe7q57q7yQFkIxDM39ucKaNsf0IXjo1+O0ih6TGmLF+t2vZQlJ+MTYyLXmXAT9U5//tXMh1" target="_blank" rel="noopener">Vorlage in MakeCode öffnen &rarr;</a></span></li>
           <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Ohne beide passiert gar nichts.</span></li>
         </ol>
         <figure class="mqfig" id="mqinsert">
@@ -1432,7 +1434,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <ul class="check">
         <li>Alle Akkus laden – ein halbvoller Akku ruiniert den Linienfolger</li>
         <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s) – am Stand, unter dem Messelicht, auf dem echten Parcoursband. Ab Werk sind sie zwar kalibriert, aber nicht auf euer Band und euer Licht. Die Schüler kalibrieren danach nur noch, wenn ein Roboter die Linie verliert.</li>
-        <li>Ein MakeCode-Projekt mit bereits geladener Erweiterung anlegen und als <b>Vorlage teilen</b> – spart pro Team 5 Minuten (erst ab Station 3 nötig)</li>
+        <li>Auf jedem Platz einmal mit Netz den Knopf <b>Vorlage in MakeCode öffnen</b> (Station 3) geklickt – lädt die Erweiterung in den Cache und spart pro Team 5 Minuten</li>
         <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
@@ -1450,9 +1452,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
       <ul class="check">
-        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b>. Zweite Erweiterung <b>Matrix LiDAR Entfernung</b> für den Laserscanner laden (Station 5). Einzigen Block <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em> ziehen, sonst nichts</li>
-        <li>Dieses Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
-        <li>Vorlagendatei auf jeden Arbeitsplatz kopieren (USB-Stick oder direkt ins SD-Image) und dort einmal <b>importieren</b></li>
+        <li>Diese Seite öffnen, in Station 3 auf <b>Vorlage in MakeCode öffnen</b> klicken. Die Vorlage steckt im Link selbst (<kbd>microbit/vorlage/vorlage.mkcd</kbd>): Erweiterung <b>DFRobot_MaqueenPlus_V2</b>, die <b>Matrix LiDAR Entfernung</b> kommt als Abhängigkeit mit, in <em>beim Start</em> nur <em>initialisiere Maqueen Plus V2</em>. Beim ersten Öffnen lädt MakeCode die Erweiterungen in den Cache – danach öffnet der Knopf die Vorlage auch ohne Netz</li>
+        <li>Prüfen: links stehen die Kategorien <b>Maqueen Plus V2</b> und <b>Matrix LiDAR Entfernung</b>. Fehlen sie, war der Platz beim Klick offline</li>
+        <li>Rückfallweg ohne Knopf: <kbd>vorlage.mkcd</kbd> per USB-Stick auf den Platz kopieren und in MakeCode <b>importieren</b></li>
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
         <li>MakeCode im Chromium über „Installieren“ als App ablegen – der Cache ist dann stabiler gegen Aufräumaktionen des Browsers</li>
@@ -1477,13 +1479,13 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     </section>
 
     <section>
-      <h3>Stationen auf Raspberry Pi</h3>
+      <h3>Stationen auf Raspberry Pi und Linux</h3>
       <p style="font-size:.94rem; color:var(--ink-2)">Läuft grundsätzlich: Die micro:bit Foundation führt <b>Linux inklusive Raspberry Pi OS</b> (Debian 11 Bullseye und 12 Bookworm) als unterstützte Plattform, und Chrome bzw. Chromium ab Version 126 beherrscht das Flashen per WebUSB. Vier Punkte solltest du vorher trotzdem geklärt haben.</p>
       <div class="tablewrap" style="margin-top:12px">
         <table class="fix">
           <tr><th>Thema</th><th>Was zu tun ist</th></tr>
           <tr><td>Zwei Wege zum Flashen</td><td><b>A:</b> „Herunterladen“ → Gerät koppeln (WebUSB). <b>B:</b> die <kbd>.hex</kbd>-Datei aus dem Download-Ordner auf das automatisch eingehängte Laufwerk <kbd>MICROBIT</kbd> ziehen. <b>Weg B funktioniert praktisch immer</b> – wenn das Koppeln auf dem Pi scheitert, liegt es unter Linux meist daran, dass der Browser als normaler Benutzer nicht auf das USB-Gerät zugreifen darf. Beide Wege vorher durchspielen und den Schülern den funktionierenden zeigen.</td></tr>
-          <tr><td>WebUSB unter Linux freischalten</td><td>Wenn Weg A gehen soll: eine udev-Regel für den micro:bit anlegen, z.&nbsp;B. in <kbd>/etc/udev/rules.d/50-microbit.rules</kbd> die Zeile <kbd>SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0666"</kbd>, danach <kbd>sudo udevadm control --reload</kbd> und den micro:bit neu anstecken. 0d28/0204 ist die USB-Kennung der micro:bit-Firmware. <b>Vorher auf einem Pi testen</b> – und wenn es nicht auf Anhieb klappt, ist Weg B die bessere Investition der Zeit.</td></tr>
+          <tr><td>WebUSB unter Linux freischalten</td><td><b>Pflicht auf jedem frisch installierten Linux</b> (Pi wie Notebook; auf Ubuntu 26.04 nachgestellt): Ohne diese zwei Schritte findet „Gerät koppeln“ den micro:bit nicht, obwohl das Laufwerk <kbd>MICROBIT</kbd> auftaucht.<br><b>1. udev-Regel:</b> in <kbd>/etc/udev/rules.d/50-microbit.rules</kbd> die Zeile <kbd>SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0660", GROUP="plugdev"</kbd> (fertig im Repo unter <kbd>tools/pi/50-microbit.rules</kbd>), danach <kbd>sudo udevadm control --reload</kbd> und <kbd>sudo udevadm trigger</kbd>. 0d28/0204 ist die USB-Kennung der micro:bit-Firmware.<br><b>2. Benutzer in die Gruppe <kbd>plugdev</kbd>:</b> <kbd>sudo groupadd -f plugdev</kbd>, dann <kbd>sudo usermod -aG plugdev $USER</kbd>. Wirkt erst nach <b>Ab- und wieder Anmelden</b> (sicherer: Neustart). Prüfen mit <kbd>groups</kbd> – <kbd>plugdev</kbd> muss in der Liste stehen.<br>Dann den micro:bit neu anstecken. Klemmt es auf Ubuntu immer noch und Chromium ist als Snap installiert: <kbd>sudo snap connect chromium:raw-usb</kbd>. <b>Vor dem Messetag an jedem Gerät testen</b> – und wenn es nicht auf Anhieb klappt, ist Weg B die bessere Investition der Zeit.</td></tr>
           <tr><td>Firmware der micro:bits</td><td>Für WebUSB muss die Firmware aktuell sein. Am Pi das Laufwerk <kbd>MICROBIT</kbd> öffnen, <kbd>DETAILS.TXT</kbd> lesen: Version <b>0249 oder höher</b> ist in Ordnung, ältere vorher einmal aktualisieren.</td></tr>
           <tr><td>Leistung</td><td>MakeCode im Browser ist speicherhungrig. <b>4 GB RAM als Minimum</b>, 8 GB entspannter. Nur zwei Tabs offen (diese Seite + MakeCode), in MakeCode den eingebauten Simulator einklappen – das spart auf dem Pi spürbar Leistung. Aktive Kühlung einplanen, ein Messetag ist lang.</td></tr>
           <tr><td>Internet</td><td>Die MakeCode-Offline-App gibt es nicht für ARM – der Pi braucht den Browser-Editor. Der cacht sich aber selbst: <b>einmal online geladen, läuft er danach ohne Netz weiter.</b> Wie du den Stand komplett offline vorbereitest, steht im nächsten Abschnitt.</td></tr>
@@ -1500,7 +1502,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <table class="fix">
           <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
           <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
-          <tr><td>Koppeln schlägt am Pi fehl</td><td>Nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
+          <tr><td>Koppeln schlägt unter Linux fehl (Pi, Ubuntu)</td><td>Meist fehlt die udev-Regel oder der Benutzer ist nicht in <kbd>plugdev</kbd> (siehe „Stationen auf Raspberry Pi und Linux“) – das ist Aufbau-Arbeit, nicht Workshop-Zeit. Während des Slots nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
           <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em>?</td></tr>
           <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>initialisiere Maqueen Plus V2</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
           <tr><td>Motoren brummen, fahren aber nicht</td><td>Tempo unter 30, oder Akku schwach</td></tr>
@@ -1508,7 +1510,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
           <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
           <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 2 der Workshop-Seite braucht kein MakeCode</td></tr>
-          <tr><td>Erweiterung fehlt im Projekt</td><td>Vorlagenprojekt importieren statt neu zu suchen – Nachladen bräuchte Internet</td></tr>
+          <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Vorlage in MakeCode öffnen</b> in Station 3 nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
           <tr><td>Nichts geht mehr</td><td>Reset-Knopf auf der Rückseite des micro:bit</td></tr>
         </table>
       </div>
@@ -1516,7 +1518,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
     <section>
       <h3>Blocknamen vorab prüfen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Motor-, Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Auch sie muss schon in der Vorlage stecken, sonst fehlt Station 5 auf der Messe.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Motor-, Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Die Maqueen-Erweiterung bringt sie als Abhängigkeit mit; in der Vorlage ist sie deshalb schon drin.</p>
     </section>
 
     <section>

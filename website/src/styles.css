@@ -440,6 +440,8 @@ kbd{
   border-radius:8px; padding:8px 15px; font-weight:600; font-size:.92rem;
 }
 .btn:hover{filter:brightness(1.06)}
+a.btn{display:inline-block; text-decoration:none}
+.steps a.btn{margin-top:8px}
 .btn:disabled{opacity:.5; cursor:not-allowed}
 .btn.sec{background:var(--surface); color:var(--ink-2); border-color:var(--line)}
 .btn.sec:hover{border-color:var(--accent); color:var(--accent); filter:none}

@@ -82,6 +82,27 @@ def inline_assets(html):
     return re.sub(r'src="assets/([A-Za-z0-9._-]+)"', one, html)
 
 
+MAKECODE = "https://makecode.microbit.org/"
+VORLAGE = os.path.join(HERE, "..", "microbit", "vorlage", "vorlage.mkcd")
+
+
+def makecode_links(html):
+    """href="makecode:neu" und href="makecode:vorlage" werden zu MakeCode-Links.
+
+    #newproject öffnet sofort ein leeres Projekt. #project: trägt die ganze
+    Vorlage (die .mkcd als Base64) im Link selbst – MakeCode lädt dafür nichts
+    nach und öffnet sie auch ohne Netz aus dem Cache.
+    """
+    if not os.path.exists(VORLAGE):
+        raise SystemExit("Vorlage fehlt: microbit/vorlage/vorlage.mkcd (python3 vorlage.py)")
+    b64 = base64.b64encode(io.open(VORLAGE, "rb").read()).decode("ascii")
+    html = html.replace('href="makecode:neu"', 'href="%s#newproject"' % MAKECODE)
+    html = html.replace('href="makecode:vorlage"', 'href="%s#project:%s"' % (MAKECODE, b64))
+    if "makecode:" in html:
+        raise SystemExit('unbekannter MakeCode-Platzhalter – nur makecode:neu und makecode:vorlage')
+    return html
+
+
 def stations():
     d = os.path.join(SRC, "stations")
     files = sorted(f for f in os.listdir(d) if f.endswith(".html"))
@@ -132,15 +153,18 @@ def assemble(target):
             '  <main id="stage">\n\n' + st + "\n  </main>\n</div>\n\n"
             '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
-    body = inline_assets(body)
+    body = makecode_links(inline_assets(body))
     if "assets/" in body:
         raise SystemExit('Asset nicht eingebettet – src="assets/…" mit doppelten '
                          "Anführungszeichen schreiben")
 
     if target in STANDALONE:
         page = SKELETON_HEAD + head + "</head>\n<body>" + body + "</body>\n</html>\n"
-        # harte Regel: nichts Externes
-        bad = re.findall(r'(?:src|href)="https?://[^"]*"|url\(\s*["\']?https?://', page)
+        # harte Regel: nichts Externes. Einzige Ausnahme: Links in den
+        # MakeCode-Editor – sie laden nichts in diese Seite, sondern öffnen
+        # MakeCode im zweiten Tab, das am Arbeitsplatz aus dem Cache läuft.
+        bad = re.findall(r'(?:src|href)="https?://(?!makecode\.microbit\.org/#)[^"]*"'
+                         r'|src="https?://makecode[^"]*"|url\(\s*["\']?https?://', page)
         if bad:
             raise SystemExit("%s-Build enthält externe Verweise: %s" % (target, bad[:3]))
     else:

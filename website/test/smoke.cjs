@@ -27,8 +27,12 @@ function check(cond, msg) {
   if (!fs.existsSync(DIST)) process.exit(1);
 
   const html = fs.readFileSync(DIST, 'utf8');
-  const ext = html.match(/(?:src|href)="https?:\/\/[^"]*"|url\(\s*["']?https?:\/\//g) || [];
+  // Ausnahme wie in build.py: Links in den MakeCode-Editor laden nichts in diese Seite
+  const ext = html.match(/(?:src|href)="https?:\/\/(?!makecode\.microbit\.org\/#)[^"]*"|src="https?:\/\/makecode[^"]*"|url\(\s*["']?https?:\/\//g) || [];
   check(ext.length === 0, 'keine externen Verweise' + (ext.length ? ': ' + ext.slice(0, 3).join(', ') : ''));
+  const vorlage = fs.readFileSync(path.join(__dirname, '..', '..', 'microbit', 'vorlage', 'vorlage.mkcd')).toString('base64');
+  check(html.includes('href="https://makecode.microbit.org/#newproject"'), 'Link „neues MakeCode-Projekt“ (Station 1)');
+  check(html.includes('href="https://makecode.microbit.org/#project:' + vorlage + '"'), 'Link „Vorlage in MakeCode“ trägt vorlage.mkcd (Station 3)');
 
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 1000 }, offline: true });

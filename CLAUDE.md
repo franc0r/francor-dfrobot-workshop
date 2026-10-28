@@ -13,6 +13,12 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    darf keinen einzigen externen Verweis enthalten — keine Webfonts, keine CDN-Skripte, keine
    Bilder von außen. `build.py` bricht ab, wenn doch; `website/test/smoke.cjs` prüft es mit
    abgeschaltetem Netzwerk. Diese Regel ist nicht verhandelbar.
+   Einzige Ausnahme (von Martin freigegeben, 28.10.2026): Links `href="https://makecode.microbit.org/#…"`.
+   Sie laden nichts in die Seite, sondern öffnen MakeCode im zweiten Tab, das aus dem Cache läuft.
+   Im Quelltext stehen sie als `href="makecode:neu"` (→ `#newproject`, Station 1) und
+   `href="makecode:vorlage"` (→ `#project:` + Base64 von `microbit/vorlage/vorlage.mkcd`, Station 3);
+   `build.py` setzt sie ein. `#project:` trägt das ganze Projekt im Link und geht offline,
+   `#pub:`-Teilen-Links und `#github:` brauchen dagegen Netz — nie verwenden.
 2. **Eine Datei.** Die Offline-Ausgabe ist eine einzelne HTML-Datei, die per Doppelklick
    aus dem Dateisystem läuft (`file://`). Keine Build-Abhängigkeit zur Laufzeit.
    Bilder gehören deshalb nach `website/src/assets/` und werden im Quelltext als
@@ -51,7 +57,7 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
 microbit/             was auf den Roboter kommt — wird nicht gebaut
-  vorlage/            MakeCode-Startprojekt mit geladener DFRobot-Erweiterung
+  vorlage/            MakeCode-Startprojekt (vorlage.mkcd, erzeugt von vorlage.py); build.py baut es in den Link in Station 3
   stations/NN-name/   Musterlösung je Station: loesung.hex, bloecke.png, README.md
   python/             MicroPython: Hardware-Check, Zugabe für Schnelle
 tools/                Werkzeuge für Stand und Arbeitsplätze

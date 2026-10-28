@@ -41,7 +41,7 @@
       <ul class="check">
         <li>Alle Akkus laden – ein halbvoller Akku ruiniert den Linienfolger</li>
         <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s) – am Stand, unter dem Messelicht, auf dem echten Parcoursband. Ab Werk sind sie zwar kalibriert, aber nicht auf euer Band und euer Licht. Die Schüler kalibrieren danach nur noch, wenn ein Roboter die Linie verliert.</li>
-        <li>Ein MakeCode-Projekt mit bereits geladener Erweiterung anlegen und als <b>Vorlage teilen</b> – spart pro Team 5 Minuten (erst ab Station 3 nötig)</li>
+        <li>Auf jedem Platz einmal mit Netz den Knopf <b>Vorlage in MakeCode öffnen</b> (Station 3) geklickt – lädt die Erweiterung in den Cache und spart pro Team 5 Minuten</li>
         <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
@@ -59,9 +59,9 @@
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
       <ul class="check">
-        <li>MakeCode online öffnen, neues Projekt, <b>Erweiterung DFRobot_MaqueenPlus_V2 laden</b>. Zweite Erweiterung <b>Matrix LiDAR Entfernung</b> für den Laserscanner laden (Station 5). Einzigen Block <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em> ziehen, sonst nichts</li>
-        <li>Dieses Projekt <b>als Datei speichern</b> (Zahnrad → Projekt speichern). Das ist deine Vorlage; einmal erstellen reicht für alle Plätze</li>
-        <li>Vorlagendatei auf jeden Arbeitsplatz kopieren (USB-Stick oder direkt ins SD-Image) und dort einmal <b>importieren</b></li>
+        <li>Diese Seite öffnen, in Station 3 auf <b>Vorlage in MakeCode öffnen</b> klicken. Die Vorlage steckt im Link selbst (<kbd>microbit/vorlage/vorlage.mkcd</kbd>): Erweiterung <b>DFRobot_MaqueenPlus_V2</b>, die <b>Matrix LiDAR Entfernung</b> kommt als Abhängigkeit mit, in <em>beim Start</em> nur <em>initialisiere Maqueen Plus V2</em>. Beim ersten Öffnen lädt MakeCode die Erweiterungen in den Cache – danach öffnet der Knopf die Vorlage auch ohne Netz</li>
+        <li>Prüfen: links stehen die Kategorien <b>Maqueen Plus V2</b> und <b>Matrix LiDAR Entfernung</b>. Fehlen sie, war der Platz beim Klick offline</li>
+        <li>Rückfallweg ohne Knopf: <kbd>vorlage.mkcd</kbd> per USB-Stick auf den Platz kopieren und in MakeCode <b>importieren</b></li>
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
         <li>MakeCode im Chromium über „Installieren“ als App ablegen – der Cache ist dann stabiler gegen Aufräumaktionen des Browsers</li>
@@ -117,7 +117,7 @@
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
           <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
           <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 2 der Workshop-Seite braucht kein MakeCode</td></tr>
-          <tr><td>Erweiterung fehlt im Projekt</td><td>Vorlagenprojekt importieren statt neu zu suchen – Nachladen bräuchte Internet</td></tr>
+          <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Vorlage in MakeCode öffnen</b> in Station 3 nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
           <tr><td>Nichts geht mehr</td><td>Reset-Knopf auf der Rückseite des micro:bit</td></tr>
         </table>
       </div>
@@ -125,7 +125,7 @@
 
     <section>
       <h3>Blocknamen vorab prüfen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Motor-, Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Auch sie muss schon in der Vorlage stecken, sonst fehlt Station 5 auf der Messe.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Motor-, Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Die Maqueen-Erweiterung bringt sie als Abhängigkeit mit; in der Vorlage ist sie deshalb schon drin.</p>
     </section>
 
     <section>
