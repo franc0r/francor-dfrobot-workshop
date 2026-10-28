@@ -1,0 +1,5 @@
+# micro:bit (DAPLink-Firmware) für WebUSB freigeben, damit MakeCode ohne root flashen kann.
+# Kopieren nach /etc/udev/rules.d/50-microbit.rules, dann:
+#   sudo udevadm control --reload && sudo udevadm trigger
+#   sudo groupadd -f plugdev && sudo usermod -aG plugdev $USER   # danach ab- und anmelden
+SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0660", GROUP="plugdev"

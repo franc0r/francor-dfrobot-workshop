@@ -122,7 +122,9 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   Lösung: Vorlagenprojekt mit geladener Erweiterung als Datei verteilen.
 - Flashen: WebUSB („Gerät koppeln", Chrome/Chromium/Edge, Firmware ≥ 0249) oder `.hex` von Hand
   auf das Laufwerk `MICROBIT` ziehen. Weg B geht immer und ist auf Linux/Raspberry Pi oft der
-  Hauptweg (USB-Berechtigung; optionale udev-Regel VID 0d28 / PID 0204 steht im Handbuch).
+  Hauptweg (USB-Berechtigung). Für Weg A braucht jedes frische Linux die udev-Regel
+  (VID 0d28 / PID 0204, `GROUP="plugdev"`, `tools/pi/50-microbit.rules`) **und** den Benutzer in
+  `plugdev` — von Martin auf Ubuntu 26.04 nachgestellt (28.10.2026); beides steht im Handbuch.
 - Maqueen: Tempo 0–255, unter ~30 keine Bewegung; zwei Schalter (Akkubrett + Bodenplatte);
   Kalibrierung Calc-Key ~2 s auf Schwarz; Linienverfolgung (`Line patrolling ON/OFF`, Tempo über `Line Following Settings Speed 1–5`) läuft im Hintergrund;
   Laserscanner 8×8, 20–4000 mm, eigene Erweiterung (siehe Offen).
