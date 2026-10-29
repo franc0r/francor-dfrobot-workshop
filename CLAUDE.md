@@ -205,9 +205,10 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   MakeCode-Logik heißt deutsch `wenn … dann … ansonsten`; `nestStack()` kennt beides.
 - Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90° (erster Wert von Martin, 08.10.2026:
   ~650 ms bei Geschwindigkeit 100 — die Quadrat-Hilfe in Station 3 nennt deshalb 500–800), sichere Linienstufe, kleinster Kurvenradius
-- Steckrichtung des micro:bit auf dem Chassis („Lämpchen nach vorn" — bestätigen). Stimmt
-  sie nicht, gemeinsam ändern: Schritt 2 und Einsetz-Figur samt Bildunterschrift in
-  `03-fahrschule.html`, Legendenpunkt 4 in `00-boxenstopp.html`.
+- Steckrichtung des micro:bit: „Lämpchen nach vorn" ist bestätigt (Martin, 29.10.2026).
+  Die Schalterlage in beiden Figuren stimmt aber nicht (Probelauf, Punkt 12 in
+  `docs/04-probelauf-2026-10-28.md`): von vorn gesehen Bodenplatte unten links,
+  Akkupack links hinter der Batterie.
 - Entscheidung: Station 2 auf 12 Min kürzen, damit der Roboter früher fährt? (Review-Punkt, offen)
 - Danach: Parcours-Bauplan (braucht den gemessenen Radius), Stand-Paket zum Drucken
   (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
