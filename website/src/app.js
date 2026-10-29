@@ -748,7 +748,7 @@ function mbAward(key, msg){
 }
 function mbCheckDraw(){
   if(mbDraw === PAT.heart){
-    mbAward("draw", "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
+    mbAward("draw", "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an. Danach weiter mit Reiter <b>2 &middot; Knöpfe</b>.");
   }
 }
 function mbSetMode(m){
@@ -782,7 +782,7 @@ function mbPress(which){
   }
   mbChips();
   if(mbSeen.a && mbSeen.b){
-    mbAward("btn", "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+    mbAward("btn", "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet. Weiter mit Reiter <b>3 &middot; Neigen</b>.");
   }
 }
 /* Neigen: Der Regler liefert y wie der echte Sensor (-1023..1023). „Logo nach oben“

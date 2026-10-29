@@ -276,6 +276,14 @@ kbd{
 .note p{font-size:.95rem}
 .note [data-bonus]{margin-top:10px}
 .note p + p{margin-top:8px}
+.note.fresh{margin-bottom:4px}
+.note.fresh .btn{margin-top:10px}
+/* „▶ Testen:“ am Ende jedes Bauschritts – überall gleich, damit man sie wiedererkennt */
+.testline{
+  max-width:74ch; margin:12px 0; padding:8px 14px; font-size:.95rem;
+  border:1px dashed var(--teal); border-radius:var(--radius); background:var(--surface-2);
+}
+.testline b{color:var(--teal)}
 .hint{margin-top:10px}
 .hint summary{cursor:pointer; font-weight:600; font-size:.95rem}
 .hint[open] summary{margin-bottom:8px}
@@ -787,10 +795,14 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="block">
         <h3><span class="idx">01</span>MakeCode öffnen</h3>
         <ol class="steps">
-          <li><span>Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.<br><a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">MakeCode öffnen &rarr;</a></span></li>
+          <li><span>Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.<br><a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten &rarr;</a></span></li>
           <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Ein Block wird mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster gezogen &ndash; er rastet dort ein wie ein Puzzleteil.</span></li>
           <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus.</span></li>
         </ol>
+        <div class="note">
+          <span class="nt">So bedient ihr MakeCode</span>
+          <p><b>Block holen:</b> aus der Kategorie ziehen &ndash; oder oben ins Suchfeld den Namen tippen.<br><b>Block löschen:</b> anklicken und <kbd>Entf</kbd> drücken &ndash; oder zurück nach links ziehen.<br><b>Zahl ändern:</b> auf die Zahl klicken und eintippen, zum Beispiel 300.</p>
+        </div>
       </div>
 
       <div class="block">
@@ -820,7 +832,6 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <ol class="steps">
           <li><span>micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel &ndash; den Roboter braucht ihr jetzt noch nicht.</span></li>
           <li><span>In MakeCode auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät &rarr; <b>micro:bit koppeln</b> &rarr; auswählen &rarr; verbinden.</span></li>
-          <li><span>Klappt das Koppeln nicht, geht es immer auch von Hand: Die heruntergeladene Datei endet auf <kbd>.hex</kbd> und liegt in eurem Download-Ordner. Zieht sie auf das Laufwerk <kbd>MICROBIT</kbd>, das sich beim Anstecken öffnet.</span></li>
           <li><span>Auf dem micro:bit blinkt eine gelbe LED &ndash; das ist der Code, der hinüberfließt. Wenn sie aufhört, läuft euer Programm.</span></li>
         </ol>
       </div>
@@ -856,6 +867,12 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <p class="goal">Bevor Räder ins Spiel kommen: Der micro:bit ist schon für sich ein vollständiger Computer. Auf vier mal fünf Zentimetern sitzen 25 LEDs, zwei Knöpfe, ein Lautsprecher, ein Mikrofon, Funk &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
     </div>
     <div class="st-body">
+
+      <div class="note fresh">
+        <span class="nt">Zuerst: neues Projekt</span>
+        <p>Startet für diese Station ein neues Projekt. Sonst blinkt euer Herz aus Station 1 weiter und überschreibt alles, was ihr jetzt baut.</p>
+        <a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten &rarr;</a>
+      </div>
 
       <div class="sim" id="mbsim">
         <div class="simbar">
@@ -914,6 +931,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="block">
         <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
         <p class="lead">Der Bildschirm des micro:bit sind 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
+        <p class="lead">Probiert es zuerst im Simulator oben, Reiter <b>1 &middot; Zeichnen</b>. Dann in MakeCode: <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild. Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.</p>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; steht euer Bild auf dem micro:bit?</p>
         <div class="note">
           <span class="nt">Warum das clever ist</span>
           <p>25 Lämpchen, jedes an oder aus &ndash; das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>.</p>
@@ -922,7 +941,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <div class="block">
         <h3><span class="idx">02</span>Auf Knopfdruck reagieren</h3>
-        <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse.</p>
+        <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse. Probiert es zuerst im Simulator oben, Reiter <b>2 &middot; Knöpfe</b>.</p>
         <div class="mcstack">
           <div class="mccap">Zwei Ereignisse nebeneinander</div>
           <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
@@ -931,11 +950,17 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
         </div>
         <p class="lead">Beide Blöcke liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide Aufträge und führt den passenden aus, sobald der Knopf kommt.</p>
+        <div class="note">
+          <span class="nt">Frei hinlegen</span>
+          <p>Ereignis-Blöcke wie <kbd>wenn Knopf A geklickt</kbd> legt ihr <b>frei</b> ins Programmierfenster &ndash; nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>. Sie warten selbst auf ihren Moment.</p>
+        </div>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Knopf A drücken, dann Knopf B.</p>
       </div>
 
       <div class="block">
         <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
-        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. Die Blöcke dafür liegen in <b>Eingabe</b>.</p>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. Die Blöcke dafür liegen in <b>Eingabe</b>. Probiert es zuerst im Simulator oben, Reiter <b>3 &middot; Neigen</b>.</p>
+        <p class="lead">In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein. Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b> unter <b>&hellip; mehr</b>.</p>
         <div class="mcstack">
           <div class="mccap">Drei Ereignisse &ndash; baut sie auf eurem micro:bit</div>
           <div class="mcb b-input">wenn <b>Logo nach oben</b></div>
@@ -946,7 +971,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-music i1">spiele Ton <b>Mittleres C</b> für <b>1 Schlag</b> <b>bis zum Ende</b></div>
           <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="skull" role="img" aria-label="Totenkopf"></b></div>
         </div>
-        <p class="lead">Und woher weiß der micro:bit, dass das Logo oben ist? Probiert es im Simulator oben aus, im Tab <b>3 &middot; Neigen</b>. Unter dem Gerät seht ihr die Zahl, die der Sensor wirklich liefert.</p>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; micro:bit nach vorn und hinten kippen, dann schütteln.</p>
+        <p class="lead">Und woher weiß der micro:bit, dass das Logo oben ist? Schaut im Simulator oben, Reiter <b>3 &middot; Neigen</b>. Unter dem Gerät seht ihr die Zahl, die der Sensor wirklich liefert.</p>
         <div class="tablewrap">
           <table class="fix">
             <tr><th>Was ihr tut</th><th>Wert von y</th><th>Was der micro:bit meldet</th></tr>
@@ -980,6 +1006,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-math">wähle eine zufällige Zahl von <b>1</b> bis <b>6</b></span></div>
         </div>
         <p>Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b> &ndash; stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.</p>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; dreimal schütteln. Kommen verschiedene Zahlen?</p>
         <p>Wer danach noch Zeit hat: Lasst vor der Zahl kurz ein Herz erscheinen &ndash; eine kleine Trommelwirbel-Pause.</p>
         <button class="btn sec" type="button" data-bonus="wuerfel3x">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
@@ -1128,6 +1155,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
           <div class="mcb b-mq i1">stop <b>beide Räder</b></div>
         </div>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter aufgebockt: Drehen sich beide Räder eine Sekunde lang?</p>
         <div class="note">
           <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
           <p>Dieser Block gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In eurer Vorlage steht er schon &ndash; nicht löschen. Mit ihm fragt der micro:bit beim Roboter an: &bdquo;Bist du da?&ldquo; Blinkt ein <b>X</b>, antwortet der Roboter nicht &ndash; prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt. Ein <b>Haken</b> heißt: verbunden, es kann losgehen.</p>
@@ -1148,6 +1176,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-basic">pausiere (ms) <b>400</b></div>
           <div class="mcb b-mq">stop <b>beide Räder</b></div>
         </div>
+        <p class="testline"><b>&#9654; Testen:</b> Hängt die Blöcke unter eure Geradeaus-Blöcke. Herunterladen &rarr; dreht sich der aufgebockte Roboter nach rechts?</p>
         <div class="note aha">
           <span class="nt">Team-Challenge</span>
           <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.</p>
@@ -1195,6 +1224,13 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <p class="goal">Bis jetzt hast du dem Roboter gesagt, <em>was</em> er tun soll. Ab jetzt sagst du ihm, <em>worauf er achten</em> soll. Das ist der Moment, in dem aus einem Fahrzeug ein Roboter wird.</p>
     </div>
     <div class="st-body">
+      <div class="note fresh">
+        <span class="nt">Zuerst: neues Projekt</span>
+        <p>Startet für diese Station ein neues Roboter-Projekt. Die Maqueen-Blöcke sind darin schon geladen. Sonst fahren eure Blöcke aus Station 3 weiter und stören die Linienverfolgung.</p>
+        <p>Gebt dem Projekt unten neben <b>Herunterladen</b> den Namen <b>Linie</b>. In Station 6 braucht ihr es wieder.</p>
+        <a class="btn" href="https://makecode.microbit.org/#project:XQAAEADMAwAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5XpXNznlU85QOk6uNXG6c2Vbfv5hclxMl7dhOM6EypVewCb7fLELo66EnCI0OzPib3RYfJg/ndEE2omMeguRxSeMmT5K4mx7nQPcem5K84RvxvcuJ5xMv0Eh+sPKBgTtleLshLcKUtxk1SJbKiMw6HOKkUfaz74cvagCaGjeusYQ/A0nveFe7q57q7yQFkIxDM39ucKaNsf0IXjo1+O0ih6TGmLF+t2vZQlJ+MTYyLXmXAT9U5//tXMh1" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
+      </div>
+
       <div class="block">
         <h3><span class="idx">01</span>Wie ein Liniensensor „sieht"</h3>
         <p class="lead">Unter dem Fahrzeug sitzen fünf winzige Lampen mit je einem Lichtmesser daneben. Die Lampe leuchtet nach unten, der Messer schaut, wie viel zurückkommt. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert keine Farbe, sondern eine Zahl:</p>
@@ -1240,6 +1276,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>blue</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
         </div>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter auf die Linie, Knopf A: Fährt er und blinkt dabei?</p>
       </div>
 
       <div class="note aha">
@@ -1278,6 +1315,12 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <p class="goal">Ein Roboter, der nur einem Plan folgt, fährt gegen die erste Wand. Jetzt bringst du ihm bei, seine Umgebung zu prüfen und selbst zu entscheiden &ndash; viele Male pro Sekunde.</p>
     </div>
     <div class="st-body">
+      <div class="note fresh">
+        <span class="nt">Zuerst: neues Projekt</span>
+        <p>Startet für diese Station ein neues Roboter-Projekt. Die Maqueen-Blöcke sind darin schon geladen. Sonst läuft die Linienverfolgung aus Station 4 weiter, und zwei Programme kämpfen um die Motoren.</p>
+        <a class="btn" href="https://makecode.microbit.org/#project:XQAAEADMAwAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5XpXNznlU85QOk6uNXG6c2Vbfv5hclxMl7dhOM6EypVewCb7fLELo66EnCI0OzPib3RYfJg/ndEE2omMeguRxSeMmT5K4mx7nQPcem5K84RvxvcuJ5xMv0Eh+sPKBgTtleLshLcKUtxk1SJbKiMw6HOKkUfaz74cvagCaGjeusYQ/A0nveFe7q57q7yQFkIxDM39ucKaNsf0IXjo1+O0ih6TGmLF+t2vZQlJ+MTYyLXmXAT9U5//tXMh1" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
+      </div>
+
       <div class="block">
         <h3><span class="idx">01</span>Der Laserscanner vorne</h3>
         <p class="lead">Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleines Lidar mit 8&times;8 = <b>64 Laserstrahlen</b>. Es misst in Millimetern, von 20&nbsp;mm bis 4000&nbsp;mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos &ndash; nur größer.</p>
@@ -1306,7 +1349,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
           <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
         </div>
-        <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter auf den Boden, Hand davorhalten. Er bremst, bevor ihr ihn berührt.</p>
         <div class="note warn">
           <span class="nt">Extra, mit einer Warnung</span>
           <p>Wer noch einen <kbd>spiele Ton</kbd>-Block dazuhängt: Der Roboter wartet, bis der Ton fertig ist, bevor er die Schleife von vorn beginnt und wieder misst. Er reagiert in dieser Zeit nicht &ndash; nehmt einen kurzen Ton, sonst wird der Bremsassistent träge.</p>
@@ -1345,6 +1388,11 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <p class="goal">Jetzt gehört der Roboter euch. Tunt ihn, gebt ihm einen Auftritt &ndash; und dann fahrt ihr um die schnellste Runde.</p>
     </div>
     <div class="st-body">
+      <div class="note fresh">
+        <span class="nt">Diesmal kein neues Projekt</span>
+        <p>Ihr tunt euer Programm aus Station 4 &ndash; den Linienfolger. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen und darin weiterarbeiten.</p>
+      </div>
+
       <div class="block">
         <h3><span class="idx">01</span>Tuning-Werkstatt</h3>
         <p class="lead">Wählt aus, woran ihr arbeitet. Mehr als zwei Dinge schafft ihr nicht &ndash; entscheidet euch bewusst.</p>
@@ -1357,6 +1405,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           </table>
         </div>
         <p class="lead">Wer die Zeit dafür hat, kann auch eine <b>Zieleinlauf-Fanfare</b> bauen (Musik-Block, wenn der Laser die Zielwand sieht) oder den Maqueen selbst <b>Kreuzungen erkennen</b> lassen &ndash; beides schwerer, fragt einfach eure Betreuenden.</p>
+        <p class="testline"><b>&#9654; Testen:</b> Nach jeder Änderung herunterladen und auf der Strecke ausprobieren. Eine Änderung nach der anderen &ndash; dann wisst ihr, was gewirkt hat.</p>
       </div>
 
       <div class="block">
@@ -1511,6 +1560,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
           <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 2 der Workshop-Seite braucht kein MakeCode</td></tr>
           <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Vorlage in MakeCode öffnen</b> in Station 3 nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
+          <tr><td>Neue Blöcke wirken nicht, Anzeige wird überschrieben, Roboter tut Unerwartetes</td><td>Das alte Programm läuft mit – das Team hat im Projekt der vorigen Station weitergebaut. Knopf <b>Neues Projekt starten</b> oben in der Station nehmen (Station 2: leer, Station 4 und 5: Roboter-Projekt mit Vorlage). Nur Station 6 arbeitet bewusst im Programm aus Station 4 weiter</td></tr>
           <tr><td>Nichts geht mehr</td><td>Reset-Knopf auf der Rückseite des micro:bit</td></tr>
         </table>
       </div>
@@ -2303,7 +2353,7 @@ function mbAward(key, msg){
 }
 function mbCheckDraw(){
   if(mbDraw === PAT.heart){
-    mbAward("draw", "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an.");
+    mbAward("draw", "❤ Genau das Zielbild! Übertrag dieses Muster jetzt in MakeCode &ndash; im Block <em>zeige LEDs</em> klickst du dieselben Punkte an. Danach weiter mit Reiter <b>2 &middot; Knöpfe</b>.");
   }
 }
 function mbSetMode(m){
@@ -2337,7 +2387,7 @@ function mbPress(which){
   }
   mbChips();
   if(mbSeen.a && mbSeen.b){
-    mbAward("btn", "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet.");
+    mbAward("btn", "Beide Ereignisse ausprobiert. Merke: Das Programm läuft nicht durch &ndash; es wartet. Weiter mit Reiter <b>3 &middot; Neigen</b>.");
   }
 }
 /* Neigen: Der Regler liefert y wie der echte Sensor (-1023..1023). „Logo nach oben“

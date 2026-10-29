@@ -5,6 +5,12 @@
       <p class="goal">Ein Roboter, der nur einem Plan folgt, fährt gegen die erste Wand. Jetzt bringst du ihm bei, seine Umgebung zu prüfen und selbst zu entscheiden &ndash; viele Male pro Sekunde.</p>
     </div>
     <div class="st-body">
+      <div class="note fresh">
+        <span class="nt">Zuerst: neues Projekt</span>
+        <p>Startet für diese Station ein neues Roboter-Projekt. Die Maqueen-Blöcke sind darin schon geladen. Sonst läuft die Linienverfolgung aus Station 4 weiter, und zwei Programme kämpfen um die Motoren.</p>
+        <a class="btn" href="makecode:vorlage" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
+      </div>
+
       <div class="block">
         <h3><span class="idx">01</span>Der Laserscanner vorne</h3>
         <p class="lead">Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleines Lidar mit 8&times;8 = <b>64 Laserstrahlen</b>. Es misst in Millimetern, von 20&nbsp;mm bis 4000&nbsp;mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos &ndash; nur größer.</p>
@@ -33,7 +39,7 @@
           <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
           <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
         </div>
-        <p class="lead">Legt dafür ein <b>neues Projekt</b> an (oder löscht die Linienfolge-Blöcke aus Station 4 &ndash; sonst kämpfen zwei Programme um die Motoren). Dann baut es und haltet eure Hand vor den Roboter. Er bremst, bevor ihr ihn berührt.</p>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter auf den Boden, Hand davorhalten. Er bremst, bevor ihr ihn berührt.</p>
         <div class="note warn">
           <span class="nt">Extra, mit einer Warnung</span>
           <p>Wer noch einen <kbd>spiele Ton</kbd>-Block dazuhängt: Der Roboter wartet, bis der Ton fertig ist, bevor er die Schleife von vorn beginnt und wieder misst. Er reagiert in dieser Zeit nicht &ndash; nehmt einen kurzen Ton, sonst wird der Bremsassistent träge.</p>
