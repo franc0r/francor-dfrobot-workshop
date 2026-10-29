@@ -1,53 +1,31 @@
-# MakeCode-Tutorial (Versuch)
+# MakeCode-Tutorials
 
-`erster-kontakt.md` führt Schritt für Schritt durch das Herz-Programm aus Station 1,
-im Tutorial-Modus von MakeCode (Anleitung links, Glühbirne für die Lösung,
-Blockpalette auf die nötigen Blöcke beschränkt). Entstanden aus dem Probelauf
-vom 28.10.2026, siehe `docs/04-probelauf-2026-10-28.md`.
+Die Tutorials liegen in einem eigenen Repo:
+<https://github.com/franc0r/makecode-maqueen-tutorials>. MakeCode lädt ein GitHub-Tutorial
+nur, wenn im Hauptordner des Repos eine `pxt.json` liegt — in einem Unterordner dieses
+Repos ging es nicht (`failed to fetch pxt.json; 404`, 29.10.2026).
 
-Noch nicht in der Workshop-Seite verlinkt. Erst testen.
+| Tutorial | Station | Link |
+|---|---|---|
+| `erster-kontakt.md` | 1 | <https://makecode.microbit.org/#tutorial:github:franc0r/makecode-maqueen-tutorials/erster-kontakt> |
 
-## Stufe 1: Inhalt (mit Netz)
+Entstanden aus dem Probelauf vom 28.10.2026 (`docs/04-probelauf-2026-10-28.md`).
+Noch nicht in der Workshop-Seite verlinkt.
 
-1. `tutorial-test.html` per Doppelklick in Chrome öffnen. Sie bettet MakeCode
-   (`?controller=1&lang=de`) ein, genau wie <https://makecode.com/tutorial-tool>.
-2. Warten, bis MakeCode da ist, dann `erster-kontakt.md` wählen → **Tutorial starten**.
-3. Nach jeder Änderung an der `.md` die Datei neu wählen und neu starten.
+Mit Netz geprüft (29.10.2026): Der Link startet das Tutorial, Oberfläche deutsch.
+MakeCode zeigt oben „Nicht genehmigter Inhalt“, weil das Repo nicht auf Microsofts
+Freigabeliste steht.
 
-Am 29.10.2026 mit Netz geprüft (Playwright/Chromium): Tutorial startet, deutsche
-Oberfläche, Begrüßungsfenster und Schrittleiste erscheinen.
+## Inhalt testen, ohne zu pushen
 
-Darauf achten:
-- Findet die Testperson die Blöcke? Die Palette zeigt nur die Blöcke des Schritts.
-- Gibt es das Suchfeld im Tutorial-Modus überhaupt? (Schritt 1 nennt es.)
-- Stimmen die deutschen Blocknamen in den farbigen Verweisen?
-- Startet die Vorlage mit `beim Start` und `dauerhaft`, oder fehlt `beim Start`?
+`tutorial-test.html` per Doppelklick in Chrome öffnen, warten bis MakeCode da ist,
+`.md` wählen → **Tutorial starten**. Die Seite bettet MakeCode ein (`?controller=1`) wie
+<https://makecode.com/tutorial-tool>. Nur mit Netz: Ohne Netz startet eingebettetes
+MakeCode nicht (Martin, 29.10.2026).
 
-## Stufe 2: Offline (nur wenn Stufe 1 überzeugt)
+## Offline-Test (offen)
 
-### a) Eingebettet über `tutorial-test.html` — **geht offline nicht** (Martin, 29.10.2026)
-
-Mit Netz läuft es, ohne Netz startet das eingebettete MakeCode nicht. Vermutlich, weil
-Chrome Cache und Speicher eingebetteter Seiten getrennt von denen des normalen Tabs hält.
-Dieser Weg ist damit raus; die Testseite bleibt nur für den Inhaltstest (Stufe 1).
-
-1. Mit Netz: Testseite öffnen, MakeCode ganz laden lassen, Tutorial einmal starten.
-2. WLAN aus bzw. Kabel ziehen, Chrome ganz schließen.
-3. Testseite wieder per Doppelklick öffnen → Datei wählen → **Tutorial starten**.
-4. micro:bit anstecken, **Herunterladen**: klappt das Koppeln (WebUSB) im eingebetteten Fenster?
-
-Zur Kontrolle denselben Ablauf mit `makecode.microbit.org` im normalen Tab — der muss offline gehen.
-Playwright taugt hierfür nicht: mit dessen Offline-Schalter startet nicht einmal der
-normale MakeCode-Tab aus dem Cache. Nur der echte Test ohne Netz zählt.
-
-### b) GitHub-Repo
-
-Per Link lädt MakeCode ein eigenes Tutorial nur aus einem GitHub-Repo
-(`#tutorial:github:besitzer/repo/datei`) oder aus einem geteilten Projekt — beides
-braucht Netz. Ein GitHub-Tutorial bleibt aber nach dem ersten Laden in der
-IndexedDB des Browsers und wird ohne Netz von dort genommen
-(pxt `webapp/src/idbworkspace.ts`, `loadTutorialMarkdown`).
-
-Test: Repo anlegen, Link einmal mit Netz öffnen, Netz trennen, Browser neu starten,
-Link erneut öffnen. Geht das, wäre es eine zweite Ausnahme von Regel 1 in CLAUDE.md —
-mit Vorladen beim Aufbau und einem Ausweichweg, falls der Browser-Speicher leer ist.
+MakeCode legt ein GitHub-Tutorial nach dem ersten Laden in der IndexedDB ab und nimmt es
+ohne Netz von dort (pxt `webapp/src/idbworkspace.ts`, `loadTutorialMarkdown`).
+Prüfen: Link mit Netz öffnen, WLAN aus, Chrome neu starten, Link erneut öffnen.
+Geht das, gehört „Tutorial-Link einmal öffnen“ in die Aufbau-Liste im Handbuch.

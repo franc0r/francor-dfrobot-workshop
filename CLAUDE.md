@@ -19,8 +19,10 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    `href="makecode:vorlage"` (→ `#project:` + Base64 von `microbit/vorlage/vorlage.mkcd`, Station 3);
    `build.py` setzt sie ein. `#project:` trägt das ganze Projekt im Link und geht offline.
    Seit 29.10.2026 (Martin: auf der Messe gibt es doch Internet, wenn auch langsam) darf ein
-   solcher Link auch ein MakeCode-Tutorial von GitHub öffnen: `#tutorial:github:franc0r/…`,
-   Quelle in `microbit/tutorial/`. Es braucht beim ersten Öffnen Netz, danach nimmt MakeCode
+   solcher Link auch ein MakeCode-Tutorial von GitHub öffnen:
+   `#tutorial:github:franc0r/makecode-maqueen-tutorials/<datei>`. Die Tutorials liegen in
+   diesem eigenen Repo (MakeCode braucht dessen `pxt.json` im Hauptordner); Testseite und
+   Notizen in `microbit/tutorial/`. Es braucht beim ersten Öffnen Netz, danach nimmt MakeCode
    es vermutlich aus dem Browser-Cache — deshalb beim Aufbau auf jedem Arbeitsplatz einmal öffnen.
    Die Station muss auch ohne das Tutorial gehen: Die Anleitung bleibt auf der Seite.
    `#pub:`-Teilen-Links nicht verwenden. Eingebettetes MakeCode (iframe) bleibt verboten,
