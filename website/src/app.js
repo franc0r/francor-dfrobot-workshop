@@ -718,7 +718,7 @@ function mbCode(){
         '<div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>' +
         '<div class="mcb b-basic i1">zeige Symbol ' + ledIcon("heart") + '</div>' +
         '<div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>' +
-        '<div class="mcb b-basic i1">zeige Pfeil <b>Osten</b></div>';
+        '<div class="mcb b-basic i1">Bildschirminhalt löschen</div>';
   } else {
     h = '<div class="mccap">Drei Ereignisse</div>' + TILTCODE;
   }
@@ -745,6 +745,31 @@ function mbAward(key, msg){
   if(!S.mb) S.mb = {};
   if(!S.mb[key]){ S.mb[key] = 1; save(); }
   mbStatus(msg, "ok");
+  if(!mbFired[key]){ mbFired[key] = 1; mbFirework(); }
+}
+/* Kleines Feuerwerk um die Erfolgsmeldung, damit der Blick dorthin geht.
+   Einmal pro Reiter-Besuch (mbFired leert sich in mbSetMode); bei
+   „Bewegung reduzieren“ nur das kurze Aufleuchten ohne Funken. */
+var mbFired = {};
+var SPARK = ["var(--accent)", "var(--teal)", "var(--warn)", "#E9483F"];
+function mbFirework(){
+  var el = mbStatusEl;
+  el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
+  if(reduced()) return;
+  [[12, 0], [50, 100], [88, 0]].forEach(function(at, k){
+    setTimeout(function(){
+      for(var i = 0; i < 18; i++){
+        var sp = document.createElement("i"), a = Math.PI * 2 * i / 18, r = 40 + Math.random() * 30;
+        sp.className = "spark";
+        sp.style.left = at[0] + "%"; sp.style.top = at[1] + "%";
+        sp.style.background = SPARK[(i + k) % SPARK.length];
+        sp.style.setProperty("--dx", (Math.cos(a) * r).toFixed(1) + "px");
+        sp.style.setProperty("--dy", (Math.sin(a) * r).toFixed(1) + "px");
+        el.appendChild(sp);
+        setTimeout(function(n){ return function(){ n.remove(); }; }(sp), 900);
+      }
+    }, k * 160);
+  });
 }
 function mbCheckDraw(){
   if(mbDraw === PAT.heart){
@@ -752,7 +777,7 @@ function mbCheckDraw(){
   }
 }
 function mbSetMode(m){
-  mbMode = m;
+  mbMode = m; mbFired = {};
   mbTabsEl.querySelectorAll("button").forEach(function(b){
     b.setAttribute("aria-pressed", b.dataset.k === m ? "true" : "false");
   });
@@ -778,7 +803,7 @@ function mbPress(which){
   if(which === "a"){
     mbSeen.a = 1; mbPaint(PAT.heart);
   } else {
-    mbSeen.b = 1; mbPaint(PAT.arrowR);
+    mbSeen.b = 1; mbPaint("0000000000000000000000000");
   }
   mbChips();
   if(mbSeen.a && mbSeen.b){
