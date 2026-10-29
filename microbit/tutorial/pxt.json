@@ -1,0 +1,12 @@
+{
+    "name": "Maqueen Grand Prix Tutorials",
+    "description": "MakeCode-Tutorials zum Workshop",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "erster-kontakt.md"
+    ],
+    "preferredEditor": "blocksprj"
+}
