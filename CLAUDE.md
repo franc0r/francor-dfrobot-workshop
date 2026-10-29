@@ -12,13 +12,19 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 1. **Offline-only.** Auf der Messe gibt es kein Internet. `website/dist/maqueen-grand-prix-offline.html`
    darf keinen einzigen externen Verweis enthalten — keine Webfonts, keine CDN-Skripte, keine
    Bilder von außen. `build.py` bricht ab, wenn doch; `website/test/smoke.cjs` prüft es mit
-   abgeschaltetem Netzwerk. Diese Regel ist nicht verhandelbar.
-   Einzige Ausnahme (von Martin freigegeben, 28.10.2026): Links `href="https://makecode.microbit.org/#…"`.
+   abgeschaltetem Netzwerk. Die Seite selbst muss immer ohne Netz vollständig funktionieren.
+   Ausnahme (von Martin freigegeben, 28.10.2026): Links `href="https://makecode.microbit.org/#…"`.
    Sie laden nichts in die Seite, sondern öffnen MakeCode im zweiten Tab, das aus dem Cache läuft.
    Im Quelltext stehen sie als `href="makecode:neu"` (→ `#newproject`, Station 1) und
    `href="makecode:vorlage"` (→ `#project:` + Base64 von `microbit/vorlage/vorlage.mkcd`, Station 3);
-   `build.py` setzt sie ein. `#project:` trägt das ganze Projekt im Link und geht offline,
-   `#pub:`-Teilen-Links und `#github:` brauchen dagegen Netz — nie verwenden.
+   `build.py` setzt sie ein. `#project:` trägt das ganze Projekt im Link und geht offline.
+   Seit 29.10.2026 (Martin: auf der Messe gibt es doch Internet, wenn auch langsam) darf ein
+   solcher Link auch ein MakeCode-Tutorial von GitHub öffnen: `#tutorial:github:franc0r/…`,
+   Quelle in `microbit/tutorial/`. Es braucht beim ersten Öffnen Netz, danach nimmt MakeCode
+   es vermutlich aus dem Browser-Cache — deshalb beim Aufbau auf jedem Arbeitsplatz einmal öffnen.
+   Die Station muss auch ohne das Tutorial gehen: Die Anleitung bleibt auf der Seite.
+   `#pub:`-Teilen-Links nicht verwenden. Eingebettetes MakeCode (iframe) bleibt verboten,
+   es startet offline nicht (getestet 29.10.2026).
 2. **Eine Datei.** Die Offline-Ausgabe ist eine einzelne HTML-Datei, die per Doppelklick
    aus dem Dateisystem läuft (`file://`). Keine Build-Abhängigkeit zur Laufzeit.
    Bilder gehören deshalb nach `website/src/assets/` und werden im Quelltext als
