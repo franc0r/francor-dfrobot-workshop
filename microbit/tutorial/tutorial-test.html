@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorial-Test</title>
+<!--
+  Testseite für microbit/tutorial/: bettet MakeCode im Controller-Modus ein und
+  schickt ihm ein Tutorial als Markdown (Nachricht „importtutorial“) — genau wie
+  makecode.com/tutorial-tool. Gehört nicht zur Workshop-Seite und unterliegt
+  deshalb nicht Regel 1; sie soll gerade prüfen, ob dieser Weg offline trägt.
+  Per Doppelklick öffnen (file://), .md-Datei wählen, „Tutorial starten“.
+-->
+<style>
+  :root { --bg:#f6f6f4; --fg:#1c1c1c; --mute:#666; --line:#d6d6d0; --acc:#E9483F; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1b1b1b; --fg:#eee; --mute:#9a9a9a; --line:#3a3a3a; } }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:14px/1.4 system-ui, sans-serif; }
+  body { display:flex; flex-direction:column; }
+  header { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; padding:8px 16px; border-bottom:1px solid var(--line); }
+  header b { color:var(--acc); }
+  button { font:inherit; padding:5px 12px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--fg); cursor:pointer; }
+  button.go { background:var(--acc); border-color:var(--acc); color:#fff; }
+  button:disabled { opacity:.5; cursor:default; }
+  #status { color:var(--mute); }
+  #status.ok { color:#1c8a3c; } #status.bad { color:var(--acc); }
+  #net { font-variant-numeric:tabular-nums; }
+  iframe { flex:1; width:100%; border:0; background:#fff; }
+  details { padding:0 16px 6px; color:var(--mute); }
+  pre { max-height:9em; overflow:auto; margin:4px 0; font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <b>Tutorial-Test</b>
+  <input type="file" id="file" accept=".md,text/markdown,text/plain">
+  <button class="go" id="start" disabled>Tutorial starten</button>
+  <button id="reload">MakeCode neu laden</button>
+  <span id="net"></span>
+  <span id="status">MakeCode lädt …</span>
+</header>
+<details><summary>Protokoll</summary><pre id="log"></pre></details>
+<iframe id="mc" allow="usb; serial; clipboard-read; clipboard-write"></iframe>
+
+<script>
+var EDITOR = "https://makecode.microbit.org/?controller=1&lang=de";
+var KEY = "tutorial-test-md";
+var frame = document.getElementById("mc");
+var startBtn = document.getElementById("start");
+var statusEl = document.getElementById("status");
+var logEl = document.getElementById("log");
+var md = "", fileName = "";
+
+function log(s){ logEl.textContent += new Date().toLocaleTimeString() + "  " + s + "\n"; logEl.scrollTop = 1e9; }
+function status(s, cls){ statusEl.textContent = s; statusEl.className = cls || ""; log(s); }
+function net(){ document.getElementById("net").textContent = navigator.onLine ? "● online" : "○ offline"; }
+window.addEventListener("online", net); window.addEventListener("offline", net); net();
+
+try {
+  var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+  if(saved){ md = saved.md; fileName = saved.name; startBtn.disabled = false; log("Zuletzt gewählt: " + fileName); }
+} catch(e){}
+
+document.getElementById("file").addEventListener("change", function(){
+  var f = this.files[0]; if(!f) return;
+  f.text().then(function(t){
+    md = t; fileName = f.name; startBtn.disabled = false;
+    try { localStorage.setItem(KEY, JSON.stringify({md:md, name:fileName})); } catch(e){}
+    status(fileName + " geladen (" + t.length + " Zeichen). Jetzt „Tutorial starten“.");
+  });
+});
+
+function send(action, extra){
+  var msg = {type:"pxteditor", id:String(Math.random()), action:action, response:true};
+  for(var k in extra) msg[k] = extra[k];
+  frame.contentWindow.postMessage(msg, "*");
+  return msg.id;
+}
+var pending = {};
+startBtn.addEventListener("click", function(){
+  pending[send("importtutorial", {markdown:md})] = "importtutorial";
+  status("Tutorial an MakeCode geschickt …");
+});
+
+/* Im Controller-Modus fragt MakeCode die einbettende Seite nach Projekten.
+   Wie das Tutorial Tool: keine Projekte, Speichern nur ins Protokoll. */
+window.addEventListener("message", function(ev){
+  var m = ev.data;
+  if(!m || typeof m !== "object") return;
+  if(m.type === "pxthost"){
+    if(m.action === "workspacesync"){ m.projects = []; frame.contentWindow.postMessage(m, "*"); log("workspacesync beantwortet"); }
+    else if(m.action === "workspacesave"){ log("MakeCode speichert: " + ((m.project && m.project.header && m.project.header.name) || "Projekt")); }
+    else log("pxthost " + m.action);
+  } else if(m.type === "pxteditor" && pending[m.id]){
+    var what = pending[m.id]; delete pending[m.id];
+    if(m.success === false) status(what + " fehlgeschlagen: " + JSON.stringify(m.error || m.resp), "bad");
+    else status(what + " ok — Tutorial läuft.", "ok");
+  }
+});
+
+function load(){ status("MakeCode lädt …"); frame.src = EDITOR; }
+frame.addEventListener("load", function(){ status("MakeCode geladen. Datei wählen und „Tutorial starten“.", "ok"); });
+document.getElementById("reload").addEventListener("click", load);
+load();
+</script>
+</body>
+</html>
