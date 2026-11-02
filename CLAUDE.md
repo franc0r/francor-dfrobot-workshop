@@ -176,14 +176,15 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   DFRobot-Produktfotos des Maqueen Plus V3.1 abgeleitet (Platine ≈ 110 mm breit → 2,1 px/mm):
   schmale Front mit zwei weißen RGB-Kuppeln und Stützkugel darunter, Schrägen mit den
   Lichtsensoren, Schlitz im vorderen Drittel, Calc-Taste und RST links, Schalter und
-  Akkustecker rechts, Summer rechts der Mitte, Motoren vor den Rädern im Einschnitt, Stiftleiste
+  Akkustecker rechts (rechts aus Sicht des Roboters — in der Vorderansicht also links), Summer rechts der Mitte, Motoren vor den Rädern im Einschnitt, Stiftleiste
   hinten. Das Akkubrett ist ein eigenes Deck auf Abstandshaltern über dem Heck (in der
   Draufsicht gestrichelt, damit die Platine sichtbar bleibt), der Laserscanner steht hochkant
   darauf. Unterseite-Teile (5 Liniensensoren: 3 vorn, 2 außen; Stützkugel; 4 RGB) sind
   gestrichelt. Platinenfarben sind feste Hex-Werte (schwarze Platine), nur Marker, Leitlinien
   und Schalter nutzen Tokens; die `.mk`-Marker tragen die Rollenfarben der Legende. Beide
-  Figuren teilen sich die `.mqfig`-Klassen in `styles.css`. Die genaue Lage des Schalters am
-  Akkubrett und die Steckrichtung sind bis zum Trockenlauf Annahmen.
+  Figuren teilen sich die `.mqfig`-Klassen in `styles.css`. Steckrichtung und Schalterlage sind
+  bestätigt (Martin, 29.10. und 02.11.2026): Bodenplatte vorn am Rand vor dem Rad, Akkubrett
+  hinter dem Batteriehalter — beide auf der rechten Seite des Roboters.
 
 ## Offen (nach dem Trockenlauf einarbeiten)
 
@@ -205,10 +206,6 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   MakeCode-Logik heißt deutsch `wenn … dann … ansonsten`; `nestStack()` kennt beides.
 - Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90° (erster Wert von Martin, 08.10.2026:
   ~650 ms bei Geschwindigkeit 100 — die Quadrat-Hilfe in Station 3 nennt deshalb 500–800), sichere Linienstufe, kleinster Kurvenradius
-- Steckrichtung des micro:bit: „Lämpchen nach vorn" ist bestätigt (Martin, 29.10.2026).
-  Die Schalterlage in beiden Figuren stimmt aber nicht (Probelauf, Punkt 12 in
-  `docs/04-probelauf-2026-10-28.md`): von vorn gesehen Bodenplatte unten links,
-  Akkupack links hinter der Batterie.
 - Entscheidung: Station 2 auf 12 Min kürzen, damit der Roboter früher fährt? (Review-Punkt, offen)
 - Danach: Parcours-Bauplan (braucht den gemessenen Radius), Stand-Paket zum Drucken
   (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
