@@ -112,6 +112,8 @@ button{font:inherit; color:inherit; cursor:pointer}
 .timer.running{border-color:var(--teal); color:var(--teal)}
 .timer button{border:0; background:transparent; font-size:11px; font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); padding:0}
 .timer button:hover{color:var(--accent)}
+.timer .tv{font:inherit; letter-spacing:0; text-transform:none; color:inherit; cursor:text}
+input.tv{width:6ch; padding:0 3px; border:1px solid var(--accent); border-radius:4px; background:var(--surface)}
 .ghost{
   border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
   padding:6px 12px; font-size:13px; font-weight:500;

@@ -57,7 +57,7 @@ function buildRail(){
     var b = document.createElement("button");
     b.type = "button"; b.className = "stepbtn"; b.dataset.go = i;
     b.innerHTML = '<span class="num">'+i+'</span><span class="lbl">'+st.n+'<span class="min">'+st.m+'</span></span>';
-    b.addEventListener("click", function(){ go(i); });
+    b.addEventListener("click", function(){ go(i); if(i > 0) timerAutoStart(); });
     rail.insertBefore(b, railfoot);
   });
 }
@@ -99,6 +99,7 @@ document.addEventListener("click", function(e){
   var t = Number(v);
   if(t > cur) complete(cur);
   go(t);
+  if(t > 0) timerAutoStart();
 });
 
 /* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
@@ -146,17 +147,38 @@ document.querySelectorAll(".quiz").forEach(function(q){
 });
 
 /* ================= timer ================= */
-var TOTAL = 90*60, left = TOTAL, running = false, tick = null;
+var TOTAL = 90*60, left = TOTAL, running = false, tick = null, tStarted = false;
 var tval = document.getElementById("tval"), tbtn = document.getElementById("tbtn"), tbox = document.getElementById("timer");
 function fmt(s){ var m = Math.floor(s/60), r = s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
 function paintT(){ tval.textContent = fmt(Math.max(0,left)); }
-tbtn.addEventListener("click", function(){
-  running = !running;
+function setRunning(v){
+  running = v; if(v) tStarted = true;
   tbtn.textContent = running ? "Pause" : "Start";
   tbox.classList.toggle("running", running);
+  clearInterval(tick);
   if(running){ tick = setInterval(function(){ if(left>0){ left--; paintT(); } }, 1000); }
-  else { clearInterval(tick); }
+}
+tbtn.addEventListener("click", function(){ setRunning(!running); });
+/* Der Start wird gern vergessen: Wer Station 0 per „Los geht's“ oder über die
+   Leiste verlässt, startet den Timer – aber nur, wenn er seit „Neues Team“ noch
+   nie lief. Eine bewusste Pause bleibt also Pause; Neuladen startet nichts. */
+function timerAutoStart(){ if(!tStarted) setRunning(true); }
+/* Zeit ändern: Klick auf die Anzeige, dann „75“ (Minuten) oder „42:30“ eintippen.
+   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 90:00. */
+var tedit = document.getElementById("tedit");
+function editT(on){ tval.hidden = on; tedit.hidden = !on; if(on){ tedit.value = fmt(Math.max(0,left)); tedit.focus(); tedit.select(); } }
+function commitT(){
+  if(tedit.hidden) return;
+  var m = /^\s*(\d{1,3})(?::(\d{1,2}))?\s*$/.exec(tedit.value);
+  if(m && Number(m[2] || 0) < 60){ left = Number(m[1]) * 60 + Number(m[2] || 0); paintT(); }
+  editT(false);
+}
+tval.addEventListener("click", function(){ editT(true); });
+tedit.addEventListener("keydown", function(e){
+  if(e.key === "Enter") commitT();
+  else if(e.key === "Escape"){ e.stopPropagation(); editT(false); }
 });
+tedit.addEventListener("blur", commitT);
 paintT();
 
 /* ================= drawer ================= */
@@ -182,8 +204,7 @@ document.getElementById("resetbtn").addEventListener("click", function(){
     q.querySelector(".qfb").hidden = true;
   });
   document.getElementById("finaltitle").textContent = "Ziel erreicht";
-  left = TOTAL; running = false; clearInterval(tick);
-  tbtn.textContent = "Start"; tbox.classList.remove("running"); paintT();
+  left = TOTAL; setRunning(false); tStarted = false; paintT();
   prog = []; setLevel(0); mbReset();
   paintBadges(); paintProgress(); go(0);
 });
