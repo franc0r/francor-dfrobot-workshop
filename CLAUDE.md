@@ -15,8 +15,10 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    abgeschaltetem Netzwerk. Die Seite selbst muss immer ohne Netz vollständig funktionieren.
    Ausnahme (von Martin freigegeben, 28.10.2026): Links `href="https://makecode.microbit.org/#…"`.
    Sie laden nichts in die Seite, sondern öffnen MakeCode im zweiten Tab, das aus dem Cache läuft.
-   Im Quelltext stehen sie als `href="makecode:neu"` (→ `#newproject`, Station 1) und
-   `href="makecode:vorlage"` (→ `#project:` + Base64 von `microbit/vorlage/vorlage.mkcd`, Station 3);
+   Im Quelltext stehen sie als `href="makecode:neu"` (→ `#newproject`, Knopf „Neues Projekt
+   starten“, Station 1 und 2) und `href="makecode:vorlage"` (→ `#project:` + Base64 von
+   `microbit/vorlage/vorlage.mkcd`, Knopf „Neues Roboter-Projekt starten“, Station 3–5, als
+   Rückfall auch 6);
    `build.py` setzt sie ein. `#project:` trägt das ganze Projekt im Link und geht offline.
    Seit 29.10.2026 (Martin: auf der Messe gibt es doch Internet, wenn auch langsam) darf ein
    solcher Link auch ein MakeCode-Tutorial von GitHub öffnen:

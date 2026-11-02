@@ -262,7 +262,8 @@ kbd{
 .b-lidar{background:#5B3FE8}
 .b-math{background:#9400D3}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
-.mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:0 0 0 1.5px rgba(0,0,0,.32), inset 0 -2px 0 rgba(0,0,0,.18)}
+/* Der dunkle Rand setzt den Wertblock ab wie in MakeCode – nötig, wenn er dieselbe Farbe hat wie sein Block (Vergleich in „wenn“, Station 5) */
 .mccap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
 
 /* callouts */
@@ -372,6 +373,9 @@ kbd{
 .r-input .n,.mk.r-input circle{background:#D400D4; fill:#D400D4}
 .r-logic .n,.mk.r-logic circle{background:#00A4A6; fill:#00A4A6}
 .r-mq .n,.mk.r-mq circle{background:#0FBC11; fill:#0FBC11}
+/* Weiß auf Maqueen-Hellgrün liest sich schlecht (≈ 2,5:1) – hier dunkle Ziffer */
+.mqlegend .r-mq .n{color:#06300A}
+.mqfig .mk.r-mq text{fill:#06300A}
 .r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
 .mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
 @keyframes mb-slide{
@@ -477,7 +481,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .simstatus.ok{border-color:var(--teal); background:var(--teal-soft); color:var(--teal); font-weight:600}
 .simstatus.bad{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
 /* Feuerwerk bei gelöster Simulator-Aufgabe (mbFirework in app.js) */
-.simstatus{position:relative}
+.fxwrap{position:relative; margin-top:10px}
+.fxwrap .simstatus{margin-top:0}
+.fx{position:absolute; inset:0; pointer-events:none}
 .simstatus.pop{animation:st-pop .5s ease-out}
 @keyframes st-pop{0%{transform:scale(1)} 35%{transform:scale(1.04); box-shadow:0 0 0 6px var(--teal-soft)} 100%{transform:scale(1)}}
 .spark{
@@ -939,7 +945,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="simcol">
             <div class="colhead">Der passende Block</div>
             <div class="mcstack" id="mbcode"></div>
-            <div class="simstatus" id="mbstatus">Wähl oben eine Aufgabe.</div>
+            <div class="fxwrap"><div class="simstatus" id="mbstatus">Wähl oben eine Aufgabe.</div><div class="fx" id="mbfx" aria-hidden="true"></div></div>
           </div>
         </div>
       </div>
@@ -958,6 +964,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="block">
         <h3><span class="idx">02</span>Auf Knopfdruck reagieren</h3>
         <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse. Probiert es zuerst im Simulator oben, Reiter <b>2 &middot; Knöpfe</b>.</p>
+        <p class="lead"><kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>.</p>
         <div class="mcstack">
           <div class="mccap">Zwei Ereignisse nebeneinander</div>
           <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
@@ -1052,7 +1059,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <h3><span class="idx">01</span>Zuerst: dem micro:bit den Roboter beibringen</h3>
         <p class="lead">MakeCode kennt den Maqueen erst, wenn eine Block-Sammlung dafür geladen ist. Dafür gibt es ein <b>Vorlagenprojekt</b>, in dem sie schon drinsteckt &ndash; ihr müsst nichts nachladen.</p>
         <ol class="steps">
-          <li><span>Klickt auf den Knopf. Die Vorlage geht in MakeCode in einem neuen Tab auf. Links seht ihr sofort eine neue Kategorie <b>Maqueen Plus V2</b> &ndash; da liegen alle Roboter-Blöcke.<br><a class="btn" href="https://makecode.microbit.org/#project:XQAAEADMAwAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5XpXNznlU85QOk6uNXG6c2Vbfv5hclxMl7dhOM6EypVewCb7fLELo66EnCI0OzPib3RYfJg/ndEE2omMeguRxSeMmT5K4mx7nQPcem5K84RvxvcuJ5xMv0Eh+sPKBgTtleLshLcKUtxk1SJbKiMw6HOKkUfaz74cvagCaGjeusYQ/A0nveFe7q57q7yQFkIxDM39ucKaNsf0IXjo1+O0ih6TGmLF+t2vZQlJ+MTYyLXmXAT9U5//tXMh1" target="_blank" rel="noopener">Vorlage in MakeCode öffnen &rarr;</a></span></li>
+          <li><span>Klickt auf den Knopf. Das neue Roboter-Projekt geht in MakeCode in einem neuen Tab auf. Links seht ihr sofort eine neue Kategorie <b>Maqueen Plus V2</b> &ndash; da liegen alle Roboter-Blöcke.<br><a class="btn" href="https://makecode.microbit.org/#project:XQAAEADMAwAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5XpXNznlU85QOk6uNXG6c2Vbfv5hclxMl7dhOM6EypVewCb7fLELo66EnCI0OzPib3RYfJg/ndEE2omMeguRxSeMmT5K4mx7nQPcem5K84RvxvcuJ5xMv0Eh+sPKBgTtleLshLcKUtxk1SJbKiMw6HOKkUfaz74cvagCaGjeusYQ/A0nveFe7q57q7yQFkIxDM39ucKaNsf0IXjo1+O0ih6TGmLF+t2vZQlJ+MTYyLXmXAT9U5//tXMh1" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a></span></li>
           <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte &ndash; von vorn gesehen beide links. Ohne beide passiert gar nichts.</span></li>
         </ol>
         <figure class="mqfig" id="mqinsert">
@@ -1292,7 +1299,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>blue</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
         </div>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter auf die Linie, Knopf A: Fährt er und blinkt dabei?</p>
+        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter auf die Linie, Knopf A: Fährt er und blinkt dabei? Dann das Projekt unten neben <b>Herunterladen</b> in <b>Linie</b> umbenennen.</p>
       </div>
 
       <div class="note aha">
@@ -1419,6 +1426,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="note fresh">
         <span class="nt">Diesmal kein neues Projekt</span>
         <p>Ihr tunt euer Programm aus Station 4 &ndash; den Linienfolger. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen und darin weiterarbeiten.</p>
+        <p>Kein &bdquo;Linie&ldquo; dabei? Dann startet ein neues Roboter-Projekt und baut den Linienfolger aus Station 4 nach &ndash; das sind nur ein paar Blöcke.</p>
+        <a class="btn sec" href="https://makecode.microbit.org/#project:XQAAEADMAwAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5XpXNznlU85QOk6uNXG6c2Vbfv5hclxMl7dhOM6EypVewCb7fLELo66EnCI0OzPib3RYfJg/ndEE2omMeguRxSeMmT5K4mx7nQPcem5K84RvxvcuJ5xMv0Eh+sPKBgTtleLshLcKUtxk1SJbKiMw6HOKkUfaz74cvagCaGjeusYQ/A0nveFe7q57q7yQFkIxDM39ucKaNsf0IXjo1+O0ih6TGmLF+t2vZQlJ+MTYyLXmXAT9U5//tXMh1" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
       </div>
 
       <div class="block">
@@ -1480,7 +1489,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
         <tr><td>0:05–0:18</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
         <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: Im Simulator sehen sie, dass &bdquo;Logo nach oben&ldquo; nur eine Zahl jenseits der Grenze 200 ist. Beides brauchen sie später beim Roboter wieder.</td></tr>
-        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams. Die Seite gibt Tipps und ein Gerüst mit <em>wiederhole 4&nbsp;mal</em>. Wer das schnell schafft, dem zeigt ihr <em>Funktionen</em> (Musterlösung in <kbd>microbit/stations/03-fahrschule/</kbd>): Ein Stück Programm bekommt einen Namen wie <em>dreheRechts</em> und wird dann nur noch aufgerufen. Richtwert: 650&nbsp;ms bei Geschwindigkeit 100 ergeben etwa 90°.</td></tr>
+        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams. Die Seite gibt Tipps und ein Gerüst mit <em>4 -mal wiederholen</em>. Wer das schnell schafft, dem zeigt ihr <em>Funktionen</em> (Musterlösung in <kbd>microbit/stations/03-fahrschule/</kbd>): Ein Stück Programm bekommt einen Namen wie <em>dreheRechts</em> und wird dann nur noch aufgerufen. Richtwert: 650&nbsp;ms bei Geschwindigkeit 100 ergeben etwa 90°.</td></tr>
         <tr><td>0:47–1:05</td><td><b>Augen.</b> Linienverfolgung. Kalibrieren nur bei Bedarf – die Roboter sind beim Aufbau schon kalibriert. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
         <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
         <tr><td>1:15–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
@@ -1511,7 +1520,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <ul class="check">
         <li>Alle Akkus laden – ein halbvoller Akku ruiniert den Linienfolger</li>
         <li>Alle Roboter einmal kalibrieren (Calc-Key auf Schwarz, 2 s) – am Stand, unter dem Messelicht, auf dem echten Parcoursband. Ab Werk sind sie zwar kalibriert, aber nicht auf euer Band und euer Licht. Die Schüler kalibrieren danach nur noch, wenn ein Roboter die Linie verliert.</li>
-        <li>Auf jedem Platz einmal mit Netz den Knopf <b>Vorlage in MakeCode öffnen</b> (Station 3) geklickt – lädt die Erweiterung in den Cache und spart pro Team 5 Minuten</li>
+        <li>Auf jedem Platz einmal mit Netz den Knopf <b>Neues Roboter-Projekt starten</b> (Station 3) geklickt – lädt die Erweiterung in den Cache und spart pro Team 5 Minuten</li>
         <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
@@ -1529,7 +1538,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
       <ul class="check">
-        <li>Diese Seite öffnen, in Station 3 auf <b>Vorlage in MakeCode öffnen</b> klicken. Die Vorlage steckt im Link selbst (<kbd>microbit/vorlage/vorlage.mkcd</kbd>): Erweiterung <b>DFRobot_MaqueenPlus_V2</b>, die <b>Matrix LiDAR Entfernung</b> kommt als Abhängigkeit mit, in <em>beim Start</em> nur <em>initialisiere Maqueen Plus V2</em>. Beim ersten Öffnen lädt MakeCode die Erweiterungen in den Cache – danach öffnet der Knopf die Vorlage auch ohne Netz</li>
+        <li>Diese Seite öffnen, in Station 3 auf <b>Neues Roboter-Projekt starten</b> klicken. Die Vorlage steckt im Link selbst (<kbd>microbit/vorlage/vorlage.mkcd</kbd>): Erweiterung <b>DFRobot_MaqueenPlus_V2</b>, die <b>Matrix LiDAR Entfernung</b> kommt als Abhängigkeit mit, in <em>beim Start</em> nur <em>initialisiere Maqueen Plus V2</em>. Beim ersten Öffnen lädt MakeCode die Erweiterungen in den Cache – danach öffnet der Knopf die Vorlage auch ohne Netz</li>
         <li>Prüfen: links stehen die Kategorien <b>Maqueen Plus V2</b> und <b>Matrix LiDAR Entfernung</b>. Fehlen sie, war der Platz beim Klick offline</li>
         <li>Rückfallweg ohne Knopf: <kbd>vorlage.mkcd</kbd> per USB-Stick auf den Platz kopieren und in MakeCode <b>importieren</b></li>
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
@@ -1587,8 +1596,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
           <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
           <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 2 der Workshop-Seite braucht kein MakeCode</td></tr>
-          <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Vorlage in MakeCode öffnen</b> in Station 3 nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
-          <tr><td>Neue Blöcke wirken nicht, Anzeige wird überschrieben, Roboter tut Unerwartetes</td><td>Das alte Programm läuft mit – das Team hat im Projekt der vorigen Station weitergebaut. Knopf <b>Neues Projekt starten</b> oben in der Station nehmen (Station 2: leer, Station 4 und 5: Roboter-Projekt mit Vorlage). Nur Station 6 arbeitet bewusst im Programm aus Station 4 weiter</td></tr>
+          <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Neues Roboter-Projekt starten</b> (Station 3, 4 oder 5) nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
+          <tr><td>Neue Blöcke wirken nicht, Anzeige wird überschrieben, Roboter tut Unerwartetes</td><td>Das alte Programm läuft mit – das Team hat im Projekt der vorigen Station weitergebaut. Knopf oben in der Station nehmen: <b>Neues Projekt starten</b> (Station 2, leer) oder <b>Neues Roboter-Projekt starten</b> (Station 4 und 5, mit Maqueen-Blöcken). Nur Station 6 arbeitet bewusst im Programm aus Station 4 weiter</td></tr>
           <tr><td>Nichts geht mehr</td><td>Reset-Knopf auf der Rückseite des micro:bit</td></tr>
         </table>
       </div>
@@ -2403,9 +2412,12 @@ function mbAward(key, msg){
 }
 /* Kleines Feuerwerk um die Erfolgsmeldung, damit der Blick dorthin geht.
    Einmal pro Reiter-Besuch (mbFired leert sich in mbSetMode); bei
-   „Bewegung reduzieren“ nur das kurze Aufleuchten ohne Funken. */
+   „Bewegung reduzieren“ gar nicht. Die Funken liegen in einer eigenen Ebene
+   (#mbfx) über der Meldung – mbStatus() schreibt die Meldung beim Neigen
+   ständig neu und würde sie sonst mitlöschen. */
 var mbFired = {};
 var SPARK = ["var(--accent)", "var(--teal)", "var(--warn)", "#E9483F"];
+var mbFx = document.getElementById("mbfx");
 function mbFirework(){
   var el = mbStatusEl;
   el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
@@ -2419,7 +2431,7 @@ function mbFirework(){
         sp.style.background = SPARK[(i + k) % SPARK.length];
         sp.style.setProperty("--dx", (Math.cos(a) * r).toFixed(1) + "px");
         sp.style.setProperty("--dy", (Math.sin(a) * r).toFixed(1) + "px");
-        el.appendChild(sp);
+        mbFx.appendChild(sp);
         setTimeout(function(n){ return function(){ n.remove(); }; }(sp), 900);
       }
     }, k * 160);

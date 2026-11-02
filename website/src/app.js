@@ -770,9 +770,12 @@ function mbAward(key, msg){
 }
 /* Kleines Feuerwerk um die Erfolgsmeldung, damit der Blick dorthin geht.
    Einmal pro Reiter-Besuch (mbFired leert sich in mbSetMode); bei
-   „Bewegung reduzieren“ nur das kurze Aufleuchten ohne Funken. */
+   „Bewegung reduzieren“ gar nicht. Die Funken liegen in einer eigenen Ebene
+   (#mbfx) über der Meldung – mbStatus() schreibt die Meldung beim Neigen
+   ständig neu und würde sie sonst mitlöschen. */
 var mbFired = {};
 var SPARK = ["var(--accent)", "var(--teal)", "var(--warn)", "#E9483F"];
+var mbFx = document.getElementById("mbfx");
 function mbFirework(){
   var el = mbStatusEl;
   el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
@@ -786,7 +789,7 @@ function mbFirework(){
         sp.style.background = SPARK[(i + k) % SPARK.length];
         sp.style.setProperty("--dx", (Math.cos(a) * r).toFixed(1) + "px");
         sp.style.setProperty("--dy", (Math.sin(a) * r).toFixed(1) + "px");
-        el.appendChild(sp);
+        mbFx.appendChild(sp);
         setTimeout(function(n){ return function(){ n.remove(); }; }(sp), 900);
       }
     }, k * 160);

@@ -249,7 +249,8 @@ kbd{
 .b-lidar{background:#5B3FE8}
 .b-math{background:#9400D3}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
-.mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:0 0 0 1.5px rgba(0,0,0,.32), inset 0 -2px 0 rgba(0,0,0,.18)}
+/* Der dunkle Rand setzt den Wertblock ab wie in MakeCode – nötig, wenn er dieselbe Farbe hat wie sein Block (Vergleich in „wenn“, Station 5) */
 .mccap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
 
 /* callouts */
@@ -359,6 +360,9 @@ kbd{
 .r-input .n,.mk.r-input circle{background:#D400D4; fill:#D400D4}
 .r-logic .n,.mk.r-logic circle{background:#00A4A6; fill:#00A4A6}
 .r-mq .n,.mk.r-mq circle{background:#0FBC11; fill:#0FBC11}
+/* Weiß auf Maqueen-Hellgrün liest sich schlecht (≈ 2,5:1) – hier dunkle Ziffer */
+.mqlegend .r-mq .n{color:#06300A}
+.mqfig .mk.r-mq text{fill:#06300A}
 .r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
 .mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
 @keyframes mb-slide{
@@ -464,7 +468,9 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .simstatus.ok{border-color:var(--teal); background:var(--teal-soft); color:var(--teal); font-weight:600}
 .simstatus.bad{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
 /* Feuerwerk bei gelöster Simulator-Aufgabe (mbFirework in app.js) */
-.simstatus{position:relative}
+.fxwrap{position:relative; margin-top:10px}
+.fxwrap .simstatus{margin-top:0}
+.fx{position:absolute; inset:0; pointer-events:none}
 .simstatus.pop{animation:st-pop .5s ease-out}
 @keyframes st-pop{0%{transform:scale(1)} 35%{transform:scale(1.04); box-shadow:0 0 0 6px var(--teal-soft)} 100%{transform:scale(1)}}
 .spark{
