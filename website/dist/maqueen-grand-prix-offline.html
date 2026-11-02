@@ -249,15 +249,16 @@ kbd{
 /* in der schmalen Simulator-Spalte dürfen lange Blöcke umbrechen */
 #mbcode .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px}
 .mcb.i1{margin-left:20px} .mcb.i2{margin-left:40px}
-.b-basic{background:#1E90D6}
-.b-input{background:#B4009E}
-.b-loop{background:#00A040}
-.b-logic{background:#00A0B4}
-.b-music{background:#D83B01}
+/* Kategoriefarben wie in MakeCode micro:bit (Screenshot 02.11.2026) */
+.b-basic{background:#1E90FF}
+.b-input{background:#D400D4}
+.b-loop{background:#00AA00}
+.b-logic{background:#00A4A6}
+.b-music{background:#E63022}
 .b-var{background:#E07000}
-.b-mq{background:#264F87}
+.b-mq{background:#0FBC11}
 .b-lidar{background:#5B3FE8}
-.b-math{background:#7E2FC8}
+.b-math{background:#9400D3}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
 .mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
 .mccap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
@@ -366,9 +367,9 @@ kbd{
 .mqlegend li{display:grid; grid-template-columns:22px minmax(0,1fr); gap:10px; align-items:start}
 .mqlegend .n{width:22px; height:22px; border-radius:50%; color:#fff; font-family:var(--mono); font-size:11px; font-weight:600; display:grid; place-items:center; margin-top:1px}
 .mqlegend em{display:block; font-style:normal; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
-.r-input .n,.mk.r-input circle{background:#B4009E; fill:#B4009E}
-.r-logic .n,.mk.r-logic circle{background:#00A0B4; fill:#00A0B4}
-.r-mq .n,.mk.r-mq circle{background:#264F87; fill:#264F87}
+.r-input .n,.mk.r-input circle{background:#D400D4; fill:#D400D4}
+.r-logic .n,.mk.r-logic circle{background:#00A4A6; fill:#00A4A6}
+.r-mq .n,.mk.r-mq circle{background:#0FBC11; fill:#0FBC11}
 .r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
 .mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
 @keyframes mb-slide{
@@ -973,7 +974,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <div class="block">
         <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
         <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. Die Blöcke dafür liegen in <b>Eingabe</b>. Probiert es zuerst im Simulator oben, Reiter <b>3 &middot; Neigen</b>.</p>
-        <p class="lead">In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein. Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b> unter <b>&hellip; mehr</b>.</p>
+        <p class="lead">In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein. Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b>, ganz unten &ndash; ein Stück nach unten scrollen.</p>
         <div class="mcstack">
           <div class="mccap">Drei Ereignisse &ndash; baut sie auf eurem micro:bit</div>
           <div class="mcb b-input">wenn <b>Logo nach oben</b></div>
@@ -1203,7 +1204,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
               <div class="mcb b-basic">beim Start</div>
               <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
               <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-              <div class="mcb b-loop i1">wiederhole <b>4</b> mal</div>
+              <div class="mcb b-loop i1"><b>4</b> -mal wiederholen</div>
               <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
               <div class="mcb b-basic i2">pausiere (ms) <b>1000</b></div>
               <div class="mcb b-mq i2">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
@@ -1211,7 +1212,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
               <div class="mcb b-basic i2">pausiere (ms) <b>???</b></div>
               <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
             </div>
-            <p>Die <b>wiederhole</b>-Schleife kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>.</p>
+            <p>Die Schleife <b>-mal wiederholen</b> kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>.</p>
           </details>
           <button class="btn sec" type="button" data-bonus="quadrat">Geschafft, zeig&apos;s dem Betreuer</button>
         </div>
@@ -1845,7 +1846,7 @@ var LEVELS = [
     goal:{x:4,y:0},
     walls:[[0,0],[1,0],[2,0],[3,0],[0,1],[1,1],[2,1],[0,2],[1,2],[4,2],[0,3],[3,3],[4,3],[2,4],[3,4],[4,4]],
     max:5,
-    brief:"<b>Bonus für schnelle Teams:</b> Vier gleiche Stufen. Ohne Schleife brauchst du 16 Bausteine – mit der <em>wiederhole</em>-Schleife nur 5. Finde das Muster einer Stufe heraus."
+    brief:"<b>Bonus für schnelle Teams:</b> Vier gleiche Stufen. Ohne Schleife brauchst du 16 Bausteine – mit der Schleife <em>-mal wiederholen</em> nur 5. Finde das Muster einer Stufe heraus."
   }
 ];
 var COLORS = ["rot","grün","blau","gelb","pink"];
@@ -1864,19 +1865,19 @@ var PALETTE = [
   {t:"left", cls:"b-mq",    label:"drehe links ↺"},
   {t:"right",cls:"b-mq",    label:"drehe rechts ↻"},
   {t:"light",cls:"b-var",   label:"Licht an"},
-  {t:"rep",  cls:"b-loop",  label:"wiederhole ×"}
+  {t:"rep",  cls:"b-loop",  label:"×-mal wiederholen"}
 ];
 function blockColor(t){
-  if(t==="rep") return "#00A040";
+  if(t==="rep") return "#00AA00";
   if(t==="light") return "#E07000";
-  return "#264F87";
+  return "#0FBC11";
 }
 function labelOf(b){
   if(b.t==="fwd") return "fahre " + b.n + " Feld" + (b.n>1?"er":"") + " vor";
   if(b.t==="left") return "drehe links";
   if(b.t==="right") return "drehe rechts";
   if(b.t==="light") return "Licht " + b.c;
-  if(b.t==="rep") return "wiederhole " + b.n + "×";
+  if(b.t==="rep") return b.n + "-mal wiederholen";
   return "";
 }
 function newBlock(t){

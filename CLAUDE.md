@@ -34,8 +34,11 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    durch eine `data:`-URI und bricht ab, wenn danach noch ein `assets/` übrig ist.
    Nie ein Bild von einer URL einbinden.
 3. **Nur Blöcke, kein Textcode.** Codebeispiele auf der Seite sind MakeCode-Blöcke,
-   nachgebildet mit den `.mcb`-Klassen (Farben wie in MakeCode: Grundlagen blau, Eingabe
-   magenta, Schleifen grün, Logik türkis, Maqueen dunkelblau).
+   nachgebildet mit den `.mcb`-Klassen. Jeder Block trägt die Farbe seiner Kategorie, genau wie
+   in MakeCode (am Gerät abgelesen 02.11.2026): Grundlagen `#1E90FF`, Eingabe `#D400D4`,
+   Musik `#E63022`, Schleifen `#00AA00`, Logik `#00A4A6`, Mathematik `#9400D3`,
+   Maqueen `#0FBC11` (hellgrün), Matrix LiDAR `#5B3FE8`. Die Rollenfarben in Station 0
+   (`.r-*`) folgen denselben Werten.
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
    Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
    nicht in die Stationen.
@@ -148,7 +151,7 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 ## Was der Simulator-Code kann und was nicht
 
 - **Parcours-Simulator** (`website/src/app.js`, Abschnitt SIMULATOR): Gitter, Roboter, Bausteine per Klick
-  (kein Drag & Drop — auf Messe-Touchscreens robuster), `wiederhole`-Block mit einer Ebene
+  (kein Drag & Drop — auf Messe-Touchscreens robuster), `-mal wiederholen`-Block mit einer Ebene
   Verschachtelung, drei Level in `LEVELS`. Koordinaten: x nach rechts, y nach unten, dir 0=rechts,
   1=unten, 2=links, 3=oben. Level 3 ist mit 5 Bausteinen lösbar (Schleife), sonst 16.
 - **micro:bit-Simulator** (Abschnitt micro:bit SIMULATOR): 5×5-LEDs als Buttons, Muster als
@@ -188,10 +191,12 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 
 ## Offen (nach dem Trockenlauf einarbeiten)
 
-- Blocktexte: am Gerät bestätigt bis auf `wiederhole 4 mal` (Quadrat-Hilfe, Station 3).
+- Blocktexte: am Gerät bestätigt. Die Schleife heißt `4 -mal wiederholen` (Zahl vorn, darunter
+  „mache“; Screenshot Martin, 02.11.2026). `zeige Pfeil` liegt direkt in Grundlagen, ganz
+  unten (Screenshot 02.11.2026). Rechtsklick-Menü: „Duplizieren“
+  (Kürzel D), „Blöcke löschen“ (Entf) — bestätigt 02.11.2026.
   Motor ist bestätigt (Screenshot 08.10.2026): `steuere [beide Räder] [vorwärts], Geschwindigkeit 120`
-  und `stop [beide Räder]`, einzeln `linkes Rad` / `rechtes Rad`. Noch offen: die Kategoriefarbe
-  — in MakeCode sind die Maqueen-Blöcke grün, nicht dunkelblau wie in Regel 3.
+  und `stop [beide Räder]`, einzeln `linkes Rad` / `rechtes Rad`. Kategoriefarbe: siehe Regel 3.
   Quellcode der Erweiterung (github.com/DFRobot/pxt-DFRobot_MaqueenPlus_v20, master am
   08.10.2026) bestätigt: Kategoriefarbe `#0fbc11`; `initialisiere Maqueen Plus V2` gehört in
   jedes Roboterprogramm (setzt die V3-Platine zurück, wartet mit blinkendem X auf Antwort,

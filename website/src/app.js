@@ -215,7 +215,7 @@ var LEVELS = [
     goal:{x:4,y:0},
     walls:[[0,0],[1,0],[2,0],[3,0],[0,1],[1,1],[2,1],[0,2],[1,2],[4,2],[0,3],[3,3],[4,3],[2,4],[3,4],[4,4]],
     max:5,
-    brief:"<b>Bonus für schnelle Teams:</b> Vier gleiche Stufen. Ohne Schleife brauchst du 16 Bausteine – mit der <em>wiederhole</em>-Schleife nur 5. Finde das Muster einer Stufe heraus."
+    brief:"<b>Bonus für schnelle Teams:</b> Vier gleiche Stufen. Ohne Schleife brauchst du 16 Bausteine – mit der Schleife <em>-mal wiederholen</em> nur 5. Finde das Muster einer Stufe heraus."
   }
 ];
 var COLORS = ["rot","grün","blau","gelb","pink"];
@@ -234,19 +234,19 @@ var PALETTE = [
   {t:"left", cls:"b-mq",    label:"drehe links ↺"},
   {t:"right",cls:"b-mq",    label:"drehe rechts ↻"},
   {t:"light",cls:"b-var",   label:"Licht an"},
-  {t:"rep",  cls:"b-loop",  label:"wiederhole ×"}
+  {t:"rep",  cls:"b-loop",  label:"×-mal wiederholen"}
 ];
 function blockColor(t){
-  if(t==="rep") return "#00A040";
+  if(t==="rep") return "#00AA00";
   if(t==="light") return "#E07000";
-  return "#264F87";
+  return "#0FBC11";
 }
 function labelOf(b){
   if(b.t==="fwd") return "fahre " + b.n + " Feld" + (b.n>1?"er":"") + " vor";
   if(b.t==="left") return "drehe links";
   if(b.t==="right") return "drehe rechts";
   if(b.t==="light") return "Licht " + b.c;
-  if(b.t==="rep") return "wiederhole " + b.n + "×";
+  if(b.t==="rep") return b.n + "-mal wiederholen";
   return "";
 }
 function newBlock(t){

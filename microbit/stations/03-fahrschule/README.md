@@ -19,7 +19,7 @@ Werte: **650 ms** ergeben bei Geschwindigkeit 100 etwa eine 90°-Drehung (Unterg
 Akkustand verschieben das). Die Hilfe auf der Seite nennt deshalb 500–800 ms.
 
 Funktionen kommen auf der Workshop-Seite nicht vor. Auf der Seite steht als Gerüst die
-einfachere Fassung mit `wiederhole 4 mal`. Diese Lösung ist für Betreuende gedacht: Sie zeigen
+einfachere Fassung mit `4 -mal wiederholen`. Diese Lösung ist für Betreuende gedacht: Sie zeigen
 sie schnellen Teams als Ausblick („einem Stück Programm einen Namen geben“).
 
 Noch nachzureichen: `loesung.hex` (in MakeCode herunterladen und hier ablegen).

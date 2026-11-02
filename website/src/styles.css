@@ -236,15 +236,16 @@ kbd{
 /* in der schmalen Simulator-Spalte dürfen lange Blöcke umbrechen */
 #mbcode .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px}
 .mcb.i1{margin-left:20px} .mcb.i2{margin-left:40px}
-.b-basic{background:#1E90D6}
-.b-input{background:#B4009E}
-.b-loop{background:#00A040}
-.b-logic{background:#00A0B4}
-.b-music{background:#D83B01}
+/* Kategoriefarben wie in MakeCode micro:bit (Screenshot 02.11.2026) */
+.b-basic{background:#1E90FF}
+.b-input{background:#D400D4}
+.b-loop{background:#00AA00}
+.b-logic{background:#00A4A6}
+.b-music{background:#E63022}
 .b-var{background:#E07000}
-.b-mq{background:#264F87}
+.b-mq{background:#0FBC11}
 .b-lidar{background:#5B3FE8}
-.b-math{background:#7E2FC8}
+.b-math{background:#9400D3}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
 .mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
 .mccap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
@@ -353,9 +354,9 @@ kbd{
 .mqlegend li{display:grid; grid-template-columns:22px minmax(0,1fr); gap:10px; align-items:start}
 .mqlegend .n{width:22px; height:22px; border-radius:50%; color:#fff; font-family:var(--mono); font-size:11px; font-weight:600; display:grid; place-items:center; margin-top:1px}
 .mqlegend em{display:block; font-style:normal; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
-.r-input .n,.mk.r-input circle{background:#B4009E; fill:#B4009E}
-.r-logic .n,.mk.r-logic circle{background:#00A0B4; fill:#00A0B4}
-.r-mq .n,.mk.r-mq circle{background:#264F87; fill:#264F87}
+.r-input .n,.mk.r-input circle{background:#D400D4; fill:#D400D4}
+.r-logic .n,.mk.r-logic circle{background:#00A4A6; fill:#00A4A6}
+.r-mq .n,.mk.r-mq circle{background:#0FBC11; fill:#0FBC11}
 .r-pow .n,.mk.r-pow circle{background:var(--ink-3); fill:var(--ink-3)}
 .mqfig .mb-slide{animation:mb-slide 4s ease-in-out infinite}
 @keyframes mb-slide{
