@@ -11,3 +11,6 @@ website/_site/
 
 # macOS-Ordnerdaten
 .DS_Store
+
+# Brainstorming-Entwürfe (lokal)
+.superpowers/

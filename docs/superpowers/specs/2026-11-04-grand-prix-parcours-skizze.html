@@ -1,0 +1,97 @@
+<style>
+  .wrap { display:flex; gap:28px; flex-wrap:wrap; align-items:flex-start; }
+  .mat { background:#fff; border:2px solid #999; border-radius:4px; width:420px; max-width:100%; }
+  .mat svg { display:block; width:100%; height:auto; }
+  .grid { stroke:#ececec; stroke-width:0.25; }
+  .ln { stroke:#111; stroke-width:1.9; fill:none; stroke-linejoin:round; }
+  .pro { stroke:#111; stroke-width:1.9; fill:none; }
+  .gap { stroke:#5B3FE8; stroke-width:0.6; fill:none; stroke-dasharray:1.5 1; }
+  .kiste { fill:#b07a3c; stroke:#6b4520; stroke-width:0.4; }
+  .k { fill:#E9483F; }
+  .kt { font:bold 3.6px sans-serif; fill:#fff; text-anchor:middle; dominant-baseline:central; }
+  .lab { font:bold 3.6px sans-serif; fill:#1E90FF; }
+  .sm { font:2.8px sans-serif; fill:#555; }
+  .sign { fill:#fff; stroke:#E63022; stroke-width:0.9; }
+  .signt { font:bold 3.4px sans-serif; fill:#111; text-anchor:middle; dominant-baseline:central; }
+  .zone { stroke:#f5b700; stroke-width:5; fill:none; opacity:.35; stroke-linecap:round; }
+  table.t { border-collapse:collapse; font-size:14px; }
+  table.t td, table.t th { border:1px solid #ccc; padding:5px 9px; text-align:left; vertical-align:top; }
+  .side { flex:1; min-width:320px; }
+  .warn { background:#fff4e0; border-left:4px solid #E07A00; padding:8px 12px; margin-top:14px; font-size:14px; }
+</style>
+
+<h2>Grand-Prix-Parcours (geplant)</h2>
+<p class="subtitle">Nach deinem Foto nachgezeichnet, Maße ungefähr. Matte hochkant 100 × 200 cm, Gitter 10 cm.</p>
+
+<div class="wrap">
+<div class="mat">
+<svg viewBox="-3 -3 106 206">
+  <g class="grid">
+    <path d="M10 0V200M20 0V200M30 0V200M40 0V200M50 0V200M60 0V200M70 0V200M80 0V200M90 0V200"/>
+    <path d="M0 10H100M0 20H100M0 30H100M0 40H100M0 50H100M0 60H100M0 70H100M0 80H100M0 90H100M0 100H100M0 110H100M0 120H100M0 130H100M0 140H100M0 150H100M0 160H100M0 170H100M0 180H100M0 190H100"/>
+  </g>
+  <rect x="0" y="0" width="100" height="200" fill="none" stroke="#999" stroke-width="0.4"/>
+
+  <!-- Tempo-Zone (gelb hinterlegt) -->
+  <path class="zone" d="M44 62 V44 H68 C82 44 80 82 90 102 C100 124 92 147 70 147 H56 V51"/>
+
+  <!-- Startgerade + Sackgasse oben -->
+  <path class="ln" d="M10 186 V10"/>
+  <rect class="kiste" x="5" y="2" width="10" height="6" rx="0.8"/>
+  <!-- K1 nach rechts, zweite Gerade runter -->
+  <path class="ln" d="M10 40 H27 V147 H44 V44 H68"/>
+  <!-- Stummel mit Kiste -->
+  <path class="ln" d="M27 75 H18"/>
+  <rect class="kiste" x="13" y="71.5" width="5" height="7" rx="0.8"/>
+  <!-- Bauch -->
+  <path class="ln" d="M68 44 C82 44 80 82 90 102 C100 124 92 147 70 147 H56 V51"/>
+  <!-- Ziel-T -->
+  <path class="ln" d="M48 51 H64"/>
+  <!-- Tempo-Schild (Querstrich) -->
+  <path class="ln" d="M38 64 H50"/>
+  <circle class="sign" cx="35" cy="70" r="3.2"/><text class="signt" x="35" y="70">1</text>
+
+  <!-- Pro: Lücke + Strich + Kiste -->
+  <path class="gap" d="M56 51 V40"/>
+  <path class="pro" d="M56 40 V12"/>
+  <rect class="kiste" x="51" y="3" width="10" height="6" rx="0.8"/>
+
+  <!-- Nummern -->
+  <circle class="k" cx="10" cy="40" r="3"/><text class="kt" x="10" y="40">1</text>
+  <circle class="k" cx="27" cy="75" r="3"/><text class="kt" x="27" y="75">2</text>
+  <circle class="k" cx="44" cy="64" r="3"/><text class="kt" x="44" y="64">3</text>
+  <circle class="k" cx="56" cy="51" r="3"/><text class="kt" x="56" y="51">4</text>
+
+  <!-- Beschriftung -->
+  <text class="lab" x="12" y="194">▲ Start</text>
+  <text class="sm" x="17" y="5">Sackgasse</text>
+  <text class="sm" x="62" y="56">Ziel 🏁</text>
+  <text class="sm" x="62" y="7">Pro-Ziel</text>
+  <text class="sm" x="58" y="30">nur Profis:</text>
+  <text class="sm" x="58" y="33.5">PID über</text>
+  <text class="sm" x="58" y="37">die Lücke</text>
+  <text class="sm" x="72" y="160">Tempo 1 ab ③</text>
+  <text class="sm" x="72" y="163.5">bis ins Ziel</text>
+</svg>
+</div>
+
+<div class="side">
+<table class="t">
+  <tr><th>Nr.</th><th>Stelle</th><th>Typ aus Sicht des Roboters</th><th>Was das Programm tut</th></tr>
+  <tr><td>1</td><td>K1</td><td>Abzweig rechts + geradeaus</td><td><code>Right</code> → danach auf <code>Straight</code> umstellen</td></tr>
+  <tr><td>2</td><td>Stummel (Kiste)</td><td>Abzweig rechts + geradeaus</td><td>geradeaus vorbei</td></tr>
+  <tr><td>3</td><td>Tempo-Schild</td><td>Kreuzung (+)</td><td><code>At Crossroads Straight</code> + <code>Speed 1</code></td></tr>
+  <tr><td>4</td><td>Ziel</td><td>T</td><td><code>T-junction Stop</code> + Siegesmelodie</td></tr>
+  <tr><td colspan="4"><b>Profis:</b> an 4 per Laser prüfen → PID ≈ 15 cm geradeaus über die Lücke → Linie an (Regeln neu setzen!) → Kiste am Pro-Ziel stoppt per Laser</td></tr>
+  <tr><td colspan="4"><b>Falsch an K1</b> (<code>Straight</code>) → Sackgasse oben, Kiste stoppt ihn. <b>Nicht umgestellt</b> → biegt in den Stummel, Kiste stoppt ihn.</td></tr>
+</table>
+
+<div class="warn">
+<b>Zum Prüfen am Aufbau:</b><br>
+• Dein Programm nutzt Kreuzung 4 für das T, ohne Tempo-Schild. Dann wird irgendwo schon eine Stelle gezählt, die hier nicht vorkommt (vielleicht eine Ecke oder die Stoßstelle im Band an der zweiten Geraden). Mit dem Tempo-Schild wäre das T dann Nr. 5.<br>
+• Ziel-T und die Oberkante des Bogens liegen nur etwa 5–7 cm auseinander. Sieht er beide?<br>
+• Das Tempo-Schild hat links und rechts nur etwa 6 cm Platz. Reicht das, damit er es als Kreuzung erkennt?<br>
+• Die Kiste am Stummel darf nicht im Laserbild auftauchen, wenn er am Stummel geradeaus vorbeifährt.
+</div>
+</div>
+</div>
