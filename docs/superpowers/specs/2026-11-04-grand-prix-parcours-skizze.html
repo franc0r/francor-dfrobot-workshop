@@ -33,43 +33,43 @@
   <rect x="0" y="0" width="100" height="200" fill="none" stroke="#999" stroke-width="0.4"/>
 
   <!-- Tempo-Zone (gelb hinterlegt) -->
-  <path class="zone" d="M44 62 V44 H68 C82 44 80 82 90 102 C100 124 92 147 70 147 H56 V51"/>
+  <path class="zone" d="M52 62 V44 H72 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
 
   <!-- Startgerade + Sackgasse oben -->
   <path class="ln" d="M10 186 V10"/>
   <rect class="kiste" x="5" y="2" width="10" height="6" rx="0.8"/>
   <!-- K1 nach rechts, zweite Gerade runter -->
-  <path class="ln" d="M10 40 H27 V147 H44 V44 H68"/>
+  <path class="ln" d="M10 40 H36 V147 H52 V44 H72"/>
   <!-- Stummel mit Kiste -->
-  <path class="ln" d="M27 75 H18"/>
-  <rect class="kiste" x="13" y="71.5" width="5" height="7" rx="0.8"/>
+  <path class="ln" d="M36 75 H26"/>
+  <rect class="kiste" x="20" y="71.5" width="6" height="7" rx="0.8"/>
   <!-- Bauch -->
-  <path class="ln" d="M68 44 C82 44 80 82 90 102 C100 124 92 147 70 147 H56 V51"/>
+  <path class="ln" d="M72 44 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
   <!-- Ziel-T -->
-  <path class="ln" d="M48 51 H64"/>
+  <path class="ln" d="M60 51 H72"/>
   <!-- Tempo-Schild (Querstrich) -->
-  <path class="ln" d="M38 64 H50"/>
-  <circle class="sign" cx="35" cy="70" r="3.2"/><text class="signt" x="35" y="70">1</text>
+  <path class="ln" d="M46 64 H58"/>
+  <circle class="sign" cx="43" cy="71" r="3.2"/><text class="signt" x="43" y="71">1</text>
 
   <!-- Pro: Lücke + Strich + Kiste -->
-  <path class="gap" d="M56 51 V40"/>
-  <path class="pro" d="M56 40 V12"/>
-  <rect class="kiste" x="51" y="3" width="10" height="6" rx="0.8"/>
+  <path class="gap" d="M66 51 V34"/>
+  <path class="pro" d="M66 34 V12"/>
+  <rect class="kiste" x="61" y="3" width="10" height="6" rx="0.8"/>
 
   <!-- Nummern -->
   <circle class="k" cx="10" cy="40" r="3"/><text class="kt" x="10" y="40">1</text>
-  <circle class="k" cx="27" cy="75" r="3"/><text class="kt" x="27" y="75">2</text>
-  <circle class="k" cx="44" cy="64" r="3"/><text class="kt" x="44" y="64">3</text>
-  <circle class="k" cx="56" cy="51" r="3"/><text class="kt" x="56" y="51">4</text>
+  <circle class="k" cx="36" cy="75" r="3"/><text class="kt" x="36" y="75">2</text>
+  <circle class="k" cx="52" cy="64" r="3"/><text class="kt" x="52" y="64">3</text>
+  <circle class="k" cx="66" cy="51" r="3"/><text class="kt" x="66" y="51">4</text>
 
   <!-- Beschriftung -->
   <text class="lab" x="12" y="194">▲ Start</text>
   <text class="sm" x="17" y="5">Sackgasse</text>
-  <text class="sm" x="62" y="56">Ziel 🏁</text>
-  <text class="sm" x="62" y="7">Pro-Ziel</text>
-  <text class="sm" x="58" y="30">nur Profis:</text>
-  <text class="sm" x="58" y="33.5">PID über</text>
-  <text class="sm" x="58" y="37">die Lücke</text>
+  <text class="sm" x="56" y="57">Ziel</text>
+  <text class="sm" x="73" y="7">Pro-Ziel</text>
+  <text class="sm" x="68" y="20">nur Profis:</text>
+  <text class="sm" x="68" y="23.5">PID über</text>
+  <text class="sm" x="68" y="27">die Lücke</text>
   <text class="sm" x="72" y="160">Tempo 1 ab ③</text>
   <text class="sm" x="72" y="163.5">bis ins Ziel</text>
 </svg>
@@ -82,16 +82,14 @@
   <tr><td>2</td><td>Stummel (Kiste)</td><td>Abzweig rechts + geradeaus</td><td>geradeaus vorbei</td></tr>
   <tr><td>3</td><td>Tempo-Schild</td><td>Kreuzung (+)</td><td><code>At Crossroads Straight</code> + <code>Speed 1</code></td></tr>
   <tr><td>4</td><td>Ziel</td><td>T</td><td><code>T-junction Stop</code> + Siegesmelodie</td></tr>
-  <tr><td colspan="4"><b>Profis:</b> an 4 per Laser prüfen → PID ≈ 15 cm geradeaus über die Lücke → Linie an (Regeln neu setzen!) → Kiste am Pro-Ziel stoppt per Laser</td></tr>
+  <tr><td colspan="4"><b>Profis:</b> an 4 per Laser prüfen → PID ≈ 20 cm geradeaus (über die Oberkante des Bogens hinweg) über die Lücke → Linie an (Regeln neu setzen!) → Kiste am Pro-Ziel stoppt per Laser</td></tr>
   <tr><td colspan="4"><b>Falsch an K1</b> (<code>Straight</code>) → Sackgasse oben, Kiste stoppt ihn. <b>Nicht umgestellt</b> → biegt in den Stummel, Kiste stoppt ihn.</td></tr>
 </table>
 
 <div class="warn">
-<b>Zum Prüfen am Aufbau:</b><br>
-• Dein Programm nutzt Kreuzung 4 für das T, ohne Tempo-Schild. Dann wird irgendwo schon eine Stelle gezählt, die hier nicht vorkommt (vielleicht eine Ecke oder die Stoßstelle im Band an der zweiten Geraden). Mit dem Tempo-Schild wäre das T dann Nr. 5.<br>
-• Ziel-T und die Oberkante des Bogens liegen nur etwa 5–7 cm auseinander. Sieht er beide?<br>
-• Das Tempo-Schild hat links und rechts nur etwa 6 cm Platz. Reicht das, damit er es als Kreuzung erkennt?<br>
-• Die Kiste am Stummel darf nicht im Laserbild auftauchen, wenn er am Stummel geradeaus vorbeifährt.
+<b>Bauregeln:</b> Keine Kiste und kein Bandende näher als 10 cm neben einer befahrenen Linie.
+Der T-Balken hat mindestens 8 cm Luft zur linken Bogenseite.<br>
+<b>Beim Aufbau prüfen:</b> Zählfahrt mit <code>zeige Zahl (Kreuzungen gezählt)</code>. Das T liegt nur ≈ 7 cm unter der Oberkante des Bogens; in Martins Tests hielt er dort sauber.
 </div>
 </div>
 </div>

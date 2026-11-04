@@ -55,7 +55,8 @@ nur gestoppt, um zu vergleichen. Es gibt keine Rangliste und keine Pokale.
   - die Prüfung in `build.py`: Stationsminuten = 105, Gesamtzeit = 105 + Puffer = 120
   - der Zeitplan im Handbuch: neue Zeiten ab Station 6, Überschrift „90-Minuten-Slot“
     und eine eigene Zeile „Puffer, 15 Min“
-  - die CLAUDE.md (Titel „90-Minuten“, Regel 5, Stationstabelle, Timer-Erwähnungen)
+  - die CLAUDE.md (Titel „90-Minuten“, Regel 5, Stationstabelle, Timer-Erwähnungen),
+    der Kommentar „stellt wieder 90:00“ in `app.js`, `docs/02-offline-und-trockenlauf.md`
     und jede weitere Stelle mit „90 Minuten“
 - **Station 5 (Reflexe) wird Pflicht** (Martin, 04.11.2026). Bisher war sie „Bonus,
   streichbar“. Station 6 setzt den Laser voraus. Anzupassen: CLAUDE.md
@@ -82,13 +83,17 @@ Ungefähre Lage (x von links, y von oben, cm):
 |---|---|---|
 | Start | (10, 186), fährt nach oben | lange Startgerade am linken Rand |
 | Sackgasse oben | Startlinie läuft bis y ≈ 10 weiter, **Kiste** am Ende | wer an K1 geradeaus fährt |
-| ① K1 | (10, 40) | Abzweig nach rechts → zweite Gerade x ≈ 27 nach unten. So tief, dass die Kiste der Sackgasse ≈ 30 cm entfernt ist und der Laser (< 200 mm) an K1 nicht auslöst (Martin, 04.11.2026) |
-| ② Stummel | (27, 75), kurze Linie nach links, **Kiste** am Ende | Falle, ≈ 35 cm unter K1 |
-| Unterer Bogen | y ≈ 147, x 27 → 44, dann x ≈ 44 hoch | |
-| ③ Tempo-Schild | Querstrich über x ≈ 44 bei y ≈ 64, beidseitig ≈ 6 cm, Papierschild „1“ daneben | ab hier Tempo 1 bis ins Ziel |
-| Oberkante + Bauch | y ≈ 44 nach rechts, großer Bogen rechts herum bis y ≈ 147, zurück nach x ≈ 56 | die „Kurve“ |
-| ④ Ziel-T | Stiel x ≈ 56 hoch bis y ≈ 51, Querbalken x 48–64 | normales Ziel |
-| Pro-Ziel | Lücke ≈ 12 cm über dem T, dann Strich x ≈ 56 bis y ≈ 12, **Kiste** am Ende | nur Profis |
+| ① K1 | (10, 40) | Abzweig nach rechts → zweite Gerade x ≈ 36 nach unten. So tief, dass die Kiste der Sackgasse ≈ 30 cm entfernt ist und der Laser (< 200 mm) an K1 nicht auslöst (Martin, 04.11.2026) |
+| ② Stummel | (36, 75), 10 cm Linie nach links, **Kiste** bei x 20–26 | Falle, ≈ 35 cm unter K1; Kiste ≥ 10 cm neben der Startgeraden |
+| Unterer Bogen | y ≈ 147, x 36 → 52, dann x ≈ 52 hoch | |
+| ③ Tempo-Schild | Querstrich über x ≈ 52 bei y ≈ 64, x 46–58, Papierschild „1“ daneben | ab hier Tempo 1 bis ins Ziel |
+| Oberkante + Bauch | y ≈ 44 von x 52 bis 72, großer Bogen rechts herum bis y ≈ 147, zurück nach x ≈ 66 | die „Kurve“ |
+| ④ Ziel-T | Stiel x ≈ 66 hoch bis y ≈ 51, Querbalken x 60–72 (≥ 8 cm Luft zu x = 52) | normales Ziel |
+| Pro-Ziel | Strich x ≈ 66 von y ≈ 34 bis 12, **Kiste** am Ende. Der PID-Sprung (≈ 20 cm) führt über die Oberkante y = 44 hinweg; die Linie beginnt ≥ 10 cm darüber | nur Profis |
+
+**Bauregeln** (Review 05.11.2026): Keine Kiste und kein Bandende näher als 10 cm
+neben einer befahrenen Linie. Sonst streift der Roboter (≈ 11 cm breit, äußere
+Sensoren ≈ 4 cm neben der Mitte) die Kiste oder zählt ein Bandende als Abzweig.
 
 **Sackgassen sind Linien, die an einer Kiste enden.** Es sind keine T-Kreuzungen
 mehr (Martin, 04.11.2026). Der Roboter hält per Laser davor. Das einzige T auf der
@@ -114,22 +119,43 @@ Was bei Fehlern passiert:
 
 ## Aufgaben in Station 6
 
-**Pflicht für alle** (Reihenfolge so auch auf der Seite):
-1. **Startampel:** `wenn Knopf A geklickt` → RGB rot, gelb, grün, dann
-   Linienverfolgung an.
-2. **Kreuzungen planen und einstellen** nach Skizze, aus Sicht des Roboters.
-3. **An K1 umstellen** mit `wenn Kreuzung Nummer 1 erreicht` (Bibliothek).
-4. **Tempo-Zone:** Ab Kreuzung 3 mit Tempo 1 fahren.
-5. **Am Hindernis anhalten:** `wenn Entfernung < 200 → Line patrolling OFF`.
-   Nur anhalten, nicht weiterfahren.
-6. **Siegesmelodie** am Ziel (Kreuzung 4).
+**Wo die Regeln stehen:** Die vier Kreuzungsregeln, `Line Following Settings Speed`
+und `setze Kreuzungszähler zurück` stehen in `wenn Knopf A geklickt`, **vor**
+`Line patrolling ON`, nicht in `beim Start`. Jeder Druck auf A ist ein sauberer
+Neustart, auch nach einem Fehlversuch, bei dem der Laser `OFF` geschaltet hat.
+In `beim Start` stehen nur `initialisiere Maqueen Plus V2` und die
+Laser-Initialisierung.
+
+**Schritt 0:** Den `dauerhaft`-Block mit dem Rot-Blau-Blinken aus Station 4
+löschen. Sonst überschreibt er die Ampel und bremst die Laserabfrage aus.
+
+**Pflicht für alle**, in dieser Reihenfolge auf der Seite, damit der erste Lauf
+früh kommt (Ziel: Minute 10–12):
+1. **Kreuzungen planen und einstellen** nach Skizze, aus Sicht des Roboters, in
+   Knopf A (siehe oben). Alle vier Regeln setzen, auch die, die auf dem Normalweg
+   nicht vorkommen: Kreuzung `Straight`, Abzweig links `Straight`, Abzweig rechts
+   `Right`, T `Stop`.
+2. **An K1 umstellen** mit `wenn Kreuzung Nummer 1 erreicht` (Bibliothek).
+3. **Siegesmelodie** am Ziel (Kreuzung 4). → **Erster Lauf.**
+4. **Tempo-Zone:** Ab Kreuzung 3 mit Tempo 1 fahren und zur Kontrolle `zeige Zahl 1`.
+   Der Betreuer sieht am Schild, ob die Zone geschaltet hat. Keine „1“ = geblitzt,
+   +3 s.
+5. **Startampel:** In Knopf A vor `ON`: RGB rot, gelb, grün.
+6. **Am Hindernis anhalten:** Laser-Initialisierung in `beim Start`, in `dauerhaft`
+   Daten holen und `wenn Entfernung < 200 → Line patrolling OFF`. Nur anhalten,
+   nicht weiterfahren. Auf dem richtigen Weg wird er nie gebraucht, deshalb steht
+   er zuletzt.
 7. **Langsam starten:** `Line Following Settings Speed` zuerst 1 oder 2, höher
    erst, wenn der Lauf sauber geklappt hat. 5 nur, wenn alles funktioniert.
 
+**Minute-15-Regel** (Handbuch): Wer bis dahin keinen ersten Lauf hatte, bekommt
+vom Betreuer Hilfe mit der Musterlösung für die Schritte 1–3.
+
 **Profi (schnelle Teams):**
-- **Pro-Ziel:** Am T (Kreuzung 4) per Laser prüfen, dass der Weg frei ist, dann
-  `Line patrolling OFF`, mit `PID Distance Control` etwa 15–20 cm geradeaus über
-  die Lücke, Linienverfolgung wieder an, bis zur Kiste am Pro-Ziel.
+- **Pro-Ziel:** Am T (Kreuzung 4) kurz warten (≈ 500 ms, bis er steht), per Laser
+  prüfen, dass der Weg frei ist, dann `Line patrolling OFF`, mit
+  `PID Distance Control` ≈ 20 cm geradeaus über die Lücke, Linienverfolgung wieder
+  an, bis zur Kiste am Pro-Ziel.
 - **Blinker:** vor dem Abbiegen leuchtet das passende Licht.
 
 ### Der Reset-Fallstrick (bewusst)
@@ -158,12 +184,18 @@ Eine `custom.ts` im MakeCode-Projekt, eigene Kategorie. Nur Kreuzungszählen,
 - `Kreuzungen gezählt` (Zahl)
 - `setze Kreuzungszähler zurück`
 
+`beiKreuzung` trägt `//% afterOnStart=true`. Sonst startet die Zählschleife vor
+`initialisiere Maqueen Plus V2` und zählt während des Resets der Platine womöglich
+einen Phantom-Treffer.
+
 Technik: Hintergrundschleife fragt alle 20 ms `maqueenPlusV2.intersectionDetecting()`
 ab. Gezählt wird der Wechsel 0 → ≠0, mit 300 ms Sperrzeit. Prototyp: `microbit/bibliothek/custom.ts`, von Martin am Gerät erfolgreich
 genutzt (04.11.2026).
 
-Farbe `#E07A00` (orange). Das war meine Wahl und ist nicht abgestimmt. Bleibt sie,
-kommt sie in Regel 3 der CLAUDE.md und bekommt eine `.b-…`-Klasse in `styles.css`.
+Farbe `#E07A00` (orange). In MakeCode kollidiert sie mit keiner Kategorie
+(Variablen sind dort `#DC143C`). In `styles.css` steht aber `.b-var{#E07000}`.
+Ist die Klasse unbenutzt, wird sie gelöscht, sonst ist die neue Klasse `.b-gp`
+nicht unterscheidbar. Die Farbe kommt in Regel 3 der CLAUDE.md.
 
 **In die Vorlage:** `vorlage.py` nimmt die `custom.ts` in `files` und `pxt.json`
 auf. Damit hat jedes Projekt ab Station 3 die Kategorie, auch das Projekt „Linie“
@@ -177,6 +209,8 @@ Kategorie schon vorher zu sehen ist, macht nichts; sie wird vor Station 6 nicht 
   Zählstellen nummeriert mit **Typ aus Sicht des Roboters**, der Pflicht-Teil als
   Schritte mit `.mcb`-Blöcken, der Profi-Teil abgesetzt, die Laufregeln (Start auf
   Stufe 1–2, Blitzer +3 s, Kiste = Lauf vorbei, alle bekommen Gummibärchen).
+- Kein Emoji auf der Seite (Raspberry Pi OS zeigt oft Kästchen). Flagge und
+  Kisten als Inline-SVG.
 - Auf der Skizze sind Ziel und Pro-Ziel klar als **Ziel** beschriftet, nicht als
   Buchstaben, damit sie niemand für Kreuzungen hält.
 - **A4-Blatt zum Drucken**, Maßstab 1:10 (Matte 100 × 200 mm, passt hochkant auf
@@ -189,9 +223,14 @@ Kategorie schon vorher zu sehen ist, macht nichts; sie wird vor Station 6 nicht 
 ## Material
 
 Matte 100 × 200 cm; eine Rolle Isolierband 19 mm; drei Kisten als Hindernisse
-(Sackgasse oben, Stummel, Pro-Ziel); Papierschild „1“; Gummibärchen.
+(Sackgasse oben, Stummel, Pro-Ziel), schwer genug oder festgeklebt, damit ein
+anfahrender Roboter sie nicht verschiebt; Papierschild „1“; Gummibärchen.
 
 ## Offen für den Trockenlauf
+
+0. **Zählfahrt** beim Aufbau: Ein Programm mit `dauerhaft → zeige Zahl (Kreuzungen
+   gezählt)` fährt die Strecke einmal ab. Die Nummern müssen 1–4 ergeben. Das kommt
+   als fester Aufbauschritt ins Handbuch.
 
 1. Wird jede Zählstelle genau einmal gezählt? Gilt das auch für den Querstrich mit
    nur ≈ 6 cm Armen und für das T direkt unter der Oberkante des Bogens (5–7 cm
@@ -206,6 +245,13 @@ Matte 100 × 200 cm; eine Rolle Isolierband 19 mm; drei Kisten als Hindernisse
 6. Mit Stufe 1 hielt der Roboter einmal nicht sauber am T. Vermutlich lag es am
    Reset-Fallstrick, nicht am Tempo. Nachprüfen.
 7. Zeiten auf Stufe 1–5 messen, damit die Höchststufe auf der Seite stimmt.
+8. Wie lange bleibt Register 61 an einer Kreuzung ≠ 0, und wie lange blockiert
+   eine Laser-Abfrage? Ist die Abfrage länger, verpasst die Zählschleife Treffer,
+   und das `dauerhaft` braucht eine Pause.
+9. Hält der Akku 120 Minuten plus Aufbau? (`docs/02-offline-und-trockenlauf.md`,
+   Block G, geht noch von 90 Minuten aus.)
+10. Freiraum um die Matte: Der Laser sieht auch Füße und Taschen. Im Handbuch
+    30 cm frei halten, Zuschauer nicht an die Kanten.
 
 ## Was der Umsetzende entscheidet
 

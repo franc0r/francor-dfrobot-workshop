@@ -41,6 +41,7 @@ namespace grandPrix {
      * Gezählt wird ab dem Start (oder ab "setze Kreuzungszähler zurück").
      */
     //% blockId=grandprix_bei_kreuzung
+    //% afterOnStart=true
     //% block="wenn Kreuzung Nummer $nr erreicht"
     //% nr.min=1 nr.defl=1
     //% weight=100
