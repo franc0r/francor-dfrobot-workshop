@@ -305,6 +305,7 @@ kbd{
 }
 .fix td{padding:9px 12px 9px 0; border-bottom:1px solid var(--line-soft); vertical-align:top}
 .fix td:first-child{font-weight:600; width:40%}
+.fix.gpsol td:first-child{width:auto}
 .tablewrap{overflow-x:auto}
 
 /* Maqueen-Figuren (Übersicht in Station 0, Einsetzen in Station 3) */
@@ -1700,11 +1701,13 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </ul>
       <h3 style="margin-top:16px">Für den Stand insgesamt</h3>
       <ul>
-        <li>Parcours: schwarzes Isolierband, 19 mm breit, auf hellem, mattem Untergrund</li>
-        <li>Kurvenradius mindestens 15 cm – keine spitzen Ecken, daran scheitern Linienfolger</li>
+        <li>Grand-Prix-Strecke: weiße, matte Matte 100&nbsp;×&nbsp;200&nbsp;cm und eine Rolle schwarzes Isolierband, 19&nbsp;mm breit. Kurven aus kurzen schrägen Stücken kleben, keine spitzen Ecken – das fährt der Linienfolger sicher</li>
+        <li>Drei Kisten als Hindernisse (Sackgasse oben, Stummel, Pro-Ziel), schwer genug oder festgeklebt, damit ein anfahrender Roboter sie nicht verschiebt</li>
+        <li>Ein Papierschild &bdquo;1&ldquo; für die Tempo-Zone</li>
+        <li>Gummibärchen – für <b>alle</b> Teams, nicht nur die schnellen</li>
         <li>Reserve: 2 geladene Ersatzakkus, 1 Ersatz-micro:bit, 2 Ersatzkabel</li>
         <li>Stoppuhr oder Handy fürs Rennen</li>
-        <li>Flipchart oder Plakat als <b>Bestenliste</b> für Rundenzeiten &ndash; die Seite selbst führt keine, jeder Arbeitsplatz läuft für sich</li>
+        <li>Ausdruck <kbd>tools/grand-prix-druck.html</kbd>: Seite 1 als Teamskizze für jeden Tisch, Seite 2 als Klebeplan für den Aufbau. Eine Rangliste gibt es nicht – die Zeit ist nur zum Vergleichen</li>
       </ul>
     </section>
 
@@ -1717,8 +1720,53 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <li><b>Offline-Vorbereitung durchziehen</b> (eigener Abschnitt unten) und den kompletten Ablauf einmal mit ausgeschaltetem WLAN durchspielen – nicht auf Messe-WLAN verlassen</li>
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
-        <li>Parcours aufkleben und mit einem Roboter komplett abfahren</li>
+        <li>Grand-Prix-Strecke aufkleben und die <b>Zählfahrt</b> machen (Abschnitt &bdquo;Grand Prix aufbauen und betreuen&ldquo;)</li>
       </ul>
+    </section>
+
+    <section>
+      <h3>Grand Prix aufbauen und betreuen</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Station 6 dauert 30 Minuten. Die Teams lesen die Skizze, stellen die Kreuzungsregeln ein und fahren auf Zeit. Es ist <b>kein Wettbewerb</b>: Am Ziel gibt es Gummibärchen für alle, die Zeit stoppt ihr nur zum Vergleichen.</p>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Aufbau</h3>
+      <ul class="check">
+        <li>Strecke nach dem Klebeplan kleben: <kbd>tools/grand-prix-druck.html</kbd>, Seite 2 (Maßstab 1:10, mit cm-Angaben). Matte hochkant, Start unten links</li>
+        <li><b>Bauregel:</b> keine Kiste und kein Bandende näher als 10&nbsp;cm neben einer befahrenen Linie. Sonst streift der Roboter (≈&nbsp;11&nbsp;cm breit, äußere Sensoren ≈&nbsp;4&nbsp;cm neben der Mitte) die Kiste oder zählt ein Bandende als Abzweig</li>
+        <li>Die drei Kisten (Sackgasse oben, Stummel, Pro-Ziel) schwer machen oder festkleben</li>
+        <li>Das Papierschild &bdquo;1&ldquo; neben den Querstrich der Tempo-Zone legen (Nummer 3)</li>
+        <li>Rund um die Matte 30&nbsp;cm frei halten. Der Laser sieht auch Füße und Taschen – Zuschauer nicht an die Kanten lassen</li>
+      </ul>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Zählfahrt beim Aufbau</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Fester Aufbauschritt, nach jedem Neukleben. Ein Programm mit <em>dauerhaft</em> &rarr; <em>zeige Zahl (Kreuzungen gezählt)</em> auf einen Roboter laden und die Strecke den Normalweg entlang einmal abfahren lassen (Regeln wie in der Lösung unten). Die Anzeige muss an den Stellen der Skizze nacheinander <b>1, 2, 3, 4</b> zeigen. Zählt er eine Stelle doppelt oder gar nicht, stimmt meist ein Abstand nicht – mit der Bauregel oben vergleichen.</p>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Lösung: die Zählfolge</h3>
+      <div class="tablewrap">
+        <table class="fix gpsol">
+          <tr><th>Nr.</th><th>Stelle</th><th>Typ aus Sicht des Roboters</th><th>Regel</th></tr>
+          <tr><td>1</td><td>Abzweig von der Startgeraden</td><td>Abzweig rechts + geradeaus</td><td><em>At Right Turn and Straight Intersection</em> <b>Right</b> in Knopf A; in <em>wenn Kreuzung Nummer 1 erreicht</em> auf <b>Straight</b> umstellen</td></tr>
+          <tr><td>2</td><td>Stummel mit Kiste</td><td>Abzweig rechts + geradeaus</td><td>steht schon auf <b>Straight</b> &rarr; geradeaus vorbei</td></tr>
+          <tr><td>3</td><td>Tempo-Schild (Querstrich)</td><td>Kreuzung (+)</td><td><em>At Crossroads</em> <b>Straight</b>; in <em>wenn Kreuzung Nummer 3 erreicht</em>: <em>Line Following Settings Speed</em> <b>1</b> und <em>zeige Zahl 1</em></td></tr>
+          <tr><td>4</td><td>Ziel</td><td>T</td><td><em>At T-junction</em> <b>Stop</b>; in <em>wenn Kreuzung Nummer 4 erreicht</em> die Siegesmelodie</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><em>At Left Turn and Straight Intersection</em> steht auf <b>Straight</b>, kommt auf dem Normalweg aber nicht vor. Die Regeln gehören in <kbd>wenn Knopf A geklickt</kbd> vor <em>Line patrolling ON</em>, nicht in <em>beim Start</em> – so startet jeder Druck auf A sauber. Die Musterlösung liegt in <kbd>microbit/stations/06-grand-prix/</kbd>. Typische Fehler: An 1 <b>Straight</b> &rarr; Sackgasse, Kiste. Nicht umgestellt &rarr; biegt in den Stummel, Kiste. Kreuzung auf <b>Stop</b> &rarr; bleibt am Schild stehen. Falsche Nummer im Ereignis &rarr; keine Melodie oder kein Tempowechsel.</p>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Laufregeln</h3>
+      <ul>
+        <li>Gestartet wird mit <b>Knopf A</b>. Zuerst Speed 1 oder 2, schneller erst nach einem sauberen Lauf</li>
+        <li>Erreicht der Roboter eine <b>Kiste</b>, ist der Lauf vorbei: Das Team trägt ihn zurück an den Start, neuer Versuch, die Zeit läuft neu</li>
+        <li><b>Blitzer:</b> Steht in der Tempo-Zone (vom Schild bis ins Ziel) keine &bdquo;1&ldquo; auf dem Display, ist das Team geblitzt: plus 3&nbsp;s</li>
+        <li>Die Zeit ist nur zum Vergleichen. Gummibärchen bekommen <b>alle</b></li>
+      </ul>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Minute-15-Regel</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Uhr etwa 1:30) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/06-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
+
+      <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Der Reset-Fallstrick (gewollt)</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)"><em>Line patrolling OFF</em> löscht in der Firmware alle Kreuzungsregeln. Nach <em>ON</em> gelten wieder die Standardregeln. Wer im Profi-Teil nach dem Sprung über die Lücke nur <em>ON</em> schaltet, hat seine Regeln verloren. <b>Woran ihr es erkennt:</b> Der Roboter ignoriert nach einem Halt seine Regeln. <b>Die Frage, die weiterhilft:</b> &bdquo;Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?&ldquo;</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Das ist <b>gewollt</b> – nicht wegerklären und nicht vorsagen. Die Teams sollen hineinlaufen und es selbst lösen: die Regeln vor jedem <em>ON</em> neu setzen, am besten in einer Funktion. Die Grand-Prix-Blöcke nehmen ihnen das absichtlich nicht ab.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Zweite Stufe:</b> Setzt die Funktion fest <b>Right</b> für den Abzweig, schnappt die Falle nach einem Halt zwischen 1 und dem Stummel wieder zu – der Roboter biegt in den Stummel. Richtig ist die Regel abhängig von <em>Kreuzungen gezählt</em>, so macht es die Musterlösung.</p>
     </section>
 
     <section>
@@ -1732,7 +1780,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
       <ul class="check">
         <li>Diese Seite öffnen, in Station 3 auf <b>Neues Roboter-Projekt starten</b> klicken. Die Vorlage steckt im Link selbst (<kbd>microbit/vorlage/vorlage.mkcd</kbd>): Erweiterung <b>DFRobot_MaqueenPlus_V2</b>, die <b>Matrix LiDAR Entfernung</b> kommt als Abhängigkeit mit, in <em>beim Start</em> nur <em>initialisiere Maqueen Plus V2</em>. Beim ersten Öffnen lädt MakeCode die Erweiterungen in den Cache – danach öffnet der Knopf die Vorlage auch ohne Netz</li>
-        <li>Prüfen: links stehen die Kategorien <b>Maqueen Plus V2</b> und <b>Matrix LiDAR Entfernung</b>. Fehlen sie, war der Platz beim Klick offline</li>
+        <li>Prüfen: links stehen die Kategorien <b>Maqueen Plus V2</b>, <b>Matrix LiDAR Entfernung</b> und <b>Grand Prix</b>. Fehlen sie, war der Platz beim Klick offline</li>
         <li>Rückfallweg ohne Knopf: <kbd>vorlage.mkcd</kbd> per USB-Stick auf den Platz kopieren und in MakeCode <b>importieren</b></li>
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>

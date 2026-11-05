@@ -144,6 +144,9 @@ function check(cond, msg) {
   await page.click('#coachbtn');
   await page.waitForTimeout(350);
   check(await page.$eval('#coach', e => e.classList.contains('open')), 'Betreuer-Handbuch öffnet');
+  const hb = await page.$eval('#coach', e => e.textContent);
+  const hbn = hb.replace(/ /g, ' ');
+  check(['Zählfahrt', 'Minute 15', 'geblitzt', '10 cm', '30 cm'].every(w => hbn.includes(w)), 'Handbuch: Abschnitt Grand Prix vollständig');
   await page.keyboard.press('Escape');
 
   // Reset

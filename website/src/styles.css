@@ -292,6 +292,7 @@ kbd{
 }
 .fix td{padding:9px 12px 9px 0; border-bottom:1px solid var(--line-soft); vertical-align:top}
 .fix td:first-child{font-weight:600; width:40%}
+.fix.gpsol td:first-child{width:auto}
 .tablewrap{overflow-x:auto}
 
 /* Maqueen-Figuren (Übersicht in Station 0, Einsetzen in Station 3) */
