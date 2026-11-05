@@ -72,6 +72,16 @@ Ergebnisse, die in `src/` zurückfließen müssen:
 Aus dem Entwurf (`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.md`,
 „Offen für den Trockenlauf“). Strecke nach `tools/grand-prix-druck.html`, Seite 2, kleben.
 
+**Ergebnisse an Martins Strecke, 05.11.2026** (vor dem Workshop am 06.11.2026):
+
+- **0, 2, 3:** bestätigt. Die Zählfahrt zeigt 1, 2, 3, 4; `Straight` aus Kreuzung 1 wirkt
+  ab der nächsten Kreuzung; `Line Following Settings Speed` wirkt sofort.
+- **1:** bestätigt. Zählt eine Stelle nicht sauber, die Stelle auf der Matte etwas verschieben.
+- **4:** Der Laser **sieht** die Stummel-Kiste beim Vorbeifahren. Martin baut deshalb ohne
+  Kisten: Eine Barriere rund um die ganze Matte ersetzt sie, der Laser-Stopp hält an der Wand.
+- **5:** offen. Für die Profi-Musterlösung egal (Pro-Ziel über den Laser, nicht über eine Nummer).
+- **13:** Er bremst nach dem Sprung nicht zu früh. Er hält an der Wand, nicht an einer Kiste.
+
 0. **Zählfahrt:** Ein Programm mit `dauerhaft → zeige Zahl (Kreuzungen gezählt)` fährt die
    Strecke einmal den Normalweg ab. Die Anzeige muss nacheinander 1, 2, 3, 4 zeigen. (Steht
    als fester Aufbauschritt im Handbuch.)
