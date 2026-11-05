@@ -89,6 +89,8 @@ tools/                Werkzeuge für Stand und Arbeitsplätze
                       grand-prix-druck-test.cjs prüft Maßstab und Nummern (`npm run check`)
   messe-bildschirm.html  Endlos-Präsentation für Laufkundschaft am Stand (4 Szenen, offline,
                       Logo eingebettet); wird nicht gebaut. Termine oben in CONFIG eintragen
+  qr-handzettel.html  A4-Blatt, 8 Kärtchen mit QR-Code auf die Pages-Seite (Logo eingebettet,
+                      QR mit segno erzeugt); wird nicht gebaut, PDF nicht einchecken
   pi/                 udev-Regel, Flash-Skript für den Raspberry Pi
 docs/                 Konzept, Offline-Recherche, Review-Notizen
 ```
