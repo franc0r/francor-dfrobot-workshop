@@ -40,16 +40,18 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    in MakeCode (am Gerät abgelesen 02.11.2026): Grundlagen `#1E90FF`, Eingabe `#D400D4`,
    Musik `#E63022`, Schleifen `#00AA00`, Logik `#00A4A6`, Mathematik `#9400D3`,
    Maqueen `#0FBC11` (hellgrün), Matrix LiDAR `#5B3FE8`, Grand Prix `#3C3C3C` (Graphit;
-   unsere eigene Bibliothek aus `microbit/bibliothek/`, in den Stationen `.b-gp`; Martin,
-   05.11.2026). Die Rollenfarben in Station 0 (`.r-*`) folgen denselben Werten.
+   unsere eigene Bibliothek aus `microbit/bibliothek/`, in den Stationen `.b-gp`; Entwurf
+   05.11.2026, von Martin noch zu bestätigen). Die Rollenfarben in Station 0 (`.r-*`)
+   folgen denselben Werten.
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
    Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
    nicht in die Stationen.
 5. **120 Minuten = 105 Stationsminuten + 15 Puffer** (Martin, 03./04.11.2026). Eyebrow-Minuten
    der Stationen, das `STATIONS`-Array in `website/src/app.js` und der Zeitplan im Handbuch
    müssen übereinstimmen. Der Puffer hat keine eigene Station; er steht als letzte Zeile im
-   Zeitplan (1:45–2:00). `build.py` prüft die ersten beiden und dass die Stationen zusammen
-   genau 105 Minuten ergeben (`STATIONSMINUTEN`, `PUFFER`).
+   Zeitplan (1:45–2:00; Entwurf 05.11.2026, von Martin noch zu bestätigen). `build.py` prüft
+   die ersten beiden und dass die Stationen zusammen genau 105 Minuten ergeben
+   (`STATIONSMINUTEN`, `PUFFER`).
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
    `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
    8×8-Laserscanners (Station 5). Beim Ändern von Blocktexten immer alle Stationen und das
@@ -128,13 +130,14 @@ Vorlage statt eigenem Erweiterung-Laden, Station 6 auf drei Tuning-Ideen reduzie
 baut Station 1 jetzt explizit eine dauerhaft-Schleife neben beim Start, damit jedes Team das
 im Pflichtteil einmal selbst sieht (vorher nur im überspringbaren Bonus in Station 5 erklärt).
 
-Grand Prix vom 03.–05.11.2026 (Martin; Entwurf in
+Grand Prix vom 03.–05.11.2026 (Sitzung mit Martin; Entwurf in
 `docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.md`): Station 6 dauert 30 statt
 15 Minuten, der Workshop 120 statt 90 (Martin, 03./04.11.2026). Station 5 ist Pflicht statt
 Bonus (Martin, 04.11.2026); nur die Staubsauger-Challenge darin bleibt Bonus. Die Teams lesen
 eine Skizze der Strecke, stellen die Kreuzungsregeln ein, schalten an Kreuzung 1 um, fahren ab
-dem Tempo-Schild langsam und hören am Ziel ihre Siegesmelodie. Kein Wettbewerb: Gummibärchen
-für alle, die Zeit nur zum Vergleichen. Die Zählnummern 1–4 gelten bis zum Trockenlauf; jede
+dem Tempo-Schild langsam und hören am Ziel ihre Siegesmelodie (Melodie als Pflicht: Entwurf
+05.11.2026, von Martin noch zu bestätigen). Kein Wettbewerb: Gummibärchen für alle, die Zeit
+nur zum Vergleichen. Die Zählnummern 1–4 gelten bis zum Trockenlauf; jede
 Stelle, die sie nennt, steht in `microbit/stations/06-grand-prix/README.md`.
 
 ## Verein und Logo
