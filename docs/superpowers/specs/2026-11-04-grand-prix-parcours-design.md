@@ -207,7 +207,7 @@ Kategorie schon vorher zu sehen ist, macht nichts; sie wird vor Station 6 nicht 
 
 - `06-grand-prix.html` wird neu geschrieben: Skizze der Strecke als Inline-SVG
   (wie die Maqueen-Figuren, mit festen Farben für Band und Matte). Dazu die
-  Zählstellen nummeriert mit **Typ aus Sicht des Roboters**, der Pflicht-Teil als
+  Zählstellen nummeriert, **ohne Typ**: Den Typ aus Sicht des Roboters finden die Teams selbst heraus (Martin, 05.11.2026), der Pflicht-Teil als
   Schritte mit `.mcb`-Blöcken, der Profi-Teil abgesetzt, die Laufregeln (Start auf
   Stufe 1–2, Blitzer +3 s, Kiste = Lauf vorbei, alle bekommen Gummibärchen).
 - Kein Emoji auf der Seite (Raspberry Pi OS zeigt oft Kästchen). Flagge und
@@ -276,5 +276,5 @@ Ampel-Pausen in der Musterlösung, Aufbau der Profi-Musterlösung.
   dem Trockenlauf, wie im README vorgesehen.
 - **A4-Blätter** sind eine eigene Datei `tools/grand-prix-druck.html`, die wie
   `tools/trockenlauf.html` nicht gebaut wird. Sie hat zwei Seiten: Teamskizze
-  (ohne Maße, mit Nummern und Typen) und Klebeplan (mit cm-Maßen, nur für
+  (ohne Maße, mit Nummern, Typen tragen die Teams in eine Tabelle ein) und Klebeplan (mit cm-Maßen, nur für
   Betreuende). Die Skizze in Station 6 ist dieselbe Zeichnung wie die Teamskizze.

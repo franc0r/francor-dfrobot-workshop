@@ -53,7 +53,7 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
 - Consumes: `microbit/bibliothek/custom.ts` (vorhanden; Namespace `grandPrix`, Blöcke `beiKreuzung(nr, aktion)`, `gezaehlt()`, `zuruecksetzen()`, Farbe `#3C3C3C`, `afterOnStart=true`).
 - Produces: `vorlage.mkcd` enthält die Datei `custom.ts`; `build.py` bricht ab, wenn nicht.
 
-- [ ] **Step 1: Prüfung in `build.py` schreiben.** Neue Funktion `check_vorlage(path: str) -> None`: Datei lesen, `lzma.decompress(data, format=lzma.FORMAT_ALONE)`, JSON laden, `json.loads(project["source"])` ergibt die Dateien. Abbruch per `SystemExit("Vorlage ohne Grand-Prix-Bibliothek (custom.ts) – python3 vorlage.py")`, wenn `custom.ts` fehlt, `namespace grandPrix` nicht darin steht oder `"custom.ts"` nicht in `pxt.json` → `files` steht. Aufruf in `makecode_links` vor dem Base64-Kodieren.
+- [ ] **Step 1: Prüfung in `build.py` schreiben.** `import json, lzma` ergänzen. Neue Funktion `check_vorlage(path: str) -> None`: Datei lesen, `lzma.decompress(data, format=lzma.FORMAT_ALONE)`, JSON laden, `json.loads(project["source"])` ergibt die Dateien. Abbruch per `SystemExit("Vorlage ohne Grand-Prix-Bibliothek (custom.ts) – python3 vorlage.py")`, wenn `custom.ts` fehlt, `namespace grandPrix` nicht darin steht oder `"custom.ts"` nicht in `pxt.json` → `files` steht. Aufruf in `makecode_links` vor dem Base64-Kodieren.
 - [ ] **Step 2: Prüfen, dass es scheitert.** Run: `cd website && python3 build.py` → Expected: Abbruch mit „Vorlage ohne Grand-Prix-Bibliothek“.
 - [ ] **Step 3: `vorlage.py` erweitern.** `custom.ts` aus `../bibliothek/custom.ts` (relativ zum Skript) lesen, in `files` aufnehmen und `"custom.ts"` in die `pxt.json`-Liste `files` hinter `main.ts` eintragen. Docstring um einen Satz ergänzen (Bibliothek „Grand Prix“ kommt aus `microbit/bibliothek/`). Danach `python3 microbit/vorlage/vorlage.py`.
 - [ ] **Step 4: Prüfen, dass es läuft.** Run: `cd website && python3 build.py && npm test` → Expected: Build ohne Fehler, alle Smoketest-Punkte `ok` (der Link-Test vergleicht mit der neuen `vorlage.mkcd`).
@@ -103,7 +103,7 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
 
 **Interfaces:**
 - Consumes: `.mcb`/`.mcstack`/`nestStack()` aus `app.js` (Einrückung `i1`/`i2` ist die Struktur), `.b-input`, `.b-basic`, `.b-mq`, `.b-music`, `.b-logic`, `.b-lidar`.
-- Produces: `#gpmap` (Inline-SVG der Strecke, `viewBox="-3 -3 106 206"`, 1 Einheit = 1 cm, Klassen `.gp-mat` für die Matte, `.gp-k` für die vier Nummernkreise), `.b-gp{background:#3C3C3C}`.
+- Produces: `#gpmap` (Inline-SVG der Strecke, `viewBox="-3 -3 106 206"`, 1 Einheit = 1 cm, Klassen `<rect class="gp-mat">` für die Matte, `<text class="gp-k">` für die vier Nummern; die Kreise dahinter tragen eine andere Klasse), `.b-gp{background:#3C3C3C}`.
 
 - [ ] **Step 1: Tests schreiben** (nach dem Station-3-Block in `smoke.cjs`, Station 6 vorher per `.stepbtn` öffnen):
   ```js
@@ -114,15 +114,15 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
   check(await page.$$eval('.station[data-st="6"] .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 6: Grand-Prix-Blöcke in Graphit');
   check(!/\p{Extended_Pictographic}/u.test(await page.$eval('.station[data-st="6"]', e => e.textContent)), 'Station 6: kein Emoji');
   ```
-  Dazu Dunkelmodus und Handybreite in einem zweiten Kontext: `browser.newContext({ colorScheme: 'dark', viewport: { width: 360, height: 800 } })`, Station 6 öffnen, dann
+  Dazu Dunkelmodus und Handybreite in einem zweiten Kontext: `browser.newContext({ offline: true, colorScheme: 'dark', viewport: { width: 360, height: 800 } })`, `goto` wie im ersten Kontext, kurz warten, Station 6 per `.stepbtn[data-go="6"]` öffnen, dann
   `check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill) === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß')` und
   `check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px')`.
 - [ ] **Step 2: Prüfen, dass sie scheitern** (Build + `npm test` → FAIL bei allen neuen Station-6-Punkten).
-- [ ] **Step 3: Skizze.** Geometrie aus `docs/superpowers/specs/2026-11-04-grand-prix-parcours-skizze.html` übernehmen (Pfade, Kisten, Tempo-Schild, Lücke, Nummern). Änderungen gegenüber der Vorlage: feste Hex-Farben für Matte (`#fff`) und Band (`#111`) wie bei den Maqueen-Figuren, Beschriftung über Tokens; kein Emoji (Zielflagge als kleines Schachbrett-SVG); Nummern als `<text class="gp-k">`; neben jeder Nummer klein der Typ aus Sicht des Roboters ist **nicht** in der Skizze (das ist die Aufgabe der Teams); Ziel und Pro-Ziel als Wörter. Die gelbe Tempo-Zone bleibt.
+- [ ] **Step 3: Skizze.** Geometrie aus `docs/superpowers/specs/2026-11-04-grand-prix-parcours-skizze.html` übernehmen (Pfade, Kisten, Tempo-Schild, Lücke, Nummern). Änderungen gegenüber der Vorlage: feste Hex-Farben für Matte (`#fff`) und Band (`#111`) wie bei den Maqueen-Figuren, Beschriftung über Tokens; kein Emoji (Zielflagge als kleines Schachbrett-SVG); Nummern als `<text class="gp-k">`; der Typ aus Sicht des Roboters steht **nicht** in der Skizze, das finden die Teams heraus (Martin, 05.11.2026); Ziel und Pro-Ziel als Wörter. Die gelbe Tempo-Zone bleibt.
 - [ ] **Step 4: Seiteninhalt.** Reihenfolge und Inhalt aus dem Spec, Abschnitt „Aufgaben in Station 6“:
   - Einleitung (`goal`): Strecke lesen, Roboter einstellen, ins Ziel. Alle bekommen Gummibärchen, die Zeit wird nur gestoppt.
   - Kasten „Weiter im Projekt Linie“ (bisherigen Kasten anpassen) mit **Schritt 0**: `dauerhaft`-Blinkblock aus Station 4 löschen.
-  - Block 01 „Strecke lesen“: Skizze + kurze Erklärung „Welche Kreuzung ist das für den Roboter? Er fährt – nicht ihr.“ (Rechts/links aus seiner Fahrtrichtung.)
+  - Block 01 „Strecke lesen“: Skizze + kurze Erklärung „Welche Kreuzung ist das für den Roboter? Er fährt – nicht ihr.“ (Rechts/links aus seiner Fahrtrichtung.) Dazu der Hinweis: „Für den Roboter sehen ① und ② gleich aus. Was muss nach ① anders sein?“
   - Block 02 „Euer Programm“: Schritte 1–3 als Stapel, Werte, die die Teams aus der Skizze finden sollen, als `???` (wie in Station 3):
     ```
     beim Start                                   (b-basic)
@@ -130,7 +130,7 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
     wenn Knopf A geklickt                        (b-input)
       i1 setze Kreuzungszähler zurück            (b-gp)
       i1 At Crossroads ???                       (b-mq)
-      i1 At Left Turn and Straight Intersection ???
+      i1 At Left Turn and Straight Intersection Straight
       i1 At Right Turn and Straight Intersection ???
       i1 At T-junction ???
       i1 Line Following Settings Speed 2
@@ -138,14 +138,14 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
     wenn Kreuzung Nummer 1 erreicht              (b-gp)
       i1 At Right Turn and Straight Intersection ???
     wenn Kreuzung Nummer ??? erreicht            (b-gp)
-      i1 starte Melodie Power-Up wiederhole einmal   (b-music, vorläufig)
+      i1 spiele Melodie Entertainer im Hintergrund   (b-music; Block „spiele [Melodie …] [im Hintergrund]“, Liste Dadadum/Entertainer/Präludium/Ode/Nyan/…, am Gerät abgelesen 05.11.2026)
     ```
-    Danach Testzeile „Erster Lauf!“.
-  - Block 03 „Ausbauen“: Tempo-Zone (`wenn Kreuzung Nummer ??? erreicht` → `Line Following Settings Speed 1`, `zeige Zahl 1`), Startampel (in Knopf A vor `Line patrolling ON`: `RGB Car Lights All color red`, `pausiere (ms) 1000`, `… yellow`, `pausiere (ms) 1000`, `… green`), Laser-Stopp mit dem Stapel aus Station 5 (`Laser-Entfernungsmesser … Hindernisvermeidung initialisieren` in `beim Start`; im `dauerhaft`: `Hindernisvermeidungsdaten abrufen`, `wenn Hindernisvermeidungsmodus Entfernungsmessung Vorne (mm) < 200 dann` → `i2 Line patrolling OFF`).
-  - Block 04 „Profi“: Pro-Ziel in Worten (am T warten, Laser prüfen, OFF, `PID Distance Control` ≈ 20 cm, wieder ON, Kiste) und Blinker. Ein `<details>`-Tipp „Er macht nach dem Sprung, was er will?“ → „Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?“ Keine fertige Lösung.
+    `At Left Turn and Straight Intersection` ist mit `Straight` vorgegeben: Diese Kreuzung kommt auf der Strecke nicht vor, der Block schützt nur vor Fehlmessungen (ein Satz dazu auf der Seite). Danach Testzeile „Erster Lauf!“.
+  - Block 03 „Ausbauen“: Tempo-Zone (`wenn Kreuzung Nummer ??? erreicht` → `Line Following Settings Speed 1`, `zeige Zahl 1`), Startampel (in Knopf A vor `Line patrolling ON`: `RGB Car Lights All color red`, `pausiere (ms) 1000`, `… yellow`, `pausiere (ms) 1000`, `… green`), Laser-Stopp in einem **neuen** `dauerhaft`-Block (der alte mit dem Blinken ist in Schritt 0 gelöscht worden, weil er die Laserabfrage bremst), Stapel wie in Station 5 (`Laser-Entfernungsmesser … Hindernisvermeidung initialisieren` in `beim Start`; im `dauerhaft`: `Hindernisvermeidungsdaten abrufen`, `wenn Hindernisvermeidungsmodus Entfernungsmessung Vorne (mm) < 200 dann` → `i2 Line patrolling OFF`).
+  - Block 04 „Profi“: Pro-Ziel in Worten (am T warten, Laser prüfen, OFF, `PID Distance Control CW distance 20 cm Allow interruption` – drei Felder: Richtung, Strecke, Unterbrechung –, wieder ON, Kiste) und Blinker. Ein `<details>`-Tipp „Er macht nach dem Sprung, was er will?“ → „Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?“ Keine fertige Lösung.
   - Block 05 „Das Rennen“: Start immer mit Knopf A auf Stufe 1–2, höher erst, wenn es klappt; Kiste erreicht = Lauf vorbei, Roboter zurück an den Start tragen, neuer Versuch; im Bogen keine „1“ auf dem Display = geblitzt, +3 s; alle bekommen Gummibärchen. Die alte Pokal-Zeile entfällt.
   - `note aha`, `trophy`, `stfoot` bleiben.
-- [ ] **Step 5: CSS.** `.b-gp{background:#3C3C3C}` zu den anderen `.b-*`; Skizzenklassen neben `.mqfig`. Die Skizze wird auf schmalen Bildschirmen höchstens so breit wie der Inhalt (`max-width:100%`), auf breiten etwa 360 px, damit Skizze und Text nebeneinander passen.
+- [ ] **Step 5: CSS.** `.b-gp{background:#3C3C3C}` zu den anderen `.b-*`; Skizzenklassen neben `.mqfig`. In `styles.css` Zeile ≈ 128 `@media (max-width:900px){ .shell{grid-template-columns:1fr} }` auf `minmax(0,1fr)` ändern: Die Rail weitet sonst auf allen Stationen die Seite auf (gemessen 422–869 px bei 360 px Breite). Das Dreieck der Testzeilen (`<b>&#9654; Testen:</b>` in allen Stationen) wandert nach CSS (`.testline b::before{content:"\25B6\00a0"}`) und wird aus allen Stationen entfernt, sonst schlägt der Emoji-Test an (▶ ist `Extended_Pictographic`). Die Skizze wird auf schmalen Bildschirmen höchstens so breit wie der Inhalt (`max-width:100%`), auf breiten etwa 360 px, damit Skizze und Text nebeneinander passen.
 - [ ] **Step 6: Prüfen** (`python3 build.py && npm test` → alle `ok`); dazu einmal `npm run serve` und Station 6 hell/dunkel ansehen.
 - [ ] **Step 7: Commit** `git commit -am "Station 6: Grand Prix mit Streckenskizze und Kreuzungsaufgaben"`
 
@@ -155,7 +155,7 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
 - Modify: `website/src/handbuch.html` (neuer `<section>` hinter „Am Vorabend“; Material-Abschnitt ergänzen)
 - Modify: `website/test/smoke.cjs`
 
-- [ ] **Step 1: Test.** Nach dem Öffnen des Handbuchs: `const hb = await page.$eval('#coach', e => e.textContent); check(['Zählfahrt', 'Minute 15', 'geblitzt', '10 cm', '30 cm'].every(w => hb.includes(w)), 'Handbuch: Abschnitt Grand Prix vollständig')`.
+- [ ] **Step 1: Test.** Nach dem Öffnen des Handbuchs: `const hb = await page.$eval('#coach', e => e.textContent); const hbn = hb.replace(/\u00a0/g, ' '); check(['Zählfahrt', 'Minute 15', 'geblitzt', '10 cm', '30 cm'].every(w => hbn.includes(w)), 'Handbuch: Abschnitt Grand Prix vollständig')`.
 - [ ] **Step 2: Prüfen, dass er scheitert.**
 - [ ] **Step 3: Abschnitt „Grand Prix aufbauen und betreuen“** mit diesen Punkten (Inhalt aus dem Spec):
   - Aufbau: Strecke nach Klebeplan (`tools/grand-prix-druck.html`, Seite 2), Bauregel „keine Kiste, kein Bandende näher als 10 cm neben einer befahrenen Linie“, drei Kisten schwer oder festgeklebt, Papierschild „1“, 30 cm Freiraum um die Matte, Zuschauer nicht an die Kanten.
@@ -165,6 +165,7 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
   - Reset-Fallstrick: woran man ihn erkennt, welche Frage weiterhilft, dass er gewollt ist; zweite Stufe (fest `Right` in der Funktion, Stummel schlägt nach einem Halt zu).
   - Lösungstabelle der Zählfolge (Nummer, Stelle, Typ aus Sicht des Roboters, Regel).
   - Material-Abschnitt: Matte 100 × 200 cm, Isolierband 19 mm, drei Kisten, Schild, Gummibärchen.
+  - Altlasten ersetzen: „Kurvenradius mindestens 15 cm – keine spitzen Ecken“ (Material), „Flipchart als Bestenliste“ (keine Rangliste mehr), „Parcours aufkleben und mit einem Roboter komplett abfahren“ (→ Zählfahrt). In „Ohne Internet arbeiten“ bei der Kategorien-Prüfung „Grand Prix“ ergänzen.
 - [ ] **Step 4: Prüfen** (Build + `npm test` → alle `ok`).
 - [ ] **Step 5: Commit** `git commit -am "Handbuch: Grand Prix aufbauen und betreuen"`
 
@@ -177,18 +178,20 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
 **Interfaces:**
 - Consumes: Geometrie aus `docs/superpowers/specs/2026-11-04-grand-prix-parcours-skizze.html` (dieselbe Zeichnung wie `#gpmap` in Task 4).
 
-- [ ] **Step 1: Test schreiben.** `tools/grand-prix-druck-test.cjs`: lädt die Datei mit `require('../website/node_modules/playwright')`, Netzwerk aus (`context.route('**', r => r.abort())` außer `file:`), prüft
+- [ ] **Step 1: Test schreiben.** `tools/grand-prix-druck-test.cjs`: lädt die Datei mit `require('../website/node_modules/playwright')`, Netzwerk aus wie in `smoke.cjs` (`browser.newContext({ offline: true })`), prüft
   - `document.querySelectorAll('.sheet').length === 2`
-  - die Matte `.sheet .mat` hat `getBoundingClientRect().width` ≈ `100 * 96 / 25.4` (±1 px) und Höhe ≈ `200 * 96 / 25.4`
+  - das Matten-Rechteck `rect.gp-mat` (im SVG) hat `getBoundingClientRect().width` ≈ `100 * 96 / 25.4` (±1 px) und Höhe ≈ `200 * 96 / 25.4`
   - `page.pdf({ format: 'A4' })` ergibt genau 2 Seiten (`(buf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length === 2`)
   - keine `http`-Verweise im Quelltext.
   Exit-Code 1 bei Fehler, Ausgabe wie `smoke.cjs` (`ok`/`FAIL`).
 - [ ] **Step 2: Prüfen, dass er scheitert.** Run: `node tools/grand-prix-druck-test.cjs` → FAIL (Datei fehlt).
 - [ ] **Step 3: Blatt bauen.** Eine HTML-Datei ohne externe Verweise, `@page { size: A4 portrait; margin: 10mm }`, zwei `.sheet`-Seiten mit `break-after: page`:
+  Das Blatt-SVG hat `viewBox="0 0 100 200"` und ist per CSS genau `100mm × 200mm` groß, ohne Rahmen (`border` gehört an ein umgebendes Element); Beschriftungen außerhalb der Matte stehen als HTML daneben.
   1. **Teamskizze:** Titel „Grand Prix – eure Strecke“, Matte 1:10 (100 × 200 mm via CSS-mm), Nummern 1–4, Start, Ziel, Pro-Ziel, Tempo-Zone; darunter eine leere Tabelle zum Ausfüllen: Nr. | Was ist das für den Roboter? | Was soll er tun?
   2. **Klebeplan (Betreuer):** dieselbe Zeichnung mit 10-cm-Gitter und cm-Maßen an jeder Linie, Kisten, Schild; Bauregeln; Zählfolge mit Lösung.
 - [ ] **Step 4: Prüfen.** `node tools/grand-prix-druck-test.cjs` → alle `ok`; einmal im Browser drucken (Vorschau) und Maßstab mit Lineal prüfen.
-- [ ] **Step 5: Commit** `git add tools && git commit -m "Druckblatt Grand Prix: Teamskizze und Klebeplan"`
+- [ ] **Step 5: In `npm run check` aufnehmen.** `website/package.json`: `"check": "python3 build.py && node test/smoke.cjs && node ../tools/grand-prix-druck-test.cjs"`.
+- [ ] **Step 6: Commit** `git add tools website/package.json && git commit -m "Druckblatt Grand Prix: Teamskizze und Klebeplan"`
 
 ### Task 7: Dokumentation
 
@@ -197,9 +200,10 @@ mit Skizze [2026-11-04-grand-prix-parcours-skizze.html](../specs/2026-11-04-gran
 - Modify: `microbit/stations/06-grand-prix/README.md`
 - Modify: `docs/02-offline-und-trockenlauf.md`
 - Modify: `docs/01-konzept.md` (nur wo „90 Minuten“ bzw. Station 6 beschrieben ist)
+- Modify: `README.md` (Repo-Wurzel, „90-Minuten“), `website/package.json` (`description`)
 
 - [ ] **Step 1: CLAUDE.md.** Titelzeile „120-Minuten-Robotik-Workshop“; Regel 3 um „Grand Prix `#3C3C3C`“ (Bibliothek, `.b-gp`) ergänzen; Regel 5 „120 Minuten = 105 Stationsminuten + 15 Puffer“, `build.py` prüft die Stationssumme 105; Aufbau-Baum um `microbit/bibliothek/` (Bibliothek Grand Prix, kommt über `vorlage.py` in die Vorlage) und `tools/grand-prix-druck.html` ergänzen; Stationstabelle: Station 5 ohne „Bonus, streichbar“, Station 6 mit 30 Min und Kern „Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Laser-Stopp, Lauf auf Zeit“; Abschnitt zur Linienverfolgung um die Fakten „`Line patrolling OFF` löscht die Kreuzungsregeln (Martin am Gerät, 03.11.2026)“ und „Kreuzungsblöcke `At Crossroads / T-junction / Left Turn and Straight / Right Turn and Straight Intersection` (Gruppe V3)“; Timer-Erwähnungen 120.
 - [ ] **Step 2: README Station 6.** Was die Musterlösung tut (normal und Profi, in Worten), Zählfolge, Hinweis: `.hex`/`bloecke.png` nach dem Trockenlauf. **Liste aller Stellen mit Zählnummern**: Station 6 (Skizze `#gpmap`, Block „Kreuzung Nummer 1“), Handbuch-Lösungstabelle, `tools/grand-prix-druck.html` (beide Seiten), diese README.
-- [ ] **Step 3: docs/02.** Block G: Akku über 120 Minuten plus Aufbau. Neuer Prüfpunkt Grand Prix mit den Punkten 0–10 aus „Offen für den Trockenlauf“ im Spec. Vorläufige Blocktexte ergänzen: die drei Grand-Prix-Blöcke, `starte Melodie Power-Up wiederhole einmal`, `PID Distance Control`, die vier Kreuzungsblöcke.
-- [ ] **Step 4: Prüfen.** `grep -rn "90 Min\|90-Min\|90:00\|90 Minuten" CLAUDE.md website/src docs/01-konzept.md docs/02-offline-und-trockenlauf.md` → nur noch Treffer, die nichts mit der Workshopdauer zu tun haben (z. B. „90°“). Dann `cd website && python3 build.py && npm test` → alle `ok`.
+- [ ] **Step 3: docs/02.** Block G: Akku über 120 Minuten plus Aufbau. Neuer Prüfpunkt Grand Prix mit den Punkten 0–10 aus „Offen für den Trockenlauf“ im Spec. Vorläufige Blocktexte ergänzen: die drei Grand-Prix-Blöcke, `PID Distance Control`, die vier Kreuzungsblöcke.
+- [ ] **Step 4: Prüfen.** `grep -rn "90 Min\|90-Min\|90:00\|90 Minuten" CLAUDE.md README.md website/package.json website/src docs/01-konzept.md docs/02-offline-und-trockenlauf.md` → nur noch Treffer, die nichts mit der Workshopdauer zu tun haben (z. B. „90°“). Dann `cd website && python3 build.py && npm test` → alle `ok`.
 - [ ] **Step 5: Commit** `git commit -am "Doku: 120 Minuten, Station 5 Pflicht, Grand Prix"`
