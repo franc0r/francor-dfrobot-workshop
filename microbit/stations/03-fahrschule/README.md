@@ -2,6 +2,16 @@
 
 Erweiterung geladen, Motorblöcke, erste Fahrt.
 
+## Musterlösungen als JavaScript
+
+- `loesung.js`: „Geradeaus und anhalten“ — 1 s mit Geschwindigkeit 120, dann stop.
+- `loesung-quadrat.js`: das Quadrat wie auf der Seite, `4 -mal wiederholen` auf Knopf A,
+  Drehung 650 ms.
+- `loesung-funktionen.js`: Martins Fassung mit `fahreGeradeaus` und `dreheRechts` (unten).
+
+Einfügen: in MakeCode oben auf **JavaScript** umschalten, alles ersetzen, zurück auf **Blöcke**. Noch nicht in MakeCode umgewandelt oder am Gerät gefahren (Stand 05.11.2026).
+Martins Funktionen-Fassung ist als Blöcke am Gerät getestet, die JavaScript-Abschrift nicht.
+
 ## Musterlösung: Quadrat mit Funktionen
 
 ![Blöcke](bloecke.png)
