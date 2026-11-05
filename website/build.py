@@ -179,7 +179,7 @@ def assemble(target):
     body = ("\n" + topbar + "\n\n"
             '<div class="shell">\n' + read("rail.html") + "\n\n"
             '  <main id="stage">\n\n' + st + "\n  </main>\n</div>\n\n"
-            '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n"
+            '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
     body = makecode_links(inline_assets(body))
     if "assets/" in body:

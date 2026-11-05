@@ -71,6 +71,7 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
+    sicherheit.html   Sicherheitsfenster beim Teamstart (nach „Neues Team“, Knopf „Sicherheit“)
     app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, beide Simulatoren
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
