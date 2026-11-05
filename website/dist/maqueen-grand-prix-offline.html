@@ -257,7 +257,8 @@ kbd{
 .b-loop{background:#00AA00}
 .b-logic{background:#00A4A6}
 .b-music{background:#E63022}
-.b-var{background:#E07000}
+.b-var{background:#DC143C}
+.b-light{background:#E07000}
 .b-mq{background:#0FBC11}
 .b-lidar{background:#5B3FE8}
 .b-math{background:#9400D3}
@@ -1454,6 +1455,36 @@ body.safety-on{overflow:hidden}
         </div>
       </div>
 
+      <div class="block">
+        <h3><span class="idx">03</span>Der Roboter merkt sich etwas: Variablen</h3>
+        <p class="lead">Eine <b>Variable</b> ist ein Merkzettel mit Namen. Das Programm schreibt etwas darauf, zum Beispiel <b>wahr</b> oder <b>falsch</b>, und liest es später an einer ganz anderen Stelle wieder. Im Grand Prix braucht ihr das für das Pro-Ziel.</p>
+        <div class="mcstack">
+          <div class="mccap">Pausenknopf</div>
+          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+          <div class="mcb b-var i1">setze <span class="mcr b-var">pause</span> auf <span class="mcr b-logic"><b>wahr</b></span></div>
+          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+          <div class="mcb b-var i1">setze <span class="mcr b-var">pause</span> auf <span class="mcr b-logic"><b>falsch</b></span></div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+          <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-var">pause</span> <b>oder</b> <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span></span> dann</div>
+          <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+          <div class="mcb b-logic i1">ansonsten</div>
+          <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
+        </div>
+        <div class="note">
+          <span class="nt">So geht&apos;s</span>
+          <ol class="steps">
+            <li><span>Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable&hellip;</kbd> klicken und sie <b>pause</b> nennen.</span></li>
+            <li><span>Den roten Block <kbd>setze pause auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen. Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>. Für Knopf A dasselbe mit <b>falsch</b>.</span></li>
+            <li><span>Zieht euren Vergleich mit dem Laser aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben. Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>und</kbd>, im Menü auf <b>oder</b> umstellen. Links hinein <b>pause</b> (aus <b>Variablen</b>), rechts wieder euer Vergleich.</span></li>
+          </ol>
+          <p>Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander.</p>
+        </div>
+        <p class="testline"><b>Testen:</b> Roboter fährt &rarr; Knopf B: Er bleibt stehen und leuchtet rot. Knopf A: Er fährt weiter.</p>
+      </div>
+
       <div class="quiz" data-quiz="q4" data-answer="c">
         <div class="qh">Denkfrage</div>
         <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
@@ -1665,7 +1696,7 @@ body.safety-on{overflow:hidden}
           </details>
           <details class="hint">
             <summary>Die Melodie kommt schon am Ziel 4?</summary>
-            <p>Woher weiß euer Programm, dass der Roboter schon gesprungen ist? Merkt es sich in einer Variablen.</p>
+            <p>Woher weiß euer Programm, dass der Roboter schon gesprungen ist? Wie beim Pausenknopf in Station&nbsp;5: Merkt es euch in einer Variablen, zum Beispiel <b>gesprungen</b>.</p>
           </details>
         </div>
       </div>
@@ -1717,7 +1748,7 @@ body.safety-on{overflow:hidden}
         <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: Im Simulator sehen sie, dass &bdquo;Logo nach oben&ldquo; nur eine Zahl jenseits der Grenze 200 ist. Beides brauchen sie später beim Roboter wieder.</td></tr>
         <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams. Die Seite gibt Tipps und ein Gerüst mit <em>4 -mal wiederholen</em>. Wer das schnell schafft, dem zeigt ihr <em>Funktionen</em> (Musterlösung in <kbd>microbit/stations/03-fahrschule/</kbd>): Ein Stück Programm bekommt einen Namen wie <em>dreheRechts</em> und wird dann nur noch aufgerufen. Richtwert: 650&nbsp;ms bei Geschwindigkeit 100 ergeben etwa 90°.</td></tr>
         <tr><td>0:47–1:05</td><td><b>Augen.</b> Linienverfolgung. Kalibrieren nur bei Bedarf – die Roboter sind beim Aufbau schon kalibriert. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
-        <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
+        <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung, dazu Variablen als Merkzettel (Pausenknopf). Pflicht – der Grand Prix braucht den Laser-Stopp, die Profis dort auch eine Variable.</td></tr>
         <tr><td>1:15–1:45</td><td><b>Grand Prix.</b> Strecke lesen, Kreuzungen einstellen, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
         <tr><td>1:45–2:00</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
       </table>
@@ -2237,7 +2268,7 @@ var PALETTE = [
   {t:"fwd",  cls:"b-mq",    label:"fahre vorwärts"},
   {t:"left", cls:"b-mq",    label:"drehe links ↺"},
   {t:"right",cls:"b-mq",    label:"drehe rechts ↻"},
-  {t:"light",cls:"b-var",   label:"Licht an"},
+  {t:"light",cls:"b-light", label:"Licht an"},
   {t:"rep",  cls:"b-loop",  label:"×-mal wiederholen"}
 ];
 function blockColor(t){

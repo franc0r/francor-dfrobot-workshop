@@ -38,7 +38,7 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 3. **Nur Blöcke, kein Textcode.** Codebeispiele auf der Seite sind MakeCode-Blöcke,
    nachgebildet mit den `.mcb`-Klassen. Jeder Block trägt die Farbe seiner Kategorie, genau wie
    in MakeCode (am Gerät abgelesen 02.11.2026): Grundlagen `#1E90FF`, Eingabe `#D400D4`,
-   Musik `#E63022`, Schleifen `#00AA00`, Logik `#00A4A6`, Mathematik `#9400D3`,
+   Musik `#E63022`, Schleifen `#00AA00`, Logik `#00A4A6`, Mathematik `#9400D3`, Variablen `#DC143C` (Screenshot Martin, 05.11.2026),
    Maqueen `#0FBC11` (hellgrün), Matrix LiDAR `#5B3FE8`, Grand Prix `#3C3C3C` (Graphit;
    unsere eigene Bibliothek aus `microbit/bibliothek/`, in den Stationen `.b-gp`; Martin,
    05.11.2026). Die Rollenfarben in Station 0 (`.r-*`)
@@ -117,7 +117,7 @@ ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 | 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Logo oben/unten + Schütteln; Würfel ist Team-Challenge | Pixelkünstler |
 | 3 | 03-fahrschule | 14 | Vorlage öffnen (Erweiterung ist schon geladen), Parcours-Simulator, Motorblöcke | Fahrlehrer |
 | 4 | 04-augen | 18 | Linienverfolgung auf Knopf A — der Wow-Moment; Kalibrieren macht der Betreuer beim Aufbau, Schüler nur bei Bedarf | Spurhalter |
-| 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/ansonsten — Pflicht, der Grand Prix braucht den Laser-Stopp | Bremsassistent |
+| 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/ansonsten, Variable als Merkzettel (Pausenknopf) — Pflicht, der Grand Prix braucht den Laser-Stopp | Bremsassistent |
 | 6 | 06-grand-prix | 30 | Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Laser-Stopp, Lauf auf Zeit — nie streichen | Champion |
 | – | Puffer | 15 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
 

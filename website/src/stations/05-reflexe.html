@@ -58,6 +58,36 @@
         </div>
       </div>
 
+      <div class="block">
+        <h3><span class="idx">03</span>Der Roboter merkt sich etwas: Variablen</h3>
+        <p class="lead">Eine <b>Variable</b> ist ein Merkzettel mit Namen. Das Programm schreibt etwas darauf, zum Beispiel <b>wahr</b> oder <b>falsch</b>, und liest es später an einer ganz anderen Stelle wieder. Im Grand Prix braucht ihr das für das Pro-Ziel.</p>
+        <div class="mcstack">
+          <div class="mccap">Pausenknopf</div>
+          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+          <div class="mcb b-var i1">setze <span class="mcr b-var">pause</span> auf <span class="mcr b-logic"><b>wahr</b></span></div>
+          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+          <div class="mcb b-var i1">setze <span class="mcr b-var">pause</span> auf <span class="mcr b-logic"><b>falsch</b></span></div>
+          <div class="mcb b-basic">dauerhaft</div>
+          <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+          <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-var">pause</span> <b>oder</b> <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span></span> dann</div>
+          <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+          <div class="mcb b-logic i1">ansonsten</div>
+          <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+          <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
+        </div>
+        <div class="note">
+          <span class="nt">So geht&apos;s</span>
+          <ol class="steps">
+            <li><span>Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable&hellip;</kbd> klicken und sie <b>pause</b> nennen.</span></li>
+            <li><span>Den roten Block <kbd>setze pause auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen. Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>. Für Knopf A dasselbe mit <b>falsch</b>.</span></li>
+            <li><span>Zieht euren Vergleich mit dem Laser aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben. Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>und</kbd>, im Menü auf <b>oder</b> umstellen. Links hinein <b>pause</b> (aus <b>Variablen</b>), rechts wieder euer Vergleich.</span></li>
+          </ol>
+          <p>Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander.</p>
+        </div>
+        <p class="testline"><b>Testen:</b> Roboter fährt &rarr; Knopf B: Er bleibt stehen und leuchtet rot. Knopf A: Er fährt weiter.</p>
+      </div>
+
       <div class="quiz" data-quiz="q4" data-answer="c">
         <div class="qh">Denkfrage</div>
         <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>

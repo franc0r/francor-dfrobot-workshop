@@ -272,7 +272,7 @@ var PALETTE = [
   {t:"fwd",  cls:"b-mq",    label:"fahre vorwärts"},
   {t:"left", cls:"b-mq",    label:"drehe links ↺"},
   {t:"right",cls:"b-mq",    label:"drehe rechts ↻"},
-  {t:"light",cls:"b-var",   label:"Licht an"},
+  {t:"light",cls:"b-light", label:"Licht an"},
   {t:"rep",  cls:"b-loop",  label:"×-mal wiederholen"}
 ];
 function blockColor(t){
