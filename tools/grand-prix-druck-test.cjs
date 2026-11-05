@@ -57,6 +57,17 @@ function check(cond, msg) {
   const team = await page.$eval('.sheet', s => s.textContent);
   check(!/T-junction|Crossroads|Turn and Straight|Kreuzung \(\+\)/.test(team), 'Teamskizze verrät die Kreuzungstypen nicht');
 
+  // Kein Abschneiden: Auch mit breiterer Ersatzschrift (DejaVu Sans auf Raspberry Pi OS/Ubuntu,
+  // hier Verdana als Breiten-Ersatz) passt jede Seite in ihren Kasten.
+  await page.emulateMedia({ media: 'print' });
+  for (const font of [null, 'Verdana, "DejaVu Sans", sans-serif']) {
+    const tag = font ? await page.addStyleTag({ content: 'body { font-family: ' + font + ' !important; }' }) : null;
+    const fit = await page.$$eval('.sheet', l => l.map(e => [e.scrollHeight, e.clientHeight]));
+    fit.forEach(([sh, ch], i) => check(sh <= ch, 'Seite ' + (i + 1) + ' passt aufs Blatt' + (font ? ' (Verdana)' : '') + ' (' + sh + ' / ' + ch + ' px)'));
+    if (tag) await tag.evaluate(e => e.remove());
+  }
+  await page.emulateMedia({ media: null });
+
   const buf = await page.pdf({ format: 'A4', preferCSSPageSize: true, printBackground: true });
   const pages = (buf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
   check(pages === 2, 'A4-PDF hat genau 2 Seiten (' + pages + ')');
