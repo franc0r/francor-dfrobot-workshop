@@ -53,8 +53,10 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    die ersten beiden und dass die Stationen zusammen genau 105 Minuten ergeben
    (`STATIONSMINUTEN`, `PUFFER`).
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
-   `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
-   8×8-Laserscanners (Station 5). Beim Ändern von Blocktexten immer alle Stationen und das
+   `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Grand-Prix-Blöcke
+   (Bibliothek `custom.ts`), die Kreuzungsblöcke (`At Crossroads …`, Station 6) und
+   `PID Distance Control` (wartet nicht, siehe Block H, Punkt 15); die Laserblöcke aus
+   Station 5 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer alle Stationen und das
    Handbuch gemeinsam anfassen.
 
 ## Aufbau
