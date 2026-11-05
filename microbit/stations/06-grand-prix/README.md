@@ -4,7 +4,14 @@ Lauf auf Zeit über die Grand-Prix-Strecke (Matte 100 × 200 cm, Skizze in Stati
 `tools/grand-prix-druck.html`). Das Programm baut auf dem Projekt „Linie“ aus Station 4 auf
 und braucht die Bibliothek „Grand Prix“ (`microbit/bibliothek/custom.ts`, steckt in der Vorlage).
 
-Noch leer. Nach dem Trockenlauf hier ablegen:
+Hier liegen:
+
+- `loesung.js` (normal) und `loesung-profi.js` (Profi) — MakeCode-JavaScript, am 05.11.2026
+  von Martin auf der Strecke gefahren. Einfügen: Vorlage öffnen, oben auf **JavaScript**
+  umschalten, alles ersetzen, zurück auf **Blöcke**. Die Bibliothek „Grand Prix“ muss im
+  Projekt sein, sonst gehen die Blöcke nicht.
+
+Nach dem Trockenlauf kommen dazu:
 
 - `loesung.hex` und `bloecke.png` (normal)
 - `loesung-profi.hex` und `bloecke-profi.png` (Profi)
@@ -53,15 +60,22 @@ Wie normal, dazu:
   Funktion statt der vier Einzelblöcke auf. Grund: `Line patrolling OFF` löscht die Regeln
   (Reset-Fallstrick, im Handbuch), und eine Funktion mit festem `Right` würde nach einem Halt
   zwischen 1 und dem Stummel wieder in den Stummel biegen.
-- **wenn Kreuzung Nummer 4 erreicht**, nach der Melodie: etwa 500 ms warten, bis er steht;
-  Hindernisvermeidungsdaten abrufen; nur wenn der Weg vorn frei ist (`Entfernung Vorne` nicht
-  unter 200 mm): `Line patrolling OFF`, `PID Distance Control` `CW` 20 cm über die Lücke,
-  „Regeln setzen“ aufrufen, `Line patrolling ON` — bis zur Kiste am Pro-Ziel, wo der Laser
-  hält.
-- **Blinker:** vor dem Abbiegen an Kreuzung 1 das rechte Licht.
+- **wenn Kreuzung Nummer 4 erreicht:** etwa 500 ms warten, bis er steht. Nur wenn der Weg
+  vorn frei ist (`Entfernung Vorne` nicht unter 200 mm): `Line patrolling OFF`,
+  `PID Distance Control` `CW` 20 cm über die Lücke, **2000 ms warten**, „Regeln setzen“
+  aufrufen, Merker `gesprungen` auf wahr, `Line patrolling ON` — bis zur Kiste am Pro-Ziel.
+  Ist der Weg nicht frei, spielt er die Siegesmelodie wie im Normalweg.
+  Die Pause ist nötig: `PID Distance Control` wartet auch mit `No interruptions allowed`
+  nicht, bis die Strecke gefahren ist (Martin am Gerät, 05.11.2026). Ohne Pause schaltet die
+  Linienverfolgung mitten im Sprung wieder an.
+- **Siegesmelodie am Pro-Ziel:** Im `dauerhaft` spielt der Laser-Stopp die Melodie, wenn
+  `gesprungen` wahr ist, und setzt den Merker zurück. Knopf A setzt ihn ebenfalls zurück.
+- **Startampel** wie normal; 500 ms nach dem Losfahren geht rechts der Blinker an (gelb,
+  leuchtet dauerhaft).
+- **Blinker:** bis Kreuzung 1 das rechte Licht gelb, danach beide grün.
 
-Offen: Zählt das Überfahren des T-Balkens mit PID als Kreuzung, verschiebt sich für die Profis
-die Nummer danach (Trockenlauf, Block H, Punkt 5).
+Ob das Überfahren des T-Balkens mit PID als Kreuzung zählt, ist für diese Lösung egal: Das
+Pro-Ziel erkennt sie am Laser-Stopp, nicht an einer Nummer (Block H, Punkt 5).
 
 ## Wo die Zählnummern stehen
 

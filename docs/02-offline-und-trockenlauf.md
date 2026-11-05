@@ -109,6 +109,10 @@ Aus dem Entwurf (`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.m
 14. **Rechter Rand:** Der Bogen reicht bis x ≈ 96. Mit ≈ 5,5 cm halber Breite ragt die
     Karosserie dort ≈ 1,5 cm über die Mattenkante. Prüfen: Liegt die Matte flach genug (keine
     Stufe, die ein Rad abwirft), und bleibt am Tisch genug Platz?
+15. **PID-Sprung wartet nicht:** `PID Distance Control` kehrt auch mit `No interruptions
+    allowed` sofort zurück (Martin am Gerät, 05.11.2026). Die Musterlösung wartet danach
+    2000 ms; damit lief der Profi-Weg bis zum Pro-Ziel. Am Trockenlauf mit vollem und mit
+    schwächerem Akku nachprüfen, ob 2000 ms reichen.
 
 ## Vorläufige Blocktexte (Grand Prix)
 

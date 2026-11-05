@@ -168,7 +168,9 @@
             <li><span>Am Ziel <span class="gpnum">4</span> kurz warten, bis er steht, etwa eine halbe Sekunde.</span></li>
             <li><span>Mit dem Laser prüfen, ob der Weg frei ist.</span></li>
             <li><span><b>Line patrolling OFF</b>, dann mit <b>PID Distance Control</b> etwa 20&nbsp;cm geradeaus über die Lücke springen.</span></li>
+            <li><span>Etwa <b>2 Sekunden warten</b>. Der Sprung-Block wartet nicht, bis der Roboter angekommen ist.</span></li>
             <li><span><b>Line patrolling ON</b>, bis zur Kiste am Pro-Ziel.</span></li>
+            <li><span>Die Siegesmelodie spielt erst am <b>Pro-Ziel</b>.</span></li>
           </ol>
           <div class="mcstack">
             <div class="mccap">Der Sprung</div>
@@ -179,6 +181,10 @@
           <details class="hint">
             <summary>Er macht nach dem Sprung, was er will?</summary>
             <p>Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?</p>
+          </details>
+          <details class="hint">
+            <summary>Die Melodie kommt schon am Ziel 4?</summary>
+            <p>Woher weiß euer Programm, dass der Roboter schon gesprungen ist? Merkt es sich in einer Variablen.</p>
           </details>
         </div>
       </div>
