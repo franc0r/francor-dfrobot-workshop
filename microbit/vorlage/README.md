@@ -9,6 +9,15 @@ In `beim Start` steht schon der Block **initialisiere Maqueen Plus V2**, sonst n
 Er gehört in jedes Roboterprogramm (setzt die Roboterplatine zurück und wartet, bis sie
 antwortet: blinkendes X = keine Verbindung, Haken = verbunden).
 
+Außerdem steckt die Bibliothek **Grand Prix** als `custom.ts` im Projekt (eigene,
+graphitgraue Kategorie). Sie zählt im Hintergrund jede Kreuzung, die die
+Linienverfolgung meldet, und bringt drei Blöcke mit: `wenn Kreuzung Nummer 1 erreicht`
+(läuft einmal an dieser Kreuzung), `Kreuzungen gezählt` und `setze Kreuzungszähler zurück`.
+Die Kreuzungsregeln der Linienverfolgung fasst sie bewusst nicht an – die setzen die
+Teams selbst in Station 6. Die Quelle liegt in `../bibliothek/custom.ts`; nach einer
+Änderung dort `python3 vorlage.py` laufen lassen, `build.py` bricht sonst ab, wenn die
+Bibliothek in der Vorlage fehlt.
+
 Warum: MakeCode cacht sich beim ersten Laden vollständig, nur das *Nachladen*
 einer Erweiterung braucht Netz. Ohne Vorlage stehen die Maqueen-Blöcke auf der
 Messe nicht zur Verfügung.

@@ -6,7 +6,7 @@
  * Prüft, was am Messetag weh tun würde:
  *   1. Die Datei lädt mit komplett abgeschaltetem Netzwerk, ohne JS-Fehler.
  *   2. Es gibt keine externen Verweise (Schriften, Skripte, Bilder).
- *   3. Sieben Stationen, Minuten summieren auf 90, Rail und Eyebrows passen.
+ *   3. Sieben Stationen, Minuten summieren auf 105 (+ 15 Puffer = 120), Rail und Eyebrows passen.
  *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln laufen.
  *   5. Parcours-Simulator: Level 1 mit "fahre 5" → im Ziel.
  *   6. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
@@ -43,13 +43,14 @@ function check(cond, msg) {
 
   await page.goto('file://' + DIST);
   await page.waitForTimeout(500);
+  check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Timer steht auf 120:00');
 
   // Struktur
   const n = await page.$$eval('.station', s => s.length);
   check(n === 7, 'sieben Stationen (gefunden: ' + n + ')');
   const mins = await page.$$eval('.eyebrow span:nth-child(2)', s => s.map(x => parseInt(x.textContent, 10)));
   const sum = mins.reduce((a, b) => a + b, 0);
-  check(sum === 90, 'Stationsminuten summieren auf 90 (' + mins.join('+') + ' = ' + sum + ')');
+  check(sum === 105, 'Stationsminuten summieren auf 105 (' + mins.join('+') + ' = ' + sum + ')');
   const railMins = await page.$$eval('.stepbtn .min', s => s.map(x => parseInt(x.textContent, 10)));
   check(JSON.stringify(railMins) === JSON.stringify(mins), 'Rail-Minuten = Eyebrow-Minuten');
 
@@ -71,6 +72,7 @@ function check(cond, msg) {
   check(loopKids.includes('beim Start:1') && loopKids.includes('dauerhaft:4'), 'Station 1: Klammer-Blöcke (' + loopKids.join(', ') + ')');
   const ifElse = await page.$$eval('.station[data-st="5"] .mcc[data-c="b-logic"] > .mcbody', l => l.length).catch(() => 0);
   check(ifElse === 2, 'Station 5: wenn/sonst als ein Block mit zwei Fächern (' + ifElse + ')');
+  check(!(await page.$eval('.station[data-st="5"] .eyebrow', e => e.textContent)).includes('Bonus'), 'Station 5 ist keine Bonus-Station mehr');
 
   // Station 3: Einsetz-Animation
   await page.click('.stepbtn[data-go="3"]');
@@ -79,6 +81,26 @@ function check(cond, msg) {
   const anim = await page.$eval('#mqinsert .mb-slide', e => getComputedStyle(e).animationName).catch(() => 'none');
   check(anim !== 'none', 'Station 3: micro:bit gleitet per CSS-Animation (' + anim + ')');
   check(/Lämpchen nach vorn/.test(await page.$eval('#mqinsert', e => e.textContent).catch(() => '')), 'Station 3: Figur sagt "Lämpchen nach vorn"');
+
+  // Station 6: Streckenskizze und Grand-Prix-Blöcke
+  await page.click('.stepbtn[data-go="6"]');
+  check((await page.$eval('#gpmap', e => e.getBoundingClientRect().height).catch(() => 0)) > 120, 'Station 6: Streckenskizze wird gezeichnet');
+  check(JSON.stringify(await page.$$eval('#gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 6: Skizze nummeriert 1–4');
+  const gpText = await page.$eval('#gpmap', e => e.textContent).catch(() => '');
+  check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 6: Start, Ziel und Pro-Ziel beschriftet');
+  check(await page.$$eval('.station[data-st="6"] .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 6: Grand-Prix-Blöcke in Graphit');
+  check(!/\p{Extended_Pictographic}/u.test(await page.$eval('.station[data-st="6"]', e => e.textContent)), 'Station 6: kein Emoji');
+
+  // Station 6 im Dunkelmodus auf Handybreite
+  const ctx2 = await browser.newContext({ offline: true, colorScheme: 'dark', viewport: { width: 360, height: 800 } });
+  const p2 = await ctx2.newPage();
+  p2.on('pageerror', e => errors.push(String(e)));
+  await p2.goto('file://' + DIST);
+  await p2.waitForTimeout(300);
+  await p2.click('.stepbtn[data-go="6"]');
+  check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß');
+  check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
+  await ctx2.close();
 
   // Station 2: micro:bit-Simulator
   await page.click('.stepbtn[data-go="2"]');
@@ -122,6 +144,9 @@ function check(cond, msg) {
   await page.click('#coachbtn');
   await page.waitForTimeout(350);
   check(await page.$eval('#coach', e => e.classList.contains('open')), 'Betreuer-Handbuch öffnet');
+  const hb = await page.$eval('#coach', e => e.textContent);
+  const hbn = hb.replace(/ /g, ' ');
+  check(['Zählfahrt', 'Minute 15', 'geblitzt', '10 cm', '30 cm'].every(w => hbn.includes(w)), 'Handbuch: Abschnitt Grand Prix vollständig');
   await page.keyboard.press('Escape');
 
   // Reset
@@ -129,6 +154,7 @@ function check(cond, msg) {
   await page.waitForTimeout(200);
   check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), '"Neues Team" setzt Abzeichen zurück');
   check(await page.$eval('.station[data-st="0"]', e => !e.hidden), '"Neues Team" springt zu Station 0');
+  check(await page.$eval('#tval', e => e.textContent) === '120:00', '"Neues Team" stellt 120:00');
 
   check(errors.length === 0, 'keine JavaScript-Fehler' + (errors.length ? ': ' + errors.join(' | ') : ''));
 

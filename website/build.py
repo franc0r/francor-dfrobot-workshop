@@ -18,7 +18,7 @@ artifact — Fassung zum Veröffentlichen als claude.ai-Artefakt (ohne
            <html>/<head>/<body>, mit Google-Fonts-Verknüpfung). Nur zum
            Teilen und Planen; braucht Internet.
 """
-import base64, io, os, re, sys
+import base64, io, json, lzma, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "src")
@@ -84,6 +84,28 @@ def inline_assets(html):
 
 MAKECODE = "https://makecode.microbit.org/"
 VORLAGE = os.path.join(HERE, "..", "microbit", "vorlage", "vorlage.mkcd")
+BIBLIOTHEK = os.path.join(HERE, "..", "microbit", "bibliothek", "custom.ts")
+
+
+def check_vorlage(path: str) -> None:
+    """Die Vorlage muss die Bibliothek „Grand Prix“ (custom.ts) mitbringen,
+    und zwar byte-gleich mit microbit/bibliothek/custom.ts.
+
+    Die .mkcd ist LZMA-gepackt (Kopf wie LZMA-JS ihn schreibt, also das
+    alte „alone“-Format), darin JSON; dessen source ist wieder JSON mit den
+    Projektdateien.
+    """
+    data = io.open(path, "rb").read()
+    project = json.loads(lzma.decompress(data, format=lzma.FORMAT_ALONE))
+    files = json.loads(project["source"])
+    pxt = json.loads(files.get("pxt.json", "{}"))
+    if ("custom.ts" not in files or "namespace grandPrix" not in files["custom.ts"]
+            or "custom.ts" not in pxt.get("files", [])):
+        raise SystemExit("Vorlage ohne Grand-Prix-Bibliothek (custom.ts) – python3 vorlage.py")
+    # Die Vorlage muss die aktuelle Bibliothek tragen, nicht einen alten Stand.
+    if files["custom.ts"].encode("utf-8") != io.open(BIBLIOTHEK, "rb").read():
+        raise SystemExit("Vorlage veraltet – python3 vorlage.py "
+                         "(custom.ts weicht von microbit/bibliothek/custom.ts ab)")
 
 
 def makecode_links(html):
@@ -95,6 +117,7 @@ def makecode_links(html):
     """
     if not os.path.exists(VORLAGE):
         raise SystemExit("Vorlage fehlt: microbit/vorlage/vorlage.mkcd (python3 vorlage.py)")
+    check_vorlage(VORLAGE)
     b64 = base64.b64encode(io.open(VORLAGE, "rb").read()).decode("ascii")
     html = html.replace('href="makecode:neu"', 'href="%s#newproject"' % MAKECODE)
     html = html.replace('href="makecode:vorlage"', 'href="%s#project:%s"' % (MAKECODE, b64))
@@ -116,14 +139,19 @@ def stations():
     return "".join(out)
 
 
+STATIONSMINUTEN = 105   # Summe der Stationen ...
+PUFFER = 15             # ... plus Puffer = 120-Minuten-Slot
+
+
 def check_times(stations_html, app_js):
     """Eyebrow-Minuten, Rail-Array und Handbuch-Zeitplan müssen zusammenpassen."""
     eyebrow = [int(x) for x in re.findall(r'<span class="tag">Station \d</span><span>(\d+) Minuten</span>', stations_html)]
     rail = [int(x) for x in re.findall(r'm:"(\d+) Min"', app_js)]
     if eyebrow != rail:
         raise SystemExit("Zeiten stimmen nicht überein: Eyebrows %s vs. STATIONS-Array %s" % (eyebrow, rail))
-    if sum(eyebrow) != 90:
-        raise SystemExit("Stationsminuten summieren auf %d, nicht 90" % sum(eyebrow))
+    if sum(eyebrow) != STATIONSMINUTEN:
+        raise SystemExit("Stationsminuten summieren auf %d, nicht %d (+ %d Puffer = %d)"
+                         % (sum(eyebrow), STATIONSMINUTEN, PUFFER, STATIONSMINUTEN + PUFFER))
     return sum(eyebrow)
 
 
