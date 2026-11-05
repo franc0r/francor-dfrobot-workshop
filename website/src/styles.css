@@ -113,7 +113,7 @@ button{font:inherit; color:inherit; cursor:pointer}
 .timer button{border:0; background:transparent; font-size:11px; font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); padding:0}
 .timer button:hover{color:var(--accent)}
 .timer .tv{font:inherit; letter-spacing:0; text-transform:none; color:inherit; cursor:text}
-input.tv{width:6ch; padding:0 3px; border:1px solid var(--accent); border-radius:4px; background:var(--surface)}
+input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius:4px; background:var(--surface)}
 .ghost{
   border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
   padding:6px 12px; font-size:13px; font-weight:500;
@@ -125,7 +125,7 @@ input.tv{width:6ch; padding:0 3px; border:1px solid var(--accent); border-radius
   display:grid; grid-template-columns:260px minmax(0,1fr);
   gap:26px; max-width:1220px; margin:0 auto; padding:26px 20px 90px;
 }
-@media (max-width:900px){ .shell{grid-template-columns:1fr; gap:18px; padding-top:16px} }
+@media (max-width:900px){ .shell{grid-template-columns:minmax(0,1fr); gap:18px; padding-top:16px} }
 
 /* ---------- rail ---------- */
 .rail{align-self:start; position:sticky; top:76px; display:flex; flex-direction:column; gap:4px}
@@ -248,6 +248,7 @@ kbd{
 .b-mq{background:#0FBC11}
 .b-lidar{background:#5B3FE8}
 .b-math{background:#9400D3}
+.b-gp{background:#3C3C3C}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
 .mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:0 0 0 1.5px rgba(0,0,0,.32), inset 0 -2px 0 rgba(0,0,0,.18)}
 /* Der dunkle Rand setzt den Wertblock ab wie in MakeCode – nötig, wenn er dieselbe Farbe hat wie sein Block (Vergleich in „wenn“, Station 5) */
@@ -269,12 +270,14 @@ kbd{
 .note p + p{margin-top:8px}
 .note.fresh{margin-bottom:4px}
 .note.fresh .btn{margin-top:10px}
-/* „▶ Testen:“ am Ende jedes Bauschritts – überall gleich, damit man sie wiedererkennt */
+/* „Testen:“ (mit Dreieck davor) am Ende jedes Bauschritts – überall gleich, damit man sie wiedererkennt */
 .testline{
   max-width:74ch; margin:12px 0; padding:8px 14px; font-size:.95rem;
   border:1px dashed var(--teal); border-radius:var(--radius); background:var(--surface-2);
 }
 .testline b{color:var(--teal)}
+/* Das Dreieck kommt aus CSS: als Text zählt ▶ als Emoji und wird auf dem Pi oft ein Kästchen */
+.testline b::before{content:"\25B6\00a0"}
 .hint{margin-top:10px}
 .hint summary{cursor:pointer; font-weight:600; font-size:.95rem}
 .hint[open] summary{margin-bottom:8px}
@@ -338,6 +341,40 @@ kbd{
 .mqfig .holder{fill:#3A4147; stroke:#6C777F; stroke-width:1}
 .mqfig .cellf{fill:#D9DEE2; stroke:#9AA3A9; stroke-width:1}
 .mqfig .cellnub{fill:#9AA3A9}
+
+/* Grand-Prix-Strecke (Station 6). 1 Einheit = 1 cm. Matte, Band, Kisten und Schrift auf der
+   Matte haben feste Farben: Die Matte ist auch im Dunkelmodus weiß, dunkle Schrift bleibt lesbar. */
+.gpfig{display:grid; grid-template-columns:minmax(0,360px) minmax(0,1fr); gap:18px 26px; align-items:start; margin:0; max-width:900px}
+@media (max-width:760px){ .gpfig{grid-template-columns:minmax(0,1fr)} }
+.gpfig > svg{width:100%; max-width:360px; height:auto; display:block; font-family:var(--sans)}
+.gpfig figcaption{display:flex; flex-direction:column; gap:10px; font-size:.95rem; color:var(--ink-2); max-width:48ch}
+.gp-mat{fill:#fff; stroke:#999; stroke-width:.4}
+.gp-grid{stroke:#e4e4e4; stroke-width:.25; fill:none}
+.gp-ln{stroke:#111; stroke-width:1.9; fill:none; stroke-linejoin:round}
+.gp-gap{stroke:#5B3FE8; stroke-width:.6; fill:none; stroke-dasharray:1.5 1}
+.gp-zone{stroke:#f5b700; stroke-width:5; fill:none; opacity:.35; stroke-linecap:round}
+.gp-box{fill:#b07a3c; stroke:#6b4520; stroke-width:.4}
+.gp-sign{fill:#fff; stroke:#111; stroke-width:.6}
+.gp-signt{font-size:3.4px; font-weight:700; fill:#111; text-anchor:middle; dominant-baseline:central}
+.gp-kc{fill:#E9483F}
+.gp-k{font-size:3.6px; font-weight:700; fill:#fff; text-anchor:middle; dominant-baseline:central}
+.gp-pole{stroke:#111; stroke-width:.4}
+.gp-start{fill:#1E90FF}
+.gp-lab{font-size:3.6px; font-weight:700; fill:#1A2226}
+.gp-sm{font-size:2.8px; fill:#4A5A63}
+.gp-sm.gp-b{font-weight:700; fill:#1A2226}
+.gplegend{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.gplegend li{display:flex; gap:10px; align-items:center}
+.gplegend svg{flex:0 0 auto; width:30px; height:24px; background:#fff; border:1px solid var(--line); border-radius:4px}
+.gplegend .gp-grid{stroke:#bbb; stroke-width:.4}
+.gptypes{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:10px 18px; max-width:900px}
+.gptypes li{display:flex; gap:10px; align-items:center; font-size:.93rem; color:var(--ink-2)}
+.gptypes li b{display:block; font-family:var(--mono); font-size:12px; font-weight:600; color:var(--ink)}
+.gptypes svg{flex:0 0 auto; width:48px; height:48px}
+.gp-tile{fill:#fff; stroke:#999; stroke-width:.6}
+.gptypes .gp-ln{stroke-width:3.2}
+/* Nummer im Text, sieht aus wie in der Skizze */
+.gpnum{display:inline-grid; place-items:center; width:1.45em; height:1.45em; border-radius:50%; background:#E9483F; color:#fff; font-weight:700; font-size:.85em; line-height:1; vertical-align:.08em}
 #mqinsert .silk{fill:#4A5A63}
 .mqfig .track{fill:var(--teal)}
 .mqfig .knob{fill:#fff}

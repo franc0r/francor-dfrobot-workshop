@@ -82,6 +82,26 @@ function check(cond, msg) {
   check(anim !== 'none', 'Station 3: micro:bit gleitet per CSS-Animation (' + anim + ')');
   check(/Lämpchen nach vorn/.test(await page.$eval('#mqinsert', e => e.textContent).catch(() => '')), 'Station 3: Figur sagt "Lämpchen nach vorn"');
 
+  // Station 6: Streckenskizze und Grand-Prix-Blöcke
+  await page.click('.stepbtn[data-go="6"]');
+  check((await page.$eval('#gpmap', e => e.getBoundingClientRect().height).catch(() => 0)) > 120, 'Station 6: Streckenskizze wird gezeichnet');
+  check(JSON.stringify(await page.$$eval('#gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 6: Skizze nummeriert 1–4');
+  const gpText = await page.$eval('#gpmap', e => e.textContent).catch(() => '');
+  check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 6: Start, Ziel und Pro-Ziel beschriftet');
+  check(await page.$$eval('.station[data-st="6"] .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 6: Grand-Prix-Blöcke in Graphit');
+  check(!/\p{Extended_Pictographic}/u.test(await page.$eval('.station[data-st="6"]', e => e.textContent)), 'Station 6: kein Emoji');
+
+  // Station 6 im Dunkelmodus auf Handybreite
+  const ctx2 = await browser.newContext({ offline: true, colorScheme: 'dark', viewport: { width: 360, height: 800 } });
+  const p2 = await ctx2.newPage();
+  p2.on('pageerror', e => errors.push(String(e)));
+  await p2.goto('file://' + DIST);
+  await p2.waitForTimeout(300);
+  await p2.click('.stepbtn[data-go="6"]');
+  check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß');
+  check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
+  await ctx2.close();
+
   // Station 2: micro:bit-Simulator
   await page.click('.stepbtn[data-go="2"]');
   const heart = '0101011111111110111000100';

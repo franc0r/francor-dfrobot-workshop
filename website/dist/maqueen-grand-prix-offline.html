@@ -126,7 +126,7 @@ button{font:inherit; color:inherit; cursor:pointer}
 .timer button{border:0; background:transparent; font-size:11px; font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); padding:0}
 .timer button:hover{color:var(--accent)}
 .timer .tv{font:inherit; letter-spacing:0; text-transform:none; color:inherit; cursor:text}
-input.tv{width:6ch; padding:0 3px; border:1px solid var(--accent); border-radius:4px; background:var(--surface)}
+input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius:4px; background:var(--surface)}
 .ghost{
   border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
   padding:6px 12px; font-size:13px; font-weight:500;
@@ -138,7 +138,7 @@ input.tv{width:6ch; padding:0 3px; border:1px solid var(--accent); border-radius
   display:grid; grid-template-columns:260px minmax(0,1fr);
   gap:26px; max-width:1220px; margin:0 auto; padding:26px 20px 90px;
 }
-@media (max-width:900px){ .shell{grid-template-columns:1fr; gap:18px; padding-top:16px} }
+@media (max-width:900px){ .shell{grid-template-columns:minmax(0,1fr); gap:18px; padding-top:16px} }
 
 /* ---------- rail ---------- */
 .rail{align-self:start; position:sticky; top:76px; display:flex; flex-direction:column; gap:4px}
@@ -261,6 +261,7 @@ kbd{
 .b-mq{background:#0FBC11}
 .b-lidar{background:#5B3FE8}
 .b-math{background:#9400D3}
+.b-gp{background:#3C3C3C}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
 .mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:0 0 0 1.5px rgba(0,0,0,.32), inset 0 -2px 0 rgba(0,0,0,.18)}
 /* Der dunkle Rand setzt den Wertblock ab wie in MakeCode – nötig, wenn er dieselbe Farbe hat wie sein Block (Vergleich in „wenn“, Station 5) */
@@ -282,12 +283,14 @@ kbd{
 .note p + p{margin-top:8px}
 .note.fresh{margin-bottom:4px}
 .note.fresh .btn{margin-top:10px}
-/* „▶ Testen:“ am Ende jedes Bauschritts – überall gleich, damit man sie wiedererkennt */
+/* „Testen:“ (mit Dreieck davor) am Ende jedes Bauschritts – überall gleich, damit man sie wiedererkennt */
 .testline{
   max-width:74ch; margin:12px 0; padding:8px 14px; font-size:.95rem;
   border:1px dashed var(--teal); border-radius:var(--radius); background:var(--surface-2);
 }
 .testline b{color:var(--teal)}
+/* Das Dreieck kommt aus CSS: als Text zählt ▶ als Emoji und wird auf dem Pi oft ein Kästchen */
+.testline b::before{content:"\25B6\00a0"}
 .hint{margin-top:10px}
 .hint summary{cursor:pointer; font-weight:600; font-size:.95rem}
 .hint[open] summary{margin-bottom:8px}
@@ -351,6 +354,40 @@ kbd{
 .mqfig .holder{fill:#3A4147; stroke:#6C777F; stroke-width:1}
 .mqfig .cellf{fill:#D9DEE2; stroke:#9AA3A9; stroke-width:1}
 .mqfig .cellnub{fill:#9AA3A9}
+
+/* Grand-Prix-Strecke (Station 6). 1 Einheit = 1 cm. Matte, Band, Kisten und Schrift auf der
+   Matte haben feste Farben: Die Matte ist auch im Dunkelmodus weiß, dunkle Schrift bleibt lesbar. */
+.gpfig{display:grid; grid-template-columns:minmax(0,360px) minmax(0,1fr); gap:18px 26px; align-items:start; margin:0; max-width:900px}
+@media (max-width:760px){ .gpfig{grid-template-columns:minmax(0,1fr)} }
+.gpfig > svg{width:100%; max-width:360px; height:auto; display:block; font-family:var(--sans)}
+.gpfig figcaption{display:flex; flex-direction:column; gap:10px; font-size:.95rem; color:var(--ink-2); max-width:48ch}
+.gp-mat{fill:#fff; stroke:#999; stroke-width:.4}
+.gp-grid{stroke:#e4e4e4; stroke-width:.25; fill:none}
+.gp-ln{stroke:#111; stroke-width:1.9; fill:none; stroke-linejoin:round}
+.gp-gap{stroke:#5B3FE8; stroke-width:.6; fill:none; stroke-dasharray:1.5 1}
+.gp-zone{stroke:#f5b700; stroke-width:5; fill:none; opacity:.35; stroke-linecap:round}
+.gp-box{fill:#b07a3c; stroke:#6b4520; stroke-width:.4}
+.gp-sign{fill:#fff; stroke:#111; stroke-width:.6}
+.gp-signt{font-size:3.4px; font-weight:700; fill:#111; text-anchor:middle; dominant-baseline:central}
+.gp-kc{fill:#E9483F}
+.gp-k{font-size:3.6px; font-weight:700; fill:#fff; text-anchor:middle; dominant-baseline:central}
+.gp-pole{stroke:#111; stroke-width:.4}
+.gp-start{fill:#1E90FF}
+.gp-lab{font-size:3.6px; font-weight:700; fill:#1A2226}
+.gp-sm{font-size:2.8px; fill:#4A5A63}
+.gp-sm.gp-b{font-weight:700; fill:#1A2226}
+.gplegend{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.gplegend li{display:flex; gap:10px; align-items:center}
+.gplegend svg{flex:0 0 auto; width:30px; height:24px; background:#fff; border:1px solid var(--line); border-radius:4px}
+.gplegend .gp-grid{stroke:#bbb; stroke-width:.4}
+.gptypes{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:10px 18px; max-width:900px}
+.gptypes li{display:flex; gap:10px; align-items:center; font-size:.93rem; color:var(--ink-2)}
+.gptypes li b{display:block; font-family:var(--mono); font-size:12px; font-weight:600; color:var(--ink)}
+.gptypes svg{flex:0 0 auto; width:48px; height:48px}
+.gp-tile{fill:#fff; stroke:#999; stroke-width:.6}
+.gptypes .gp-ln{stroke-width:3.2}
+/* Nummer im Text, sieht aus wie in der Skizze */
+.gpnum{display:inline-grid; place-items:center; width:1.45em; height:1.45em; border-radius:50%; background:#E9483F; color:#fff; font-weight:700; font-size:.85em; line-height:1; vertical-align:.08em}
 #mqinsert .silk{fill:#4A5A63}
 .mqfig .track{fill:var(--teal)}
 .mqfig .knob{fill:#fff}
@@ -954,7 +991,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
         <p class="lead">Der Bildschirm des micro:bit sind 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
         <p class="lead">Probiert es zuerst im Simulator oben, Reiter <b>1 &middot; Zeichnen</b>. Dann in MakeCode: <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild. Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.</p>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; steht euer Bild auf dem micro:bit?</p>
+        <p class="testline"><b>Testen:</b> Herunterladen &rarr; steht euer Bild auf dem micro:bit?</p>
         <div class="note">
           <span class="nt">Warum das clever ist</span>
           <p>25 Lämpchen, jedes an oder aus &ndash; das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>.</p>
@@ -977,7 +1014,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <span class="nt">Frei hinlegen</span>
           <p>Ereignis-Blöcke wie <kbd>wenn Knopf A geklickt</kbd> legt ihr <b>frei</b> ins Programmierfenster &ndash; nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>. Sie warten selbst auf ihren Moment.</p>
         </div>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Knopf A drücken, dann Knopf B.</p>
+        <p class="testline"><b>Testen:</b> Herunterladen &rarr; Knopf A drücken, dann Knopf B.</p>
       </div>
 
       <div class="block">
@@ -994,7 +1031,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-music i1">spiele Ton <b>Mittleres C</b> für <b>1 Schlag</b> <b>bis zum Ende</b></div>
           <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="skull" role="img" aria-label="Totenkopf"></b></div>
         </div>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; micro:bit nach vorn und hinten kippen, dann schütteln.</p>
+        <p class="testline"><b>Testen:</b> Herunterladen &rarr; micro:bit nach vorn und hinten kippen, dann schütteln.</p>
         <p class="lead">Und woher weiß der micro:bit, dass das Logo oben ist? Schaut im Simulator oben, Reiter <b>3 &middot; Neigen</b>. Unter dem Gerät seht ihr die Zahl, die der Sensor wirklich liefert.</p>
         <div class="tablewrap">
           <table class="fix">
@@ -1029,7 +1066,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-math">wähle eine zufällige Zahl von <b>1</b> bis <b>6</b></span></div>
         </div>
         <p>Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b> &ndash; stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.</p>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; dreimal schütteln. Kommen verschiedene Zahlen?</p>
+        <p class="testline"><b>Testen:</b> Herunterladen &rarr; dreimal schütteln. Kommen verschiedene Zahlen?</p>
         <p>Wer danach noch Zeit hat: Lasst vor der Zahl kurz ein Herz erscheinen &ndash; eine kleine Trommelwirbel-Pause.</p>
         <button class="btn sec" type="button" data-bonus="wuerfel3x">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
@@ -1178,7 +1215,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
           <div class="mcb b-mq i1">stop <b>beide Räder</b></div>
         </div>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter aufgebockt: Drehen sich beide Räder eine Sekunde lang?</p>
+        <p class="testline"><b>Testen:</b> Herunterladen &rarr; Roboter aufgebockt: Drehen sich beide Räder eine Sekunde lang?</p>
         <div class="note">
           <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
           <p>Dieser Block gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In eurer Vorlage steht er schon &ndash; nicht löschen. Mit ihm fragt der micro:bit beim Roboter an: &bdquo;Bist du da?&ldquo; Blinkt ein <b>X</b>, antwortet der Roboter nicht &ndash; prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt. Ein <b>Haken</b> heißt: verbunden, es kann losgehen.</p>
@@ -1199,7 +1236,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-basic">pausiere (ms) <b>400</b></div>
           <div class="mcb b-mq">stop <b>beide Räder</b></div>
         </div>
-        <p class="testline"><b>&#9654; Testen:</b> Hängt die Blöcke unter eure Geradeaus-Blöcke. Herunterladen &rarr; dreht sich der aufgebockte Roboter nach rechts?</p>
+        <p class="testline"><b>Testen:</b> Hängt die Blöcke unter eure Geradeaus-Blöcke. Herunterladen &rarr; dreht sich der aufgebockte Roboter nach rechts?</p>
         <div class="note aha">
           <span class="nt">Team-Challenge</span>
           <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.</p>
@@ -1299,7 +1336,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>blue</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
         </div>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter auf die Linie, Knopf A: Fährt er und blinkt dabei? Dann das Projekt unten neben <b>Herunterladen</b> in <b>Linie</b> umbenennen.</p>
+        <p class="testline"><b>Testen:</b> Herunterladen &rarr; Roboter auf die Linie, Knopf A: Fährt er und blinkt dabei? Dann das Projekt unten neben <b>Herunterladen</b> in <b>Linie</b> umbenennen.</p>
       </div>
 
       <div class="note aha">
@@ -1384,7 +1421,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
           </ol>
           <p>Erst die Form, dann der Inhalt: Der Vergleich ist das Loch, in das der Sensor passt.</p>
         </div>
-        <p class="testline"><b>&#9654; Testen:</b> Herunterladen &rarr; Roboter auf den Boden, Hand davorhalten. Er bremst, bevor ihr ihn berührt.</p>
+        <p class="testline"><b>Testen:</b> Herunterladen &rarr; Roboter auf den Boden, Hand davorhalten. Er bremst, bevor ihr ihn berührt.</p>
         <div class="note warn">
           <span class="nt">Extra, mit einer Warnung</span>
           <p>Wer noch einen <kbd>spiele Ton</kbd>-Block dazuhängt: Der Roboter wartet, bis der Ton fertig ist, bevor er die Schleife von vorn beginnt und wieder misst. Er reagiert in dieser Zeit nicht &ndash; nehmt einen kurzen Ton, sonst wird der Bremsassistent träge.</p>
@@ -1420,37 +1457,192 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 6</span><span>30 Minuten</span><span>Finale</span></div>
       <h2>Grand Prix</h2>
-      <p class="goal">Jetzt gehört der Roboter euch. Tunt ihn, gebt ihm einen Auftritt &ndash; und dann fahrt ihr um die schnellste Runde.</p>
+      <p class="goal">Lest die Strecke, stellt euren Roboter darauf ein und bringt ihn ins Ziel. Am Ziel gibt es Gummibärchen &ndash; für alle. Die Zeit stoppen wir nur zum Vergleichen.</p>
     </div>
     <div class="st-body">
       <div class="note fresh">
-        <span class="nt">Diesmal kein neues Projekt</span>
-        <p>Ihr tunt euer Programm aus Station 4 &ndash; den Linienfolger. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen und darin weiterarbeiten.</p>
-        <p>Kein &bdquo;Linie&ldquo; dabei? Dann startet ein neues Roboter-Projekt und baut den Linienfolger aus Station 4 nach &ndash; das sind nur ein paar Blöcke.</p>
+        <span class="nt">Weiter im Projekt Linie</span>
+        <p>Ihr arbeitet in eurem Projekt aus Station 4 weiter. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen.</p>
+        <p><b>Schritt 0:</b> Löscht zuerst den <kbd>dauerhaft</kbd>-Block mit dem Rot-Blau-Blinken. Zieht ihn einfach nach links in die Blockliste. Er würde später eure Startampel überschreiben und den Laser bremsen.</p>
+        <p>Kein &bdquo;Linie&ldquo; dabei? Dann startet ein neues Roboter-Projekt und baut das Programm unten ganz nach.</p>
         <a class="btn sec" href="https://makecode.microbit.org/#project:XQAAEABdDgAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5/+9xHypaF/ZZV4oQORn+5ZPrl1q2yB+i6GRpLWA+VvSLWbMQ7mv1m1fLVYoQiBzbSX4OsInXtkV5fxSejMfTLnLVxRWryrHZBMQnWnkPIBCnr+wHSUcoWuZ5rvjgHxb7bRGBJwLA++sTdMXhoVoNth+lzT7FD6gHFjW8ZbAtEaYH82TuUw8aUbPNzQkyD4/tWS9Nj8qECF6zP0AJVJ2UcbHJABunRooqxGdCUlBdYIdXIqiP5//wGViKzT6011SawurThtPFG645/WCo4414Ki5a/KUsE3G8MSQyCfYm9bk/e7hNjMCRpv8dR3y/Af0SUhUYMSuHHhJBMY7bnW+KQjM0gvVLcYqXOJoksTlPPmmdI2ximDxBHVNv96JGxSSHsW3tE+hvKXu0GZgqxWuQZGg1wLuxCgdxSqWXWjLSnzVZXtWgYqQEnl5eWIBXriXXNUM+Y/1oMFkoM5zaihh7EG5zIXCt+RgnbGYWazAjgMdmVVwyAvVPjC8lS1OLadIOSXuK9rCq4yfAh11g1ry79Wrku31PQemFzpDxiuDviaqi/yl0EDeA7jeWPT/Z+AqFR8Qv8sC1OI0QUzei+PPRBa3GMIrJmyyejH+s/ZvR0aTp2jkaU8epWpjn9WE7EpR4Wkebhouv2uwUKiGPZUEE7OsMEaIT36GSqpYn5AyfTbv4MD0jZa5pTH+a6Tzv2GkhROXO6xj0Mjo4jbpFcSgaYi8rKEjwarVWCFI8bjQqDYIAxNUDBL1AR7cu1gaO0t4DjCBbM7ku+qIsGTPfUYV4+0FZcVEWjOLBMm4T5KZopyWrYkmI/mqAoae3duHkmX0f2zVsxerCwmPyt57xgR1bLiQpgbk7/RJlW4g1MVHrTQl8ciBfm6hrifgLTHkhHnPbjmgO3iB6FVQqN5vh2avB/6qB5LUdcjOOL7GDOOmDwXzW//S1JWZEe1mrVqOy4TZAIK7rmFqx1kL2MHZyzFsOos290n9U/Z9U+B3QVLzL6YGselVvs3msa6ABYy/EW+SAGEBq2UFEZTbkleBh8k1zfCx+w07B/afu+W/ePMKZ98MirV1fiLV/LxV1rsXMv9LantrNZM+wWxOk488S6KWY2y3/alV7OMGmRfFQgcmsEnCeQDTadBjRAr+z4YUcFub7yCGSCH/JKhpz2eb8kYo2y0SrO4wUBHfJf89P9CReEOJ7ZzGln1bm3q6HfyO4Egtx8Neim6gR8/mlzEoLTCuH086UjP6U0baPXGG11KrRW6EVSGHYSZ1OMUdBePJGO0M3XWGPy7M1utyGYXuzHnWorf0jmr6IcBvWOnvjmS/XyeU1LagdfYkOCRW3TUOyLAKFHDZIustDOvB3ugNy5DVrH3Jz6L56fJfCPBR9kfyZlLB0VqHzTrALJeR3B4jlKl38t4/yGwaIKZmbqMMvajdfgCECs2bofa+rkW83gl0bNnA8/82MUZ7ciPHrb5kExwr4SWtu+U4ZvCeNLkhxmhQ6WtUUDSIp9T+23J2P6TU8PBRPwX79cRuxfbghhxfKwf+0+/VG" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
       </div>
 
       <div class="block">
-        <h3><span class="idx">01</span>Tuning-Werkstatt</h3>
-        <p class="lead">Wählt aus, woran ihr arbeitet. Mehr als zwei Dinge schafft ihr nicht &ndash; entscheidet euch bewusst.</p>
-        <div class="tablewrap">
-          <table class="fix">
-            <tr><th>Idee</th><th>Was ihr braucht</th><th>Schwierigkeit</th></tr>
-            <tr><td>Schnellste Runde</td><td>Bei <b>Line Following Settings Speed</b> die Zahl hochdrehen, bis er fliegt statt fährt</td><td>leicht</td></tr>
-            <tr><td>Startampel</td><td><kbd>wenn Knopf A geklickt</kbd>: rot, gelb, grün leuchten, dann losfahren</td><td>leicht</td></tr>
-            <tr><td>Discomodus</td><td>Zufallsfarben auf allen 6 LEDs im <kbd>dauerhaft</kbd>-Block</td><td>leicht</td></tr>
-          </table>
-        </div>
-        <p class="lead">Wer die Zeit dafür hat, kann auch eine <b>Zieleinlauf-Fanfare</b> bauen (Musik-Block, wenn der Laser die Zielwand sieht) oder den Maqueen selbst <b>Kreuzungen erkennen</b> lassen &ndash; beides schwerer, fragt einfach eure Betreuenden.</p>
-        <p class="testline"><b>&#9654; Testen:</b> Nach jeder Änderung herunterladen und auf der Strecke ausprobieren. Eine Änderung nach der anderen &ndash; dann wisst ihr, was gewirkt hat.</p>
+        <h3><span class="idx">01</span>Strecke lesen</h3>
+        <p class="lead">Zum Ausprobieren ist keine Zeit. Plant deshalb vorher: Schaut euch die Strecke an und überlegt an jeder Nummer, was der Roboter dort tun soll.</p>
+        <figure class="gpfig">
+          <svg id="gpmap" viewBox="-3 -3 106 206" role="img" aria-labelledby="gpmap-t">
+            <title id="gpmap-t">Die Strecke von oben: Start unten links, Kreuzungen 1 bis 4, Ziel und Pro-Ziel</title>
+            <defs>
+              <pattern id="gpchk" width="2" height="2" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#fff"/><rect width="1" height="1" fill="#111"/><rect x="1" y="1" width="1" height="1" fill="#111"/></pattern>
+            </defs>
+            <rect class="gp-mat" x="0" y="0" width="100" height="200"/>
+            <g class="gp-grid">
+              <path d="M10 0V200M20 0V200M30 0V200M40 0V200M50 0V200M60 0V200M70 0V200M80 0V200M90 0V200"/>
+              <path d="M0 10H100M0 20H100M0 30H100M0 40H100M0 50H100M0 60H100M0 70H100M0 80H100M0 90H100M0 100H100M0 110H100M0 120H100M0 130H100M0 140H100M0 150H100M0 160H100M0 170H100M0 180H100M0 190H100"/>
+            </g>
+            <!-- Tempo-Zone (gelb hinterlegt) -->
+            <path class="gp-zone" d="M52 62 V44 H72 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+            <!-- Startgerade + Sackgasse oben -->
+            <path class="gp-ln" d="M10 186 V10"/>
+            <rect class="gp-box" x="5" y="2" width="10" height="6" rx="0.8"/>
+            <!-- Abzweig nach rechts, zweite Gerade runter, unterer Bogen, wieder hoch -->
+            <path class="gp-ln" d="M10 40 H36 V147 H52 V44 H72"/>
+            <!-- Stummel mit Kiste -->
+            <path class="gp-ln" d="M36 75 H26"/>
+            <rect class="gp-box" x="20" y="71.5" width="6" height="7" rx="0.8"/>
+            <!-- Bauch -->
+            <path class="gp-ln" d="M72 44 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+            <!-- Ziel-T -->
+            <path class="gp-ln" d="M60 51 H72"/>
+            <!-- Tempo-Schild: Querstrich und Papierschild „1“ -->
+            <path class="gp-ln" d="M46 64 H58"/>
+            <rect class="gp-sign" x="39.6" y="67.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="43" y="71">1</text>
+            <!-- Profis: Lücke, Strich, Kiste -->
+            <path class="gp-gap" d="M66 51 V34"/>
+            <path class="gp-ln" d="M66 34 V12"/>
+            <rect class="gp-box" x="61" y="3" width="10" height="6" rx="0.8"/>
+            <!-- Zielflaggen -->
+            <path class="gp-pole" d="M56 55 V47"/><rect x="56" y="47" width="4" height="3" fill="url(#gpchk)" stroke="#111" stroke-width="0.25"/>
+            <path class="gp-pole" d="M74 9 V1"/><rect x="74" y="1" width="4" height="3" fill="url(#gpchk)" stroke="#111" stroke-width="0.25"/>
+            <!-- Nummern -->
+            <circle class="gp-kc" cx="10" cy="40" r="3"/><text class="gp-k" x="10" y="40">1</text>
+            <circle class="gp-kc" cx="36" cy="75" r="3"/><text class="gp-k" x="36" y="75">2</text>
+            <circle class="gp-kc" cx="52" cy="64" r="3"/><text class="gp-k" x="52" y="64">3</text>
+            <circle class="gp-kc" cx="66" cy="51" r="3"/><text class="gp-k" x="66" y="51">4</text>
+            <!-- Beschriftung -->
+            <path class="gp-start" d="M10 187.5 L7.6 192.5 H12.4 Z"/>
+            <text class="gp-lab" x="14" y="192.5">Start</text>
+            <text class="gp-lab" x="55" y="59">Ziel</text>
+            <text class="gp-lab" x="79" y="4">Pro-Ziel</text>
+            <text class="gp-sm" x="17" y="5.8">Sackgasse</text>
+            <text class="gp-sm" x="68.5" y="21">nur Profis:</text>
+            <text class="gp-sm" x="68.5" y="24.6">Sprung über</text>
+            <text class="gp-sm" x="68.5" y="28.2">die Lücke</text>
+            <text class="gp-sm gp-b" x="70" y="160">Tempo-Zone</text>
+            <text class="gp-sm" x="70" y="163.6">ab dem Schild</text>
+            <text class="gp-sm" x="70" y="167.2">bis ins Ziel</text>
+          </svg>
+          <figcaption>
+            <p><b>Welche Kreuzung ist das für den Roboter?</b> Er fährt &ndash; nicht ihr. Rechts und links zählen also so, wie <b>er</b> gerade fährt. Stellt euch auf seinen Platz.</p>
+            <p>Der Roboter zählt jede Kreuzung, über die er fährt. Die roten Nummern zeigen, in welcher Reihenfolge er sie trifft.</p>
+            <ul class="gplegend">
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-box" x="1" y="1" width="8" height="6" rx="0.8"/></svg><span><b>Kiste:</b> Kommt er hier an, ist der Lauf vorbei.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-zone" d="M1 4 H9"/></svg><span><b>Gelb:</b> Tempo-Zone, ab dem Schild &bdquo;1&ldquo; langsam fahren.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4" style="font-size:3.4px">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-gap" d="M1 4 H9"/></svg><span><b>Gestrichelt:</b> keine Linie. Darüber springen nur die Profis.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-grid" d="M0 2H10M0 6H10M3 0V8M7 0V8"/></svg><span><b>Gitter:</b> ein Kästchen ist 10&nbsp;cm.</span></li>
+            </ul>
+            <div class="note">
+              <span class="nt">Gut hinschauen</span>
+              <p>Für den Roboter sehen <span class="gpnum">1</span> und <span class="gpnum">2</span> gleich aus. Was muss nach <span class="gpnum">1</span> anders sein?</p>
+            </div>
+          </figcaption>
+        </figure>
+        <p class="lead">Der Roboter kennt vier Arten von Kreuzungen. Die Blöcke dafür sind auf Englisch:</p>
+        <ul class="gptypes">
+          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Crossroads</b> Kreuzung: links, rechts und geradeaus geht es weiter</span></li>
+          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H15"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Left Turn and Straight Intersection</b> Abzweig nach links, geradeaus geht es auch weiter</span></li>
+          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M15 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Right Turn and Straight Intersection</b> Abzweig nach rechts, geradeaus geht es auch weiter</span></li>
+          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V15 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>T-junction</b> T: nur links oder rechts, geradeaus ist Schluss</span></li>
+        </ul>
+        <p class="lead">Das Dreieck ist der Roboter, er kommt von unten. Für jede Art stellt ihr ein, was er dort tun soll. Im Auswahlfeld stehen Wörter wie <b>Straight</b> (geradeaus), <b>Left</b> (links), <b>Right</b> (rechts) und <b>Stop</b> (anhalten).</p>
       </div>
 
       <div class="block">
-        <h3><span class="idx">02</span>Das Rennen</h3>
+        <h3><span class="idx">02</span>Euer Programm</h3>
+        <p class="lead">Die Regeln für die Kreuzungen stehen in <kbd>wenn Knopf A geklickt</kbd>, <b>vor</b> <b>Line patrolling ON</b>. So startet jeder Druck auf A sauber von vorn. Die <b>???</b> findet ihr mit der Skizze heraus.</p>
         <ol class="steps">
-          <li><span>Jedes Team fährt einen Lauf auf Zeit. Bleibt Zeit, gibt es eine zweite Runde &ndash; der bessere Lauf zählt.</span></li>
-          <li><span>Verlässt der Roboter die Strecke, wird er an der Stelle wieder aufgesetzt &ndash; plus 3 Sekunden.</span></li>
-          <li><span>Es gibt zwei Pokale: <b>schnellste Runde</b> und <b>schönster Auftritt</b>.</span></li>
+          <li><span><b>Kreuzungen einstellen.</b> Setzt alle vier Regeln, auch die, die auf der Strecke nicht vorkommen. Die Blöcke liegen in der Maqueen-Kategorie unter <b>&hellip; mehr</b>, Gruppe <b>V3</b>.</span></li>
+          <li><span><b>An Kreuzung <span class="gpnum">1</span> umstellen.</b> Die grauen Blöcke liegen in der Kategorie <b>Grand Prix</b>. <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> läuft einmal, sobald der Roboter dort ankommt.</span></li>
+          <li><span><b>Siegesmelodie am Ziel.</b> Den Block <kbd>spiele Melodie</kbd> findet ihr bei <b>Musik</b>.</span></li>
+        </ol>
+        <div class="mcstack">
+          <div class="mccap">Grand Prix &ndash; die ??? findet ihr heraus</div>
+          <div class="mcb b-basic">beim Start</div>
+          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+          <div class="mcb b-gp i1">setze Kreuzungszähler zurück</div>
+          <div class="mcb b-mq i1">At Crossroads <b>???</b></div>
+          <div class="mcb b-mq i1">At Left Turn and Straight Intersection <b>Straight</b></div>
+          <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
+          <div class="mcb b-mq i1">At T-junction <b>???</b></div>
+          <div class="mcb b-mq i1">Line Following Settings Speed <b>2</b></div>
+          <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+          <div class="mcb b-gp">wenn Kreuzung Nummer <b>1</b> erreicht</div>
+          <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
+          <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
+          <div class="mcb b-music i1">spiele <span class="mcr b-music">Melodie <b>Entertainer</b></span> <b>im Hintergrund</b></div>
+        </div>
+        <p class="lead">Einen Abzweig nach links gibt es auf der Strecke nicht. Der Block dafür steht trotzdem da: Falls der Roboter sich einmal vermisst, fährt er geradeaus weiter.</p>
+        <p class="testline"><b>Testen:</b> Erster Lauf! Herunterladen, USB-Kabel ab, Roboter auf den Start, Knopf A. Kommt er ins Ziel und spielt seine Melodie?</p>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Ausbauen</h3>
+        <p class="lead">Der erste Lauf hat geklappt? Dann baut eins nach dem anderen dazu.</p>
+        <ol class="steps">
+          <li><span><b>Tempo-Zone.</b> Ab dem Schild &bdquo;1&ldquo; fährt er langsam, bis ins Ziel. Zur Kontrolle zeigt er dabei eine 1 an.
+            <div class="mcstack">
+              <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
+              <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
+              <div class="mcb b-basic i1">zeige Zahl <b>1</b></div>
+            </div></span></li>
+          <li><span><b>Startampel.</b> Rot, gelb, grün &ndash; dann geht es los. Die fünf Blöcke kommen in <kbd>wenn Knopf A geklickt</kbd>, direkt über <b>Line patrolling ON</b>.
+            <div class="mcstack">
+              <div class="mcb b-mq">RGB Car Lights <b>All</b> color <b>red</b></div>
+              <div class="mcb b-basic">pausiere (ms) <b>1000</b></div>
+              <div class="mcb b-mq">RGB Car Lights <b>All</b> color <b>yellow</b></div>
+              <div class="mcb b-basic">pausiere (ms) <b>1000</b></div>
+              <div class="mcb b-mq">RGB Car Lights <b>All</b> color <b>green</b></div>
+              <div class="mcb b-mq">Line patrolling <b>ON</b></div>
+            </div></span></li>
+          <li><span><b>Vor der Kiste anhalten.</b> Den Laser kennt ihr aus Station 5. Er kommt in einen <b>neuen</b> <kbd>dauerhaft</kbd>-Block. Den alten mit dem Blinken habt ihr in Schritt 0 gelöscht, weil er die Laserabfrage bremst.
+            <div class="mcstack">
+              <div class="mcb b-basic">beim Start</div>
+              <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+              <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+              <div class="mcb b-basic">dauerhaft</div>
+              <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+              <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+              <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
+            </div></span></li>
+        </ol>
+        <p class="testline"><b>Testen:</b> Nach jeder Änderung herunterladen und fahren. Eine Änderung nach der anderen &ndash; dann wisst ihr, was gewirkt hat.</p>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">04</span>Für Profis: das Pro-Ziel</h3>
+        <p class="lead">Alles klappt? Hinter dem Ziel liegt noch ein zweites Ziel. Dazwischen ist eine Lücke ohne Linie.</p>
+        <div class="note aha">
+          <span class="nt">Der Plan</span>
+          <ol class="steps">
+            <li><span>Am Ziel <span class="gpnum">4</span> kurz warten, bis er steht, etwa eine halbe Sekunde.</span></li>
+            <li><span>Mit dem Laser prüfen, ob der Weg frei ist.</span></li>
+            <li><span><b>Line patrolling OFF</b>, dann mit <b>PID Distance Control</b> etwa 20&nbsp;cm geradeaus über die Lücke springen.</span></li>
+            <li><span><b>Line patrolling ON</b>, bis zur Kiste am Pro-Ziel.</span></li>
+          </ol>
+          <div class="mcstack">
+            <div class="mccap">Der Sprung</div>
+            <div class="mcb b-mq">PID Distance Control <b>CW</b> distance <b>20</b> cm <b>Allow interruption</b></div>
+          </div>
+          <p>Der Block hat drei Felder: die Richtung, die Strecke in cm und ob man ihn unterbrechen darf.</p>
+          <p><b>Blinker:</b> Lasst vor dem Abbiegen das Licht auf der richtigen Seite leuchten, wie beim Auto.</p>
+          <details class="hint">
+            <summary>Er macht nach dem Sprung, was er will?</summary>
+            <p>Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?</p>
+          </details>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">05</span>Das Rennen</h3>
+        <ol class="steps">
+          <li><span>Gestartet wird immer mit <b>Knopf A</b>. Fangt mit <b>Speed 1 oder 2</b> an. Schneller erst, wenn ein Lauf sauber geklappt hat.</span></li>
+          <li><span>Erreicht der Roboter eine <b>Kiste</b>, ist der Lauf vorbei. Tragt ihn zurück an den Start und versucht es noch einmal.</span></li>
+          <li><span>In der Tempo-Zone muss auf dem Display eine <b>1</b> stehen. Keine 1? Dann seid ihr <b>geblitzt</b>: plus 3 Sekunden.</span></li>
+          <li><span>Die Zeit wird gestoppt, damit ihr vergleichen könnt. Gummibärchen bekommen <b>alle</b>.</span></li>
         </ol>
       </div>
 
