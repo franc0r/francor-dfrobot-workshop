@@ -1,9 +1,9 @@
-let pause = false
+let pausiert = false
 input.onButtonPressed(Button.A, function () {
-    pause = false
+    pausiert = false
 })
 input.onButtonPressed(Button.B, function () {
-    pause = true
+    pausiert = true
 })
 maqueenPlusV2.I2CInit()
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.Addr4, matrixLidarDistance.Matrix.OBS)
@@ -11,7 +11,7 @@ maqueenPlusV2.setBrightness(255)
 maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.White)
 basic.forever(function () {
     matrixLidarDistance.getData()
-    if (pause || matrixLidarDistance.getObstacleDistance(matrixLidarDistance.ObstacleSide.Front) < 200) {
+    if (pausiert || matrixLidarDistance.getObstacleDistance(matrixLidarDistance.ObstacleSide.Front) < 200) {
         maqueenPlusV2.controlMotorStop(maqueenPlusV2.MyEnumMotor.AllMotor)
         maqueenPlusV2.showColor(DigitalPin.P1, maqueenPlusV2.colors(maqueenPlusV2.NeoPixelColors.Red))
     } else {
