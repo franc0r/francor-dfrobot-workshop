@@ -6,21 +6,24 @@
 - Zielgruppe: Schüler ab ca. Klasse 7
 - Hardware: **micro:bit V2 + DFRobot Maqueen Plus V3** (https://www.dfrobot.com/product-2935.html)
 - Programmierung: **nur Blöcke** (MakeCode), kein Textcode
-- Format: **feste Slots à 90 Min** auf einem Messestand, **2–4 Arbeitsplätze, je zwei Schüler**
+- Format: **feste Slots à 120 Min** (105 Min Stationen + 15 Min Puffer; Martin, 03./04.11.2026) auf einem Messestand, **2–4 Arbeitsplätze, je zwei Schüler**
 - Arbeitsplätze: Laptop **oder Raspberry Pi 4 mit Monitor/Tastatur/Maus** (noch nicht fix)
 - **Alles muss ohne Internet funktionieren** (siehe 02-offline-und-trockenlauf.md)
 - Leitmedium: interaktive Webseite mit geführtem Ablauf, Fortschritt, Gamification, zwei Browser-Simulatoren
 
-## Dramaturgie 90 Min
+## Dramaturgie 120 Min
+Stand 05.11.2026 (vorher 90 Min; Zeiten wie im Handbuch).
+
 | Zeit | Station | Kern |
 |---|---|---|
-| 0:00–0:06 | Boxenstopp | Regelkreis wahrnehmen → entscheiden → handeln |
-| 0:06–0:16 | Erster Kontakt | MakeCode, erstes Programm flashen (nur micro:bit am USB) |
-| 0:16–0:36 | micro:bit allein | LED-Matrix, Knopf-Ereignisse, Beschleunigungssensor, Würfel |
-| 0:36–0:52 | Fahrschule | Erweiterung laden, Parcours-Simulator, Motorblöcke |
-| 0:52–1:08 | Augen | Kalibrierung + Linienverfolgung auf Knopf A = Wow-Moment |
-| 1:08–1:18 | Reflexe | Laserscanner + wenn/dann/sonst — **Bonus-Station, streichbar** |
-| 1:18–1:30 | Grand Prix | Tuning + ein Lauf auf Zeit (nie streichen) |
+| 0:00–0:05 | Boxenstopp | Regelkreis wahrnehmen → entscheiden → handeln |
+| 0:05–0:18 | Erster Kontakt | MakeCode, erstes Programm flashen (nur micro:bit am USB) |
+| 0:18–0:33 | micro:bit allein | LED-Matrix, Knopf-Ereignisse, Logo oben/unten + Schütteln, Würfel |
+| 0:33–0:47 | Fahrschule | Vorlage öffnen (Erweiterung schon geladen), Parcours-Simulator, Motorblöcke |
+| 0:47–1:05 | Augen | Linienverfolgung auf Knopf A = Wow-Moment |
+| 1:05–1:15 | Reflexe | Laserscanner + wenn/dann/ansonsten — **Pflicht** (Martin, 04.11.2026), der Grand Prix braucht den Laser-Stopp |
+| 1:15–1:45 | Grand Prix | Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Laser-Stopp, Lauf auf Zeit (nie streichen) |
+| 1:45–2:00 | Puffer | keine Station; dort einsetzen, wo es hakt |
 
 **Didaktischer Faden:** Station 2 legt „Sensorwert = Zahl, die Grenze legt das Programm fest"
 — genau der Gedanke wird in Station 4 (schwarz ≈ 2700 / weiß ≈ 3800) wieder gebraucht.

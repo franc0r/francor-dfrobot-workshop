@@ -1,6 +1,6 @@
 # Maqueen Grand Prix — Robotik-Workshop
 
-Interaktive Workshop-Seite für einen 90-Minuten-Robotik-Workshop auf einer Messe.
+Interaktive Workshop-Seite für einen 120-Minuten-Robotik-Workshop auf einer Messe.
 Zielgruppe: Schüler ab Klasse 7. Hardware: BBC micro:bit V2 + DFRobot Maqueen Plus V3.
 Programmiert wird ausschließlich mit Blöcken in MakeCode.
 
@@ -39,13 +39,17 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    nachgebildet mit den `.mcb`-Klassen. Jeder Block trägt die Farbe seiner Kategorie, genau wie
    in MakeCode (am Gerät abgelesen 02.11.2026): Grundlagen `#1E90FF`, Eingabe `#D400D4`,
    Musik `#E63022`, Schleifen `#00AA00`, Logik `#00A4A6`, Mathematik `#9400D3`,
-   Maqueen `#0FBC11` (hellgrün), Matrix LiDAR `#5B3FE8`. Die Rollenfarben in Station 0
-   (`.r-*`) folgen denselben Werten.
+   Maqueen `#0FBC11` (hellgrün), Matrix LiDAR `#5B3FE8`, Grand Prix `#3C3C3C` (Graphit;
+   unsere eigene Bibliothek aus `microbit/bibliothek/`, in den Stationen `.b-gp`; Martin,
+   05.11.2026). Die Rollenfarben in Station 0 (`.r-*`) folgen denselben Werten.
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
    Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
    nicht in die Stationen.
-5. **90 Minuten exakt.** Eyebrow-Minuten der Stationen, das `STATIONS`-Array in `website/src/app.js`
-   und der Zeitplan im Handbuch müssen übereinstimmen. `build.py` prüft die ersten beiden.
+5. **120 Minuten = 105 Stationsminuten + 15 Puffer** (Martin, 03./04.11.2026). Eyebrow-Minuten
+   der Stationen, das `STATIONS`-Array in `website/src/app.js` und der Zeitplan im Handbuch
+   müssen übereinstimmen. Der Puffer hat keine eigene Station; er steht als letzte Zeile im
+   Zeitplan (1:45–2:00). `build.py` prüft die ersten beiden und dass die Stationen zusammen
+   genau 105 Minuten ergeben (`STATIONSMINUTEN`, `PUFFER`).
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
    `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Blöcke des
    8×8-Laserscanners (Station 5). Beim Ändern von Blocktexten immer alle Stationen und das
@@ -60,7 +64,7 @@ die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
 website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
   src/
     styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
-    topbar.html       Kopfzeile: 90-Min-Timer, Betreuer, Neues Team
+    topbar.html       Kopfzeile: 120-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
     assets/           Bilder; build.py bettet sie als data:-URI ein
@@ -71,10 +75,13 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
 microbit/             was auf den Roboter kommt — wird nicht gebaut
   vorlage/            MakeCode-Startprojekt (vorlage.mkcd, erzeugt von vorlage.py); build.py baut es in den Link in Station 3
+  bibliothek/         custom.ts: Bibliothek „Grand Prix“ (Kreuzungen zählen); kommt über vorlage.py in die Vorlage
   stations/NN-name/   Musterlösung je Station: loesung.hex, bloecke.png, README.md
   python/             MicroPython: Hardware-Check, Zugabe für Schnelle
 tools/                Werkzeuge für Stand und Arbeitsplätze
   trockenlauf.html    Prüfprotokoll (läuft nur als claude.ai-Artefakt, siehe unten)
+  grand-prix-druck.html  A4-Blatt 1:10: Teamskizze (Seite 1), Klebeplan (Seite 2); wird nicht gebaut,
+                      grand-prix-druck-test.cjs prüft Maßstab und Nummern (`npm run check`)
   pi/                 udev-Regel, Flash-Skript für den Raspberry Pi
 docs/                 Konzept, Offline-Recherche, Review-Notizen
 ```
@@ -94,7 +101,7 @@ Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fas
 nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
 ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
-## Die Stationen (Stand 15.09.2026)
+## Die Stationen (Stand 05.11.2026)
 
 | Nr | Datei | Min | Kern | Abzeichen |
 |---|---|---|---|---|
@@ -103,8 +110,9 @@ ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 | 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Logo oben/unten + Schütteln; Würfel ist Team-Challenge | Pixelkünstler |
 | 3 | 03-fahrschule | 14 | Vorlage öffnen (Erweiterung ist schon geladen), Parcours-Simulator, Motorblöcke | Fahrlehrer |
 | 4 | 04-augen | 18 | Linienverfolgung auf Knopf A — der Wow-Moment; Kalibrieren macht der Betreuer beim Aufbau, Schüler nur bei Bedarf | Spurhalter |
-| 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/ansonsten — **Bonus, streichbar** | Bremsassistent |
-| 6 | 06-grand-prix | 15 | Tuning (3 Ideen), ein Lauf auf Zeit — nie streichen | Champion |
+| 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/ansonsten — Pflicht, der Grand Prix braucht den Laser-Stopp | Bremsassistent |
+| 6 | 06-grand-prix | 30 | Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Laser-Stopp, Lauf auf Zeit — nie streichen | Champion |
+| – | Puffer | 15 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
 
 Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
 Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest" — auf dem
@@ -119,6 +127,15 @@ Entlastung vom 15.09.2026 (siehe Cowork-Projekt „Anfänger Robotik Workshop",
 Vorlage statt eigenem Erweiterung-Laden, Station 6 auf drei Tuning-Ideen reduziert. Im Gegenzug
 baut Station 1 jetzt explizit eine dauerhaft-Schleife neben beim Start, damit jedes Team das
 im Pflichtteil einmal selbst sieht (vorher nur im überspringbaren Bonus in Station 5 erklärt).
+
+Grand Prix vom 03.–05.11.2026 (Martin; Entwurf in
+`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.md`): Station 6 dauert 30 statt
+15 Minuten, der Workshop 120 statt 90 (Martin, 03./04.11.2026). Station 5 ist Pflicht statt
+Bonus (Martin, 04.11.2026); nur die Staubsauger-Challenge darin bleibt Bonus. Die Teams lesen
+eine Skizze der Strecke, stellen die Kreuzungsregeln ein, schalten an Kreuzung 1 um, fahren ab
+dem Tempo-Schild langsam und hören am Ziel ihre Siegesmelodie. Kein Wettbewerb: Gummibärchen
+für alle, die Zeit nur zum Vergleichen. Die Zählnummern 1–4 gelten bis zum Trockenlauf; jede
+Stelle, die sie nennt, steht in `microbit/stations/06-grand-prix/README.md`.
 
 ## Verein und Logo
 
@@ -146,6 +163,11 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   `plugdev` — von Martin auf Ubuntu 26.04 nachgestellt (28.10.2026); beides steht im Handbuch.
 - Maqueen: Tempo 0–255, unter ~30 keine Bewegung; zwei Schalter (Akkubrett + Bodenplatte);
   Kalibrierung Calc-Key ~2 s auf Schwarz; Linienverfolgung (`Line patrolling ON/OFF`, Tempo über `Line Following Settings Speed 1–5`) läuft im Hintergrund;
+  was sie an Kreuzungen tut, stellen die Kreuzungsblöcke `At Crossroads / T-junction /
+  Left Turn and Straight / Right Turn and Straight Intersection` ein (Gruppe V3, Auswahl
+  `Straight`/`Left`/`Right`/`Stop`); `Line patrolling OFF` löscht die Kreuzungsregeln (Martin am
+  Gerät, 03.11.2026), nach `ON` gelten wieder die Standardregeln — im Grand Prix gewollt, die
+  Bibliothek „Grand Prix“ nimmt das den Teams absichtlich nicht ab;
   Laserscanner 8×8, 20–4000 mm, eigene Erweiterung (siehe Offen).
 - Arbeitsplätze: Laptop oder **Raspberry Pi 4 (4 GB+)**; Raspberry Pi OS ist von der micro:bit
   Foundation offiziell unterstützt. 2–4 Plätze pro Slot, je zwei Schüler.
@@ -211,10 +233,14 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   (`RGB Car Lights`, `SET PIN P1 RGB show color`) in Station 4/5 am Gerät bestätigt
   (Screenshot 08.10.2026); die 3-s-Pause nach dem Einschalten war dabei nicht nötig.
   MakeCode-Logik heißt deutsch `wenn … dann … ansonsten`; `nestStack()` kennt beides.
+  Der Melodieblock heißt `spiele [Melodie …] [im Hintergrund]` (Martin am Gerät, 05.11.2026).
+  Noch vorläufig (Liste in `docs/02-offline-und-trockenlauf.md`): die drei Grand-Prix-Blöcke,
+  die vier Kreuzungsblöcke, `PID Distance Control`.
 - Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90° (erster Wert von Martin, 08.10.2026:
   ~650 ms bei Geschwindigkeit 100 — die Quadrat-Hilfe in Station 3 nennt deshalb 500–800), sichere Linienstufe, kleinster Kurvenradius
 - Entscheidung: Station 2 auf 12 Min kürzen, damit der Roboter früher fährt? (Review-Punkt, offen)
-- Danach: Parcours-Bauplan (braucht den gemessenen Radius), Stand-Paket zum Drucken
+- Danach: Parcours-Bauplan mit dem gemessenen Radius gegenprüfen (Klebeplan steht in
+  `tools/grand-prix-druck.html`, Seite 2), Stand-Paket zum Drucken
   (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
 - Fotos vom echten Gerät neben die beiden SVG-Figuren, falls die Zeichnung am Tisch nicht
   reicht (erst nach dem Trockenlauf möglich). Eine USB-Animation für Station 1 ist
