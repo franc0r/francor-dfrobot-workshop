@@ -1443,7 +1443,7 @@ body.safety-on{overflow:hidden}
               <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>wahr</b></span> dann</div></div></span></li>
             <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.
               <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>0</b> <b>&lt;</b> <b>0</b></span> dann</div></div></span></li>
-            <li><span>Jetzt erst den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Vorne (mm)</kbd> auf die <b>linke 0</b> ziehen. Rechts <b>200</b> eintippen.
+            <li><span>Jetzt erst den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen und im Menü <b>Links</b> auf <b>Vorne</b> umstellen. Rechts <b>200</b> eintippen.
               <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
           </ol>
           <p>Erst die Form, dann der Inhalt: Der Vergleich ist das Loch, in das der Sensor passt.</p>
@@ -1901,6 +1901,8 @@ body.safety-on{overflow:hidden}
           <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
           <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
           <tr><td>Koppeln schlägt unter Linux fehl (Pi, Ubuntu)</td><td>Meist fehlt die udev-Regel oder der Benutzer ist nicht in <kbd>plugdev</kbd> (siehe „Stationen auf Raspberry Pi und Linux“) – das ist Aufbau-Arbeit, nicht Workshop-Zeit. Während des Slots nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
+          <tr><td>Laser bremst nicht vor der Hand (Station 5/6)</td><td>Steht der Abstandsblock auf <b>Vorne</b>? MakeCode bringt ihn mit <b>Links</b>. Steht beim Start <em>Matrix-Modus Hindernisvermeidung</em> und im <em>dauerhaft</em> zuerst <em>Hindernisvermeidungsdaten abrufen</em>? Mit dem Matrix-Modus hängt die Abfrage bis zu 8&nbsp;s</td></tr>
+          <tr><td>MakeCode meldet &bdquo;Cannot redeclare block-scoped variable&ldquo;</td><td>Die Variable heißt wie ein eingebauter Block, meist <b>pause</b>. Umbenennen, z.&nbsp;B. in <b>pausiert</b></td></tr>
           <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em>?</td></tr>
           <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>initialisiere Maqueen Plus V2</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
           <tr><td>Motoren brummen, fahren aber nicht</td><td>Tempo unter 30, oder Akku schwach</td></tr>
