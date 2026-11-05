@@ -652,7 +652,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     </div>
   </div>
   <div class="tbgroup">
-    <div class="timer" id="timer"><button class="tv" id="tval" type="button" title="Zeit ändern – z. B. 75 oder 42:30 eintippen">90:00</button><input class="tv" id="tedit" type="text" inputmode="numeric" aria-label="Restzeit in Minuten oder Minuten:Sekunden" hidden><button id="tbtn" type="button">Start</button></div>
+    <div class="timer" id="timer"><button class="tv" id="tval" type="button" title="Zeit ändern – z. B. 75 oder 42:30 eintippen">120:00</button><input class="tv" id="tedit" type="text" inputmode="numeric" aria-label="Restzeit in Minuten oder Minuten:Sekunden" hidden><button id="tbtn" type="button">Start</button></div>
     <button class="ghost" id="coachbtn" type="button">Für Betreuer</button>
     <button class="ghost" id="resetbtn" type="button">Neues Team</button>
   </div>
@@ -676,7 +676,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 0</span><span>5 Minuten</span><span>Boxenstopp</span></div>
       <h2>Was macht einen Roboter zum Roboter?</h2>
-      <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter trifft eigene Entscheidungen. In den nächsten 90 Minuten baust du genau das: ein Fahrzeug, das die Welt wahrnimmt und selbst reagiert.</p>
+      <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter trifft eigene Entscheidungen. In den nächsten 120 Minuten baust du genau das: ein Fahrzeug, das die Welt wahrnimmt und selbst reagiert.</p>
     </div>
     <div class="st-body">
       <div class="block">
@@ -1418,7 +1418,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   <!-- ============ STATION 6 ============ -->
   <section class="station" data-st="6" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 6</span><span>15 Minuten</span><span>Finale</span></div>
+      <div class="eyebrow"><span class="tag">Station 6</span><span>30 Minuten</span><span>Finale</span></div>
       <h2>Grand Prix</h2>
       <p class="goal">Jetzt gehört der Roboter euch. Tunt ihn, gebt ihm einen Auftritt &ndash; und dann fahrt ihr um die schnellste Runde.</p>
     </div>
@@ -1484,7 +1484,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
   </div>
   <div class="dbody">
     <section>
-      <h3>Zeitplan · 90-Minuten-Slot</h3>
+      <h3>Zeitplan · 120-Minuten-Slot</h3>
       <table class="plan">
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
         <tr><td>0:05–0:18</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
@@ -1492,7 +1492,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams. Die Seite gibt Tipps und ein Gerüst mit <em>4 -mal wiederholen</em>. Wer das schnell schafft, dem zeigt ihr <em>Funktionen</em> (Musterlösung in <kbd>microbit/stations/03-fahrschule/</kbd>): Ein Stück Programm bekommt einen Namen wie <em>dreheRechts</em> und wird dann nur noch aufgerufen. Richtwert: 650&nbsp;ms bei Geschwindigkeit 100 ergeben etwa 90°.</td></tr>
         <tr><td>0:47–1:05</td><td><b>Augen.</b> Linienverfolgung. Kalibrieren nur bei Bedarf – die Roboter sind beim Aufbau schon kalibriert. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
         <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung. Bonus-Station: bei Zeitdruck überspringen oder nur schnellen Teams geben.</td></tr>
-        <tr><td>1:15–1:30</td><td><b>Grand Prix.</b> Tuning und Rennen. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+        <tr><td>1:15–1:45</td><td><b>Grand Prix.</b> Strecke lesen, Kreuzungen einstellen, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+        <tr><td>1:45–2:00</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
       </table>
     </section>
 
@@ -1652,7 +1653,7 @@ var STATIONS = [
   {n:"Fahrschule", m:"14 Min", badge:"Fahrlehrer"},
   {n:"Augen", m:"18 Min", badge:"Spurhalter"},
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"15 Min", badge:"Champion"}
+  {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
 var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
 
@@ -1789,7 +1790,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
 });
 
 /* ================= timer ================= */
-var TOTAL = 90*60, left = TOTAL, running = false, tick = null, tStarted = false;
+var TOTAL = 120*60, left = TOTAL, running = false, tick = null, tStarted = false;
 var tval = document.getElementById("tval"), tbtn = document.getElementById("tbtn"), tbox = document.getElementById("timer");
 function fmt(s){ var m = Math.floor(s/60), r = s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
 function paintT(){ tval.textContent = fmt(Math.max(0,left)); }
@@ -1806,7 +1807,7 @@ tbtn.addEventListener("click", function(){ setRunning(!running); });
    nie lief. Eine bewusste Pause bleibt also Pause; Neuladen startet nichts. */
 function timerAutoStart(){ if(!tStarted) setRunning(true); }
 /* Zeit ändern: Klick auf die Anzeige, dann „75“ (Minuten) oder „42:30“ eintippen.
-   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 90:00. */
+   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 120:00. */
 var tedit = document.getElementById("tedit");
 function editT(on){ tval.hidden = on; tedit.hidden = !on; if(on){ tedit.value = fmt(Math.max(0,left)); tedit.focus(); tedit.select(); } }
 function commitT(){

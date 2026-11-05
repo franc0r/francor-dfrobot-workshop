@@ -6,7 +6,7 @@
  * Prüft, was am Messetag weh tun würde:
  *   1. Die Datei lädt mit komplett abgeschaltetem Netzwerk, ohne JS-Fehler.
  *   2. Es gibt keine externen Verweise (Schriften, Skripte, Bilder).
- *   3. Sieben Stationen, Minuten summieren auf 90, Rail und Eyebrows passen.
+ *   3. Sieben Stationen, Minuten summieren auf 105 (+ 15 Puffer = 120), Rail und Eyebrows passen.
  *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln laufen.
  *   5. Parcours-Simulator: Level 1 mit "fahre 5" → im Ziel.
  *   6. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
@@ -43,13 +43,14 @@ function check(cond, msg) {
 
   await page.goto('file://' + DIST);
   await page.waitForTimeout(500);
+  check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Timer steht auf 120:00');
 
   // Struktur
   const n = await page.$$eval('.station', s => s.length);
   check(n === 7, 'sieben Stationen (gefunden: ' + n + ')');
   const mins = await page.$$eval('.eyebrow span:nth-child(2)', s => s.map(x => parseInt(x.textContent, 10)));
   const sum = mins.reduce((a, b) => a + b, 0);
-  check(sum === 90, 'Stationsminuten summieren auf 90 (' + mins.join('+') + ' = ' + sum + ')');
+  check(sum === 105, 'Stationsminuten summieren auf 105 (' + mins.join('+') + ' = ' + sum + ')');
   const railMins = await page.$$eval('.stepbtn .min', s => s.map(x => parseInt(x.textContent, 10)));
   check(JSON.stringify(railMins) === JSON.stringify(mins), 'Rail-Minuten = Eyebrow-Minuten');
 
@@ -129,6 +130,7 @@ function check(cond, msg) {
   await page.waitForTimeout(200);
   check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), '"Neues Team" setzt Abzeichen zurück');
   check(await page.$eval('.station[data-st="0"]', e => !e.hidden), '"Neues Team" springt zu Station 0');
+  check(await page.$eval('#tval', e => e.textContent) === '120:00', '"Neues Team" stellt 120:00');
 
   check(errors.length === 0, 'keine JavaScript-Fehler' + (errors.length ? ': ' + errors.join(' | ') : ''));
 

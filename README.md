@@ -1,6 +1,6 @@
 # Maqueen Grand Prix
 
-Workshop-Material für einen 90-Minuten-Robotik-Workshop (micro:bit V2 + Maqueen Plus V3,
+Workshop-Material für einen 120-Minuten-Robotik-Workshop (micro:bit V2 + Maqueen Plus V3,
 Schüler ab Klasse 7, Messe, offline). Träger ist FRANCOR e. V.
 
 ## Was liegt wo

@@ -133,14 +133,19 @@ def stations():
     return "".join(out)
 
 
+STATIONSMINUTEN = 105   # Summe der Stationen ...
+PUFFER = 15             # ... plus Puffer = 120-Minuten-Slot
+
+
 def check_times(stations_html, app_js):
     """Eyebrow-Minuten, Rail-Array und Handbuch-Zeitplan müssen zusammenpassen."""
     eyebrow = [int(x) for x in re.findall(r'<span class="tag">Station \d</span><span>(\d+) Minuten</span>', stations_html)]
     rail = [int(x) for x in re.findall(r'm:"(\d+) Min"', app_js)]
     if eyebrow != rail:
         raise SystemExit("Zeiten stimmen nicht überein: Eyebrows %s vs. STATIONS-Array %s" % (eyebrow, rail))
-    if sum(eyebrow) != 90:
-        raise SystemExit("Stationsminuten summieren auf %d, nicht 90" % sum(eyebrow))
+    if sum(eyebrow) != STATIONSMINUTEN:
+        raise SystemExit("Stationsminuten summieren auf %d, nicht %d (+ %d Puffer = %d)"
+                         % (sum(eyebrow), STATIONSMINUTEN, PUFFER, STATIONSMINUTEN + PUFFER))
     return sum(eyebrow)
 
 
