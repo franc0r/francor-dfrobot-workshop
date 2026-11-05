@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grand Prix – Druckblatt</title>
+<!--
+  Druckblatt zur Grand-Prix-Strecke (Station 6), Maßstab 1:10.
+  Seite 1: Teamskizze für jeden Tisch (ohne Kreuzungstypen – die finden die Teams selbst).
+  Seite 2: Klebeplan für die Betreuer, mit cm-Maßen, Kisten, Schild und Lösung.
+  Geometrie: docs/superpowers/specs/2026-11-04-grand-prix-parcours-skizze.html,
+  dieselbe Zeichnung wie #gpmap in website/src/stations/06-grand-prix.html.
+  Im SVG ist 1 Einheit = 1 cm auf der Matte = 1 mm auf dem Blatt.
+  Test: node tools/grand-prix-druck-test.cjs
+-->
+<style>
+@page { size: A4 portrait; margin: 10mm; }
+:root { color-scheme: light; }
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { margin: 0; }
+body { background: #d9dcde; color: #1A2226; font: 10pt/1.35 "Helvetica Neue", Arial, "DejaVu Sans", "Liberation Sans", sans-serif; }
+
+.hint { max-width: 210mm; margin: 6mm auto 0; padding: 3mm 4mm; background: #fff4e0; border-left: 1.2mm solid #E07A00; font-size: 10pt; }
+.sheet { width: 210mm; height: 297mm; padding: 10mm; margin: 6mm auto; background: #fff; box-shadow: 0 1mm 4mm rgba(0,0,0,.25); overflow: hidden; break-after: page; page-break-after: always; }
+.sheet:last-of-type { break-after: auto; page-break-after: auto; }
+@media print {
+  body { background: #fff; }
+  .hint { display: none; }
+  .sheet { width: 190mm; height: 276mm; padding: 0; margin: 0; box-shadow: none; }
+}
+
+h1 { font-size: 19pt; line-height: 1.1; margin: 0 0 1.5mm; }
+h2 { font-size: 11pt; margin: 3.5mm 0 1mm; }
+.sub { margin: 0 0 3mm; font-size: 10pt; color: #33424a; }
+p, ul, ol { margin: 0 0 1.5mm; }
+ul, ol { padding-left: 4.5mm; }
+li { margin-bottom: .6mm; }
+
+/* Die Matte: SVG genau 100 × 200 mm, Rahmen am umgebenden Element */
+.matbox { position: relative; width: 100mm; height: 200mm; outline: .3mm solid #888; flex: none; }
+.matbox svg { display: block; width: 100mm; height: 200mm; }
+
+.gp-mat { fill: #fff; }
+.gp-grid { stroke: #e2e2e2; stroke-width: .25; fill: none; }
+.plan .gp-grid { stroke: #c4c4c4; stroke-width: .3; }
+.gp-ln { stroke: #111; stroke-width: 1.9; fill: none; stroke-linejoin: round; }
+.gp-gap { stroke: #5B3FE8; stroke-width: .6; fill: none; stroke-dasharray: 1.5 1; }
+.gp-zone { stroke: #f5b700; stroke-width: 5; fill: none; opacity: .35; stroke-linecap: round; }
+.gp-box { fill: #b07a3c; stroke: #6b4520; stroke-width: .4; }
+.gp-sign { fill: #fff; stroke: #111; stroke-width: .6; }
+.gp-signt { font-size: 3.4px; font-weight: 700; fill: #111; text-anchor: middle; dominant-baseline: central; }
+.gp-kc { fill: #E9483F; }
+.gp-k { font-size: 3.6px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.gp-pole { stroke: #111; stroke-width: .4; }
+.gp-start { fill: #1E90FF; }
+.gp-lab { font-size: 3.6px; font-weight: 700; fill: #1A2226; }
+.gp-sm { font-size: 2.8px; fill: #4A5A63; }
+.gp-b { font-weight: 700; fill: #1A2226; }
+.dim { font-size: 2.4px; font-weight: 700; fill: #C2185B; }
+.dim.m { text-anchor: middle; }
+.dim.e { text-anchor: end; }
+.pt { fill: #C2185B; }
+
+/* Seite 1: Teamskizze */
+.row { display: flex; gap: 6mm; align-items: flex-start; }
+.legend { list-style: none; padding: 0; margin: 0; font-size: 9.5pt; }
+.legend li { display: flex; gap: 2.5mm; align-items: flex-start; margin-bottom: 3.5mm; }
+.legend svg { width: 10mm; height: 8mm; flex: none; }
+.num { display: inline-grid; place-items: center; width: 6.5mm; height: 6.5mm; border-radius: 50%; background: #E9483F; color: #fff; font-weight: 700; font-size: 11pt; }
+table.fill { width: 100%; border-collapse: collapse; margin-top: 3mm; font-size: 10pt; }
+table.fill th, table.fill td { border: .3mm solid #666; padding: 1mm 2mm; text-align: left; vertical-align: middle; }
+table.fill th { background: #eef1f2; height: 6.5mm; }
+table.fill td { height: 9.5mm; }
+table.fill td:first-child, table.fill th:first-child { width: 12mm; text-align: center; }
+table.fill th:nth-child(2) { width: 89mm; }
+
+/* Seite 2: Klebeplan */
+.plan .row { gap: 4mm; }
+.axes { position: relative; padding: 4.5mm 0 0 7mm; flex: none; }
+.ax { position: absolute; font-size: 6.5pt; color: #555; line-height: 1; }
+.ax.x { top: 0; transform: translateX(-50%); }
+.ax.y { left: 0; width: 6mm; text-align: right; transform: translateY(-50%); }
+.side { flex: 1; min-width: 0; font-size: 8.4pt; line-height: 1.28; }
+.side h1 { font-size: 15pt; }
+.side h2 { font-size: 9.6pt; }
+.side table { width: 100%; border-collapse: collapse; font-size: 8pt; }
+.side th, .side td { border: .25mm solid #999; padding: .7mm 1.2mm; text-align: left; vertical-align: top; }
+.side th { background: #eef1f2; }
+.box { background: #f4f6f7; border-left: 1mm solid #E9483F; padding: 1.5mm 2mm; margin-top: 2mm; }
+code, .k { font-family: inherit; font-style: italic; }
+</style>
+</head>
+<body>
+
+<p class="hint"><b>Drucken:</b> A4 hochkant, Skalierung <b>100&nbsp;%</b> (nicht &bdquo;an Seite anpassen&ldquo;), Hintergrundgrafiken an. Danach mit dem Lineal prüfen: Die Matte auf dem Blatt ist 10&nbsp;cm breit und 20&nbsp;cm hoch. Seite&nbsp;1 kommt auf jeden Tisch, Seite&nbsp;2 ist der Klebeplan für den Aufbau.</p>
+
+<!-- ============ Seite 1: Teamskizze ============ -->
+<section class="sheet team">
+  <h1>Grand Prix – eure Strecke</h1>
+  <p class="sub">Das ist die Matte von oben, zehnmal kleiner. Ein Kästchen ist 10&nbsp;cm. Euer Roboter fährt die roten Nummern der Reihe nach ab. Rechts und links zählen so, wie <b>er</b> gerade fährt.</p>
+
+  <div class="row">
+    <div class="matbox">
+      <svg viewBox="0 0 100 200" role="img" aria-label="Die Strecke von oben: Start unten links, Kreuzungen 1 bis 4, Ziel und Pro-Ziel">
+        <defs>
+          <pattern id="gpchk1" width="2" height="2" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#fff"/><rect width="1" height="1" fill="#111"/><rect x="1" y="1" width="1" height="1" fill="#111"/></pattern>
+        </defs>
+        <rect class="gp-mat" x="0" y="0" width="100" height="200"/>
+        <g class="gp-grid">
+          <path d="M10 0V200M20 0V200M30 0V200M40 0V200M50 0V200M60 0V200M70 0V200M80 0V200M90 0V200"/>
+          <path d="M0 10H100M0 20H100M0 30H100M0 40H100M0 50H100M0 60H100M0 70H100M0 80H100M0 90H100M0 100H100M0 110H100M0 120H100M0 130H100M0 140H100M0 150H100M0 160H100M0 170H100M0 180H100M0 190H100"/>
+        </g>
+        <path class="gp-zone" d="M52 62 V44 H72 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+        <path class="gp-ln" d="M10 186 V10"/>
+        <rect class="gp-box" x="5" y="2" width="10" height="6" rx="0.8"/>
+        <path class="gp-ln" d="M10 40 H36 V147 H52 V44 H72"/>
+        <path class="gp-ln" d="M36 75 H26"/>
+        <rect class="gp-box" x="20" y="71.5" width="6" height="7" rx="0.8"/>
+        <path class="gp-ln" d="M72 44 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+        <path class="gp-ln" d="M60 51 H72"/>
+        <path class="gp-ln" d="M46 64 H58"/>
+        <rect class="gp-sign" x="39.6" y="67.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="43" y="71">1</text>
+        <path class="gp-gap" d="M66 51 V34"/>
+        <path class="gp-ln" d="M66 34 V12"/>
+        <rect class="gp-box" x="61" y="3" width="10" height="6" rx="0.8"/>
+        <path class="gp-pole" d="M56 55 V47"/><rect x="56" y="47" width="4" height="3" fill="url(#gpchk1)" stroke="#111" stroke-width="0.25"/>
+        <path class="gp-pole" d="M74 9 V1"/><rect x="74" y="1" width="4" height="3" fill="url(#gpchk1)" stroke="#111" stroke-width="0.25"/>
+        <circle class="gp-kc" cx="10" cy="40" r="3"/><text class="gp-k" x="10" y="40">1</text>
+        <circle class="gp-kc" cx="36" cy="75" r="3"/><text class="gp-k" x="36" y="75">2</text>
+        <circle class="gp-kc" cx="52" cy="64" r="3"/><text class="gp-k" x="52" y="64">3</text>
+        <circle class="gp-kc" cx="66" cy="51" r="3"/><text class="gp-k" x="66" y="51">4</text>
+        <path class="gp-start" d="M10 187.5 L7.6 192.5 H12.4 Z"/>
+        <text class="gp-lab" x="14" y="192.5">Start</text>
+        <text class="gp-lab" x="55" y="59">Ziel</text>
+        <text class="gp-lab" x="79" y="4">Pro-Ziel</text>
+        <text class="gp-sm" x="17" y="5.8">Sackgasse</text>
+        <text class="gp-sm" x="68.5" y="21">nur Profis:</text>
+        <text class="gp-sm" x="68.5" y="24.6">Sprung über</text>
+        <text class="gp-sm" x="68.5" y="28.2">die Lücke</text>
+        <text class="gp-sm gp-b" x="70" y="160">Tempo-Zone</text>
+        <text class="gp-sm" x="70" y="163.6">ab dem Schild</text>
+        <text class="gp-sm" x="70" y="167.2">bis ins Ziel</text>
+      </svg>
+    </div>
+
+    <ul class="legend">
+      <li><span class="num">1</span><span>Die roten Nummern zeigen, in welcher Reihenfolge der Roboter die Kreuzungen trifft.</span></li>
+      <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-start" d="M5 1.5 L2 6.5 H8 Z"/></svg><span><b>Start:</b> unten links, der Roboter fährt nach oben.</span></li>
+      <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-pole" d="M3 7.5 V1"/><rect x="3" y="1" width="5" height="3.5" fill="url(#gpchk1)" stroke="#111" stroke-width="0.25"/></svg><span><b>Ziel</b> und <b>Pro-Ziel:</b> Hier soll er anhalten.</span></li>
+      <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-box" x="1" y="1" width="8" height="6" rx="0.8"/></svg><span><b>Kiste:</b> Kommt er hier an, ist der Lauf vorbei.</span></li>
+      <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-zone" d="M1 4 H9"/></svg><span><b>Gelb:</b> Tempo-Zone. Ab dem Schild &bdquo;1&ldquo; langsam fahren.</span></li>
+      <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke.</span></li>
+      <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-gap" d="M1 4 H9"/></svg><span><b>Gestrichelt:</b> keine Linie. Darüber springen nur die Profis.</span></li>
+      <li><span class="num" style="background:#fff;color:#1A2226;border:.3mm solid #666">?</span><span><b>Gut hinschauen:</b> Für den Roboter sehen 1 und 2 gleich aus. Was muss nach 1 anders sein?</span></li>
+    </ul>
+  </div>
+
+  <table class="fill">
+    <tr><th>Nr.</th><th>Was ist das für den Roboter?</th><th>Was soll er tun?</th></tr>
+    <tr><td><span class="num">1</span></td><td></td><td></td></tr>
+    <tr><td><span class="num">2</span></td><td></td><td></td></tr>
+    <tr><td><span class="num">3</span></td><td></td><td></td></tr>
+    <tr><td><span class="num">4</span></td><td></td><td></td></tr>
+  </table>
+</section>
+
+<!-- ============ Seite 2: Klebeplan ============ -->
+<section class="sheet plan">
+  <div class="row">
+    <div class="axes">
+      <span class="ax x" style="left:7mm">0</span><span class="ax x" style="left:17mm">10</span><span class="ax x" style="left:27mm">20</span><span class="ax x" style="left:37mm">30</span><span class="ax x" style="left:47mm">40</span><span class="ax x" style="left:57mm">50</span><span class="ax x" style="left:67mm">60</span><span class="ax x" style="left:77mm">70</span><span class="ax x" style="left:87mm">80</span><span class="ax x" style="left:97mm">90</span><span class="ax x" style="left:107mm">100</span>
+      <span class="ax y" style="top:4.5mm">0</span><span class="ax y" style="top:24.5mm">20</span><span class="ax y" style="top:44.5mm">40</span><span class="ax y" style="top:64.5mm">60</span><span class="ax y" style="top:84.5mm">80</span><span class="ax y" style="top:104.5mm">100</span><span class="ax y" style="top:124.5mm">120</span><span class="ax y" style="top:144.5mm">140</span><span class="ax y" style="top:164.5mm">160</span><span class="ax y" style="top:184.5mm">180</span><span class="ax y" style="top:204.5mm">200</span>
+      <div class="matbox">
+        <svg viewBox="0 0 100 200" role="img" aria-label="Klebeplan der Strecke mit Maßen in Zentimetern">
+          <defs>
+            <pattern id="gpchk2" width="2" height="2" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#fff"/><rect width="1" height="1" fill="#111"/><rect x="1" y="1" width="1" height="1" fill="#111"/></pattern>
+          </defs>
+          <rect class="gp-mat" x="0" y="0" width="100" height="200"/>
+          <g class="gp-grid">
+            <path d="M10 0V200M20 0V200M30 0V200M40 0V200M50 0V200M60 0V200M70 0V200M80 0V200M90 0V200"/>
+            <path d="M0 10H100M0 20H100M0 30H100M0 40H100M0 50H100M0 60H100M0 70H100M0 80H100M0 90H100M0 100H100M0 110H100M0 120H100M0 130H100M0 140H100M0 150H100M0 160H100M0 170H100M0 180H100M0 190H100"/>
+          </g>
+          <path class="gp-zone" d="M52 62 V44 H72 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+          <path class="gp-ln" d="M10 186 V10"/>
+          <rect class="gp-box" x="5" y="2" width="10" height="6" rx="0.8"/>
+          <path class="gp-ln" d="M10 40 H36 V147 H52 V44 H72"/>
+          <path class="gp-ln" d="M36 75 H26"/>
+          <rect class="gp-box" x="20" y="71.5" width="6" height="7" rx="0.8"/>
+          <path class="gp-ln" d="M72 44 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+          <path class="gp-ln" d="M60 51 H72"/>
+          <path class="gp-ln" d="M46 64 H58"/>
+          <rect class="gp-sign" x="39.6" y="67.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="43" y="71">1</text>
+          <path class="gp-gap" d="M66 51 V34"/>
+          <path class="gp-ln" d="M66 34 V12"/>
+          <rect class="gp-box" x="61" y="3" width="10" height="6" rx="0.8"/>
+          <path class="gp-pole" d="M56 55 V47"/><rect x="56" y="47" width="4" height="3" fill="url(#gpchk2)" stroke="#111" stroke-width="0.25"/>
+          <path class="gp-pole" d="M74 9 V1"/><rect x="74" y="1" width="4" height="3" fill="url(#gpchk2)" stroke="#111" stroke-width="0.25"/>
+          <circle class="gp-kc" cx="10" cy="40" r="3"/><text class="gp-k" x="10" y="40">1</text>
+          <circle class="gp-kc" cx="36" cy="75" r="3"/><text class="gp-k" x="36" y="75">2</text>
+          <circle class="gp-kc" cx="52" cy="64" r="3"/><text class="gp-k" x="52" y="64">3</text>
+          <circle class="gp-kc" cx="66" cy="51" r="3"/><text class="gp-k" x="66" y="51">4</text>
+          <path class="gp-start" d="M10 187.5 L7.6 192.5 H12.4 Z"/>
+          <text class="gp-lab" x="14" y="192.5">Start</text>
+          <text class="gp-lab" x="55" y="59">Ziel</text>
+          <text class="gp-lab" x="79" y="4">Pro-Ziel</text>
+          <!-- Maße in cm (Bandmitte) -->
+          <text class="dim" x="12.5" y="26">30 cm</text>
+          <text class="dim" x="12.5" y="115">146 cm</text>
+          <text class="dim" x="12.5" y="118">x = 10</text>
+          <text class="dim m" x="23" y="38">26 cm</text>
+          <text class="dim" x="38.5" y="115">107 cm</text>
+          <text class="dim" x="38.5" y="118">x = 36</text>
+          <text class="dim m" x="31" y="81">10 cm</text>
+          <text class="dim m" x="44" y="151.5">16 cm</text>
+          <text class="dim" x="54.5" y="125">103 cm</text>
+          <text class="dim" x="54.5" y="128">x = 52</text>
+          <text class="dim" x="53.8" y="69">12 cm</text>
+          <text class="dim m" x="59" y="41.5">20 cm</text>
+          <text class="dim e" x="64.5" y="100">96 cm</text>
+          <text class="dim e" x="64.5" y="103">x = 66</text>
+          <text class="dim m" x="71" y="151.5">10 cm</text>
+          <text class="dim" x="67" y="48.6">12 cm</text>
+          <text class="dim" x="67.5" y="38.5">17 cm ohne Band</text>
+          <text class="dim" x="67.5" y="18">22 cm</text>
+          <!-- Stützpunkte des Bogens -->
+          <circle class="pt" cx="92" cy="102" r="0.8"/><text class="dim e" x="89.5" y="103">92 | 102</text>
+          <circle class="pt" cx="95.5" cy="121" r="0.8"/><text class="dim e" x="92.5" y="122">95 | 121</text>
+          <circle class="pt" cx="76" cy="147" r="0.8"/><text class="dim m" x="80" y="143.5">76 | 147</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="side">
+      <h1>Klebeplan</h1>
+      <p><b>Für die Betreuer.</b> Maßstab 1:10: 1&nbsp;mm auf dem Blatt = 1&nbsp;cm auf der Matte. Gitter 10&nbsp;cm. Alle Zahlen in cm, gemessen von links (x) und von oben (y) bis zur Bandmitte.</p>
+
+      <h2>Material</h2>
+      <ul>
+        <li>Weiße, matte Matte 100 × 200&nbsp;cm, hochkant</li>
+        <li>Schwarzes Isolierband, 19&nbsp;mm</li>
+        <li>Drei Kisten, schwer oder festgeklebt</li>
+        <li>Papierschild &bdquo;1&ldquo;, Gummibärchen</li>
+      </ul>
+
+      <h2>So kleben</h2>
+      <ul>
+        <li>Startgerade x&nbsp;10 von y&nbsp;186 bis y&nbsp;10</li>
+        <li>Abzweig bei y&nbsp;40 nach rechts bis x&nbsp;36, dann hinunter bis y&nbsp;147</li>
+        <li>Stummel bei y&nbsp;75 von x&nbsp;36 nach links bis x&nbsp;26</li>
+        <li>Unten nach x&nbsp;52, hinauf bis y&nbsp;44, oben nach x&nbsp;72</li>
+        <li>Bogen aus kurzen schrägen Stücken durch die roten Punkte bis 76&nbsp;|&nbsp;147, dann nach x&nbsp;66</li>
+        <li>Stiel x&nbsp;66 hinauf bis y&nbsp;51, T-Balken x&nbsp;60&ndash;72</li>
+        <li>Querstrich bei y&nbsp;64, x&nbsp;46&ndash;58</li>
+        <li>Profi-Strich x&nbsp;66 von y&nbsp;34 bis 12. Zwischen y&nbsp;51 und 34 kein Band</li>
+      </ul>
+
+      <h2>Kisten und Schild</h2>
+      <table>
+        <tr><th>Was</th><th>x</th><th>y</th></tr>
+        <tr><td>Kiste Sackgasse</td><td>5&ndash;15</td><td>2&ndash;8</td></tr>
+        <tr><td>Kiste Stummel</td><td>20&ndash;26</td><td>71,5&ndash;78,5</td></tr>
+        <tr><td>Kiste Pro-Ziel</td><td>61&ndash;71</td><td>3&ndash;9</td></tr>
+        <tr><td>Schild &bdquo;1&ldquo;</td><td>40&ndash;46</td><td>68&ndash;74</td></tr>
+      </table>
+
+      <h2>Bauregeln</h2>
+      <div class="box">
+        <p>Keine Kiste und kein Bandende näher als <b>10&nbsp;cm</b> neben einer befahrenen Linie. Sonst streift der Roboter (≈&nbsp;11&nbsp;cm breit) die Kiste oder zählt ein Bandende als Abzweig.</p>
+        <p>Der T-Balken hat mindestens <b>8&nbsp;cm</b> Luft zur Linie x&nbsp;52. Rund um die Matte 30&nbsp;cm frei halten.</p>
+        <p style="margin:0">Sackgassen enden an einer Kiste, nicht an einem T. Das einzige T ist das Ziel.</p>
+      </div>
+
+      <h2>Lösung: die Zählfolge</h2>
+      <table>
+        <tr><th>Nr.</th><th>Typ für den Roboter</th><th>Regel</th></tr>
+        <tr><td>1</td><td>Abzweig rechts + geradeaus</td><td><span class="k">At Right Turn and Straight Intersection</span> <b>Right</b>; bei Kreuzung 1 auf <b>Straight</b> umstellen</td></tr>
+        <tr><td>2</td><td>Abzweig rechts + geradeaus (Stummel)</td><td>steht schon auf <b>Straight</b></td></tr>
+        <tr><td>3</td><td>Kreuzung (+), Tempo-Schild</td><td><span class="k">At Crossroads</span> <b>Straight</b>; bei Kreuzung 3 <span class="k">Speed</span> <b>1</b> und <span class="k">zeige Zahl 1</span></td></tr>
+        <tr><td>4</td><td>T, Ziel</td><td><span class="k">At T-junction</span> <b>Stop</b>; bei Kreuzung 4 Siegesmelodie</td></tr>
+      </table>
+
+      <h2>Zählfahrt nach dem Kleben</h2>
+      <p><span class="k">dauerhaft</span> &rarr; <span class="k">zeige Zahl (Kreuzungen gezählt)</span>, Regeln wie in der Lösung. Die Anzeige muss an den Stellen der Skizze <b>1, 2, 3, 4</b> zeigen. Sonst stimmt ein Abstand nicht.</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
