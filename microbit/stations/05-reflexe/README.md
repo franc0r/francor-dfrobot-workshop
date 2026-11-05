@@ -1,6 +1,6 @@
 # Station 05 — Reflexe
 
-Laserscanner und wenn/dann/sonst. Bonus, streichbar.
+Laserscanner und wenn/dann/sonst. Pflicht; Station 6 baut darauf auf.
 
 Noch leer. Nach dem Trockenlauf hier ablegen:
 

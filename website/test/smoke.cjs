@@ -72,6 +72,7 @@ function check(cond, msg) {
   check(loopKids.includes('beim Start:1') && loopKids.includes('dauerhaft:4'), 'Station 1: Klammer-Blöcke (' + loopKids.join(', ') + ')');
   const ifElse = await page.$$eval('.station[data-st="5"] .mcc[data-c="b-logic"] > .mcbody', l => l.length).catch(() => 0);
   check(ifElse === 2, 'Station 5: wenn/sonst als ein Block mit zwei Fächern (' + ifElse + ')');
+  check(!(await page.$eval('.station[data-st="5"] .eyebrow', e => e.textContent)).includes('Bonus'), 'Station 5 ist keine Bonus-Station mehr');
 
   // Station 3: Einsetz-Animation
   await page.click('.stepbtn[data-go="3"]');
