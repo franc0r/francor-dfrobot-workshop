@@ -18,7 +18,7 @@ artifact — Fassung zum Veröffentlichen als claude.ai-Artefakt (ohne
            <html>/<head>/<body>, mit Google-Fonts-Verknüpfung). Nur zum
            Teilen und Planen; braucht Internet.
 """
-import base64, io, os, re, sys
+import base64, io, json, lzma, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "src")
@@ -86,6 +86,22 @@ MAKECODE = "https://makecode.microbit.org/"
 VORLAGE = os.path.join(HERE, "..", "microbit", "vorlage", "vorlage.mkcd")
 
 
+def check_vorlage(path: str) -> None:
+    """Die Vorlage muss die Bibliothek „Grand Prix“ (custom.ts) mitbringen.
+
+    Die .mkcd ist LZMA-gepackt (Kopf wie LZMA-JS ihn schreibt, also das
+    alte „alone“-Format), darin JSON; dessen source ist wieder JSON mit den
+    Projektdateien.
+    """
+    data = io.open(path, "rb").read()
+    project = json.loads(lzma.decompress(data, format=lzma.FORMAT_ALONE))
+    files = json.loads(project["source"])
+    pxt = json.loads(files.get("pxt.json", "{}"))
+    if ("custom.ts" not in files or "namespace grandPrix" not in files["custom.ts"]
+            or "custom.ts" not in pxt.get("files", [])):
+        raise SystemExit("Vorlage ohne Grand-Prix-Bibliothek (custom.ts) – python3 vorlage.py")
+
+
 def makecode_links(html):
     """href="makecode:neu" und href="makecode:vorlage" werden zu MakeCode-Links.
 
@@ -95,6 +111,7 @@ def makecode_links(html):
     """
     if not os.path.exists(VORLAGE):
         raise SystemExit("Vorlage fehlt: microbit/vorlage/vorlage.mkcd (python3 vorlage.py)")
+    check_vorlage(VORLAGE)
     b64 = base64.b64encode(io.open(VORLAGE, "rb").read()).decode("ascii")
     html = html.replace('href="makecode:neu"', 'href="%s#newproject"' % MAKECODE)
     html = html.replace('href="makecode:vorlage"', 'href="%s#project:%s"' % (MAKECODE, b64))
