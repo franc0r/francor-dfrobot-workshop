@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maqueen Grand Prix – Bildschirm</title>
+<!--
+  Messe-Bildschirm für Laufkundschaft. Läuft offline per Doppelklick (file://),
+  lädt nichts von außen. Bedienung: F = Vollbild, Leertaste/Klick = Pause,
+  ← / → = Szene wechseln. Termine unten in CONFIG eintragen, dann erscheinen sie
+  auf der letzten Szene.
+-->
+<style>
+:root{
+  --bg:#0C1214; --bg-2:#141D20; --line:#28363C;
+  --ink:#F1F5F6; --ink-2:#A9BAC1; --ink-3:#75898F;
+  --brand:#E9483F; --brand-2:#FF7247; --teal:#4CC2B6;
+  --mat:#E8ECEE; --tape:#14191C;
+  --c-basic:#1E90FF; --c-input:#D400D4; --c-mq:#0FBC11; --c-lidar:#5B3FE8; --c-gp:#3C3C3C;
+  --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --u:min(1vw, 1.78vh);           /* 1 Einheit = 1 % der Breite einer 16:9-Bühne */
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+  overflow:hidden; -webkit-font-smoothing:antialiased; cursor:default}
+body.idle{cursor:none}
+h1,h2,p{margin:0}
+h1,h2{font-weight:800; letter-spacing:-.025em; line-height:1.02; text-wrap:balance}
+
+/* Hintergrund: Rasterboden wie eine Robotermatte */
+body::before{content:""; position:fixed; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 75% 40%, rgba(233,72,63,.16), transparent 70%),
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0/calc(var(--u)*5) calc(var(--u)*5),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0/calc(var(--u)*5) calc(var(--u)*5);
+  opacity:.55}
+
+.stage{position:fixed; inset:0; display:grid; grid-template-rows:1fr auto}
+.scenes{position:relative}
+.scene{position:absolute; inset:0; display:grid; grid-template-columns:1.05fr 1fr; align-items:center;
+  gap:calc(var(--u)*4); padding:calc(var(--u)*5) calc(var(--u)*6) calc(var(--u)*2);
+  opacity:0; visibility:hidden; transform:translateY(calc(var(--u)*1.5));
+  transition:opacity .7s ease, transform .7s ease, visibility 0s .7s}
+.scene.on{opacity:1; visibility:visible; transform:none; transition:opacity .7s ease, transform .7s ease}
+.scene.center{grid-template-columns:1fr; justify-items:center; text-align:center}
+
+.kicker{display:inline-block; font-size:calc(var(--u)*1.35); font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--brand-2); margin-bottom:calc(var(--u)*1.6)}
+h1{font-size:calc(var(--u)*5.4)}
+h2{font-size:calc(var(--u)*4.8)}
+h1 em,h2 em{font-style:normal; color:var(--brand)}
+.lead{font-size:calc(var(--u)*2.15); line-height:1.35; color:var(--ink-2); margin-top:calc(var(--u)*2.2); max-width:30ch}
+.scene.center .lead{max-width:44ch; margin-inline:auto}
+
+/* gestaffeltes Einblenden */
+.rise{opacity:0; transform:translateY(calc(var(--u)*1.2)); transition:opacity .6s ease, transform .6s ease}
+.on .rise{opacity:1; transform:none}
+.on .d1{transition-delay:.25s} .on .d2{transition-delay:.55s} .on .d3{transition-delay:.85s}
+.on .d4{transition-delay:1.15s} .on .d5{transition-delay:1.45s} .on .d6{transition-delay:1.75s}
+.on .d7{transition-delay:2.05s} .on .d8{transition-delay:2.35s}
+
+/* ---------- Szene 1: Strecke ---------- */
+.trackbox{position:relative; width:100%}
+.trackbox svg{width:100%; height:auto; display:block; filter:drop-shadow(0 calc(var(--u)*1.5) calc(var(--u)*3) rgba(0,0,0,.55))}
+.mat{fill:var(--mat)}
+.tape{fill:none; stroke:var(--tape); stroke-width:13; stroke-linejoin:round}
+.lapclock{position:absolute; right:3%; top:5%; background:var(--bg-2); border:1px solid var(--line);
+  border-radius:calc(var(--u)*.8); padding:calc(var(--u)*.7) calc(var(--u)*1.3);
+  font-variant-numeric:tabular-nums; font-size:calc(var(--u)*1.9); font-weight:700}
+.lapclock small{display:block; font-size:calc(var(--u)*.95); letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600}
+.cone path{fill:#FF8A1F; stroke:#C25A00; stroke-width:2}
+.box rect{fill:#5B3FE8; opacity:.85}
+.dome{animation:glow 1.6s steps(1) infinite}
+@keyframes glow{0%{fill:#FF4A3D}33%{fill:#2BE36A}66%{fill:#3D8BFF}}
+
+/* Roboter (Draufsicht, vereinfacht aus Station 0) */
+.rb-ch{fill:#262B30; stroke:#6C777F; stroke-width:3}
+.rb-wh{fill:#1B1F22; stroke:#4C565E; stroke-width:2}
+.rb-deck{fill:#1E2428; stroke:#55616A; stroke-width:2}
+.rb-mb{fill:#1E2F37}
+.rb-lid{fill:#5B3FE8}
+
+/* ---------- Szene 2: Blöcke ---------- */
+.blocks{display:flex; flex-direction:column; gap:calc(var(--u)*1.8); font-size:calc(var(--u)*1.9); font-weight:600}
+.stack{--c:var(--c-basic); width:max-content; max-width:100%}
+.hd,.blk{background:var(--c); color:#fff; padding:calc(var(--u)*.9) calc(var(--u)*1.5);
+  border-radius:calc(var(--u)*.7); box-shadow:inset 0 -3px 0 rgba(0,0,0,.18); white-space:nowrap}
+.hd{border-bottom-left-radius:0; width:max-content}
+.arm{border-left:calc(var(--u)*1.6) solid var(--c); padding:calc(var(--u)*.45) 0; display:flex; flex-direction:column; align-items:flex-start; gap:calc(var(--u)*.45)}
+.ft{background:var(--c); height:calc(var(--u)*1.4); width:calc(var(--u)*9); border-radius:0 0 calc(var(--u)*.7) calc(var(--u)*.7)}
+.blk b,.hd b{background:rgba(255,255,255,.22); border-radius:6px; padding:.05em .45em; font-weight:700}
+.blk{border-top-left-radius:calc(var(--u)*.3); border-bottom-left-radius:calc(var(--u)*.3)}
+.chips{display:flex; flex-wrap:wrap; gap:calc(var(--u)*1); margin-top:calc(var(--u)*3)}
+.chip{border:1px solid var(--line); background:var(--bg-2); border-radius:999px;
+  padding:calc(var(--u)*.6) calc(var(--u)*1.4); font-size:calc(var(--u)*1.5); font-weight:600; color:var(--ink)}
+.chip i{font-style:normal; color:var(--brand-2); margin-right:.4em}
+
+/* ---------- Szene 3: Laser ---------- */
+.lidar{display:grid; grid-template-columns:auto 1fr; gap:calc(var(--u)*3); align-items:center}
+.grid8{display:grid; grid-template-columns:repeat(8,1fr); gap:calc(var(--u)*.45);
+  width:calc(var(--u)*30); aspect-ratio:1; padding:calc(var(--u)*1); background:var(--bg-2);
+  border:1px solid var(--line); border-radius:calc(var(--u)*1)}
+.grid8 span{border-radius:calc(var(--u)*.35); background:hsl(250 60% calc(12% + var(--n,0)*55%)); transition:background .25s linear}
+.readout{display:flex; flex-direction:column; gap:calc(var(--u)*1.2)}
+.dist{font-size:calc(var(--u)*5.2); font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+.dist small{font-size:.4em; color:var(--ink-3); font-weight:700; margin-left:.2em}
+.state{align-self:flex-start; border-radius:999px; padding:calc(var(--u)*.6) calc(var(--u)*1.6);
+  font-size:calc(var(--u)*1.7); font-weight:800; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap;
+  background:rgba(15,188,17,.18); color:#4BE34D; border:2px solid #0FBC11}
+.state.stop{background:rgba(233,72,63,.2); color:#FF7A70; border-color:var(--brand); animation:pulse .5s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.06)}}
+.sensors{display:grid; gap:calc(var(--u)*1.2); margin-top:calc(var(--u)*2.6); font-size:calc(var(--u)*1.75); color:var(--ink-2)}
+.sensors div{display:flex; gap:calc(var(--u)*1); align-items:baseline}
+.sensors b{color:var(--ink); font-size:1.15em}
+.sensors .dot{width:calc(var(--u)*1); height:calc(var(--u)*1); border-radius:50%; flex:none; transform:translateY(-.1em)}
+
+/* ---------- Szene 4: Mitmachen ---------- */
+.facts{display:grid; grid-template-columns:repeat(3,1fr); gap:calc(var(--u)*1.6); width:100%; margin-top:calc(var(--u)*4)}
+.fact{background:var(--bg-2); border:1px solid var(--line); border-radius:calc(var(--u)*1.2);
+  padding:calc(var(--u)*2.2) calc(var(--u)*1.6); text-align:left}
+.fact .big{font-size:calc(var(--u)*3.4); font-weight:800; color:var(--brand-2); line-height:1}
+.fact p{font-size:calc(var(--u)*1.65); color:var(--ink-2); margin-top:calc(var(--u)*1); line-height:1.3}
+.fact p b{color:var(--ink)}
+.cta{margin-top:calc(var(--u)*2.6); display:inline-flex; align-items:center; gap:calc(var(--u)*1.4);
+  background:var(--brand); color:#fff; border-radius:999px; padding:calc(var(--u)*1.4) calc(var(--u)*3.4);
+  font-size:calc(var(--u)*2.6); font-weight:800; animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(calc(var(--u)*-.5))}}
+.note{margin-top:calc(var(--u)*2.6); font-size:calc(var(--u)*2.1); color:var(--ink-2)}
+.note b{color:var(--ink)}
+.termine{margin-top:calc(var(--u)*2.2); font-size:calc(var(--u)*1.9); color:var(--ink-2); font-variant-numeric:tabular-nums}
+.termine b{color:var(--ink)}
+
+/* ---------- Fußzeile ---------- */
+.foot{display:flex; align-items:center; gap:calc(var(--u)*1.6); padding:calc(var(--u)*1.4) calc(var(--u)*6) calc(var(--u)*2);
+  position:relative; z-index:2}
+.foot img{height:calc(var(--u)*4.2); width:auto}
+.foot .org{font-weight:800; font-size:calc(var(--u)*1.9); letter-spacing:.02em}
+.foot .org small{display:block; font-weight:600; font-size:.62em; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.foot .when{margin-left:auto; text-align:right; font-weight:700; font-size:calc(var(--u)*1.7)}
+.foot .when small{display:block; font-weight:600; font-size:.7em; color:var(--ink-3); letter-spacing:.1em; text-transform:uppercase}
+.dots{display:flex; gap:calc(var(--u)*.6); margin-left:calc(var(--u)*3)}
+.dots i{width:calc(var(--u)*3.6); height:calc(var(--u)*.45); border-radius:9px; background:var(--line); overflow:hidden; position:relative}
+.dots i::after{content:""; position:absolute; inset:0; background:var(--brand); transform:scaleX(var(--p,0)); transform-origin:left}
+.paused .dots i.cur::after{background:var(--ink-3)}
+
+@media (orientation:portrait){
+  :root{--u:min(1.6vw, 1vh)}
+  .scene{grid-template-columns:1fr; align-content:center; text-align:center; justify-items:center}
+  .lead{margin-inline:auto}
+  .facts{grid-template-columns:1fr}
+  .dots{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .cta,.state.stop{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <main class="scenes">
+
+    <!-- 1: Aufhänger -->
+    <section class="scene" data-sec="11">
+      <div>
+        <span class="kicker rise">Robotik-Workshop · ab Klasse 7</span>
+        <h1 class="rise d1">Programmier deinen Roboter <em>durch den Parcours.</em></h1>
+      </div>
+      <div class="trackbox rise d1">
+        <svg viewBox="0 0 600 400" role="img" aria-label="Ein Roboter fährt auf einer Linie durch einen Parcours mit Hindernissen">
+          <defs>
+            <g id="robot">
+              <!-- Draufsicht, vorn = +x; Maße aus Station 0 übernommen und verkleinert -->
+              <g transform="rotate(90) scale(.24) translate(-210,-150)">
+                <rect class="rb-wh" x="92" y="156" width="28" height="92" rx="6"/>
+                <rect class="rb-wh" x="300" y="156" width="28" height="92" rx="6"/>
+                <path class="rb-ch" d="M150 30 H270 Q276 30 279 35 L325 110 Q327 113 327 117 V146 Q327 150 323 150 H300 V258 Q300 262 296 262 H124 Q120 262 120 258 V150 H97 Q93 150 93 146 V117 Q93 113 95 110 L141 35 Q144 30 150 30 Z"/>
+                <circle class="dome" cx="170" cy="46" r="11"/>
+                <circle class="dome" cx="250" cy="46" r="11" style="animation-delay:-.8s"/>
+                <rect class="rb-mb" x="148" y="86" width="124" height="14" rx="2"/>
+                <rect class="rb-deck" x="128" y="112" width="164" height="146" rx="8"/>
+                <rect class="rb-lid" x="180" y="146" width="60" height="12" rx="2"/>
+              </g>
+            </g>
+          </defs>
+          <rect class="mat" x="6" y="6" width="588" height="388" rx="18"/>
+          <path id="lap" class="tape" d="M300 200 C420 60 580 60 580 200 C580 340 420 340 300 200 C180 60 20 60 20 200 C20 340 180 340 300 200 Z" transform="translate(0,0) scale(.92) translate(26,17)"/>
+          <!-- Hindernisse neben der Linie -->
+          <g class="cone"><path d="M150 150 l11 26 h-22 z"/><path d="M452 232 l11 26 h-22 z"/><path d="M302 80 l11 26 h-22 z"/></g>
+          <g class="box"><rect x="70" y="300" width="34" height="34" rx="4"/><rect x="508" y="60" width="34" height="34" rx="4"/></g>
+          <g transform="translate(0,0) scale(.92) translate(26,17)">
+            <use href="#robot">
+              <animateMotion dur="7s" repeatCount="indefinite" rotate="auto"
+                path="M300 200 C420 60 580 60 580 200 C580 340 420 340 300 200 C180 60 20 60 20 200 C20 340 180 340 300 200 Z"/>
+            </use>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2: Blöcke -->
+    <section class="scene" data-sec="11">
+      <div>
+        <span class="kicker rise">Programmieren wie Puzzeln</span>
+        <h2 class="rise d1">Blöcke stecken statt <em>Code tippen</em>.</h2>
+        <p class="lead rise d2">Ganz ohne Vorkenntnisse.</p>
+      </div>
+      <div class="blocks">
+        <div class="stack rise d3" style="--c:var(--c-input)">
+          <div class="hd">wenn Knopf <b>A</b> geklickt</div>
+          <div class="arm">
+            <div class="blk rise d4" style="--c:var(--c-mq)">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>120</b></div>
+            <div class="blk rise d5" style="--c:var(--c-basic)">pausiere (ms) <b>1000</b></div>
+            <div class="blk rise d6" style="--c:var(--c-mq)">stop <b>beide Räder</b></div>
+          </div>
+          <div class="ft"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3: Sensoren -->
+    <section class="scene" data-sec="11">
+      <div>
+        <span class="kicker rise">Laserscanner</span>
+        <h2 class="rise d1">Hindernis voraus? Dein Roboter <em>bremst</em>.</h2>
+      </div>
+      <div class="lidar rise d2">
+        <div class="grid8" id="grid8" aria-hidden="true"></div>
+        <div class="readout">
+          <div class="dist"><span id="dist">1200</span><small>mm</small></div>
+          <div class="state" id="state">freie Fahrt</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5: Mitmachen -->
+    <section class="scene center" data-sec="12">
+      <div style="width:100%">
+        <span class="kicker rise">Robotik-Workshop · 120 Minuten</span>
+        <h2 class="rise d1">Mach mit!</h2>
+        <div class="facts">
+          <div class="fact rise d2"><div class="big">ab 7.</div><p><b>Klasse</b> – Schülerinnen und Schüler</p></div>
+          <div class="fact rise d3"><div class="big">2</div><p><b>Zu zweit</b> an einem Roboter</p></div>
+          <div class="fact rise d4"><div class="big">0</div><p><b>Vorkenntnisse</b> nötig</p></div>
+        </div>
+        <p class="note rise d5"><b>Keine Anmeldung nötig.</b> Du kannst jederzeit aufhören, wenn deine Zeit knapp wird.</p>
+        <div class="cta rise d6">Sprich uns an – hier am Stand!</div>
+        <p class="termine rise d7" id="termine" hidden></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <img src="data:image/png;base64,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" alt="FRANCOR-Logo">
+    <div class="org">FRANCOR e. V.<small>Maqueen Grand Prix · Robotik-Workshop</small></div>
+    <div class="dots" id="dots"></div>
+    <div class="when"><small>Workshop</small><span id="zeitraum"></span></div>
+  </footer>
+</div>
+
+<script>
+/* ===== Hier anpassen ===== */
+var CONFIG = {
+  zeitraum: "6.–8. November",
+  // z. B. ["10:00", "13:00", "15:30"] – leer lassen, dann erscheint keine Zeile
+  termine: []
+};
+/* ======================== */
+
+(function(){
+
+  document.getElementById("zeitraum").textContent = CONFIG.zeitraum;
+  if (CONFIG.termine && CONFIG.termine.length){
+    var t = document.getElementById("termine");
+    t.innerHTML = "Workshops heute: <b>" + CONFIG.termine.map(function(x){ return String(x).replace(/[<>&]/g, ""); }).join(" · ") + " Uhr</b>";
+    t.hidden = false;
+  }
+
+  /* --- Szenenwechsel --- */
+  var scenes = [].slice.call(document.querySelectorAll(".scene"));
+  var dots = document.getElementById("dots");
+  scenes.forEach(function(){ dots.appendChild(document.createElement("i")); });
+  var bars = [].slice.call(dots.children);
+  var cur = -1, t0 = 0, paused = false, pausedAt = 0;
+
+  function show(i){
+    cur = (i + scenes.length) % scenes.length;
+    scenes.forEach(function(s, k){ s.classList.toggle("on", k === cur); });
+    bars.forEach(function(b, k){ b.classList.toggle("cur", k === cur); b.style.setProperty("--p", k < cur ? 1 : 0); });
+    t0 = performance.now();
+  }
+  function dur(){ return (+scenes[cur].dataset.sec || 10) * 1000; }
+
+
+  /* --- Laserscanner (Szene 3) --- */
+  var grid = document.getElementById("grid8"), cells = [];
+  for (var k = 0; k < 64; k++){ var c = document.createElement("span"); grid.appendChild(c); cells.push(c); }
+  var distEl = document.getElementById("dist"), stateEl = document.getElementById("state");
+  function lidar(ms){
+    // Ein Hindernis kommt in 5 s näher, steht 1,5 s, dann von vorn
+    var p = (ms % 6500) / 5000; if (p > 1) p = 1;
+    var mm = Math.round(1200 - p * 1110);          // 1200 → 90 mm
+    var near = 1 - (mm - 90) / 1110;               // 0 … 1
+    var r = 1.2 + near * 3.2;                      // Größe des Flecks in Zellen
+    for (var y = 0; y < 8; y++) for (var x = 0; x < 8; x++){
+      var dx = x - 3.5, dy = y - 3.8, d = Math.sqrt(dx*dx + dy*dy);
+      var v = d < r ? (0.35 + near * 0.65) * (1 - d / (r + 1)) : 0.04;
+      cells[y*8 + x].style.setProperty("--n", v.toFixed(3));
+    }
+    distEl.textContent = mm;
+    var stop = mm < 150;
+    stateEl.textContent = stop ? "Stopp!" : "freie Fahrt";
+    stateEl.classList.toggle("stop", stop);
+  }
+
+  function frame(now){
+    if (!paused){
+      var p = (now - t0) / dur();
+      if (p >= 1){ show(cur + 1); p = 0; }
+      bars[cur].style.setProperty("--p", p.toFixed(3));
+    }
+    if (cur === 2) lidar(now - t0);
+    requestAnimationFrame(frame);
+  }
+
+  function togglePause(){
+    paused = !paused;
+    document.body.classList.toggle("paused", paused);
+    if (paused) pausedAt = performance.now(); else t0 += performance.now() - pausedAt;
+  }
+
+  document.addEventListener("keydown", function(e){
+    if (e.key === "ArrowRight"){ show(cur + 1); }
+    else if (e.key === "ArrowLeft"){ show(cur - 1); }
+    else if (e.key === " "){ e.preventDefault(); togglePause(); }
+    else if (e.key === "f" || e.key === "F"){
+      if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(function(){});
+    }
+  });
+  document.addEventListener("click", togglePause);
+
+  /* Mauszeiger nach 3 s ausblenden */
+  var idleT;
+  document.addEventListener("mousemove", function(){
+    document.body.classList.remove("idle"); clearTimeout(idleT);
+    idleT = setTimeout(function(){ document.body.classList.add("idle"); }, 3000);
+  });
+
+  var q = /[?#&]szene=(\d)/.exec(location.search + location.hash);
+  show(q ? +q[1] - 1 : 0);
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

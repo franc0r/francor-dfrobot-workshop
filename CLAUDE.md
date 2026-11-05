@@ -87,6 +87,8 @@ tools/                Werkzeuge für Stand und Arbeitsplätze
   trockenlauf.html    Prüfprotokoll (läuft nur als claude.ai-Artefakt, siehe unten)
   grand-prix-druck.html  A4-Blatt 1:10: Teamskizze (Seite 1), Klebeplan (Seite 2); wird nicht gebaut,
                       grand-prix-druck-test.cjs prüft Maßstab und Nummern (`npm run check`)
+  messe-bildschirm.html  Endlos-Präsentation für Laufkundschaft am Stand (4 Szenen, offline,
+                      Logo eingebettet); wird nicht gebaut. Termine oben in CONFIG eintragen
   pi/                 udev-Regel, Flash-Skript für den Raspberry Pi
 docs/                 Konzept, Offline-Recherche, Review-Notizen
 ```
