@@ -92,12 +92,23 @@ Aus dem Entwurf (`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.m
 9. Hält der Akku 120 Minuten plus Aufbau? (zusammen mit Block G)
 10. Freiraum um die Matte: Der Laser sieht auch Füße und Taschen. Reichen die 30 cm aus dem
     Handbuch?
-11. **Schild „1“:** Es liegt laut Klebeplan bei x 40–46, y 68–74 cm, nur 4 cm neben der Linie
-    x = 36, die der Roboter hinunterfährt. Bei ≈ 11 cm Breite kann ein Rad darüberfahren.
-    Prüfen und das Schild notfalls weiter wegrücken (dann Skizzen und Klebeplan mit ändern).
+11. **Schild „1“:** Am 05.11.2026 verlegt, weil es vorher (x 40–46, y 68–74 cm) im Fahrweg
+    der Linie x = 36 lag. Jetzt laut Klebeplan bei x 22–28, y 56–62 cm: links neben x = 36
+    (8 cm bis zur Bandmitte, der Roboter reicht ≈ 5,5 cm zur Seite), 12 cm bis zur
+    Startgeraden x = 10, 9,5 cm über der Stummel-Kiste. Am Trockenlauf prüfen: Fährt kein Rad
+    darüber, und sieht der Laser es nicht als Hindernis? Wird es noch einmal verschoben, alle
+    Skizzen, den Klebeplan und die Texte gemeinsam ändern.
 12. **Druckblatt:** `tools/grand-prix-druck.html` mit 100 % drucken und mit dem Lineal
     nachmessen: Die Matte ist 10 × 20 cm. Das Blatt einmal auf Raspberry Pi OS öffnen und
-    drucken (dort Schrift DejaVu statt Verdana) — passt jede Seite noch auf ein Blatt?
+    drucken (das Blatt wünscht sich Helvetica Neue oder Arial, auf dem Pi greift meist DejaVu
+    Sans, die breiter läuft) — passt jede Seite noch auf ein Blatt?
+13. **Laser nach dem Profi-Sprung:** Der Laser-Stopp darf nach dem Sprung mit `PID Distance
+    Control` nicht sofort auslösen. Nach den 20 cm Sprung sind es noch ≈ 22 cm bis zur
+    Pro-Ziel-Kiste, knapp über der Grenze von 200 mm. Prüfen, ob er erst wieder auf der Linie
+    fährt, bevor er bremst.
+14. **Rechter Rand:** Der Bogen reicht bis x ≈ 96. Mit ≈ 5,5 cm halber Breite ragt die
+    Karosserie dort ≈ 1,5 cm über die Mattenkante. Prüfen: Liegt die Matte flach genug (keine
+    Stufe, die ein Rad abwirft), und bleibt am Tisch genug Platz?
 
 ## Vorläufige Blocktexte (Grand Prix)
 

@@ -278,6 +278,7 @@ kbd{
 .testline b{color:var(--teal)}
 /* Das Dreieck kommt aus CSS: als Text zählt ▶ als Emoji und wird auf dem Pi oft ein Kästchen */
 .testline b::before{content:"\25B6\00a0"}
+#runbtn::before{content:"\25B6\00a0"}
 .hint{margin-top:10px}
 .hint summary{cursor:pointer; font-weight:600; font-size:.95rem}
 .hint[open] summary{margin-bottom:8px}
@@ -356,6 +357,7 @@ kbd{
 .gp-zone{stroke:#f5b700; stroke-width:5; fill:none; opacity:.35; stroke-linecap:round}
 .gp-box{fill:#b07a3c; stroke:#6b4520; stroke-width:.4}
 .gp-sign{fill:#fff; stroke:#111; stroke-width:.6}
+.gp-lead{stroke:#E9483F; stroke-width:.35; fill:none; stroke-dasharray:.8 .6}
 .gp-signt{font-size:3.4px; font-weight:700; fill:#111; text-anchor:middle; dominant-baseline:central}
 .gp-kc{fill:#E9483F}
 .gp-k{font-size:3.6px; font-weight:700; fill:#fff; text-anchor:middle; dominant-baseline:central}

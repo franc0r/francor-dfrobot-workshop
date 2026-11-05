@@ -54,8 +54,9 @@ Stand 05.11.2026 (vorher 90 Min; Zeiten wie im Handbuch).
 ## Offene Punkte
 - Trockenlauf durchführen; Blocknamen (v. a. Laserscanner) und Messwerte in die Seite übernehmen
 - Arbeitsplatz-Entscheidung Laptop vs. Raspberry Pi 4
-- Parcours-Bauplan (braucht gemessenen Kurvenradius; schwarzes Isolierband 19 mm)
-- Stand-Paket zum Drucken: Handzettel mit QR-Code, Tischaufsteller, Papier-Bestenliste
+- Parcours-Bauplan: erledigt als Klebeplan (`tools/grand-prix-druck.html`, Seite 2, schwarzes
+  Isolierband 19 mm); Maße am Trockenlauf prüfen (Block H in 02-offline-und-trockenlauf.md)
+- Stand-Paket zum Drucken: Handzettel mit QR-Code, Tischaufsteller
 - Nach dem Testrun: Ausbau zur mehrwöchigen AG mit Umstieg auf Textcode denkbar
 
 ## Quellen

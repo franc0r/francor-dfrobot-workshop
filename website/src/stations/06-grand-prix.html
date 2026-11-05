@@ -9,6 +9,7 @@
         <span class="nt">Weiter im Projekt Linie</span>
         <p>Ihr arbeitet in eurem Projekt aus Station 4 weiter. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen.</p>
         <p><b>Schritt 0:</b> Löscht zuerst den <kbd>dauerhaft</kbd>-Block mit dem Rot-Blau-Blinken. Zieht ihn einfach nach links in die Blockliste. Er würde später eure Startampel überschreiben und den Laser bremsen.</p>
+        <p>Der Rest darf bleiben. <b>Line Following Settings Speed</b> in <kbd>beim Start</kbd> könnt ihr löschen oder stehen lassen: Knopf A stellt das Tempo sowieso neu ein. <kbd>wenn Knopf B geklickt</kbd> mit <b>Line patrolling OFF</b> bleibt euer Not-Aus.</p>
         <p>Kein &bdquo;Linie&ldquo; dabei? Dann startet ein neues Roboter-Projekt und baut das Programm unten ganz nach.</p>
         <a class="btn sec" href="makecode:vorlage" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
       </div>
@@ -43,7 +44,8 @@
             <path class="gp-ln" d="M60 51 H72"/>
             <!-- Tempo-Schild: Querstrich und Papierschild „1“ -->
             <path class="gp-ln" d="M46 64 H58"/>
-            <rect class="gp-sign" x="39.6" y="67.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="43" y="71">1</text>
+            <path class="gp-lead" d="M28.4 59.6 L49.1 63.4"/>
+            <rect class="gp-sign" x="21.6" y="55.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="25" y="59">1</text>
             <!-- Profis: Lücke, Strich, Kiste -->
             <path class="gp-gap" d="M66 51 V34"/>
             <path class="gp-ln" d="M66 34 V12"/>
@@ -75,7 +77,7 @@
             <ul class="gplegend">
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-box" x="1" y="1" width="8" height="6" rx="0.8"/></svg><span><b>Kiste:</b> Kommt er hier an, ist der Lauf vorbei.</span></li>
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-zone" d="M1 4 H9"/></svg><span><b>Gelb:</b> Tempo-Zone, ab dem Schild &bdquo;1&ldquo; langsam fahren.</span></li>
-              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4" style="font-size:3.4px">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4" style="font-size:3.4px">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke. Die rote Strichellinie zeigt, wo es gilt: ab Nummer 3.</span></li>
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-gap" d="M1 4 H9"/></svg><span><b>Gestrichelt:</b> keine Linie. Darüber springen nur die Profis.</span></li>
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-grid" d="M0 2H10M0 6H10M3 0V8M7 0V8"/></svg><span><b>Gitter:</b> ein Kästchen ist 10&nbsp;cm.</span></li>
             </ul>
@@ -134,7 +136,7 @@
               <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
               <div class="mcb b-basic i1">zeige Zahl <b>1</b></div>
             </div></span></li>
-          <li><span><b>Startampel.</b> Rot, gelb, grün &ndash; dann geht es los. Die fünf Blöcke kommen in <kbd>wenn Knopf A geklickt</kbd>, direkt über <b>Line patrolling ON</b>.
+          <li><span><b>Startampel.</b> Rot, gelb, grün &ndash; dann geht es los. Die fünf neuen Blöcke kommen in <kbd>wenn Knopf A geklickt</kbd>, direkt über <b>Line patrolling ON</b>. Das steht schon da.
             <div class="mcstack">
               <div class="mcb b-mq">RGB Car Lights <b>All</b> color <b>red</b></div>
               <div class="mcb b-basic">pausiere (ms) <b>1000</b></div>

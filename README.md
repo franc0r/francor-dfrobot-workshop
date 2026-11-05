@@ -9,7 +9,7 @@ Schüler ab Klasse 7, Messe, offline). Träger ist FRANCOR e. V.
 |---|---|
 | `website/` | die Workshop-Seite. Wird zu einer einzigen Offline-HTML-Datei gebaut |
 | `microbit/` | Programme für die Hardware: Vorlagenprojekt, Musterlösungen, MicroPython |
-| `tools/` | Prüfprotokoll für den Trockenlauf, Kleinkram für den Raspberry Pi |
+| `tools/` | Prüfprotokoll für den Trockenlauf, Druckblatt Grand Prix (Teamskizze und Klebeplan, `grand-prix-druck.html`), Kleinkram für den Raspberry Pi |
 | `docs/` | Konzept, Offline-Recherche, Review-Notizen |
 
 `website/` und `microbit/` haben nichts miteinander zu tun außer dem Thema: das eine wird

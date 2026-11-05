@@ -291,6 +291,7 @@ kbd{
 .testline b{color:var(--teal)}
 /* Das Dreieck kommt aus CSS: als Text zählt ▶ als Emoji und wird auf dem Pi oft ein Kästchen */
 .testline b::before{content:"\25B6\00a0"}
+#runbtn::before{content:"\25B6\00a0"}
 .hint{margin-top:10px}
 .hint summary{cursor:pointer; font-weight:600; font-size:.95rem}
 .hint[open] summary{margin-bottom:8px}
@@ -369,6 +370,7 @@ kbd{
 .gp-zone{stroke:#f5b700; stroke-width:5; fill:none; opacity:.35; stroke-linecap:round}
 .gp-box{fill:#b07a3c; stroke:#6b4520; stroke-width:.4}
 .gp-sign{fill:#fff; stroke:#111; stroke-width:.6}
+.gp-lead{stroke:#E9483F; stroke-width:.35; fill:none; stroke-dasharray:.8 .6}
 .gp-signt{font-size:3.4px; font-weight:700; fill:#111; text-anchor:middle; dominant-baseline:central}
 .gp-kc{fill:#E9483F}
 .gp-k{font-size:3.6px; font-weight:700; fill:#fff; text-anchor:middle; dominant-baseline:central}
@@ -1188,7 +1190,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
             <div class="colhead">Dein Programm</div>
             <div class="prog" id="prog"></div>
             <div class="simactions">
-              <button class="btn" id="runbtn" type="button">▶ Ausführen</button>
+              <button class="btn" id="runbtn" type="button">Ausführen</button>
               <button class="btn sec" id="clearbtn" type="button">Leeren</button>
             </div>
           </div>
@@ -1465,6 +1467,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <span class="nt">Weiter im Projekt Linie</span>
         <p>Ihr arbeitet in eurem Projekt aus Station 4 weiter. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen.</p>
         <p><b>Schritt 0:</b> Löscht zuerst den <kbd>dauerhaft</kbd>-Block mit dem Rot-Blau-Blinken. Zieht ihn einfach nach links in die Blockliste. Er würde später eure Startampel überschreiben und den Laser bremsen.</p>
+        <p>Der Rest darf bleiben. <b>Line Following Settings Speed</b> in <kbd>beim Start</kbd> könnt ihr löschen oder stehen lassen: Knopf A stellt das Tempo sowieso neu ein. <kbd>wenn Knopf B geklickt</kbd> mit <b>Line patrolling OFF</b> bleibt euer Not-Aus.</p>
         <p>Kein &bdquo;Linie&ldquo; dabei? Dann startet ein neues Roboter-Projekt und baut das Programm unten ganz nach.</p>
         <a class="btn sec" href="https://makecode.microbit.org/#project:XQAAEABdDgAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5/+9xHypaF/ZZV4oQORn+5ZPrl1q2yB+i6GRpLWA+VvSLWbMQ7mv1m1fLVYoQiBzbSX4OsInXtkV5fxSejMfTLnLVxRWryrHZBMQnWnkPIBCnr+wHSUcoWuZ5rvjgHxb7bRGBJwLA++sTdMXhoVoNth+lzT7FD6gHFjW8ZbAtEaYH82TuUw8aUbPNzQkyD4/tWS9Nj8qECF6zP0AJVJ2UcbHJABunRooqxGdCUlBdYIdXIqiP5//wGViKzT6011SawurThtPFG645/WCo4414Ki5a/KUsE3G8MSQyCfYm9bk/e7hNjMCRpv8dR3y/Af0SUhUYMSuHHhJBMY7bnW+KQjM0gvVLcYqXOJoksTlPPmmdI2ximDxBHVNv96JGxSSHsW3tE+hvKXu0GZgqxWuQZGg1wLuxCgdxSqWXWjLSnzVZXtWgYqQEnl5eWIBXriXXNUM+Y/1oMFkoM5zaihh7EG5zIXCt+RgnbGYWazAjgMdmVVwyAvVPjC8lS1OLadIOSXuK9rCq4yfAh11g1ry79Wrku31PQemFzpDxiuDviaqi/yl0EDeA7jeWPT/Z+AqFR8Qv8sC1OI0QUzei+PPRBa3GMIrJmyyejH+s/ZvR0aTp2jkaU8epWpjn9WE7EpR4Wkebhouv2uwUKiGPZUEE7OsMEaIT36GSqpYn5AyfTbv4MD0jZa5pTH+a6Tzv2GkhROXO6xj0Mjo4jbpFcSgaYi8rKEjwarVWCFI8bjQqDYIAxNUDBL1AR7cu1gaO0t4DjCBbM7ku+qIsGTPfUYV4+0FZcVEWjOLBMm4T5KZopyWrYkmI/mqAoae3duHkmX0f2zVsxerCwmPyt57xgR1bLiQpgbk7/RJlW4g1MVHrTQl8ciBfm6hrifgLTHkhHnPbjmgO3iB6FVQqN5vh2avB/6qB5LUdcjOOL7GDOOmDwXzW//S1JWZEe1mrVqOy4TZAIK7rmFqx1kL2MHZyzFsOos290n9U/Z9U+B3QVLzL6YGselVvs3msa6ABYy/EW+SAGEBq2UFEZTbkleBh8k1zfCx+w07B/afu+W/ePMKZ98MirV1fiLV/LxV1rsXMv9LantrNZM+wWxOk488S6KWY2y3/alV7OMGmRfFQgcmsEnCeQDTadBjRAr+z4YUcFub7yCGSCH/JKhpz2eb8kYo2y0SrO4wUBHfJf89P9CReEOJ7ZzGln1bm3q6HfyO4Egtx8Neim6gR8/mlzEoLTCuH086UjP6U0baPXGG11KrRW6EVSGHYSZ1OMUdBePJGO0M3XWGPy7M1utyGYXuzHnWorf0jmr6IcBvWOnvjmS/XyeU1LagdfYkOCRW3TUOyLAKFHDZIustDOvB3ugNy5DVrH3Jz6L56fJfCPBR9kfyZlLB0VqHzTrALJeR3B4jlKl38t4/yGwaIKZmbqMMvajdfgCECs2bofa+rkW83gl0bNnA8/82MUZ7ciPHrb5kExwr4SWtu+U4ZvCeNLkhxmhQ6WtUUDSIp9T+23J2P6TU8PBRPwX79cRuxfbghhxfKwf+0+/VG" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
       </div>
@@ -1499,7 +1502,8 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
             <path class="gp-ln" d="M60 51 H72"/>
             <!-- Tempo-Schild: Querstrich und Papierschild „1“ -->
             <path class="gp-ln" d="M46 64 H58"/>
-            <rect class="gp-sign" x="39.6" y="67.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="43" y="71">1</text>
+            <path class="gp-lead" d="M28.4 59.6 L49.1 63.4"/>
+            <rect class="gp-sign" x="21.6" y="55.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="25" y="59">1</text>
             <!-- Profis: Lücke, Strich, Kiste -->
             <path class="gp-gap" d="M66 51 V34"/>
             <path class="gp-ln" d="M66 34 V12"/>
@@ -1531,7 +1535,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
             <ul class="gplegend">
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-box" x="1" y="1" width="8" height="6" rx="0.8"/></svg><span><b>Kiste:</b> Kommt er hier an, ist der Lauf vorbei.</span></li>
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-zone" d="M1 4 H9"/></svg><span><b>Gelb:</b> Tempo-Zone, ab dem Schild &bdquo;1&ldquo; langsam fahren.</span></li>
-              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4" style="font-size:3.4px">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4" style="font-size:3.4px">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke. Die rote Strichellinie zeigt, wo es gilt: ab Nummer 3.</span></li>
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-gap" d="M1 4 H9"/></svg><span><b>Gestrichelt:</b> keine Linie. Darüber springen nur die Profis.</span></li>
               <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-grid" d="M0 2H10M0 6H10M3 0V8M7 0V8"/></svg><span><b>Gitter:</b> ein Kästchen ist 10&nbsp;cm.</span></li>
             </ul>
@@ -1590,7 +1594,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
               <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
               <div class="mcb b-basic i1">zeige Zahl <b>1</b></div>
             </div></span></li>
-          <li><span><b>Startampel.</b> Rot, gelb, grün &ndash; dann geht es los. Die fünf Blöcke kommen in <kbd>wenn Knopf A geklickt</kbd>, direkt über <b>Line patrolling ON</b>.
+          <li><span><b>Startampel.</b> Rot, gelb, grün &ndash; dann geht es los. Die fünf neuen Blöcke kommen in <kbd>wenn Knopf A geklickt</kbd>, direkt über <b>Line patrolling ON</b>. Das steht schon da.
             <div class="mcstack">
               <div class="mcb b-mq">RGB Car Lights <b>All</b> color <b>red</b></div>
               <div class="mcb b-basic">pausiere (ms) <b>1000</b></div>
@@ -1733,7 +1737,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
         <li>Strecke nach dem Klebeplan kleben: <kbd>tools/grand-prix-druck.html</kbd>, Seite 2 (Maßstab 1:10, mit cm-Angaben). Matte hochkant, Start unten links</li>
         <li><b>Bauregel:</b> keine Kiste und kein Bandende näher als 10&nbsp;cm neben einer befahrenen Linie. Sonst streift der Roboter (≈&nbsp;11&nbsp;cm breit, äußere Sensoren ≈&nbsp;4&nbsp;cm neben der Mitte) die Kiste oder zählt ein Bandende als Abzweig</li>
         <li>Die drei Kisten (Sackgasse oben, Stummel, Pro-Ziel) schwer machen oder festkleben</li>
-        <li>Das Papierschild &bdquo;1&ldquo; neben den Querstrich der Tempo-Zone legen (Nummer 3)</li>
+        <li>Das Papierschild &bdquo;1&ldquo; links neben die Linie x&nbsp;36 legen, auf Höhe des Querstrichs der Tempo-Zone (Nummer 3): x&nbsp;22&ndash;28, y&nbsp;56&ndash;62&nbsp;cm. Nicht näher an die Linie, sonst fährt ein Rad darüber</li>
         <li>Rund um die Matte 30&nbsp;cm frei halten. Der Laser sieht auch Füße und Taschen – Zuschauer nicht an die Kanten lassen</li>
       </ul>
 
@@ -1761,7 +1765,7 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
       </ul>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Minute-15-Regel</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Uhr etwa 1:30) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/06-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Restzeit im Timer etwa 30:00) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/06-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Der Reset-Fallstrick (gewollt)</h3>
       <p style="font-size:.94rem; color:var(--ink-2)"><em>Line patrolling OFF</em> löscht in der Firmware alle Kreuzungsregeln. Nach <em>ON</em> gelten wieder die Standardregeln. Wer im Profi-Teil nach dem Sprung über die Lücke nur <em>ON</em> schaltet, hat seine Regeln verloren. <b>Woran ihr es erkennt:</b> Der Roboter ignoriert nach einem Halt seine Regeln. <b>Die Frage, die weiterhilft:</b> &bdquo;Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?&ldquo;</p>

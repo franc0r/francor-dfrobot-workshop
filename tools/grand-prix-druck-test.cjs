@@ -8,12 +8,15 @@
  *   2. Maßstab 1:10: Die Matte ist auf beiden Seiten genau 100 × 200 mm groß.
  *   3. Als A4-PDF gedruckt sind es genau 2 Seiten.
  *   4. Keine Verweise nach außen (http), läuft mit abgeschaltetem Netz.
+ *   5. Gleiche Geometrie: Band, Tempo-Zone, Lücke, Kisten, Schild und Nummernkreise sind auf
+ *      beiden Druckseiten genau so gezeichnet wie in Station 6 (#gpmap in der Offline-Datei).
  */
 const path = require('path');
 const fs = require('fs');
 const { chromium } = require('../website/node_modules/playwright');
 
 const FILE = path.join(__dirname, 'grand-prix-druck.html');
+const OFFLINE = path.join(__dirname, '..', 'website', 'dist', 'maqueen-grand-prix-offline.html');
 let failures = 0;
 function check(cond, msg) {
   if (cond) console.log('  ok   ' + msg);
@@ -67,6 +70,41 @@ function check(cond, msg) {
     if (tag) await tag.evaluate(e => e.remove());
   }
   await page.emulateMedia({ media: null });
+
+  // Geometrie der Strecke: Station 6 und beide Druckseiten müssen gleich sein.
+  // Leerraum in d-Attributen wird vereinheitlicht, sonst zählt jedes Zeichen.
+  const geo = root => {
+    const norm = v => (v || '').trim().replace(/\s+/g, ' ');
+    const pick = (sel, attrs) => [...root.querySelectorAll(sel)].map(e => attrs.map(a => norm(e.getAttribute(a))).join(','));
+    return {
+      'Band (path.gp-ln)': pick('path.gp-ln', ['d']),
+      'Tempo-Zone (path.gp-zone)': pick('path.gp-zone', ['d']),
+      'Lücke (path.gp-gap)': pick('path.gp-gap', ['d']),
+      'Schild-Linie (path.gp-lead)': pick('path.gp-lead', ['d']),
+      'Nummernkreise (circle.gp-kc)': pick('circle.gp-kc', ['cx', 'cy']),
+      'Kisten (rect.gp-box)': pick('rect.gp-box', ['x', 'y', 'width', 'height']),
+      'Schild (rect.gp-sign)': pick('rect.gp-sign', ['x', 'y', 'width', 'height']),
+    };
+  };
+  const sheetsGeo = await page.$$eval('.sheet .matbox svg', (l, src) => {
+    const g = new Function('return ' + src)();
+    return l.map(g);
+  }, geo.toString());
+  check(sheetsGeo.length === 2, 'zwei Skizzen in .matbox (gefunden: ' + sheetsGeo.length + ')');
+  check(fs.existsSync(OFFLINE), 'Offline-Datei vorhanden (erst python3 build.py)');
+  if (fs.existsSync(OFFLINE)) {
+    const st = await ctx.newPage();
+    await st.goto('file://' + OFFLINE);
+    const siteGeo = await st.$eval('#gpmap', (e, src) => new Function('return ' + src)()(e), geo.toString());
+    await st.close();
+    for (const key of Object.keys(siteGeo)) {
+      check(siteGeo[key].length > 0, 'Station 6 hat ' + key);
+      sheetsGeo.forEach((g, i) => {
+        const same = JSON.stringify(g[key]) === JSON.stringify(siteGeo[key]);
+        check(same, 'Seite ' + (i + 1) + ' = Station 6: ' + key + (same ? '' : ' (Seite: ' + JSON.stringify(g[key]) + ' / Station: ' + JSON.stringify(siteGeo[key]) + ')'));
+      });
+    }
+  }
 
   const buf = await page.pdf({ format: 'A4', preferCSSPageSize: true, printBackground: true });
   const pages = (buf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;

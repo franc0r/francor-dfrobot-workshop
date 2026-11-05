@@ -86,7 +86,7 @@ Ungefähre Lage (x von links, y von oben, cm):
 | ① K1 | (10, 40) | Abzweig nach rechts → zweite Gerade x ≈ 36 nach unten. So tief, dass die Kiste der Sackgasse ≈ 30 cm entfernt ist und der Laser (< 200 mm) an K1 nicht auslöst (Martin, 04.11.2026) |
 | ② Stummel | (36, 75), 10 cm Linie nach links, **Kiste** bei x 20–26 | Falle, ≈ 35 cm unter K1; Kiste ≥ 10 cm neben der Startgeraden |
 | Unterer Bogen | y ≈ 147, x 36 → 52, dann x ≈ 52 hoch | |
-| ③ Tempo-Schild | Querstrich über x ≈ 52 bei y ≈ 64, x 46–58, Papierschild „1“ daneben | ab hier Tempo 1 bis ins Ziel |
+| ③ Tempo-Schild | Querstrich über x ≈ 52 bei y ≈ 64, x 46–58; Papierschild „1“ links neben der Linie x = 36 bei x 22–28, y 56–62 (verlegt am 05.11.2026, vorher x 40–46 im Fahrweg) | ab hier Tempo 1 bis ins Ziel |
 | Oberkante + Bauch | y ≈ 44 von x 52 bis 72, großer Bogen rechts herum bis y ≈ 147, zurück nach x ≈ 66 | die „Kurve“ |
 | ④ Ziel-T | Stiel x ≈ 66 hoch bis y ≈ 51, Querbalken x 60–72 (≥ 8 cm Luft zu x = 52) | normales Ziel |
 | Pro-Ziel | Strich x ≈ 66 von y ≈ 34 bis 12, **Kiste** am Ende. Der PID-Sprung (≈ 20 cm) führt über die Oberkante y = 44 hinweg; die Linie beginnt ≥ 10 cm darüber | nur Profis |

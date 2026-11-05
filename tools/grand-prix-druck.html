@@ -48,6 +48,7 @@ li { margin-bottom: .6mm; }
 .gp-zone { stroke: #f5b700; stroke-width: 5; fill: none; opacity: .35; stroke-linecap: round; }
 .gp-box { fill: #b07a3c; stroke: #6b4520; stroke-width: .4; }
 .gp-sign { fill: #fff; stroke: #111; stroke-width: .6; }
+.gp-lead { stroke: #E9483F; stroke-width: .35; fill: none; stroke-dasharray: .8 .6; }
 .gp-signt { font-size: 3.4px; font-weight: 700; fill: #111; text-anchor: middle; dominant-baseline: central; }
 .gp-kc { fill: #E9483F; }
 .gp-k { font-size: 3.6px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; }
@@ -119,7 +120,8 @@ code, .k { font-family: inherit; font-style: italic; }
         <path class="gp-ln" d="M72 44 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
         <path class="gp-ln" d="M60 51 H72"/>
         <path class="gp-ln" d="M46 64 H58"/>
-        <rect class="gp-sign" x="39.6" y="67.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="43" y="71">1</text>
+        <path class="gp-lead" d="M28.4 59.6 L49.1 63.4"/>
+        <rect class="gp-sign" x="21.6" y="55.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="25" y="59">1</text>
         <path class="gp-gap" d="M66 51 V34"/>
         <path class="gp-ln" d="M66 34 V12"/>
         <rect class="gp-box" x="61" y="3" width="10" height="6" rx="0.8"/>
@@ -149,7 +151,7 @@ code, .k { font-family: inherit; font-style: italic; }
       <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-pole" d="M3 7.5 V1"/><rect x="3" y="1" width="5" height="3.5" fill="url(#gpchk1)" stroke="#111" stroke-width="0.25"/></svg><span><b>Ziel</b> und <b>Pro-Ziel:</b> Hier soll er anhalten.</span></li>
       <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-box" x="1" y="1" width="8" height="6" rx="0.8"/></svg><span><b>Kiste:</b> Kommt er hier an, ist der Lauf vorbei.</span></li>
       <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-zone" d="M1 4 H9"/></svg><span><b>Gelb:</b> Tempo-Zone. Ab dem Schild &bdquo;1&ldquo; langsam fahren.</span></li>
-      <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke.</span></li>
+      <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke. Die rote Strichellinie zeigt, wo es gilt: ab Nummer 3.</span></li>
       <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-gap" d="M1 4 H9"/></svg><span><b>Gestrichelt:</b> keine Linie. Darüber springen nur die Profis.</span></li>
       <li><span class="num" style="background:#fff;color:#1A2226;border:.3mm solid #666">?</span><span><b>Gut hinschauen:</b> Für den Roboter sehen 1 und 2 gleich aus. Was muss nach 1 anders sein?</span></li>
     </ul>
@@ -189,7 +191,8 @@ code, .k { font-family: inherit; font-style: italic; }
           <path class="gp-ln" d="M72 44 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
           <path class="gp-ln" d="M60 51 H72"/>
           <path class="gp-ln" d="M46 64 H58"/>
-          <rect class="gp-sign" x="39.6" y="67.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="43" y="71">1</text>
+          <path class="gp-lead" d="M28.4 59.6 L49.1 63.4"/>
+          <rect class="gp-sign" x="21.6" y="55.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="25" y="59">1</text>
           <path class="gp-gap" d="M66 51 V34"/>
           <path class="gp-ln" d="M66 34 V12"/>
           <rect class="gp-box" x="61" y="3" width="10" height="6" rx="0.8"/>
@@ -260,7 +263,7 @@ code, .k { font-family: inherit; font-style: italic; }
         <tr><td>Kiste Sackgasse</td><td>5&ndash;15</td><td>2&ndash;8</td></tr>
         <tr><td>Kiste Stummel</td><td>20&ndash;26</td><td>71,5&ndash;78,5</td></tr>
         <tr><td>Kiste Pro-Ziel</td><td>61&ndash;71</td><td>3&ndash;9</td></tr>
-        <tr><td>Schild &bdquo;1&ldquo;</td><td>40&ndash;46</td><td>68&ndash;74</td></tr>
+        <tr><td>Schild &bdquo;1&ldquo;</td><td>22&ndash;28</td><td>56&ndash;62</td></tr>
       </table>
 
       <h2>Bauregeln</h2>

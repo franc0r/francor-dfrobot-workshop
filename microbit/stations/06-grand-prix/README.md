@@ -81,7 +81,8 @@ und jede Zeichnung trägt die Nummern 1–4 an denselben Koordinaten.
    - Profi-Plan „Am Ziel 4 kurz warten“
 3. `website/src/handbuch.html`, Abschnitt „Grand Prix aufbauen und betreuen“
    - Lösungstabelle „Lösung: die Zählfolge“ und die typischen Fehler darunter („An 1 …“)
-   - Aufbau: Schild „1“ neben den Querstrich (Nummer 3)
+   - Aufbau: Schild „1“ links neben der Linie x = 36, auf Höhe des Querstrichs (Nummer 3),
+     x 22–28, y 56–62 cm
    - Minute-15-Regel („an 1 umstellen“) und Reset-Fallstrick („zwischen 1 und dem Stummel“)
 4. `tools/grand-prix-druck.html`
    - Seite 1 (Teamskizze): die vier Nummern in der Skizze, der Hinweis „Gut hinschauen: 1 und 2“
