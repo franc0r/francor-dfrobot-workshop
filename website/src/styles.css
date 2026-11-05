@@ -103,7 +103,7 @@ button{font:inherit; color:inherit; cursor:pointer}
 }
 .brand h1{font-size:1.15rem; font-weight:800; letter-spacing:-.02em}
 .brand .sub{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.01em}
-.tbgroup{display:flex; align-items:center; gap:10px}
+.tbgroup{display:flex; align-items:center; gap:10px; flex-wrap:wrap; min-width:0}
 .timer{
   font-family:var(--mono); font-size:15px; font-variant-numeric:tabular-nums;
   border:1px solid var(--line); background:var(--surface-2); border-radius:8px;
@@ -545,6 +545,28 @@ canvas{width:100%; height:auto; display:block; border-radius:9px; background:var
 .drawer.open{transform:none}
 .scrim{position:fixed; inset:0; background:rgba(10,16,18,.45); z-index:55; opacity:0; pointer-events:none; transition:opacity .28s}
 .scrim.on{opacity:1; pointer-events:auto}
+
+/* ---------- Sicherheit (Fenster beim Teamstart) ---------- */
+.safety{position:fixed; inset:0; z-index:80; background:rgba(10,16,18,.6); display:flex; align-items:flex-start; justify-content:center; padding:24px 16px; overflow-y:auto}
+.safety[hidden]{display:none}
+body.safety-on{overflow:hidden}
+.sbox{background:var(--surface); color:var(--ink); border-radius:14px; box-shadow:var(--shadow); max-width:680px; width:100%; padding:24px 26px; margin:auto 0}
+.sbox h2{font-size:1.45rem; line-height:1.2}
+.ssub{color:var(--ink-2); margin:6px 0 18px}
+.sbig{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:16px}
+.scard{border:2px solid var(--accent); background:var(--accent-soft); border-radius:var(--radius); padding:12px 10px; text-align:center; font-size:.92rem; line-height:1.35}
+.scard svg{width:52px; height:52px; display:block; margin:0 auto 8px}
+.s-dev{fill:var(--ink)}
+.s-band{fill:#F28C28}
+.s-no{stroke:var(--accent); stroke-width:4; stroke-linecap:round}
+.s-wheel{fill:none; stroke:var(--ink); stroke-width:5; stroke-dasharray:6 3}
+.s-up{fill:none; stroke:var(--teal); stroke-width:3.5; stroke-linecap:round; stroke-linejoin:round}
+.s-smoke{fill:none; stroke:var(--ink); stroke-width:3.5; stroke-linecap:round}
+.slist{margin:0 0 16px; padding-left:22px; line-height:1.65}
+.sfoot{font-size:.92rem; color:var(--ink-2); background:var(--surface-2); border-radius:8px; padding:9px 12px; margin-bottom:16px}
+.sok{background:var(--accent); color:var(--accent-ink); border:0; border-radius:9px; padding:11px 20px; font-weight:600; font-size:1rem}
+.sok:hover{filter:brightness(1.07)}
+@media (max-width:640px){ .sbig{grid-template-columns:minmax(0,1fr)} .scard{display:flex; align-items:center; gap:12px; text-align:left} .scard svg{margin:0; flex:none; width:44px; height:44px} .sbox{padding:20px 18px} }
 .drawer .dhead{
   position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--line);
   padding:16px 24px; display:flex; align-items:center; gap:14px; z-index:2;

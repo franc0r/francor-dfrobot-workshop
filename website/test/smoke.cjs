@@ -10,6 +10,7 @@
  *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln laufen.
  *   5. Parcours-Simulator: Level 1 mit "fahre 5" → im Ziel.
  *   6. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
+ *   7. Sicherheitsfenster: beim Start da, nur der Knopf schließt, kommt nach "Neues Team" wieder.
  */
 const path = require('path');
 const fs = require('fs');
@@ -44,6 +45,21 @@ function check(cond, msg) {
   await page.goto('file://' + DIST);
   await page.waitForTimeout(500);
   check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Timer steht auf 120:00');
+
+  // Sicherheitsfenster beim Teamstart
+  check(await page.$eval('#safety', e => !e.hidden), 'Sicherheit: Fenster erscheint beim ersten Öffnen');
+  const sTxt = (await page.$eval('#safety', e => e.textContent)).replace(/\u00a0/g, ' ');
+  check(['orangen Band', 'anheben', 'Schalter aus', 'frei drehenden', 'Getränke', 'Betreuer sagen', 'absichtlich'].every(w => sTxt.includes(w)), 'Sicherheit: alle Regeln und der Satz zum Ausschluss');
+  check(!/\p{Extended_Pictographic}/u.test(sTxt), 'Sicherheit: kein Emoji');
+  await page.keyboard.press('Escape');
+  check(await page.$eval('#safety', e => !e.hidden), 'Sicherheit: Escape schließt nicht');
+  await page.click('#safetyok');
+  check(await page.$eval('#safety', e => e.hidden), 'Sicherheit: Knopf schließt das Fenster');
+  await page.reload(); await page.waitForTimeout(300);
+  check(await page.$eval('#safety', e => e.hidden), 'Sicherheit: nach Neuladen nicht noch einmal');
+  await page.click('#safetybtn');
+  check(await page.$eval('#safety', e => !e.hidden), 'Sicherheit: Knopf in der Kopfzeile holt es zurück');
+  await page.click('#safetyok');
 
   // Struktur
   const n = await page.$$eval('.station', s => s.length);
@@ -97,6 +113,8 @@ function check(cond, msg) {
   p2.on('pageerror', e => errors.push(String(e)));
   await p2.goto('file://' + DIST);
   await p2.waitForTimeout(300);
+  check(await p2.evaluate(() => { const b = document.querySelector('#safety .sbox').getBoundingClientRect(); return b.left >= 0 && b.right <= window.innerWidth; }), 'Sicherheit: Fenster passt auf 360 px (dunkel)');
+  await p2.click('#safetyok');
   await p2.click('.stepbtn[data-go="6"]');
   check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß');
   check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
@@ -155,6 +173,7 @@ function check(cond, msg) {
   check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), '"Neues Team" setzt Abzeichen zurück');
   check(await page.$eval('.station[data-st="0"]', e => !e.hidden), '"Neues Team" springt zu Station 0');
   check(await page.$eval('#tval', e => e.textContent) === '120:00', '"Neues Team" stellt 120:00');
+  check(await page.$eval('#safety', e => !e.hidden), '"Neues Team" zeigt das Sicherheitsfenster wieder');
 
   check(errors.length === 0, 'keine JavaScript-Fehler' + (errors.length ? ': ' + errors.join(' | ') : ''));
 

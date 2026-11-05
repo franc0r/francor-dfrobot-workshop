@@ -12,7 +12,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
-var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
 
 function load(){
   try{
@@ -193,9 +193,26 @@ document.getElementById("coachclose").addEventListener("click", function(){ open
 scrim.addEventListener("click", function(){ openCoach(false); });
 document.addEventListener("keydown", function(e){ if(e.key === "Escape") openCoach(false); });
 
+/* ================= Sicherheit =================
+   Erscheint beim ersten Öffnen und nach „Neues Team“; ein Betreuer liest es mit
+   dem Team. Schließt nur über den Knopf (kein Escape, kein Klick daneben), damit
+   es nicht vor dem Ende weggeklickt wird. „Sicherheit“ in der Kopfzeile holt es
+   jederzeit zurück. */
+var safety = document.getElementById("safety"), safetyok = document.getElementById("safetyok");
+function openSafety(v){
+  safety.hidden = !v;
+  document.body.classList.toggle("safety-on", v);
+  if(v){ openCoach(false); safety.scrollTop = 0; safetyok.focus({preventScroll:true}); }
+}
+safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); });
+document.getElementById("safetybtn").addEventListener("click", function(){ openSafety(true); });
+safety.addEventListener("keydown", function(e){
+  if(e.key === "Escape") e.stopPropagation();
+  if(e.key === "Tab"){ e.preventDefault(); safetyok.focus(); }
+});
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
   save();
   document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
@@ -207,6 +224,7 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   left = TOTAL; setRunning(false); tStarted = false; paintT();
   prog = []; setLevel(0); mbReset();
   paintBadges(); paintProgress(); go(0);
+  openSafety(true);
 });
 
 /* ================= SIMULATOR ================= */
@@ -909,6 +927,7 @@ buildRail(); buildPalette(); buildLevSel(); mbInit();
 paintBadges(); paintProgress(); paintRail();
 setLevel(0);
 go(S.cur || 0);
+if(!S.safe) openSafety(true);
 
 var rt;
 window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(draw, 120); });
