@@ -192,10 +192,11 @@ Technik: Hintergrundschleife fragt alle 20 ms `maqueenPlusV2.intersectionDetecti
 ab. Gezählt wird der Wechsel 0 → ≠0, mit 300 ms Sperrzeit. Prototyp: `microbit/bibliothek/custom.ts`, von Martin am Gerät erfolgreich
 genutzt (04.11.2026).
 
-Farbe `#E07A00` (orange). In MakeCode kollidiert sie mit keiner Kategorie
-(Variablen sind dort `#DC143C`). In `styles.css` steht aber `.b-var{#E07000}`.
-Ist die Klasse unbenutzt, wird sie gelöscht, sonst ist die neue Klasse `.b-gp`
-nicht unterscheidbar. Die Farbe kommt in Regel 3 der CLAUDE.md.
+Farbe `#3C3C3C` (Graphit, wie die Zielflagge). Das ursprünglich gewählte Orange
+`#E07A00` war praktisch gleich `.b-var{#E07000}` in `styles.css`, und diese Klasse
+nutzt der Parcours-Simulator in `app.js` für „Licht an“. Graphit unterscheidet sich
+von allen Farben in Regel 3. Neue Klasse `.b-gp{background:#3C3C3C}`; die Farbe
+kommt in Regel 3 der CLAUDE.md.
 
 **In die Vorlage:** `vorlage.py` nimmt die `custom.ts` in `files` und `pxt.json`
 auf. Damit hat jedes Projekt ab Station 3 die Kategorie, auch das Projekt „Linie“
@@ -263,7 +264,7 @@ Ampel-Pausen in der Musterlösung, Aufbau der Profi-Musterlösung.
 
 - Die Siegesmelodie ist **Pflicht** (Martin: „sie spielen dann eine
   Siegesmelodie“), der Zieleinlauf-Jubel für Profis entfällt dadurch.
-- Farbe der Bibliothek `#E07A00`.
+- Farbe der Bibliothek `#3C3C3C`.
 - Der Puffer steht im Handbuch als **letzte Zeile** des Zeitplans (1:45–2:00), mit
   dem Hinweis, dass die Betreuenden ihn dort einsetzen, wo es hakt. Meist ist das
   beim Flashen (Station 1) oder im Grand Prix.

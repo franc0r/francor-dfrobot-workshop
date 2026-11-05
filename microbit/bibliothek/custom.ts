@@ -4,7 +4,7 @@
  * Zählt im Hintergrund jede Kreuzung, die die Linienverfolgung meldet
  * (Block "Intersection Detection"). Die Kreuzungsregeln fasst sie nicht an.
  */
-//% color="#E07A00" icon="" block="Grand Prix"
+//% color="#3C3C3C" icon="" block="Grand Prix"
 namespace grandPrix {
     // Mindestabstand zwischen zwei gezählten Kreuzungen, damit eine nicht doppelt zählt
     const SPERRZEIT_MS = 300
