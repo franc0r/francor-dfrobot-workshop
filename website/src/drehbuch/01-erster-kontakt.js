@@ -3,12 +3,17 @@
 DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Erster Kontakt", schritte:[
   { id:"oeffnen",
     nachrichten:[
-      "Jetzt wird es ernst: Gleich wandert Code, den ihr selbst baut, über ein Kabel in einen echten Computer.",
-      "Der macht dann genau das, was ihr sagt. Nicht mehr und nicht weniger.",
+      "Jetzt wird es ernst: Gleich wandert Code, den ihr selbst baut, über ein Kabel in einen echten Computer. Der macht genau das, was ihr sagt, nicht mehr und nicht weniger.",
       "Ihr wollt endlich an den Laptop?",
       "Ja, ihr dürft. Jetzt.",
       "Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.",
-      {karte:"makecode:neu"},
+      {karte:"makecode:neu"}
+    ],
+    chips:[ "Der Knopf macht nichts", "Müssen wir uns anmelden?", "Der neue Tab bleibt leer" ],
+    fertig:"MakeCode ist offen ✓" },
+
+  { id:"umschauen",
+    nachrichten:[
       "Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau.",
       "Einen Block zieht ihr mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster. Dort rastet er ein wie ein Puzzleteil.",
       "Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus."
@@ -18,8 +23,8 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Er
       "<b>Block löschen:</b> anklicken und <kbd>Entf</kbd> drücken. Oder einfach zurück nach links ziehen.",
       "<b>Zahl ändern:</b> auf die Zahl klicken und eintippen, zum Beispiel 300."
     ]},
-    chips:[ "Der Knopf macht nichts", "Müssen wir uns anmelden?", "Wo sind die Blöcke?", "Wie lösche ich einen Block?" ],
-    fertig:"MakeCode ist offen ✓" },
+    chips:[ "Wo sind die Blöcke?", "Wie lösche ich einen Block?", "Der Block rastet nicht ein", "Was ist die Vorschau rechts?" ],
+    fertig:"Alles gefunden ✓" },
 
   { id:"lebenszeichen",
     nachrichten:[
@@ -28,16 +33,21 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Er
       {karte:"k1-start"},
       {karte:"k1-herz"},
       "<kbd>beim Start</kbd> zeigt „Hallo“ nur einmal, direkt nach dem Einschalten. Danach ist es weg.",
-      "<kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Das ist sein Herzschlag, das eigentliche Lebenszeichen.",
-      "Merkt euch das Muster: Etwas läuft immer wieder, ohne Ende. Genau das braucht euer Roboter gleich für jeden Sensor."
+      "<kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Das ist sein Herzschlag, das eigentliche Lebenszeichen."
     ],
     chips:[ "Wo finde ich zeige Symbol?", "Wie stelle ich 300 ein?", "Was heißt ms?", "Wo ist Bildschirminhalt löschen?" ],
     fertig:"Gebaut ✓" },
 
-  { id:"uebertragen",
+  { id:"anstecken",
     nachrichten:[
       "Und jetzt rüber damit auf den echten micro:bit.",
-      "Steckt den micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel, den Roboter braucht ihr noch nicht.",
+      "Steckt den micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel, den Roboter braucht ihr noch nicht."
+    ],
+    chips:[ "Wo ist die USB-Buchse am micro:bit?", "Welches Kabel nehmen wir?", "Am micro:bit leuchtet nichts" ],
+    fertig:"Steckt ✓" },
+
+  { id:"uebertragen",
+    nachrichten:[
       "In MakeCode klickt ihr auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät: <b>micro:bit koppeln</b>, auswählen, verbinden.",
       "Auf dem micro:bit blinkt eine gelbe LED. Das ist euer Code, der hinüberfließt.",
       "Hört sie auf, läuft euer Programm. Erst „Hallo“, dann blinkt das Herz?",
@@ -53,6 +63,7 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Er
 
   { id:"quiz",
     nachrichten:[
+      "Merkt euch das Muster: Etwas läuft immer wieder, ohne Ende. Genau das braucht euer Roboter gleich für jeden Sensor.",
       "Eine Frage noch, dann gehört das Abzeichen euch.",
       {karte:"k1-quiz"}
     ],

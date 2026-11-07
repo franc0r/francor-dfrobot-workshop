@@ -16,29 +16,43 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
     nachrichten:[
       "Der Bildschirm des micro:bit sind 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus.",
       "Probiert es zuerst hier im Simulator, Reiter <b>1 · Zeichnen</b>. Klickt die Punkte einfach an.",
-      {karte:"k2-mbsim"},
-      "Dann in MakeCode: <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild.",
-      "Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.",
-      "Testen: Herunterladen. Steht euer Bild auf dem micro:bit?"
+      {karte:"k2-mbsim"}
     ],
     zeig:{ "Warum ist das clever?":[
       "25 Lämpchen, jedes an oder aus: Das sind über 33 Millionen mögliche Bilder.",
       "Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>."
     ]},
-    chips:[ "Wo ist zeige LEDs?", "Wie mache ich einen Punkt wieder aus?", "Kann ich auch Buchstaben malen?", "Das Bild kommt nicht auf den micro:bit" ],
+    chips:[ "Wie mache ich einen Punkt wieder aus?", "Kann ich auch Buchstaben malen?", "Wo ist Reiter 1?" ],
+    fertig:"Bild gemalt ✓" },
+
+  { id:"bild",
+    nachrichten:[
+      "Dann in MakeCode: <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild.",
+      "Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.",
+      "Testen: Herunterladen. Steht euer Bild auf dem micro:bit?"
+    ],
+    chips:[ "Wo ist zeige LEDs?", "Wo ist beim Start?", "Kann ich auch Buchstaben malen?", "Das Bild kommt nicht auf den micro:bit" ],
     fertig:"Bild steht ✓" },
 
-  { id:"knoepfe",
+  { id:"ereignis",
     nachrichten:[
       "Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt ein Block, der <em>wartet</em>, bis etwas passiert.",
       "Solche Blöcke heißen Ereignisse. Probiert es im Simulator, Reiter <b>2 · Knöpfe</b>.",
-      {karte:"k2-mbsim"},
+      {karte:"k2-mbsim"}
+    ],
+    chips:[ "Was ist ein Ereignis?", "Wo ist Reiter 2?", "Im Simulator passiert nichts" ],
+    fertig:"Im Simulator probiert ✓" },
+
+  { id:"knoepfe",
+    nachrichten:[
       "<kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>.",
       {karte:"k2-knoepfe"},
-      "Beide Ereignisse liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide und macht das Passende, sobald der Knopf kommt.",
       "Legt Ereignis-Blöcke <b>frei</b> ins Programmierfenster, nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>. Sie warten selbst auf ihren Moment.",
       "Testen: Herunterladen, Knopf A drücken, dann Knopf B."
     ],
+    zeig:{ "Stören die sich nicht?":[
+      "Beide Ereignisse liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide und macht das Passende, sobald der Knopf kommt."
+    ]},
     chips:[ "Welcher Knopf ist A?", "Wo ist wenn Knopf A geklickt?", "Muss das in dauerhaft rein?", "Das Herz geht nicht mehr weg" ],
     fertig:"Knöpfe gehen ✓" },
 
@@ -47,7 +61,13 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "Im micro:bit sitzt ein Beschleunigungssensor. Derselbe Bauteiltyp lässt euer Handy das Bild drehen.",
       "Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>.",
       "Probiert es im Simulator, Reiter <b>3 · Neigen</b>.",
-      {karte:"k2-mbsim"},
+      {karte:"k2-mbsim"}
+    ],
+    chips:[ "Was ist ein Beschleunigungssensor?", "Wo ist Reiter 3?", "Im Simulator kommt kein Pfeil" ],
+    fertig:"Im Simulator gekippt ✓" },
+
+  { id:"pfeile",
+    nachrichten:[
       "In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein.",
       "Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b>, ganz unten: ein Stück nach unten scrollen.",
       {karte:"k2-neigen"},
@@ -57,7 +77,7 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "Kein Pfeil? Kippt deutlich, fast senkrecht, und schüttelt kräftig und ruckartig statt sanft zu wedeln.",
       {karte:"k2-klemmt"}
     ]},
-    chips:[ "Wo ist zeige Pfeil?", "Wo stelle ich Logo nach oben ein?", "Beim Kippen kommt kein Pfeil", "Was ist ein Beschleunigungssensor?" ],
+    chips:[ "Wo ist zeige Pfeil?", "Wo stelle ich Logo nach oben ein?", "Beim Kippen kommt kein Pfeil", "Der Totenkopf kommt nicht" ],
     fertig:"Pfeile und Totenkopf ✓" },
 
   { id:"grenze",
@@ -84,11 +104,12 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "Team-Challenge: Macht aus dem Schütteln einen <b>Würfel</b>. Statt Ton und Totenkopf zeigt der micro:bit eine zufällige Zahl.",
       {karte:"k2-wuerfel"},
       "Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b>: Stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.",
-      "Testen: Herunterladen und dreimal schütteln. Kommen verschiedene Zahlen?",
-      "Noch Zeit? Lasst vor der Zahl kurz ein Herz erscheinen, als kleinen Trommelwirbel.",
-      "Geschafft? Dann zeigt es eurem Betreuer."
+      "Testen: Herunterladen und dreimal schütteln. Kommen verschiedene Zahlen?"
     ],
-    zeig:{ "Es klappt nicht":[
+    zeig:{ "Noch Zeit?":[
+      "Lasst vor der Zahl kurz ein Herz erscheinen, als kleinen Trommelwirbel.",
+      "Geschafft? Dann zeigt es eurem Betreuer."
+    ], "Es klappt nicht":[
       "Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.",
       {karte:"k2-klemmt"}
     ]},

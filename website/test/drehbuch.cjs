@@ -6,6 +6,9 @@
  * Lädt STATIONS aus app.js und alle Drehbücher in einem vm-Kontext und prüft:
  * genau sieben Drehbücher 0–6, Namen/Minuten/Abzeichen passen zu STATIONS, Summe 105, Schrittform,
  * keine Emoji, jeder Kartenverweis existiert in src/karten/*.html.
+ * Länge (Spec „Ziele“/„Format“): höchstens 4 Textblasen vor den Antwortknöpfen (Karten und reine
+ * Blockstapel zählen nicht, bei Bonus-Schritten zählt die Zeile „Lust auf Extra?“ mit), und keine
+ * Blase mit mehr als zwei Sätzen.
  */
 const path = require('path');
 const fs = require('fs');
@@ -19,6 +22,16 @@ function check(cond, msg) {
   else { console.log('  FAIL ' + msg); failures++; }
 }
 const istText = (x) => typeof x === 'string';
+// Textblase = String, der nicht nur ein Blockstapel ist
+const istBlockstapel = (x) => /^<div class="mcstack[^"]*">[\s\S]*<\/div>$/.test(x);
+const textBlasen = (l) => l.filter(n => istText(n) && !istBlockstapel(n)).length;
+// Sätze: Satzzeichen am Wortende; Zitate in „…“ und Abkürzungen zählen nicht
+function saetze(h) {
+  const t = h.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&[a-z]+;/g, ' ')
+    .replace(/„[^“]*“/g, 'X').replace(/\?{3}/g, 'X').replace(/\b(ca|z|B|e|V|bzw|usw)\./g, '$1').replace(/\s+/g, ' ').trim();
+  return (t.match(/[.!?]+(?=\s|$)/g) || []).length;
+}
+const MAX_BLASEN = 4, MAX_SAETZE = 2;
 
 // STATIONS aus app.js
 const app = fs.readFileSync(path.join(SRC, 'app.js'), 'utf8');
@@ -92,6 +105,12 @@ for (let i = 0; i < DREHBUCH.length; i++) {
       for (const [k, v] of Object.entries(s.zeig || {})) for (const n of (Array.isArray(v) ? v : [])) nachricht(n, w + ' zeig "' + k + '"');
     }
     check(!emoji.test(JSON.stringify(s)), w + ': keine Emoji');
+    const nb = textBlasen(s.nachrichten || []) + (s.bonus ? 1 : 0);
+    check(nb <= MAX_BLASEN, w + ': höchstens ' + MAX_BLASEN + ' Textblasen vor den Knöpfen (' + nb + ')');
+    for (const [k, v] of Object.entries(s.zeig || {}))
+      if (Array.isArray(v)) check(textBlasen(v) <= MAX_BLASEN, w + ' zeig "' + k + '": höchstens ' + MAX_BLASEN + ' Textblasen');
+    const alle = (s.nachrichten || []).concat(...Object.values(s.zeig || {}).filter(Array.isArray)).filter(istText).filter(n => !istBlockstapel(n));
+    for (const n of alle) check(saetze(n) <= MAX_SAETZE, w + ': höchstens ' + MAX_SAETZE + ' Sätze je Blase (' + saetze(n) + ': ' + n.replace(/<[^>]*>/g, '').slice(0, 50) + '…)');
   }
 }
 check(summe === 105, 'Minuten summieren auf 105 (' + summe + ')');

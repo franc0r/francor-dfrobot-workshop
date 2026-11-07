@@ -26,15 +26,23 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
   { id:"projekt",
     nachrichten:[
       "Ihr arbeitet in eurem Projekt aus Station 4 weiter. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen.",
-      "Löscht zuerst den <kbd>dauerhaft</kbd>-Block mit dem Rot-Blau-Blinken. Zieht ihn einfach nach links in die Blockliste.",
-      "Er würde später eure Startampel überschreiben und den Laser bremsen.",
-      "Der Rest darf bleiben. <b>Line Following Settings Speed</b> in <kbd>beim Start</kbd> könnt ihr löschen oder stehen lassen: Knopf A stellt das Tempo sowieso neu ein.",
-      "<kbd>wenn Knopf B geklickt</kbd> mit <b>Line patrolling OFF</b> bleibt euer Not-Aus.",
       "Kein „Linie“ dabei? Dann startet ein neues Roboter-Projekt und baut das Programm ganz nach.",
       {karte:"makecode:vorlage"}
     ],
-    chips:[ "Wo ist das Haus?", "Wir finden das Projekt Linie nicht", "Wie lösche ich einen Block?", "Welcher dauerhaft-Block ist gemeint?" ],
+    chips:[ "Wo ist das Haus?", "Wir finden das Projekt Linie nicht", "Wo ist Meine Projekte?" ],
     fertig:"Linie ist offen ✓" },
+
+  { id:"aufraeumen",
+    nachrichten:[
+      "Löscht zuerst den <kbd>dauerhaft</kbd>-Block mit dem Rot-Blau-Blinken. Zieht ihn einfach nach links in die Blockliste.",
+      "Der Rest darf bleiben. <b>Line Following Settings Speed</b> in <kbd>beim Start</kbd> könnt ihr löschen oder stehen lassen: Knopf A stellt das Tempo sowieso neu ein.",
+      "<kbd>wenn Knopf B geklickt</kbd> mit <b>Line patrolling OFF</b> bleibt euer Not-Aus."
+    ],
+    zeig:{ "Warum löschen?":[
+      "Er würde später eure Startampel überschreiben und den Laser bremsen."
+    ]},
+    chips:[ "Wie lösche ich einen Block?", "Welcher dauerhaft-Block ist gemeint?", "Dürfen wir Speed stehen lassen?" ],
+    fertig:"Aufgeräumt ✓" },
 
   { id:"kreuzungen",
     nachrichten:[
@@ -42,9 +50,11 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Setzt alle vier Regeln, auch die, die auf der Strecke nicht vorkommen. Die Blöcke liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
       "An Kreuzung <span class=\"gpnum\">1</span> stellt ihr um. Die grauen Blöcke liegen in der Kategorie <b>Grand Prix</b>: <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> läuft einmal, sobald der Roboter dort ankommt.",
       {karte:"k6-kreuzungen"},
-      "Die <b>???</b> findet ihr mit der Skizze heraus.",
-      "Einen Abzweig nach links gibt es auf der Strecke nicht. Der Block steht trotzdem da: Falls der Roboter sich einmal vermisst, fährt er geradeaus weiter."
+      "Die <b>???</b> findet ihr mit der Skizze heraus."
     ],
+    zeig:{ "Warum auch links?":[
+      "Einen Abzweig nach links gibt es auf der Strecke nicht. Der Block steht trotzdem da: Falls der Roboter sich einmal vermisst, fährt er geradeaus weiter."
+    ]},
     chips:[ "Wo ist die Kategorie Grand Prix?", "Wo ist die Gruppe V3?", "Was gehört bei Kreuzung 1 hin?", "Wo kommen die Blöcke hin?" ],
     fertig:"Regeln stehen ✓" },
 
@@ -53,7 +63,8 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Fehlt noch die <b>Siegesmelodie am Ziel</b>. Den Block <kbd>spiele Melodie</kbd> findet ihr bei <b>Musik</b>.",
       {karte:"k6-melodie"},
       "Welche Nummer hat das Ziel? Schaut auf die Skizze.",
-      "Testen: Erster Lauf! Herunterladen, USB-Kabel ab, Roboter auf den Start, Knopf A. Kommt er ins Ziel und spielt seine Melodie?"
+      "Testen: Erster Lauf! Herunterladen, USB-Kabel ab, Roboter auf den Start, Knopf A.",
+      "Kommt er ins Ziel und spielt seine Melodie?"
     ],
     zeig:{ "Es klappt nicht":[ {karte:"k6-klemmt"} ] },
     chips:[ "Wo ist die Kategorie Musik?", "Er biegt falsch ab", "Die Melodie kommt nicht", "Welche Nummer hat das Ziel?" ],
@@ -92,10 +103,11 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Jetzt das Rennen. Gestartet wird immer mit <b>Knopf A</b>.",
       "Fangt mit <b>Speed 1 oder 2</b> an. Schneller erst, wenn ein Lauf sauber geklappt hat.",
       "Erreicht der Roboter eine <b>Kiste</b>, ist der Lauf vorbei. Tragt ihn zurück an den Start und versucht es noch einmal.",
-      "In der Tempo-Zone muss auf dem Display eine <b>1</b> stehen. Keine 1? Dann seid ihr <b>geblitzt</b>: plus 3 Sekunden.",
-      "Die Zeit wird gestoppt, damit ihr vergleichen könnt. Gummibärchen bekommen <b>alle</b>."
+      "In der Tempo-Zone muss auf dem Display eine <b>1</b> stehen. Sonst seid ihr <b>geblitzt</b>: plus 3 Sekunden."
     ],
-    zeig:{ "Es klappt nicht":[ {karte:"k6-klemmt"} ] },
+    zeig:{ "Es klappt nicht":[ {karte:"k6-klemmt"} ], "Wer gewinnt?":[
+      "Die Zeit wird gestoppt, damit ihr vergleichen könnt. Gummibärchen bekommen <b>alle</b>."
+    ]},
     chips:[ "Er verlässt die Linie in Kurven", "Er fährt in die Kiste", "Wir sind geblitzt worden", "Dürfen wir schneller fahren?" ],
     fertig:"Wir sind durch!" },
 
@@ -104,10 +116,12 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Für Profis: Hinter dem Ziel liegt noch ein zweites Ziel. Dazwischen ist eine Lücke ohne Linie.",
       "So ist der Plan:",
       {karte:"k6-plan"},
-      "Der Block hat drei Felder: die Richtung, die Strecke in cm und ob man ihn unterbrechen darf.",
-      "<b>Blinker:</b> Lasst vor dem Abbiegen das Licht auf der richtigen Seite leuchten, wie beim Auto."
+      "Der Block hat drei Felder: die Richtung, die Strecke in cm und ob man ihn unterbrechen darf."
     ],
     zeig:{
+      "Noch Zeit?":[
+        "<b>Blinker:</b> Lasst vor dem Abbiegen das Licht auf der richtigen Seite leuchten, wie beim Auto."
+      ],
       "Er macht nach dem Sprung, was er will?":[
         "Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?"
       ],
@@ -122,12 +136,18 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
   { id:"abschluss",
     nachrichten:[
       "Ihr seid im Ziel! Holt euch eure Gummibärchen, die gibt es für alle.",
-      "Die Zeit war nur zum Vergleichen. Hier gewinnt jedes Team, das ins Ziel kommt.",
+      "Die Zeit war nur zum Vergleichen. Hier gewinnt jedes Team, das ins Ziel kommt."
+    ],
+    chips:[ "Wo gibt es die Gummibärchen?", "Wie schnell waren die anderen?", "Dürfen wir noch einmal fahren?" ],
+    fertig:"Gummibärchen geholt ✓" },
+
+  { id:"alltag",
+    nachrichten:[
       "Wo das, was ihr heute gebaut habt, wirklich fährt: Der Linienfolger ist die Technik hinter <b>Lagerrobotern</b> bei großen Versandhändlern.",
       "Der Bremsassistent steckt so ähnlich in fast jedem Neuwagen.",
       "Und der Regelkreis „wahrnehmen – entscheiden – handeln“ ist derselbe, egal ob im Staubsauger oder im Marsrover.",
       {karte:"k6-final"}
     ],
-    chips:[ "Was ist ein Lagerroboter?", "Wo gibt es die Gummibärchen?", "Was ist ein Regelkreis nochmal?" ],
+    chips:[ "Was ist ein Lagerroboter?", "Was ist ein Bremsassistent?", "Was ist ein Regelkreis nochmal?" ],
     fertig:"Geschafft ✓" }
 ]};

@@ -14,8 +14,7 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
   { id:"laser",
     nachrichten:[
       "Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleiner Laserscanner mit 8 mal 8 = <b>64 Laserstrahlen</b>.",
-      "Er misst in Millimetern, von 20 mm bis 4000 mm.",
-      "Genau so ein Sensor sitzt auch in selbstfahrenden Autos, nur größer.",
+      "Er misst in Millimetern, von 20 mm bis 4000 mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos, nur größer.",
       "Der Scanner hat seine eigene Kategorie mit lila Blöcken: <b>Matrix LiDAR Entfernung</b>.",
       {karte:"k5-laser"},
       "In <kbd>beim Start</kbd> wird er eingeschaltet. In <kbd>dauerhaft</kbd> holt ihr zuerst neue Messwerte ab und fragt dann den Abstand nach vorn ab."
@@ -29,7 +28,13 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Ist der Weg frei, wird gefahren. Ist etwas näher als 20 cm, wird gebremst.",
       {karte:"k5-logik"},
       "Die Bedingung baut ihr in dieser Reihenfolge. Erst die Form, dann der Inhalt: Der Vergleich ist das Loch, in das der Sensor passt.",
-      {karte:"k5-bauen"},
+      {karte:"k5-bauen"}
+    ],
+    chips:[ "Wo ist wenn … dann … ansonsten?", "Der Laser-Block passt nicht ins Loch", "Wo ist der Vergleich?", "Warum 200 und nicht 20?" ],
+    fertig:"Gebaut ✓" },
+
+  { id:"bremsen",
+    nachrichten:[
       "Testen: Herunterladen, Roboter auf den Boden, Hand davorhalten. Er bremst, bevor ihr ihn berührt.",
       "Diesen Laser-Stopp braucht ihr im Grand Prix wieder. Also nicht überspringen!"
     ],
@@ -40,7 +45,7 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
         "Nehmt einen kurzen Ton, sonst wird der Bremsassistent träge."
       ]
     },
-    chips:[ "Wo ist wenn … dann … ansonsten?", "Der Laser-Block passt nicht ins Loch", "Er bremst nie", "Warum 200 und nicht 20?" ],
+    chips:[ "Er bremst nie", "Er fährt gar nicht los", "Er bremst zu spät", "Er ruckelt beim Bremsen" ],
     fertig:"Er bremst ✓" },
 
   { id:"pausenknopf",
@@ -48,11 +53,17 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Jetzt merkt sich der Roboter etwas. Eine <b>Variable</b> ist ein Merkzettel mit Namen: Das Programm schreibt etwas darauf, zum Beispiel <b>wahr</b> oder <b>falsch</b>.",
       "Später liest es den Zettel an einer ganz anderen Stelle wieder. Im Grand Prix braucht ihr das für das Pro-Ziel.",
       {karte:"k5-pause"},
-      "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd> klicken und sie <b>pausiert</b> nennen.",
+      "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd> klicken und sie <b>pausiert</b> nennen."
+    ],
+    chips:[ "Wo erstelle ich eine Variable?", "Warum heißt es Variable?", "Wo tippe ich den Namen ein?" ],
+    fertig:"Variable pausiert ist da ✓" },
+
+  { id:"zettel",
+    nachrichten:[
       "Den roten Block <kbd>setze pausiert auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen.",
       "Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>. Bei Knopf A macht ihr dasselbe mit <b>falsch</b>."
     ],
-    chips:[ "Wo erstelle ich eine Variable?", "Wo finde ich wahr und falsch?", "Wo ist setze pausiert?", "Warum heißt es Variable?" ],
+    chips:[ "Wo finde ich wahr und falsch?", "Wo ist setze pausiert?", "Wo ist wenn Knopf B geklickt?" ],
     fertig:"Knöpfe schreiben auf den Zettel ✓" },
 
   { id:"oder",
@@ -60,9 +71,11 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Jetzt muss das <kbd>dauerhaft</kbd> den Zettel lesen.",
       "Zieht euren Laser-Vergleich aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben.",
       "Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>oder</kbd>: links <b>pausiert</b> aus <b>Variablen</b>, rechts wieder euer Vergleich.",
-      "Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander.",
       "Testen: Der Roboter fährt, Knopf B: Er bleibt stehen und leuchtet rot. Knopf A: Er fährt weiter."
     ],
+    zeig:{ "Warum geht das?":[
+      "Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander."
+    ]},
     chips:[ "Wo ist der Block oder?", "Wo finde ich pausiert?", "Der Vergleich passt nicht mehr rein", "Nach Knopf A fährt er nicht weiter" ],
     fertig:"Pausenknopf geht ✓" },
 

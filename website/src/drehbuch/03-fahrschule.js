@@ -45,22 +45,31 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
       "Aus „fahre 3 Felder“ wird also: fahren, warten, stoppen.",
       {karte:"k3-motor"},
       "<kbd>initialisiere Maqueen Plus V2</kbd> gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In der Vorlage steht er schon: nicht löschen.",
-      "Mit ihm fragt der micro:bit beim Roboter an: „Bist du da?“ Ein blinkendes <b>X</b> heißt keine Antwort, ein <b>Haken</b> heißt verbunden.",
       "Zahlengefühl: Unter etwa <b>30</b> bewegt sich nichts, da ist der Motor zu schwach. 1000 ms sind eine Sekunde."
     ],
+    zeig:{ "Was macht initialisiere?":[
+      "Mit ihm fragt der micro:bit beim Roboter an: „Bist du da?“ Ein blinkendes <b>X</b> heißt keine Antwort, ein <b>Haken</b> heißt verbunden."
+    ]},
     chips:[ "Wo ist steuere beide Räder?", "Der micro:bit zeigt nur ein X", "Wo ist pausiere?", "Warum nicht Geschwindigkeit 255?" ],
     fertig:"Gebaut ✓" },
 
   { id:"aufbocken",
     nachrichten:[
       "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband.",
-      "Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt.",
+      "Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt."
+    ],
+    chips:[ "Wir haben keine Schachtel", "Wie hoch muss er stehen?", "Warum aufbocken?" ],
+    fertig:"Räder hängen in der Luft ✓" },
+
+  { id:"probelauf",
+    nachrichten:[
       "Jetzt herunterladen. Drehen sich beide Räder eine Sekunde lang?",
       "Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren.",
       "Das gilt ab jetzt für <b>jedes neue Programm</b>: erst aufbocken, dann fahren."
     ],
     zeig:{ "Es klappt nicht":[
-      "Blinkt ein <b>X</b>? Dann antwortet der Roboter nicht. Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
+      "Blinkt ein <b>X</b>? Dann antwortet der Roboter nicht.",
+      "Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
       {karte:"k3-klemmt"}
     ]},
     chips:[ "Die Räder drehen sich nicht", "Der micro:bit zeigt nur ein X", "Er fährt einen Bogen", "Nur ein Rad dreht sich" ],
@@ -81,12 +90,14 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
     nachrichten:[
       "Team-Challenge: Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.",
       "<b>Tipp 1:</b> Nehmt <kbd>wenn Knopf A geklickt</kbd> statt <kbd>beim Start</kbd>, das kennt ihr aus Station 2. Dann fährt er erst los, wenn er auf dem Boden steht und ihr drückt.",
-      "<b>Tipp 2:</b> Eine Seite vom Quadrat sind die Geradeaus-Blöcke plus die Dreh-Blöcke, und das 4-mal. Rechtsklick auf einen Block, dann <b>Duplizieren</b>: Das spart Arbeit.",
-      "<b>Tipp 3:</b> 400 ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800.",
+      "<b>Tipp 2:</b> 400 ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800."
+    ],
+    zeig:{ "Mehr Tipps":[
+      "<b>Tipp 3:</b> Eine Seite vom Quadrat sind die Geradeaus-Blöcke plus die Dreh-Blöcke, und das 4-mal.",
+      "Rechtsklick auf einen Block, dann <b>Duplizieren</b>: Das spart Arbeit.",
       "Probieren, messen, korrigieren: Genau so arbeiten Ingenieure.",
       "Geschafft? Dann zeigt es eurem Betreuer."
-    ],
-    zeig:{ "Wir kommen nicht weiter":[
+    ], "Wir kommen nicht weiter":[
       "Hier ist ein Gerüst. Die ??? findet ihr selbst heraus.",
       {karte:"k3-quadrat"},
       "Die Schleife <kbd>-mal wiederholen</kbd> kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>."

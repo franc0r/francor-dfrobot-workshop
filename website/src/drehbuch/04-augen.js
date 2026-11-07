@@ -17,7 +17,13 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
     nachrichten:[
       "Unter dem Roboter sitzen fünf winzige Lampen, jede mit einem Lichtmesser daneben. Die Lampe leuchtet nach unten, der Messer schaut, wie viel Licht zurückkommt.",
       "<b>Weiß spiegelt viel Licht zurück, Schwarz schluckt es.</b> Der Sensor liefert keine Farbe, sondern eine Zahl.",
-      "Weißes Papier gibt ungefähr <b>3800</b>, das heißt „hier ist keine Linie“. Schwarzes Klebeband gibt ungefähr <b>2700</b>, das heißt „hier ist meine Spur“.",
+      "Weißes Papier gibt ungefähr <b>3800</b>, das heißt „hier ist keine Linie“. Schwarzes Klebeband gibt ungefähr <b>2700</b>, das heißt „hier ist meine Spur“."
+    ],
+    chips:[ "Warum ist Schwarz die kleinere Zahl?", "Wo sitzen die Sensoren?", "Was misst der Sensor genau?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"kalibrieren",
+    nachrichten:[
       "Jeder Raum hat anderes Licht. Damit der Roboter weiß, was hier „schwarz“ heißt, lernt er das einmal: Das nennt man <b>kalibrieren</b>.",
       "Bei euren Robotern hat das der Betreuer schon gemacht. Nur wenn eurer die Linie nicht findet, kalibriert ihr neu."
     ],
@@ -25,8 +31,8 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
       "Alle fünf Sensoren auf die schwarze Linie stellen und einschalten.",
       "Dann die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis es blinkt."
     ]},
-    chips:[ "Warum ist Schwarz die kleinere Zahl?", "Was heißt kalibrieren?", "Wo sitzen die Sensoren?", "Müssen wir selbst kalibrieren?" ],
-    fertig:"Verstanden ✓" },
+    chips:[ "Was heißt kalibrieren?", "Müssen wir selbst kalibrieren?", "Wo ist die Calc-Key?" ],
+    fertig:"Alles klar ✓" },
 
   { id:"bloecke",
     nachrichten:[
@@ -46,7 +52,8 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
       "<b>Knopf A</b> drücken: Er fährt. <b>Knopf B</b> hält ihn an."
     ],
     zeig:{ "Es klappt nicht":[
-      "Zeigt der micro:bit nur ein blinkendes <b>X</b>? Dann antwortet der Roboter nicht. Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
+      "Zeigt der micro:bit nur ein blinkendes <b>X</b>? Dann antwortet der Roboter nicht.",
+      "Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
       {karte:"k4-klemmt"}
     ]},
     chips:[ "Der micro:bit zeigt nur ein X", "Er fährt von der Linie runter", "Er fährt gar nicht los", "Wo ist der Block Line patrolling?" ],
@@ -57,13 +64,19 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
       "Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie mit <b>OFF</b> stoppt. Der micro:bit kann nebenher noch etwas anderes tun.",
       "Zum Beispiel eine Lichtshow:",
       {karte:"k4-licht"},
-      "Testen: Herunterladen, Roboter auf die Linie, Knopf A. Fährt er und blinkt dabei?",
+      "Testen: Herunterladen, Roboter auf die Linie, Knopf A. Fährt er und blinkt dabei?"
+    ],
+    chips:[ "Wo ist RGB Car Lights?", "Die Lichter blinken nicht", "Kann ich andere Farben nehmen?", "Er fährt nicht mehr, seit es blinkt" ],
+    fertig:"Fährt und blinkt ✓" },
+
+  { id:"aha",
+    nachrichten:[
       "Und jetzt der eigentliche Aha-Moment: Ihr habt dem Roboter <b>nicht gesagt, wo er langfahren soll</b>. Ihr habt ihm gesagt, worauf er achten muss.",
       "Legt die Strecke anders, er fährt sie trotzdem. Das ist der Unterschied zwischen einer Maschine und einem Roboter.",
       "Heißt euer Projekt schon <b>Linie</b>? Sonst jetzt unten neben <b>Herunterladen</b> umbenennen."
     ],
-    chips:[ "Wo ist RGB Car Lights?", "Die Lichter blinken nicht", "Kann ich andere Farben nehmen?", "Er fährt nicht mehr, seit es blinkt" ],
-    fertig:"Fährt und blinkt ✓" },
+    chips:[ "Was ist der Unterschied zur Maschine?", "Wo benenne ich das Projekt um?", "Fährt er auch eine andere Strecke?" ],
+    fertig:"Projekt heißt Linie ✓" },
 
   { id:"quiz",
     nachrichten:[

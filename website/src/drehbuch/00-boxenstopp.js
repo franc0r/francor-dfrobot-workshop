@@ -3,8 +3,9 @@
 DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", schritte:[
   { id:"regelkreis",
     nachrichten:[
-      "Hallo! Ich begleite euch heute durch den Workshop. Am Ende fährt euer Roboter ganz allein.",
-      "Ein ferngesteuertes Auto ist noch kein Roboter. Ein echter Roboter macht immer dieselben drei Dinge:",
+      "Hallo! Ich begleite euch heute durch den Workshop.",
+      "Am Ende fährt euer Roboter ganz allein. Ein ferngesteuertes Auto ist noch kein Roboter.",
+      "Ein echter Roboter macht immer dieselben drei Dinge:",
       '<div class="mcstack flat"><div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>' +
         '<div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>euer Programm</b></div>' +
         '<div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div></div>',
