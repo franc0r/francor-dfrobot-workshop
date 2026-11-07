@@ -683,3 +683,31 @@ body.safety-on{overflow:hidden}
   .mbboard.shake{animation:none}
   .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
 }
+
+/* ===== Figur ===== */
+.shell main{display:grid; grid-template-columns:180px minmax(0,1fr); gap:20px; align-items:start}
+.shell main > :not(.figur){grid-column:2}
+.figur{grid-column:1; grid-row:1 / span 20; position:sticky; top:90px; text-align:center}
+.figur svg{display:block; width:100%; height:auto; overflow:visible; transform-origin:50% 100%}
+.figurname{margin-top:6px; font-weight:600; font-size:14px; color:var(--accent)}
+.figur .augen, .figur .lid{transform-box:fill-box; transform-origin:center}
+.figur .lid{animation:figur-blinzeln 4.5s infinite}
+.figur[data-zustand="leerlauf"] svg{animation:figur-wippen 3.2s ease-in-out infinite}
+.figur[data-zustand="reden"] svg{animation:figur-reden .35s ease-in-out infinite}
+.figur[data-zustand="jubel"] svg{animation:figur-huepfen .6s ease-out 1}
+.figur[data-zustand="gruebeln"] svg{transform:rotate(-4deg)}
+.figur[data-zustand="gruebeln"] .augen{transform:scaleY(.6)}
+.figur[data-zustand="sorge"] .augen{transform:translateY(-2px)}
+@keyframes figur-wippen{0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)}}
+@keyframes figur-reden{0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.03)}}
+@keyframes figur-huepfen{0%{transform:translateY(0)} 40%{transform:translateY(-14px)} 100%{transform:translateY(0)}}
+@keyframes figur-blinzeln{0%,94%,100%{transform:scaleY(1)} 97%{transform:scaleY(.08)}}
+@media (prefers-reduced-motion: reduce){
+  /* nur das Blinzeln bleibt, der Körper steht still */
+  .figur svg{animation:none !important}
+  .figur .lid{animation-duration:4.5s !important}
+}
+@media (max-width:760px){
+  .shell main{grid-template-columns:72px minmax(0,1fr); gap:12px}
+  .figur{top:70px}
+}

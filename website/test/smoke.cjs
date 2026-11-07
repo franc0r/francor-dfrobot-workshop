@@ -61,6 +61,22 @@ function check(cond, msg) {
   check(await page.$eval('#safety', e => !e.hidden), 'Sicherheit: Knopf in der Kopfzeile holt es zurück');
   await page.click('#safetyok');
 
+  // Figur
+  check(await page.$eval('#figur svg', e => e.getBoundingClientRect().height) > 100, 'Figur: SVG wird gezeichnet');
+  check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf', 'Figur: Leerlauf nach dem Laden');
+  check(await page.$eval('#figur .lid', e => getComputedStyle(e).animationName) === 'figur-blinzeln', 'Figur: blinzelt');
+  check(await page.$eval('#figurname', e => e.textContent) === 'Franco', 'Figur: Name steht dran');
+  await page.mouse.move(1200, 900);
+  check(await page.$eval('#figur .pupille', e => /translate\(\s*[1-9]/.test(e.getAttribute('transform') || '')), 'Figur: Pupillen folgen der Maus');
+  const ctxR = await browser.newContext({ reducedMotion: 'reduce', offline: true, viewport: { width: 1280, height: 1000 } });
+  const pR = await ctxR.newPage();
+  pR.on('pageerror', e => errors.push(String(e)));
+  await pR.goto('file://' + DIST);
+  await pR.waitForTimeout(300);
+  check(await pR.$eval('#figur svg', e => getComputedStyle(e).animationName) === 'none', 'Figur: reduzierte Bewegung hält den Körper still');
+  check(await pR.$eval('#figur .lid', e => getComputedStyle(e).animationName) === 'figur-blinzeln', 'Figur: blinzelt auch bei reduzierter Bewegung');
+  await ctxR.close();
+
   // Struktur
   const n = await page.$$eval('.station', s => s.length);
   check(n === 7, 'sieben Stationen (gefunden: ' + n + ')');
