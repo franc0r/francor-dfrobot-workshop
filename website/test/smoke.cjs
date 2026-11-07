@@ -106,7 +106,7 @@ function check(cond, msg) {
 
   // Karten sind im Vorrat versteckt, bis das Gespräch sie holt
   check(await page.$('#karten #mqmap') !== null, 'Karten: Vorrat trägt die Maqueen-Übersicht');
-  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-klemmt', 'k2-mbsim', 'k2-klemmt', 'k3-mqinsert', 'k3-sim', 'k3-klemmt', 'k4-klemmt', 'k5-klemmt', 'k6-gpmap', 'k6-final', 'k6-klemmt'])
+  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-start', 'k1-herz', 'k1-quiz', 'k1-klemmt', 'k2-mbsim', 'k2-knoepfe', 'k2-neigen', 'k2-tabelle', 'k2-quiz', 'k2-wuerfel', 'k2-klemmt', 'k3-mqinsert', 'k3-sim', 'k3-klemmt', 'k4-klemmt', 'k5-klemmt', 'k6-gpmap', 'k6-final', 'k6-klemmt'])
     check(await page.$('#karten [data-karte="' + id + '"]') !== null, 'Karten: ' + id + ' im Vorrat');
 
   // Station 2: micro:bit-Simulator
@@ -186,8 +186,12 @@ function check(cond, msg) {
     await page.click('.stepbtn[data-go="0"]'); await page.waitForTimeout(300);
     check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 1), 'Zurück zu Station 0: kein zweites Abzeichen');
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf', 'Zurück zu Station 0: nichts wird neu abgespielt');
-    // Weiter zu Station 1: noch ohne Drehbuch, aber ohne Fehler
+    // Weiter zu Station 1: Franco spricht deren ersten Schritt
     await page.click('#antworten button[data-go="1"]'); await page.waitForTimeout(300);
+    // (mit Tipp-Effekt steht der Schritt sofort im Verlauf, die Blasen folgen nach und nach)
+    check(await page.evaluate(() => (JSON.parse(localStorage.getItem('mgp-v1')).chat[1] || []).some(e => /Ja, ihr dürft/.test(e.h || ''))), 'Gespräch: Weiter zu Station 1 startet deren Drehbuch');
+    // Station ohne Drehbuch: Station 3 hat noch keins (Task 8 schreibt es; dann wandert diese Prüfung zu Station 4, Task 9 streicht sie)
+    await page.click('.stepbtn[data-go="3"]'); await page.waitForTimeout(300);
     check(/schreibe ich gerade noch/.test(await page.$eval('#chat', e => e.textContent)), 'Gespräch: Station ohne Drehbuch sagt Bescheid');
     check(await page.$eval('#timer', e => e.classList.contains('running')), 'Gespräch: Weiter startet den Timer');
     // Neues Team leert das Gespräch, Franco wartet wieder auf das Sicherheitsfenster
@@ -196,6 +200,48 @@ function check(cond, msg) {
     await page.click('#safetyok'); await page.waitForTimeout(100);
     check(await page.$$eval('#chat .blase', l => l.length) >= 1, '"Neues Team": Franco begrüßt nach dem Sicherheitsfenster');
     await ctxG.close();
+  }
+
+  // Station 1 und 2 als Gespräch. Reduzierte Bewegung: kein Tipp-Effekt, jeder Klick spielt sofort.
+  {
+    const ctxS = await browser.newContext({ reducedMotion: 'reduce', offline: true, viewport: { width: 1280, height: 1000 } });
+    const page = await ctxS.newPage();
+    page.on('pageerror', e => errors.push(String(e)));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await page.goto('file://' + DIST); await page.waitForTimeout(300);
+    await page.click('#safetyok');
+    const weiter = async () => { if (!(await page.$('#antworten button[data-fertig]'))) return; await page.click('#antworten button[data-fertig]'); await page.waitForTimeout(50); };
+    // Station 1: Erlaubnis und MakeCode-Knopf, dann Klammer-Blöcke in der Karte
+    await page.click('.stepbtn[data-go="1"]'); await page.waitForTimeout(100);
+    check(/Ja, ihr dürft\. Jetzt\./.test(await page.$eval('#chat', e => e.textContent)), 'Station 1: Franco gibt die Erlaubnis');
+    check(await page.$('#chat .blase.karte a[href="https://makecode.microbit.org/#newproject"]') !== null, 'Station 1: Knopf „Neues Projekt starten“ im Gespräch');
+    let r1 = 0;
+    while (!(await page.$('#chat [data-karte="k1-herz"]')) && r1++ < 5) await weiter();
+    check(await page.isVisible('#chat [data-karte="k1-herz"]'), 'Station 1: Karte k1-herz sichtbar');
+    const loopKids = await page.$$eval('#chat .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim() + ':' + c.querySelectorAll(':scope > .mcbody > .mcb').length));
+    check(loopKids.includes('beim Start:1') && loopKids.includes('dauerhaft:4'), 'Station 1: Klammer-Blöcke in der Karte (' + loopKids.join(', ') + ')');
+    check(await page.$$eval('#chat .mcb .ledico[aria-label="Herz"] span.on', l => l.length === 16), 'Station 1: Herz als 5×5-Bild');
+    r1 = 0;
+    while (!(await page.$eval('.stepbtn[data-go="1"]', e => e.classList.contains('done'))) && r1++ < 8) await weiter();
+    check(await page.$('#chat [data-karte="k1-quiz"] .quiz[data-quiz="q1"]') !== null, 'Station 1: Quiz als Karte');
+    check(await page.$eval('.stepbtn[data-go="1"]', e => e.classList.contains('done')), 'Station 1 durchgespielt → Abzeichen');
+    // Station 2: Bonus überspringen blockiert das Abzeichen nicht (Review-Fokus 5)
+    await page.click('#antworten button[data-go="2"]'); await page.waitForTimeout(100);
+    let r2 = 0;
+    while (!(await page.$('#antworten button[data-skip]')) && await page.$('#antworten button[data-fertig]') && r2++ < 10) await weiter();
+    check(await page.$('#chat #mbmatrix') !== null, 'Station 2: micro:bit-Simulator im Gespräch');
+    check(await page.$('#antworten button[data-skip]') !== null && (await page.$eval('#antworten button[data-skip]', e => e.textContent)) === 'Überspringen', 'Station 2: Knopf „Überspringen“ beim Würfel');
+    const vorher = await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length);
+    await page.click('#antworten button[data-skip]'); await page.waitForTimeout(100);
+    check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length) >= 1 && await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length) === vorher + 1, 'Station 2: Abzeichen trotz übersprungenem Extra');
+    check(await page.$('#antworten button[data-extra]') !== null, 'Station 2: Extra bleibt erreichbar');
+    check(await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Würfel', 'Station 2: Extra heißt „Extra: Würfel“');
+    // Extra nachholen: Würfelkarte kommt, danach ist der Knopf weg
+    await page.click('#antworten button[data-extra]'); await page.waitForTimeout(100);
+    check(await page.$('#chat [data-karte="k2-wuerfel"] .mcc') !== null, 'Station 2: Extra zeigt die Würfel-Blöcke');
+    await weiter();
+    check(await page.$('#antworten button[data-extra]') === null && await page.evaluate(() => JSON.parse(localStorage.getItem('mgp-v1')).bonus.wuerfel === 1), 'Station 2: Extra erledigt, Knopf weg');
+    await ctxS.close();
   }
 
   // Frage-Feld „Geht nicht“. Letzte Textblase = letzte .blase ohne .karte (die Karte folgt der Blase).

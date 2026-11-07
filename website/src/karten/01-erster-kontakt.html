@@ -1,4 +1,33 @@
 <div class="karten" data-st="1">
+  <div class="karte" data-karte="k1-start">
+    <div class="mcstack">
+      <div class="mccap">Einmal, direkt beim Einschalten</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-basic i1">zeige Text <b>&quot;Hallo&quot;</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k1-herz">
+    <div class="mcstack">
+      <div class="mccap">Immer wieder, ohne Ende</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="heart" role="img" aria-label="Herz"></b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
+      <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k1-quiz">
+    <div class="quiz" data-quiz="q1" data-answer="b">
+      <div class="qh">Kontrollfrage</div>
+      <p class="q">Ihr zieht das USB-Kabel ab. Was passiert mit eurem Programm?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> Es ist weg, der micro:bit ist wieder leer</button>
+        <button class="opt" data-k="b"><span class="k">B</span> Es bleibt drauf und läuft, sobald Strom da ist</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Es läuft nur, solange der Laptop verbunden ist</button>
+      </div>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
   <div class="karte" data-karte="k1-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
