@@ -696,6 +696,7 @@ body.safety-on{overflow:hidden}
 .figur[data-zustand="reden"] svg{animation:figur-reden .35s ease-in-out infinite}
 .figur[data-zustand="jubel"] svg{animation:figur-huepfen .6s ease-out 1}
 .figur[data-zustand="gruebeln"] svg{transform:rotate(-4deg)}
+/* Zustände wirken auf .augen: .lid gehört dem Blinzeln, .pupille dem Blick (transform-Attribut) */
 .figur[data-zustand="gruebeln"] .augen{transform:scaleY(.6)}
 .figur[data-zustand="sorge"] .augen{transform:translateY(-2px)}
 @keyframes figur-wippen{0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)}}
@@ -708,6 +709,8 @@ body.safety-on{overflow:hidden}
   .figur .lid{animation-duration:4.5s !important}
 }
 @media (max-width:760px){
-  .shell main{grid-template-columns:72px minmax(0,1fr); gap:12px}
-  .figur{top:70px}
+  /* eine Spalte: Figur in eigener Zeile links oben, der Inhalt hat die volle Breite */
+  .shell main{grid-template-columns:minmax(0,1fr); gap:12px}
+  .shell main > :not(.figur){grid-column:1}
+  .figur{grid-column:1; grid-row:auto; position:static; width:72px; text-align:left}
 }
