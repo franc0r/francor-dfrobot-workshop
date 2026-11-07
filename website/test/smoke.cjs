@@ -198,6 +198,79 @@ function check(cond, msg) {
     await ctxG.close();
   }
 
+  // Frage-Feld „Geht nicht“. Letzte Textblase = letzte .blase ohne .karte (die Karte folgt der Blase).
+  const letzteBlase = pg => pg.evaluate(() => { const l = document.querySelectorAll('#chat .blase:not(.karte)'); return l.length ? l[l.length - 1].textContent : ''; });
+  {
+    // ohne Netz, ohne Schlüssel: Rückfallantwort mit Karte „Wenn es klemmt“
+    const ctxF = await browser.newContext({ viewport: { width: 1280, height: 1000 }, offline: true });
+    const page = await ctxF.newPage();
+    page.on('pageerror', e => errors.push(String(e)));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await page.goto('file://' + DIST); await page.waitForTimeout(300);
+    await page.click('#safetyok'); await page.waitForTimeout(3300);
+    await page.click('#antworten button[data-frage]');
+    check(await page.$$eval('#frage .chips button', l => l.length >= 3), 'Frage: Chips da');
+    check(await page.$eval('#frageeingabe', e => parseFloat(getComputedStyle(e).fontSize) >= 16), 'Frage: Eingabefeld mindestens 16 px');
+    await page.click('#frage .chips button');
+    await page.waitForTimeout(500);
+    check((await letzteBlase(page)).includes('Wink den Betreuer'), 'Frage ohne Netz: Rückfallantwort');
+    check(await page.$('#chat details.hint') !== null, 'Frage ohne Netz: Checkliste „Wenn es klemmt“ als Karte');
+    check(await page.$('#antworten button[data-fertig]') !== null && await page.$('#antworten button[data-nochfrage]') !== null, 'Frage ohne Netz: Antwortknöpfe und „Noch eine Frage“');
+    check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm')) || '{"anfragen":0}').anfragen === 0, 'Frage ohne Netz: Zähler bleibt bei 0');
+    await page.reload(); await page.waitForTimeout(300);
+    check((await letzteBlase(page)).includes('Wink den Betreuer') && await page.$('#chat details.hint') !== null, 'Frage ohne Netz: Verlauf übersteht Neuladen');
+    await ctxF.close();
+  }
+  {
+    // mit Netz (gefälscht) und Schlüssel
+    const ctxN = await browser.newContext({ viewport: { width: 1280, height: 1000 } });
+    const page = await ctxN.newPage();
+    page.on('pageerror', e => errors.push(String(e)));
+    // die absichtliche 500-Antwort meldet der Browser selbst als Konsolenfehler; das ist kein Skriptfehler
+    page.on('console', m => { if (m.type() === 'error' && !/status of 500/.test(m.text())) errors.push(m.text()); });
+    let anfrage = null;
+    await page.route('https://openrouter.ai/**', r => {
+      anfrage = { auth: r.request().headers()['authorization'], body: JSON.parse(r.request().postData() || '{}') };
+      setTimeout(() => r.fulfill({ json: { choices: [{ message: { content: 'Stell ihn auf die Linie, dann A drücken. <b>x</b>' } }], usage: { prompt_tokens: 1200, completion_tokens: 30 } } }), 400);
+    });
+    await page.goto('file://' + DIST); await page.waitForTimeout(300);
+    await page.evaluate(() => localStorage.setItem('mgp-key', 'test'));
+    await page.click('#safetyok'); await page.waitForTimeout(3300);
+    await page.click('#antworten button[data-frage]');
+    await page.click('#frage .chips button');
+    check(await page.$eval('#figur', e => e.dataset.zustand) === 'gruebeln', 'Frage: Figur grübelt, solange das LLM antwortet');
+    await page.waitForTimeout(900);
+    check((await letzteBlase(page)).includes('A drücken'), 'Frage: LLM-Antwort als Blase');
+    check(await page.$eval('#chat', e => !e.innerHTML.includes('<b>x</b>')), 'Frage: Antwort des Modells wird nicht als HTML gedeutet');
+    check(anfrage && anfrage.auth === 'Bearer test' && anfrage.body.model === 'anthropic/claude-haiku-4.5' && anfrage.body.max_tokens === 200, 'Frage: Anfrage trägt Schlüssel, Modell, max_tokens');
+    check(anfrage.body.messages[0].role === 'system' && /höchstens drei Sätze/i.test(anfrage.body.messages[0].content) && anfrage.body.messages[0].content.length < 8000, 'Frage: Systemprompt mit Regeln, unter ca. 2000 Token');
+    check(anfrage.body.messages[anfrage.body.messages.length - 1].role === 'user' && anfrage.body.messages.length <= 6, 'Frage: höchstens 4 Verlaufseinträge plus Frage');
+    check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf' && await page.$('#antworten button[data-nochfrage]') !== null, 'Frage: danach Leerlauf und „Noch eine Frage“');
+    check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm'))).anfragen === 1, 'Zähler: eine Anfrage');
+    await page.click('#coachbtn');
+    check(await page.$eval('#llmzaehler', e => /1 Anfrage/.test(e.textContent)), 'Handbuch: Zähler sichtbar');
+    check(await page.$eval('#orkeystate', e => /gesetzt/.test(e.textContent)), 'Handbuch: Schlüssel gesetzt angezeigt');
+    check(await page.$eval('#orkey', e => e.type === 'password' && e.value === ''), 'Handbuch: Schlüsselfeld ist ein Passwortfeld und leer');
+    await page.keyboard.press('Escape');
+    check(!html.includes('sk-or-'), 'kein Schlüssel in der Datei');
+    // Serverfehler: Rückfallantwort, Zähler bleibt
+    await page.unroute('https://openrouter.ai/**');
+    await page.route('https://openrouter.ai/**', r => r.fulfill({ status: 500, body: 'kaputt' }));
+    await page.click('#antworten button[data-nochfrage]');
+    await page.fill('#frageeingabe', 'Es geht nicht');
+    await page.press('#frageeingabe', 'Enter');
+    await page.waitForTimeout(500);
+    check((await letzteBlase(page)).includes('Wink den Betreuer'), 'Frage: Serverfehler 500 → Rückfallantwort');
+    check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm'))).anfragen === 1, 'Zähler: Fehler zählt nicht');
+    await page.click('#coachbtn');
+    await page.click('#llmreset');
+    check(await page.$eval('#llmzaehler', e => /^0 Anfragen/.test(e.textContent.trim())), 'Handbuch: Zähler lässt sich nullen');
+    await page.keyboard.press('Escape');
+    await page.click('#resetbtn');
+    check(await page.evaluate(() => localStorage.getItem('mgp-key')) === 'test', '„Neues Team“ behält den Schlüssel');
+    await ctxN.close();
+  }
+
   // Betreuer-Handbuch
   await page.click('#coachbtn');
   await page.waitForTimeout(350);

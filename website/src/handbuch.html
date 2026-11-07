@@ -141,6 +141,22 @@
     </section>
 
     <section>
+      <h3>Maskottchen</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)"><b>Ohne Netz oder ohne Schlüssel</b> läuft der Workshop genauso. Drückt ein Team „Geht nicht“, antwortet Franco dann mit der Checkliste „Wenn es klemmt“ der Station und bittet, euch zu winken. Das Frage-Feld sendet nur, wenn ein Schlüssel eingetragen ist und das Netz da ist; bei jedem Fehler (kein Netz, Zeitüberschreitung nach 15 s, Serverfehler) kommt dieselbe Rückfallantwort.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Schlüssel eintragen</b> (OpenRouter, einmal pro Arbeitsplatz). Er liegt nur in diesem Browser, nie in der Datei, und bleibt auch nach „Neues Team“ erhalten.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px">
+        <input id="orkey" type="password" autocomplete="off" placeholder="Schlüssel" style="flex:1 1 200px; min-width:0; font-size:16px; padding:8px 10px">
+        <button type="button" class="btn" id="orkeysave">Speichern</button>
+        <button type="button" class="btn sec" id="orkeydel">Löschen</button>
+      </div>
+      <p style="font-size:.94rem; margin-top:6px"><b id="orkeystate">kein Schlüssel</b></p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Kosten.</b> Jede Frage schickt höchstens etwa 2000 Token mit und bekommt höchstens 200 zurück. Der Zähler rechnet grob mit 1 Dollar je Million Token hinein und 5 Dollar heraus; die echten Kosten stehen bei OpenRouter.</p>
+      <p style="font-size:.94rem; margin-top:6px"><span id="llmzaehler">0 Anfragen · ca. 0 Cent</span> <button type="button" class="btn sec" id="llmreset" style="margin-left:8px">Zähler nullen</button></p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Vorlesen.</b> Auf Wunsch liest die Browser-Stimme die Blasen vor. Standard ist aus, die Messe ist laut.</p>
+      <label style="font-size:.94rem; display:flex; gap:8px; align-items:center; margin-top:6px"><input type="checkbox" id="ttsbox"> Vorlesen</label>
+    </section>
+
+    <section>
       <h3>Stationen auf Raspberry Pi und Linux</h3>
       <p style="font-size:.94rem; color:var(--ink-2)">Läuft grundsätzlich: Die micro:bit Foundation führt <b>Linux inklusive Raspberry Pi OS</b> (Debian 11 Bullseye und 12 Bookworm) als unterstützte Plattform, und Chrome bzw. Chromium ab Version 126 beherrscht das Flashen per WebUSB. Vier Punkte solltest du vorher trotzdem geklärt haben.</p>
       <div class="tablewrap" style="margin-top:12px">

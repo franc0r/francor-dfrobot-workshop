@@ -1,4 +1,4 @@
-/* Maskottchen: Figur und Gespräch. Der Ablauf (Frage-Feld, LLM) folgt in den nächsten Aufgaben. */
+/* Maskottchen: Figur, Gespräch, Frage-Feld und LLM-Anbindung. */
 
 /* ---------- Figur ---------- */
 var MASKOTTCHEN_NAME = "Franco";
@@ -229,7 +229,7 @@ function antworten(st, i){
     } else {
       knopf("data-fertig", "", s.fertig);
       for(var key in (s.zeig || {})) knopf("data-zeig", key, key, "sec");
-      knopf("data-frage", "", "Geht nicht", "sec");   // Frage-Feld folgt in der nächsten Aufgabe
+      knopf("data-frage", "", "Geht nicht", "sec");
     }
   }
   // übersprungene Zugaben bleiben erreichbar
@@ -379,8 +379,220 @@ antEl.addEventListener("click", function(e){
     paintProgress();
     figur.zustand("jubel");
   }
-  // data-frage („Geht nicht“): Frage-Feld folgt in der nächsten Aufgabe
+  else if(b.hasAttribute("data-frage") || b.hasAttribute("data-nochfrage")) frageOeffnen(st);
 });
+
+/* ---------- Frage-Feld ---------- */
+var RUECKFALL_TEXT = "Hm, da komm ich gerade nicht ran. Schaut mal hier rein, und wenn das nichts bringt: Wink den Betreuer her.";
+
+/* „Geht nicht“: Eingabefeld mit Vorschlagsfragen (Chips) des aktuellen Schritts */
+function frageOeffnen(st){
+  var i = aktSchritt(st), d = DREHBUCH[st];
+  if(!d || i >= d.schritte.length) return;
+  var chips = d.schritte[i].chips || [];
+  clearTimeout(stupsTimer); stupsFuer = null;
+  antEl.innerHTML = "";
+  var f = document.createElement("form");
+  f.className = "frage"; f.id = "frage";
+  var html = "";
+  if(chips.length){
+    html += '<div class="chips">';
+    for(var k = 0; k < chips.length; k++) html += '<button type="button" class="chip">' + chips[k].replace(/&/g, "&amp;").replace(/</g, "&lt;") + '</button>';
+    html += '</div>';
+  }
+  html += '<div class="frage-zeile"><input id="frageeingabe" type="text" maxlength="200" autocomplete="off" placeholder="Oder schreib selbst, was nicht geht">' +
+          '<button type="submit">Fragen</button><button type="button" class="sec" data-zurueck>Doch nicht</button></div>';
+  f.innerHTML = html;
+  antEl.appendChild(f);
+  f.addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest("button") : null;
+    if(!b) return;
+    if(b.classList.contains("chip")) fragen(st, b.textContent);
+    else if(b.hasAttribute("data-zurueck")) antworten(st, aktSchritt(st));
+  });
+  f.addEventListener("submit", function(e){
+    e.preventDefault();
+    fragen(st, document.getElementById("frageeingabe").value);
+  });
+  try{ document.getElementById("frageeingabe").focus({preventScroll:true}); }catch(x){}
+  sichtbar(f);
+}
+
+/* Frage stellen: erst die Anfrage bauen (Verlauf noch ohne die neue Frage), dann die Frage loggen */
+function fragen(st, text){
+  text = String(text || "").replace(/^\s+|\s+$/g, "");
+  if(!text) return;
+  var p = llmAntwort(st, text);
+  sage(st, text);
+  antEl.innerHTML = "";
+  figur.zustand("gruebeln");
+  p.then(function(a){
+    zaehlerPlus(a.usage);
+    return { ok:true, text:a.text };
+  }, function(){
+    return { ok:false };
+  }).then(function(r){
+    if(r.ok) llmFertig(st, r.text); else rueckfall(st);
+  });
+}
+
+/* wieder die Antwortknöpfe des Schritts, dazu „Noch eine Frage“ */
+function nachFrage(st){
+  if(gesprStation !== st) return;
+  figur.zustand("leerlauf");
+  var i = aktSchritt(st);
+  antworten(st, i);
+  if(i < DREHBUCH[st].schritte.length) knopf("data-nochfrage", "", "Noch eine Frage", "sec");
+}
+/* Antworten des Modells sind Text, nie HTML */
+function llmFertig(st, text){
+  var h = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+  logPush(st, {r:"bot", h:h});
+  if(gesprStation !== st) return;
+  sichtbar(blase(st, h));
+  nachFrage(st);
+}
+/* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung: Checkliste der Station */
+function rueckfall(st){
+  logPush(st, {r:"bot", h:RUECKFALL_TEXT});
+  logPush(st, {r:"karte", k:"k" + st + "-klemmt"});
+  if(gesprStation !== st) return;
+  blase(st, RUECKFALL_TEXT);
+  sichtbar(karte(st, "k" + st + "-klemmt"));
+  nachFrage(st);
+}
+
+/* ---------- LLM (OpenRouter) ---------- */
+var LLM_URL = "https://openrouter.ai/api/v1/chat/completions";
+var LLM_MODELL = "anthropic/claude-haiku-4.5";
+var LLM_MAX_TOKENS = 200;
+var LLM_TIMEOUT_MS = 15000;
+var LLM_CENT_PRO_MTOKEN = {ein: 100, aus: 500};   // Schätzung, nur für die Anzeige
+var LLM_KONTEXT_ZEICHEN = 8000;                   // ≈ 2000 Token bei etwa 4 Zeichen je Token
+var LLM_VERLAUF = 4;                              // so viele Verlaufseinträge gehen mit
+
+function ohneHtml(h){
+  return String(h).replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s+/g, " ").replace(/^ | $/g, "");
+}
+function kuerze(t, n){ return t.length > n ? t.slice(0, n - 1) + "…" : t; }
+function schrittText(s){
+  var t = [];
+  for(var k = 0; k < s.nachrichten.length; k++) if(typeof s.nachrichten[k] === "string") t.push(ohneHtml(s.nachrichten[k]));
+  return t.join(" ");
+}
+
+/* System-Prompt: feste Regeln, Drehbuch der Station in Kurzform, aktueller Schritt.
+   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 1600 Zeichen bleiben für Verlauf und Frage frei. */
+function systemPrompt(st){
+  var d = DREHBUCH[st], i = aktSchritt(st);
+  var p = "Du bist " + MASKOTTCHEN_NAME + ", das Maskottchen des Robotik-Workshops von FRANCOR e. V. " +
+    "Du sprichst Deutsch, Du-Form, kurze Sätze, Klasse 7, frech und freundlich. " +
+    "Du kennst nur diesen Workshop: micro:bit V2, Maqueen Plus V3, MakeCode mit Blöcken. " +
+    "Blocknamen nimmst du wörtlich aus dem Drehbuch, nie erfunden. Höchstens drei Sätze. Du schreibst nie Textcode. " +
+    "Bei Hardware-Gefahr (Kabel, Akku, Hitze) und bei allem, was nicht zum Workshop gehört, verweist du freundlich auf die Betreuenden.";
+  if(!d || !d.schritte) return p;
+  var aktuell = i < d.schritte.length ? d.schritte[i] : null;
+  var ende = aktuell ? "\n\nAktueller Schritt (" + (aktuell.titel || aktuell.id) + "): " + kuerze(schrittText(aktuell), 600) : "";
+  var platz = LLM_KONTEXT_ZEICHEN - 1600 - p.length - ende.length - 120;
+  var kurz = "";
+  for(var k = 0; k < d.schritte.length; k++){
+    var z = (k + 1) + ". " + (d.schritte[k].titel || d.schritte[k].id) + ": " + kuerze(schrittText(d.schritte[k]), 300) + "\n";
+    if(kurz.length + z.length > platz) break;
+    kurz += z;
+  }
+  return p + "\n\nDrehbuch der Station " + st + " (" + d.name + "):\n" + kurz + ende;
+}
+
+/* letzte Textbeiträge des Verlaufs als Chat-Nachrichten (Karten übersprungen, HTML entfernt) */
+function llmVerlauf(st){
+  var log = S.chat[st] || [], aus = [];
+  for(var k = log.length - 1; k >= 0 && aus.length < LLM_VERLAUF; k--){
+    var e = log[k];
+    if(e.r !== "bot" && e.r !== "me") continue;
+    aus.unshift({role: e.r === "me" ? "user" : "assistant", content: kuerze(ohneHtml(e.h), 400)});
+  }
+  return aus;
+}
+
+/* Promise<{text, usage}>. Jeder Fehler (kein Schlüssel, kein Netz, Status, Zeit, kaputtes JSON) wird zur Ablehnung. */
+function llmAntwort(st, text){
+  return new Promise(function(ok, nein){
+    var key = "";
+    try{ key = localStorage.getItem("mgp-key") || ""; }catch(e){}
+    if(!key){ nein(new Error("kein Schlüssel")); return; }
+    var ctl = typeof AbortController === "function" ? new AbortController() : null;
+    var uhr = setTimeout(function(){ if(ctl) ctl.abort(); nein(new Error("Zeit")); }, LLM_TIMEOUT_MS);
+    var msgs = [{role:"system", content: systemPrompt(st)}].concat(llmVerlauf(st), [{role:"user", content: kuerze(text, 400)}]);
+    fetch(LLM_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json", "Authorization":"Bearer " + key},
+      body: JSON.stringify({model: LLM_MODELL, max_tokens: LLM_MAX_TOKENS, messages: msgs}),
+      signal: ctl ? ctl.signal : undefined
+    }).then(function(res){
+      if(!res.ok) throw new Error("Status " + res.status);
+      return res.json();
+    }).then(function(j){
+      var t = j && j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content;
+      if(typeof t !== "string" || !t.replace(/\s/g, "")) throw new Error("leer");
+      clearTimeout(uhr);
+      ok({text: t, usage: j.usage});
+    }).catch(function(err){ clearTimeout(uhr); nein(err); });
+  });
+}
+
+/* ---------- Zähler und Schlüssel (Handbuch) ---------- */
+function zaehlerLesen(){
+  var z = {anfragen:0, ein:0, aus:0};
+  try{
+    var j = JSON.parse(localStorage.getItem("mgp-llm"));
+    if(j && typeof j === "object"){ z.anfragen = +j.anfragen || 0; z.ein = +j.ein || 0; z.aus = +j.aus || 0; }
+  }catch(e){}
+  return z;
+}
+function zaehlerPlus(usage){
+  var z = zaehlerLesen();
+  z.anfragen++;
+  if(usage){ z.ein += +usage.prompt_tokens || 0; z.aus += +usage.completion_tokens || 0; }
+  try{ localStorage.setItem("mgp-llm", JSON.stringify(z)); }catch(e){}
+  zaehlerAnzeigen();
+}
+function zaehlerAnzeigen(){
+  var el = document.getElementById("llmzaehler");
+  if(!el) return;
+  var z = zaehlerLesen();
+  var cent = (z.ein * LLM_CENT_PRO_MTOKEN.ein + z.aus * LLM_CENT_PRO_MTOKEN.aus) / 1000000;
+  el.textContent = z.anfragen + (z.anfragen === 1 ? " Anfrage" : " Anfragen") + " · ca. " + (Math.round(cent * 100) / 100).toString().replace(".", ",") + " Cent";
+}
+function schluesselAnzeigen(){
+  var el = document.getElementById("orkeystate");
+  if(!el) return;
+  var k = "";
+  try{ k = localStorage.getItem("mgp-key") || ""; }catch(e){}
+  el.textContent = k ? "Schlüssel gesetzt" : "kein Schlüssel";
+}
+(function(){
+  var cb = document.getElementById("coachbtn"), sv = document.getElementById("orkeysave"),
+      rs = document.getElementById("llmreset"), del = document.getElementById("orkeydel"),
+      inp = document.getElementById("orkey");
+  function frisch(){ zaehlerAnzeigen(); schluesselAnzeigen(); }
+  if(cb) cb.addEventListener("click", frisch);
+  if(sv) sv.addEventListener("click", function(){
+    var v = inp.value.replace(/^\s+|\s+$/g, "");
+    if(!v) return;
+    try{ localStorage.setItem("mgp-key", v); }catch(e){}
+    inp.value = "";
+    schluesselAnzeigen();
+  });
+  if(del) del.addEventListener("click", function(){
+    try{ localStorage.removeItem("mgp-key"); }catch(e){}
+    schluesselAnzeigen();
+  });
+  if(rs) rs.addEventListener("click", function(){
+    try{ localStorage.removeItem("mgp-llm"); }catch(e){}
+    zaehlerAnzeigen();
+  });
+  frisch();
+})();
 
 /* ---------- Testhaken (nur beim Doppelklick-Öffnen, nicht auf GitHub Pages) ----------
    Der Smoketest holt damit Karten ins Gespräch, ohne ein Drehbuch durchzuspielen. */
