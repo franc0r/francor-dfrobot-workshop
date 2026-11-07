@@ -46,8 +46,8 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
    Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
    nicht in die Stationen.
-5. **120 Minuten = 105 Stationsminuten + 15 Puffer** (Martin, 03./04.11.2026). Eyebrow-Minuten
-   der Stationen, das `STATIONS`-Array in `website/src/app.js` und der Zeitplan im Handbuch
+5. **120 Minuten = 105 Stationsminuten + 15 Puffer** (Martin, 03./04.11.2026). Die Minuten
+   der Drehbücher (`min` in `website/src/drehbuch/NN-name.js`), das `STATIONS`-Array in `website/src/app.js` und der Zeitplan im Handbuch
    müssen übereinstimmen. Der Puffer hat keine eigene Station; er steht als letzte Zeile im
    Zeitplan (1:45–2:00; Martin, 05.11.2026). `build.py` prüft
    die ersten beiden und dass die Stationen zusammen genau 105 Minuten ergeben
@@ -56,8 +56,49 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Grand-Prix-Blöcke
    (Bibliothek `custom.ts`), die Kreuzungsblöcke (`At Crossroads …`, Station 6) und
    `PID Distance Control` (wartet nicht, siehe Block H, Punkt 15); die Laserblöcke aus
-   Station 5 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer alle Stationen und das
-   Handbuch gemeinsam anfassen.
+   Station 5 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer Drehbücher, Karten
+   und das Handbuch gemeinsam anfassen.
+
+## Maskottchen-Zweig (worktree-maskottchen)
+
+Experiment (Entwurf `docs/superpowers/specs/2026-11-06-maskottchen-design.md`): Statt der
+Stationsseiten führt das Logo als Figur „Franco“ im Gespräch durch den Workshop. `master`
+bleibt unberührt; ob der Zweig gemergt wird, entscheidet Martin nach dem Trockenlauf.
+
+- **Regel 1 ist hier aufgehoben, aber nur für den LLM-Aufruf** (Martin, 06.11.2026): „Geht
+  nicht“ fragt per `fetch` bei OpenRouter (`LLM_URL`). Sonst gilt Regel 1 weiter, auch die
+  Prüfung auf externe Verweise. Die Seite läuft ohne Netz und ohne Schlüssel vollständig;
+  „Geht nicht“ zeigt dann die Checkliste „Wenn es klemmt“ und schickt zum Betreuer. Der
+  Smoketest prüft das mit abgeschaltetem Netz.
+- **Drehbuch** (`website/src/drehbuch/NN-name.js`, eins je Station; ausführlich im Kopf von
+  `website/src/maskottchen.js`):
+  `DREHBUCH[N] = { name, min, badge, titel, schritte:[ { id, nachrichten:[…], chips:[…], fertig } ] }`.
+  `nachrichten` sind HTML-Strings (eine Blase je Eintrag) oder `{karte:"k4-bloecke"}`;
+  `{karte:"makecode:neu"}` / `{karte:"makecode:vorlage"}` erzeugen die MakeCode-Knöpfe.
+  `chips` sind 3–4 Vorschlagsfragen für „Geht nicht“; `fertig` ist der Text des Weiter-Knopfs.
+  Optional: `bonus:true` (Zugabe, „Machen wir!“ / „Überspringen“, danach „Extra: …“),
+  `titel` (Name des Extras), `zeig:{ "Knopftext":[…] }` (Nachrichten auf Klick).
+  `name`, `min`, `badge` müssen zu `STATIONS` in `app.js` passen.
+- **Karten** (`website/src/karten/NN-name.html`): alles, was mehr als eine Blase ist (Blöcke,
+  Simulatoren, Quiz, Figuren, Checklisten), als `<div class="karte" data-karte="…">`.
+  `build.py` legt sie versteckt in `#karten`; `karte()` hängt den Knoten beim Zeigen ins
+  Gespräch um (nie geklont, die IDs bleiben einmalig).
+- **Konstanten** in `maskottchen.js`: `MASKOTTCHEN_NAME`, `TIPP_MS`, `STUPS_MS`, `LLM_URL`,
+  `LLM_MODELL`, `LLM_MAX_TOKENS`, `LLM_TIMEOUT_MS`, `LLM_KONTEXT_ZEICHEN`,
+  `LLM_CENT_PRO_MTOKEN`. **Speicher** (`localStorage`): `mgp-v1` (Fortschritt und Gespräch,
+  `S.schritt`, `S.chat`, `S.skip`), `mgp-key` (OpenRouter-Schlüssel), `mgp-llm` (Zähler),
+  `mgp-tts` (Vorlesen, Standard aus).
+- **Zähler**: Jede erfolgreiche Anfrage zählt Anfragen und Token in `mgp-llm`; das Handbuch
+  zeigt sie in `#llmzaehler` grob als Cent (Schätzung über `LLM_CENT_PRO_MTOKEN`), mit
+  Knopf „Zähler nullen“. Fehler zählen nicht. Die echten Kosten stehen bei OpenRouter.
+- **Betreuer**: Schlüssel trägt man im Handbuch, Abschnitt „Maskottchen“, einmal pro
+  Arbeitsplatz ein; er liegt nur im Browser, nie in der Datei. „Neues Team“ löscht nur
+  `mgp-v1` und lässt Schlüssel, Zähler und Vorlese-Schalter stehen.
+- **Blocktexte ändern = Drehbuch + Karten + Handbuch zusammen** (dazu wie bisher
+  `microbit/stations/`). Das ersetzt hier die Regel „Stationen und Handbuch gemeinsam“.
+- **Testhaken**, nur unter `file://` (nicht auf GitHub Pages): `window.__karte(st, id)` holt
+  eine Karte ins Gespräch, `window.__drehbuchMin` liefert die Minuten der Drehbücher.
+  `test/drehbuch.cjs` prüft das Schema der sieben Drehbücher ohne Browser.
 
 ## Aufbau
 
@@ -70,12 +111,17 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
     topbar.html       Kopfzeile: 120-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
-    stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
+    drehbuch/NN-*.js  ein Drehbuch pro Station (DREHBUCH[N]), Gespräch mit Franco
+    karten/NN-*.html  Karten je Station (Blöcke, Simulatoren, Quiz), versteckt in #karten
+    figur.html        die Figur (Inline-SVG aus dem Logo, Visier, Augen)
+    maskottchen.js    Figur, Gespräch, Frage-Feld, LLM, Vorlesen; build.py setzt es in app.js
+                      an der Marke /* @@EINHAENGEN@@ */ ein, mit den Drehbüchern davor
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
     sicherheit.html   Sicherheitsfenster beim Teamstart (nach „Neues Team“, Knopf „Sicherheit“)
     app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, beide Simulatoren
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
+  test/drehbuch.cjs   Schemaprüfung der Drehbücher (ohne Browser)
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
 microbit/             was auf den Roboter kommt — wird nicht gebaut
@@ -96,11 +142,14 @@ docs/                 Konzept, Offline-Recherche, Review-Notizen
 ```
 
 Die Ordner unter `microbit/stations/` tragen dieselbe Nummer und denselben Namen wie
-die Dateien unter `website/src/stations/`: `04-augen/` gehört zu `04-augen.html`.
-Ändert sich ein Blocktext, werden beide zusammen angefasst — zusammen mit dem Handbuch.
+die Dateien unter `website/src/drehbuch/` und `website/src/karten/`: `04-augen/` gehört zu
+`04-augen.js` und `04-augen.html`. Ändert sich ein Blocktext, werden alle zusammen
+angefasst — zusammen mit dem Handbuch. `website/src/stations/` gibt es nicht mehr;
+`build.py` bricht ab, wenn der Ordner wieder auftaucht.
 
-Arbeitsablauf: `cd website && python3 build.py && npm test`. Erst wenn beides grün ist,
-die Offline-Datei auf die Arbeitsplätze kopieren.
+Arbeitsablauf: `cd website && python3 build.py && npm test` (`npm test` = erst
+`test/drehbuch.cjs`, dann `test/smoke.cjs`; keine Umgebungsvariablen). Erst wenn beides grün
+ist, die Offline-Datei auf die Arbeitsplätze kopieren.
 
 `.github/workflows/pages.yml` macht dasselbe bei jedem Push auf `master` und
 veröffentlicht das Ziel `pages` auf GitHub Pages
@@ -122,6 +171,9 @@ ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 | 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/ansonsten, Variable als Merkzettel (Pausenknopf) — Pflicht, der Grand Prix braucht den Laser-Stopp | Bremsassistent |
 | 6 | 06-grand-prix | 30 | Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Laser-Stopp, Lauf auf Zeit — nie streichen | Champion |
 | – | Puffer | 15 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
+
+„Datei“ meint auf diesem Zweig das Drehbuch `website/src/drehbuch/NN-name.js` mit den Karten
+`website/src/karten/NN-name.html` und die Musterlösung `microbit/stations/NN-name/`.
 
 Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
 Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest" — auf dem
@@ -198,9 +250,10 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   nachgezeichnet: Grafik als Inline-SVG (viewBox 400×320), LEDs und Knöpfe A/B als
   HTML-Buttons darüber, positioniert in Prozent derselben Koordinaten. Beim Neigen kippt
   sie per CSS (`--tilt`), beim Schütteln wackelt sie.
-- **Block-Optik**: In den Stationen stehen die `.mcb`-Blöcke flach untereinander, eingerückt
-  mit `i1`/`i2`. `nestStack()` in `app.js` baut daraus beim Laden die Klammer-Form wie in
-  MakeCode (Kopf, Arm, Fuß); ein `sonst` direkt nach seinem `wenn` wird dessen Mittelsteg.
+- **Block-Optik**: In den Karten und Blasen stehen die `.mcb`-Blöcke flach untereinander,
+  eingerückt mit `i1`/`i2`. `nestStack()` in `app.js` baut daraus die Klammer-Form wie in
+  MakeCode (Kopf, Arm, Fuß) — beim Laden einmal über alle Stapel in `#karten`, für Blöcke in
+  einer Blase in `blase()` (`maskottchen.js`); ein `sonst` direkt nach seinem `wenn` wird dessen Mittelsteg.
   Die Einrückung ist also die Struktur — sie muss stimmen. `.mcstack.flat` bleibt flach
   (die Regelkreis-Treppe in Station 0). Symbole wie das Herz sind 5×5-Bildchen aus `PAT`
   (`<b data-led="heart">`), kein Emoji.
@@ -252,6 +305,9 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 - Danach: Parcours-Bauplan mit dem gemessenen Radius gegenprüfen (Klebeplan steht in
   `tools/grand-prix-druck.html`, Seite 2), Stand-Paket zum Drucken
   (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
+- Maskottchen-Zweig: Name der Figur (Platzhalter „Franco“, `MASKOTTCHEN_NAME`) und die
+  Entscheidung, ob der Zweig nach dem Trockenlauf gemergt wird. Was dabei zu prüfen ist,
+  steht in `docs/02-offline-und-trockenlauf.md`, Abschnitt „Maskottchen“.
 - Fotos vom echten Gerät neben die beiden SVG-Figuren, falls die Zeichnung am Tisch nicht
   reicht (erst nach dem Trockenlauf möglich). Eine USB-Animation für Station 1 ist
   verworfen: Kabel einstecken kennt jeder, das echte Problem (reine Ladekabel) zeigt kein Bild.

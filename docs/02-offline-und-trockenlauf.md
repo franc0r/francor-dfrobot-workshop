@@ -1,6 +1,6 @@
 # Offline-Betrieb und Trockenlauf
 
-**Stand:** 05.11.2026 (Block H Grand Prix und vorläufige Blocktexte ergänzt)
+**Stand:** 07.11.2026 (Abschnitt Maskottchen für den Zweig `worktree-maskottchen` ergänzt)
 
 ## Die Offline-Frage — beantwortet
 
@@ -145,6 +145,36 @@ Beim Trockenlauf mit MakeCode vergleichen und alle Stellen gemeinsam ändern.
 Schon am Gerät bestätigt (nicht mehr prüfen): `Line patrolling ON/OFF`,
 `Line Following Settings Speed 1–5` (08.10.2026), `spiele [Melodie …] [im Hintergrund]`
 (05.11.2026).
+
+## Maskottchen
+
+Nur auf dem Zweig `worktree-maskottchen` (siehe CLAUDE.md, Abschnitt „Maskottchen-Zweig“).
+Beim Trockenlauf mit echtem OpenRouter-Schlüssel und dem Messe-Netz (oder einem Hotspot):
+
+- [ ] Schlüssel im Handbuch, Abschnitt „Maskottchen“, eintragen, Zähler nullen.
+- [ ] Station 4 bis zum Schritt mit der Linienverfolgung spielen, „Geht nicht“ drücken,
+      einen Chip und eine eigene Frage probieren. Antwort kurz, Du-Anrede, Blocknamen richtig?
+- [ ] Antwortzeit mit der Uhr messen (Figur grübelt, bis die Blase kommt). Grenze im Code:
+      15 s (`LLM_TIMEOUT_MS`), danach Rückfallantwort.
+- [ ] `#llmzaehler` im Handbuch ablesen und mit den Kosten bei OpenRouter vergleichen.
+- [ ] WLAN aus, noch einmal „Geht nicht“: Rückfallantwort mit Checkliste, Zähler bleibt stehen.
+
+Messung (Antwortzeit, Cent je Frage): **noch offen**.
+
+Auf diesem Zweig geschrieben, aber noch nicht geprüft:
+
+- Beschriftung im Kopplungsfenster beim ersten Flashen: Drehbuch Station 1 sagt
+  **„micro:bit koppeln“**, das Handbuch an anderer Stelle „Gerät koppeln“. Am Gerät ablesen
+  und beide Stellen angleichen.
+- **Vorlesen** (Web Speech API, Schalter im Handbuch): Die Stimmen lädt der Browser erst
+  nach und nach; die erste Blase kann ohne deutsche Stimme oder gar nicht gesprochen werden.
+  Chrome verschluckt manchmal ein `speak()` direkt nach `cancel()` (beim Schrittwechsel).
+  Auf Laptop und Raspberry Pi mit Chromium ausprobieren.
+- **Verlauf an OpenRouter**: Die Reihenfolge der Rollen im mitgeschickten Verlauf (system,
+  dann die letzten vier Blasen als user/assistant, dann die Frage) ist nur gegen den
+  gefälschten Endpunkt im Smoketest geprüft, nicht gegen den echten Anbieter. Oft folgt auf
+  system gleich assistant, und mehrere assistant stehen hintereinander (Franco spricht
+  mehrere Blasen). Lehnt der Anbieter das ab, kommt immer die Rückfallantwort.
 
 ## Quellen
 - https://makecode.microbit.org/offline (Caching, Erweiterungs-Workaround, C++-Einschränkung)

@@ -2,10 +2,9 @@
  * Schemaprüfung der Drehbücher (src/drehbuch/*.js).
  *
  *   node test/drehbuch.cjs
- *   DREHBUCH_ERWARTET=3 node test/drehbuch.cjs   (so viele Drehbücher 0..N-1 erwartet, Standard 7)
  *
  * Lädt STATIONS aus app.js und alle Drehbücher in einem vm-Kontext und prüft:
- * Namen/Minuten/Abzeichen passen zu STATIONS, Summe 105, Schrittform,
+ * genau sieben Drehbücher 0–6, Namen/Minuten/Abzeichen passen zu STATIONS, Summe 105, Schrittform,
  * keine Emoji, jeder Kartenverweis existiert in src/karten/*.html.
  */
 const path = require('path');
@@ -13,7 +12,7 @@ const fs = require('fs');
 const vm = require('vm');
 
 const SRC = path.join(__dirname, '..', 'src');
-const ERWARTET = parseInt(process.env.DREHBUCH_ERWARTET || '7', 10);
+const ERWARTET = 7;
 let failures = 0;
 function check(cond, msg) {
   if (cond) console.log('  ok   ' + msg);
@@ -95,8 +94,7 @@ for (let i = 0; i < DREHBUCH.length; i++) {
     check(!emoji.test(JSON.stringify(s)), w + ': keine Emoji');
   }
 }
-// Summe nur prüfen, wenn alle sieben da sind
-if (ERWARTET >= STATIONS.length && DREHBUCH.length === ERWARTET) check(summe === 105, 'Minuten summieren auf 105 (' + summe + ')');
+check(summe === 105, 'Minuten summieren auf 105 (' + summe + ')');
 
 console.log(failures ? '\n' + failures + ' Fehler' : '\nalles grün');
 process.exit(failures ? 1 : 0);

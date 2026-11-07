@@ -3,20 +3,24 @@
  *
  *   npm test          (baut vorher nicht – erst `npm run build`)
  *
- * Prüft, was am Messetag weh tun würde:
- *   1. Die Datei lädt mit komplett abgeschaltetem Netzwerk, ohne JS-Fehler.
- *   2. Es gibt keine externen Verweise (Schriften, Skripte, Bilder).
- *   3. Keine Stationsseiten mehr; Rail-Minuten summieren auf 105 (+ 15 Puffer = 120)
- *      und stimmen mit den Drehbüchern überein (Testhaken window.__drehbuchMin).
- *   4. Karten: alle Pflicht-Karten liegen im versteckten Vorrat #karten; der Testhaken
- *      window.__karte holt sie ins Gespräch (nur unter file://).
- *   5. micro:bit-Simulator im Gespräch: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln.
- *   6. Parcours-Simulator im Gespräch: Canvas gezeichnet, Level 1 mit "fahre 5" → im Ziel,
- *      nach Neuladen wieder im Gespräch.
- *   7. Figur (Blinzeln, Blick, reduzierte Bewegung) und Gespräch Station 0 (Verlauf, Knöpfe,
- *      Abzeichen, Neues Team).
- *   8. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
- *   9. Sicherheitsfenster: beim Start da, nur der Knopf schließt, kommt nach "Neues Team" wieder.
+ * Prüft, was am Messetag weh tun würde (fast alles mit abgeschaltetem Netzwerk):
+ *   1. Die Datei lädt ohne Netz und ohne JS-Fehler; keine externen Verweise (Schriften,
+ *      Skripte, Bilder), nur die MakeCode-Links; kein Schlüssel in der Datei.
+ *   2. Struktur: keine Stationsseiten mehr; Rail-Minuten summieren auf 105 (+ 15 Puffer = 120)
+ *      und stimmen mit den Drehbüchern überein (Testhaken window.__drehbuchMin, nur file://).
+ *   3. Figur: Name, Blinzeln, Blick zur Maus, reduzierte Bewegung (kein Tipp-Effekt).
+ *   4. Karten: liegen versteckt im Vorrat #karten; window.__karte holt sie ins Gespräch.
+ *   5. Simulatoren im Gespräch: micro:bit (Herz, Logo oben/unten, Schütteln) und Parcours
+ *      (Level 1 mit "fahre 5" im Ziel, nach Neuladen wieder da).
+ *   6. Gespräch Station 0 bis 6: Verlauf, Knöpfe, Bonus/Extra, Abzeichen, Neuladen;
+ *      ein Durchlauf aller sieben Drehbücher bis „Workshop geschafft!“ mit 7 Abzeichen.
+ *   7. Dunkelmodus auf Handybreite (360 px): Sicherheitsfenster, Streckenskizze Station 6.
+ *   8. Frage-Feld „Geht nicht“: ohne Netz die Rückfallantwort mit Checkliste; mit
+ *      gefälschtem OpenRouter (Playwright route) Antwort, Anfrageform, Zähler mgp-llm,
+ *      Serverfehler, späte Antwort nach „Neues Team“, Schlüssel bleibt erhalten.
+ *   9. Vorlesen (Schalter mgp-tts): Standard aus, ohne HTML, Verlauf bleibt still.
+ *  10. Betreuer-Handbuch öffnet sich; "Neues Team" setzt zurück und zeigt das
+ *      Sicherheitsfenster wieder (nur der Knopf schließt es).
  */
 const path = require('path');
 const fs = require('fs');
