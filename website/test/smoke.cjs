@@ -227,8 +227,20 @@ function check(cond, msg) {
     check(await page.$eval('.stepbtn[data-go="1"]', e => e.classList.contains('done')), 'Station 1 durchgespielt → Abzeichen');
     // Station 2: Bonus überspringen blockiert das Abzeichen nicht (Review-Fokus 5)
     await page.click('#antworten button[data-go="2"]'); await page.waitForTimeout(100);
-    let r2 = 0;
-    while (!(await page.$('#antworten button[data-skip]')) && await page.$('#antworten button[data-fertig]') && r2++ < 10) await weiter();
+    // unterwegs: „Es klappt nicht“ beim Neigen holt die Checkliste, die Grenze ist ein eigener Schritt
+    let r2 = 0, klemmtNeigen = false, grenzeFertig = '';
+    while (!(await page.$('#antworten button[data-skip]')) && await page.$('#antworten button[data-fertig]') && r2++ < 12) {
+      // Schritt erkennen am Fertig-Knopf (die Drehbücher liegen nicht global)
+      const fk = await page.$eval('#antworten button[data-fertig]', e => e.textContent);
+      if (fk === 'Pfeile und Totenkopf ✓' && !klemmtNeigen) {
+        await page.click('#antworten button[data-zeig="Es klappt nicht"]'); await page.waitForTimeout(50);
+        klemmtNeigen = await page.$('#chat [data-karte="k2-klemmt"]') !== null;
+      }
+      if (await page.$('#chat [data-karte="k2-tabelle"]') && !grenzeFertig) grenzeFertig = fk;
+      await weiter();
+    }
+    check(klemmtNeigen, 'Station 2: „Es klappt nicht“ beim Neigen zeigt k2-klemmt');
+    check(grenzeFertig === 'Verstanden ✓', 'Station 2: Grenze 200 als eigener Schritt mit Tabelle (' + grenzeFertig + ')');
     check(await page.$('#chat #mbmatrix') !== null, 'Station 2: micro:bit-Simulator im Gespräch');
     check(await page.$('#antworten button[data-skip]') !== null && (await page.$eval('#antworten button[data-skip]', e => e.textContent)) === 'Überspringen', 'Station 2: Knopf „Überspringen“ beim Würfel');
     const vorher = await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length);
@@ -239,6 +251,8 @@ function check(cond, msg) {
     // Extra nachholen: Würfelkarte kommt, danach ist der Knopf weg
     await page.click('#antworten button[data-extra]'); await page.waitForTimeout(100);
     check(await page.$('#chat [data-karte="k2-wuerfel"] .mcc') !== null, 'Station 2: Extra zeigt die Würfel-Blöcke');
+    await page.click('#antworten button[data-zeig="Es klappt nicht"]'); await page.waitForTimeout(50);
+    check(/Laufschrift/.test(await page.$eval('#chat', e => e.textContent)) && await page.$('#chat [data-karte="k2-klemmt"]') !== null, 'Station 2: „Es klappt nicht“ beim Würfel zeigt Laufschrift-Tipp und k2-klemmt');
     await weiter();
     check(await page.$('#antworten button[data-extra]') === null && await page.evaluate(() => JSON.parse(localStorage.getItem('mgp-v1')).bonus.wuerfel === 1), 'Station 2: Extra erledigt, Knopf weg');
     await ctxS.close();

@@ -51,15 +51,25 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein.",
       "Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b>, ganz unten: ein Stück nach unten scrollen.",
       {karte:"k2-neigen"},
-      "Testen: Herunterladen, den micro:bit nach vorn und hinten kippen, dann schütteln.",
+      "Testen: Herunterladen, den micro:bit nach vorn und hinten kippen, dann schütteln."
+    ],
+    zeig:{ "Es klappt nicht":[
+      "Kein Pfeil? Kippt deutlich, fast senkrecht, und schüttelt kräftig und ruckartig statt sanft zu wedeln.",
+      {karte:"k2-klemmt"}
+    ]},
+    chips:[ "Wo ist zeige Pfeil?", "Wo stelle ich Logo nach oben ein?", "Beim Kippen kommt kein Pfeil", "Was ist ein Beschleunigungssensor?" ],
+    fertig:"Pfeile und Totenkopf ✓" },
+
+  { id:"grenze",
+    nachrichten:[
       "Und woher weiß der micro:bit, dass das Logo oben ist? Schaut im Simulator unter das Gerät: Da steht die Zahl, die der Sensor wirklich liefert.",
       {karte:"k2-tabelle"},
       "Jetzt kommt der wichtigste Satz des Workshops: Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>.",
       "„Logo nach oben“ steht nirgends im Sensor. Der micro:bit vergleicht die Zahl mit einer Grenze, und die haben seine Erfinder festgelegt: 200.",
       "Beim Roboter legt ihr die Grenze gleich selbst fest, wenn er Schwarz von Weiß unterscheiden soll."
     ],
-    chips:[ "Wo ist zeige Pfeil?", "Wo stelle ich Logo nach oben ein?", "Beim Kippen kommt kein Pfeil", "Was ist ein Beschleunigungssensor?" ],
-    fertig:"Pfeile und Totenkopf ✓" },
+    chips:[ "Wo sehe ich die Zahl y?", "Warum gerade 200?", "Was passiert zwischen -200 und 200?", "Kann ich die Grenze ändern?" ],
+    fertig:"Verstanden ✓" },
 
   { id:"quiz",
     nachrichten:[
@@ -78,6 +88,10 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "Noch Zeit? Lasst vor der Zahl kurz ein Herz erscheinen, als kleinen Trommelwirbel.",
       "Geschafft? Dann zeigt es eurem Betreuer."
     ],
+    zeig:{ "Es klappt nicht":[
+      "Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.",
+      {karte:"k2-klemmt"}
+    ]},
     chips:[ "Wo ist Mathematik?", "Er zeigt immer dieselbe Zahl", "Wie baue ich das Herz davor ein?", "Die Zahl läuft als Schrift durch" ],
     fertig:"Würfel läuft ✓" }
 ]};
