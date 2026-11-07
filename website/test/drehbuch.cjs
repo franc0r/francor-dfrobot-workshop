@@ -65,8 +65,7 @@ for (let i = 0; i < DREHBUCH.length; i++) {
   }
   check(istText(d.titel) && d.titel, 'Drehbuch ' + i + ': titel gesetzt');
   summe += d.min || 0;
-  // Leere schritte sind in Task 1 erlaubt; ab Task 3 hier mindestens 1 verlangen.
-  check(Array.isArray(d.schritte), 'Drehbuch ' + i + ': schritte ist ein Array');
+  check(Array.isArray(d.schritte) && d.schritte.length >= 1, 'Drehbuch ' + i + ': schritte mit mindestens 1 Schritt');
   const ids = new Set();
   for (const s of (d.schritte || [])) {
     const w = 'Drehbuch ' + i + ' Schritt ' + s.id;
@@ -74,19 +73,25 @@ for (let i = 0; i < DREHBUCH.length; i++) {
     check(!ids.has(s.id), w + ': id eindeutig');
     ids.add(s.id);
     check(Array.isArray(s.nachrichten) && s.nachrichten.length >= 1, w + ': nachrichten mit mindestens 1 Eintrag');
-    for (const n of (s.nachrichten || [])) {
-      check(istText(n) || (n && istText(n.karte)), w + ': Nachricht ist String oder {karte}');
+    // Nachrichten (auch die in zeig): String oder {karte}, jede Karte gibt es
+    const nachricht = (n, wo) => {
+      check(istText(n) || (n && istText(n.karte)), wo + ': Nachricht ist String oder {karte}');
       if (n && istText(n.karte) && !/^makecode:(neu|vorlage)$/.test(n.karte))
-        check(karten.has(n.karte), w + ': Karte "' + n.karte + '" existiert in src/karten');
-    }
+        check(karten.has(n.karte), wo + ': Karte "' + n.karte + '" existiert in src/karten');
+    };
+    for (const n of (s.nachrichten || [])) nachricht(n, w);
     check(istText(s.fertig), w + ': fertig ist ein String');
     // chips: 3–4 Strings, bei Bonus-Schritten optional
     if (!(s.bonus && s.chips === undefined))
       check(Array.isArray(s.chips) && s.chips.length >= 3 && s.chips.length <= 4 && s.chips.every(istText),
         w + ': chips sind 3–4 Strings');
-    if (s.zeig !== undefined)
-      check(s.zeig && typeof s.zeig === 'object' && Object.values(s.zeig).every(v => Array.isArray(v) && v.every(istText)),
-        w + ': zeig ist Objekt String -> Array');
+    if (s.bonus !== undefined) check(typeof s.bonus === 'boolean', w + ': bonus ist true/false');
+    if (s.titel !== undefined) check(istText(s.titel) && s.titel, w + ': titel ist ein Text');
+    if (s.zeig !== undefined) {
+      check(s.zeig && typeof s.zeig === 'object' && Object.values(s.zeig).every(v => Array.isArray(v) && v.length >= 1),
+        w + ': zeig ist Objekt Knopftext -> Nachrichten');
+      for (const [k, v] of Object.entries(s.zeig || {})) for (const n of (Array.isArray(v) ? v : [])) nachricht(n, w + ' zeig "' + k + '"');
+    }
     check(!emoji.test(JSON.stringify(s)), w + ': keine Emoji');
   }
 }

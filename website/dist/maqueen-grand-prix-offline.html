@@ -727,6 +727,41 @@ body.safety-on{overflow:hidden}
   .shell main > :not(.figur){grid-column:1}
   .figur{grid-column:1; grid-row:auto; position:static; width:72px; text-align:left}
 }
+
+/* ===== Gespräch ===== */
+.gespraech{display:flex; flex-direction:column; gap:14px; margin-bottom:28px}
+.chat{display:flex; flex-direction:column; gap:10px}
+.blase{
+  align-self:flex-start; max-width:min(640px, 100%);
+  background:var(--surface); color:var(--ink); border:1px solid var(--line);
+  border-radius:16px 16px 16px 4px; box-shadow:var(--shadow);
+  padding:11px 16px; font-size:17px; line-height:1.5; overflow-wrap:anywhere;
+}
+.blase.me{
+  align-self:flex-end; background:#E9483F; border-color:#E9483F; color:#fff;
+  border-radius:16px 16px 4px 16px; font-weight:500;
+}
+.blase .mcstack{margin:6px 0 2px}
+.blase.karte{max-width:100%; padding:14px}
+.blase.karte:empty{display:none}   /* Karte, deren Inhalt noch fehlt */
+.blase.karte a.btn{font-size:17px; padding:10px 18px}
+.antworten{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
+.antworten button{
+  border:2px solid #E9483F; background:var(--surface); color:var(--ink);
+  border-radius:999px; padding:8px 18px; font-size:16px; font-weight:600; line-height:1.3;
+}
+.antworten button:hover{background:var(--accent-soft)}
+/* der Knopf, der weiterführt, ist gefüllt */
+.antworten button[data-fertig], .antworten button[data-go], .antworten button[data-abschluss], .antworten button[data-machen]{
+  background:#E9483F; color:#fff;
+}
+.antworten button[data-fertig]:hover, .antworten button[data-go]:hover,
+.antworten button[data-abschluss]:hover, .antworten button[data-machen]:hover{background:#E9483F; filter:brightness(1.08)}
+.antworten button.extra{border-style:dashed; font-size:14px; font-weight:500; color:var(--ink-2); padding:5px 14px}
+@media (max-width:760px){
+  .blase{font-size:16px; padding:10px 14px}
+  .antworten{justify-content:flex-start}
+}
 </style>
 </head>
 <body>
@@ -778,7 +813,11 @@ body.safety-on{overflow:hidden}
 </div>
 <section class="gespraech" id="gespraech"><div class="chat" id="chat"></div><div class="antworten" id="antworten"></div></section>
 <div id="karten" hidden>
-<div class="karten" data-st="0"></div>
+<div class="karten" data-st="0">
+  <!-- Platzhalter: Task 4 füllt die Karten (Maqueen-Übersicht und Quiz aus der alten Station 0) -->
+  <div data-karte="k0-mqmap"></div>
+  <div data-karte="k0-quiz"></div>
+</div>
 </div>
 
   <!-- ============ STATION 0 ============ -->
@@ -2057,7 +2096,7 @@ var STATIONS = [
   {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
 var DREHBUCH = [];
-var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
 
 function load(){
   try{
@@ -2122,6 +2161,7 @@ function go(i){
   for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
   paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
+  gesprZeige(i);   // Gespräch (maskottchen.js)
 }
 function reduced(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
 
@@ -2249,7 +2289,7 @@ function openSafety(v){
   document.body.classList.toggle("safety-on", v);
   if(v){ openCoach(false); safety.scrollTop = 0; safetyok.focus({preventScroll:true}); }
 }
-safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); });
+safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); gesprSicherheitZu(); });
 document.getElementById("safetybtn").addEventListener("click", function(){ openSafety(true); });
 safety.addEventListener("keydown", function(e){
   if(e.key === "Escape") e.stopPropagation();
@@ -2257,7 +2297,7 @@ safety.addEventListener("keydown", function(e){
 });
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
   save();
   document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
@@ -2268,8 +2308,10 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   document.getElementById("finaltitle").textContent = "Ziel erreicht";
   left = TOTAL; setRunning(false); tStarted = false; paintT();
   prog = []; setLevel(0); mbReset();
-  paintBadges(); paintProgress(); go(0);
-  openSafety(true);
+  gesprZuruecksetzen();
+  paintBadges(); paintProgress();
+  openSafety(true);   // vor go(0): Franco begrüßt erst, wenn das Fenster zu ist
+  go(0);
 });
 
 /* ================= SIMULATOR ================= */
@@ -2965,8 +3007,51 @@ function mbReset(){
 }
 
 /* ---- Drehbuch 00-boxenstopp.js ---- */
-DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", schritte:[]};
-/* Maskottchen: Figur, Gespräch und Ablauf. Gespräch und Ablauf folgen in den nächsten Aufgaben. */
+/* Drehbuch Station 0: Boxenstopp. Quelle: src/stations/00-boxenstopp.html.
+   Schema siehe maskottchen.js (Abschnitt Gespräch). */
+DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", schritte:[
+  { id:"regelkreis",
+    nachrichten:[
+      "Hallo! Ich begleite euch heute durch den Workshop. Am Ende fährt euer Roboter ganz allein.",
+      "Ein ferngesteuertes Auto ist noch kein Roboter. Ein echter Roboter macht immer dieselben drei Dinge:",
+      '<div class="mcstack flat"><div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>' +
+        '<div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>euer Programm</b></div>' +
+        '<div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div></div>',
+      "Und dann wieder von vorn, tausendmal pro Minute. Diese Schleife heißt <em>Regelkreis</em>."
+    ],
+    zeig:{ "Nochmal einfacher":[
+      "Stell dir vor, du fängst einen Ball: Die Augen sehen ihn, der Kopf rechnet, die Hände greifen zu.",
+      "Genau so macht es der Roboter. Nur heißen seine Augen Sensoren, und sein Kopf ist euer Programm."
+    ]},
+    chips:[ "Was ist ein Sensor?", "Was heißt Regelkreis?", "Ist ein Staubsauger-Roboter auch so?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"fahrzeug",
+    nachrichten:[
+      "Das ist euer Fahrzeug, der Maqueen, von oben. Die Farben passen zum Regelkreis.",
+      {karte:"k0-mqmap"},
+      "Findet ihr die beiden Schalter am echten Roboter? Die braucht ihr später."
+    ],
+    chips:[ "Was macht der Summer?", "Wo ist der Schalter?", "Wo steckt der micro:bit?" ],
+    fertig:"Gefunden ✓" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Kurze Aufwärm-Frage, bevor es losgeht. Nicht schummeln!",
+      {karte:"k0-quiz"}
+    ],
+    chips:[ "Was ist ein Sensor?", "Was macht der Summer?", "Ist der Laserscanner ein Sensor?" ],
+    fertig:"Beantwortet ✓" },
+
+  { id:"los",
+    nachrichten:[
+      "Stark, ihr wisst jetzt, wie ein Roboter tickt.",
+      "Gleich schreibt ihr euer erstes Programm. Bereit?"
+    ],
+    chips:[ "Was machen wir als Nächstes?", "Wie lange dauert der Workshop?", "Brauchen wir Vorwissen?" ],
+    fertig:"Los geht's ✓" }
+]};
+/* Maskottchen: Figur und Gespräch. Der Ablauf (Frage-Feld, LLM) folgt in den nächsten Aufgaben. */
 
 /* ---------- Figur ---------- */
 var MASKOTTCHEN_NAME = "Franco";
@@ -3012,6 +3097,321 @@ var figur = (function(){
 
   return { zustand: zustand, schauen: schauen, zuElement: zuElement };
 })();
+
+/* ---------- Gespräch ----------
+   Jede Station ist ein Drehbuch in src/drehbuch/NN-name.js:
+     DREHBUCH[N] = { name, min, badge, titel, schritte:[ {
+       id:"projekt",            eindeutig je Station
+       bonus:false,             true = Zugabe: erst „Machen wir!“ / „Überspringen“
+       titel:"Würfel",          nur bei Bonus, optional: Text für „Extra: …“ (sonst die id)
+       nachrichten:[ "Text mit <b>HTML</b>", {karte:"k4-bloecke"} ],
+       zeig:{ "Zeig mir wo":[ "…", {karte:"makecode:vorlage"} ] },   optional
+       chips:[ "…", "…", "…" ],   3–4 Vorschlagsfragen für „Geht nicht“
+       fertig:"Hab ich ✓" } ] }
+   Gespeichert in S:
+     S.schritt[st]  Index des aktuellen Schritts; = Anzahl Schritte heißt: Station fertig
+     S.chat[st]     Verlauf: {r:"bot", h:html} · {r:"me", h:text} · {r:"karte", k:id}
+                    („me“ kann ja:"id" tragen: Bonus-Schritt id ist angenommen)
+     S.skip["st:id"] = 1   Bonus übersprungen; bleibt als „Extra: …“ erreichbar
+   Die Figur spricht von selbst nur beim Schrittwechsel, danach nur auf Klick.
+   Einzige Ausnahme ist der Stups nach STUPS_MS ohne Klick, einmal je Schritt. */
+var TIPP_MS = 700;               // Abstand zwischen zwei Blasen (Tipp-Effekt)
+var STUPS_MS = 180000;           // drei Minuten ohne Klick im Gespräch
+var STUPS_TEXT = "Alles gut bei euch? Ich bin hier, wenn ihr mich braucht.";
+var gespraechEl = document.getElementById("gespraech");
+var chatEl = document.getElementById("chat");
+var antEl = document.getElementById("antworten");
+var gesprStation = null;         // Station, die gerade im Gespräch steht
+var spielTimer = null;           // nächste Blase beim Abspielen
+var stupsTimer = null, stupsFuer = null;
+var stupsGemacht = {};           // "st:i" → 1, nur im Speicher
+var wartetAufSicherheit = null;  // Station, deren erster Schritt nach dem Sicherheitsfenster startet
+var umweg = null;                // {st, i}: ein Extra-Schritt läuft, danach weiter beim alten Stand
+
+/* MakeCode-Knöpfe. build.py ersetzt genau diese href-Texte durch die echten Links. */
+var MAKECODE_KNOEPFE = {
+  neu: '<a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten</a>',
+  vorlage: '<a class="btn" href="https://makecode.microbit.org/#project:XQAAEABdDgAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5/+9xHypaF/ZZV4oQORn+5ZPrl1q2yB+i6GRpLWA+VvSLWbMQ7mv1m1fLVYoQiBzbSX4OsInXtkV5fxSejMfTLnLVxRWryrHZBMQnWnkPIBCnr+wHSUcoWuZ5rvjgHxb7bRGBJwLA++sTdMXhoVoNth+lzT7FD6gHFjW8ZbAtEaYH82TuUw8aUbPNzQkyD4/tWS9Nj8qECF6zP0AJVJ2UcbHJABunRooqxGdCUlBdYIdXIqiP5//wGViKzT6011SawurThtPFG645/WCo4414Ki5a/KUsE3G8MSQyCfYm9bk/e7hNjMCRpv8dR3y/Af0SUhUYMSuHHhJBMY7bnW+KQjM0gvVLcYqXOJoksTlPPmmdI2ximDxBHVNv96JGxSSHsW3tE+hvKXu0GZgqxWuQZGg1wLuxCgdxSqWXWjLSnzVZXtWgYqQEnl5eWIBXriXXNUM+Y/1oMFkoM5zaihh7EG5zIXCt+RgnbGYWazAjgMdmVVwyAvVPjC8lS1OLadIOSXuK9rCq4yfAh11g1ry79Wrku31PQemFzpDxiuDviaqi/yl0EDeA7jeWPT/Z+AqFR8Qv8sC1OI0QUzei+PPRBa3GMIrJmyyejH+s/ZvR0aTp2jkaU8epWpjn9WE7EpR4Wkebhouv2uwUKiGPZUEE7OsMEaIT36GSqpYn5AyfTbv4MD0jZa5pTH+a6Tzv2GkhROXO6xj0Mjo4jbpFcSgaYi8rKEjwarVWCFI8bjQqDYIAxNUDBL1AR7cu1gaO0t4DjCBbM7ku+qIsGTPfUYV4+0FZcVEWjOLBMm4T5KZopyWrYkmI/mqAoae3duHkmX0f2zVsxerCwmPyt57xgR1bLiQpgbk7/RJlW4g1MVHrTQl8ciBfm6hrifgLTHkhHnPbjmgO3iB6FVQqN5vh2avB/6qB5LUdcjOOL7GDOOmDwXzW//S1JWZEe1mrVqOy4TZAIK7rmFqx1kL2MHZyzFsOos290n9U/Z9U+B3QVLzL6YGselVvs3msa6ABYy/EW+SAGEBq2UFEZTbkleBh8k1zfCx+w07B/afu+W/ePMKZ98MirV1fiLV/LxV1rsXMv9LantrNZM+wWxOk488S6KWY2y3/alV7OMGmRfFQgcmsEnCeQDTadBjRAr+z4YUcFub7yCGSCH/JKhpz2eb8kYo2y0SrO4wUBHfJf89P9CReEOJ7ZzGln1bm3q6HfyO4Egtx8Neim6gR8/mlzEoLTCuH086UjP6U0baPXGG11KrRW6EVSGHYSZ1OMUdBePJGO0M3XWGPy7M1utyGYXuzHnWorf0jmr6IcBvWOnvjmS/XyeU1LagdfYkOCRW3TUOyLAKFHDZIustDOvB3ugNy5DVrH3Jz6L56fJfCPBR9kfyZlLB0VqHzTrALJeR3B4jlKl38t4/yGwaIKZmbqMMvajdfgCECs2bofa+rkW83gl0bNnA8/82MUZ7ciPHrb5kExwr4SWtu+U4ZvCeNLkhxmhQ6WtUUDSIp9T+23J2P6TU8PBRPwX79cRuxfbghhxfKwf+0+/VG" target="_blank" rel="noopener">Neues Roboter-Projekt starten</a>'
+};
+
+function tippMs(){ return reduced() ? 0 : TIPP_MS; }
+function sichtbar(el){
+  try{ el.scrollIntoView({block:"nearest", behavior: reduced() ? "auto" : "smooth"}); }catch(e){}
+}
+
+/* Eine Blase anhängen. Bot-Blasen sind HTML aus dem Drehbuch (vertrauenswürdig),
+   eigene Antworten („me“) sind Text. */
+function blase(st, html, me){
+  var el = document.createElement("div");
+  el.className = "blase" + (me ? " me" : "");
+  el.setAttribute("data-st", st);
+  chatEl.appendChild(el);
+  if(me){ el.textContent = html; return el; }
+  el.innerHTML = html;
+  var leds = el.querySelectorAll("[data-led]");
+  for(var k = 0; k < leds.length; k++) leds[k].outerHTML = ledIcon(leds[k].getAttribute("data-led"));
+  // erst im Dokument, damit nestStack die Blockfarbe lesen kann
+  var stapel = el.querySelectorAll(".mcstack");
+  for(var m = 0; m < stapel.length; m++) nestStack(stapel[m]);
+  return el;
+}
+
+/* Eine Karte anhängen. Hier nur die MakeCode-Knöpfe; die übrigen Karten
+   kommen aus dem Vorrat #karten (nächste Aufgabe), bis dahin ein leerer Rahmen. */
+function karte(st, id){
+  var el = document.createElement("div");
+  el.className = "blase karte";
+  el.setAttribute("data-k", id);
+  var teil = id.split(":");
+  if(teil[0] === "makecode" && MAKECODE_KNOEPFE[teil[1]]) el.innerHTML = MAKECODE_KNOEPFE[teil[1]];
+  chatEl.appendChild(el);
+  return el;
+}
+
+function zeigeEintrag(st, e){
+  return e.r === "karte" ? karte(st, e.k) : blase(st, e.h, e.r === "me");
+}
+function logPush(st, eintrag){
+  if(!S.chat[st]) S.chat[st] = [];
+  S.chat[st].push(eintrag);
+  save();
+}
+/* eigene Antwort: in den Verlauf und gleich als Blase zeigen */
+function sage(st, text, ja){
+  var e = {r:"me", h:text};
+  if(ja) e.ja = ja;
+  logPush(st, e);
+  sichtbar(blase(st, text, true));
+}
+
+function stopSpiel(){ clearTimeout(spielTimer); spielTimer = null; }
+function aktSchritt(st){ return umweg && umweg.st === st ? umweg.i : S.schritt[st]; }
+function istUmweg(st, i){ return !!(umweg && umweg.st === st && umweg.i === i); }
+/* Bonus angenommen? Steht als ja:id an einer eigenen Antwort im Verlauf. */
+function entschieden(st, s){
+  var log = S.chat[st] || [];
+  for(var k = 0; k < log.length; k++) if(log[k].ja === s.id) return true;
+  return false;
+}
+
+/* Nachrichten nacheinander zeigen. Sie stehen sofort vollständig im Verlauf,
+   damit ein Neuladen mitten im Tippen nichts verliert und nichts doppelt zeigt. */
+function spielNachrichten(st, liste, danach){
+  stopSpiel();
+  clearTimeout(stupsTimer); stupsFuer = null;
+  antEl.innerHTML = "";
+  if(!S.chat[st]) S.chat[st] = [];
+  var eintraege = [];
+  for(var k = 0; k < liste.length; k++){
+    var n = liste[k];
+    var e = typeof n === "string" ? {r:"bot", h:n} : {r:"karte", k:n.karte};
+    eintraege.push(e);
+    S.chat[st].push(e);
+  }
+  save();
+  figur.zustand("reden");
+  var j = 0;
+  function naechste(){
+    if(j < eintraege.length){
+      var e = eintraege[j++], el = zeigeEintrag(st, e);
+      sichtbar(el);
+      if(e.r === "karte") figur.zuElement(el);
+      if(tippMs()){ spielTimer = setTimeout(naechste, tippMs()); return; }
+      naechste();
+      return;
+    }
+    spielTimer = null;
+    figur.zustand("leerlauf");
+    danach();
+  }
+  naechste();
+}
+
+/* Schritt i: Die Figur spricht ihn von vorn bis zu den Antwortknöpfen. */
+function spielSchritt(st, i){
+  var s = DREHBUCH[st].schritte[i];
+  if(!istUmweg(st, i)) S.schritt[st] = i;   // gespeichert in spielNachrichten
+  var liste = s.nachrichten.slice();
+  if(s.bonus && !entschieden(st, s)) liste.push("Lust auf Extra? Sonst geht's weiter.");
+  spielNachrichten(st, liste, function(){ antworten(st, i); });
+}
+
+function knopf(attr, wert, text, klasse){
+  var b = document.createElement("button");
+  b.type = "button";
+  if(klasse) b.className = klasse;
+  b.setAttribute(attr, wert);
+  b.textContent = text;
+  antEl.appendChild(b);
+  return b;
+}
+
+/* Antwortknöpfe zu Schritt i. i = Anzahl Schritte heißt: Station fertig. */
+function antworten(st, i){
+  var d = DREHBUCH[st];
+  antEl.innerHTML = "";
+  if(i >= d.schritte.length){
+    if(st < STATIONS.length - 1) knopf("data-go", String(st + 1), "Weiter zu Station " + (st + 1) + " →");
+    else knopf("data-abschluss", "", "Workshop abschließen ✓");
+  } else {
+    var s = d.schritte[i];
+    if(s.bonus && !entschieden(st, s) && !istUmweg(st, i)){
+      knopf("data-machen", "", "Machen wir!");
+      knopf("data-skip", "", "Überspringen", "sec");
+    } else {
+      knopf("data-fertig", "", s.fertig);
+      for(var key in (s.zeig || {})) knopf("data-zeig", key, key, "sec");
+      knopf("data-frage", "", "Geht nicht", "sec");   // Frage-Feld folgt in der nächsten Aufgabe
+    }
+  }
+  // übersprungene Zugaben bleiben erreichbar
+  for(var j = 0; j < d.schritte.length; j++){
+    var x = d.schritte[j];
+    if(S.skip[st + ":" + x.id] && !istUmweg(st, j)) knopf("data-extra", x.id, "Extra: " + (x.titel || x.id), "extra");
+  }
+  stupsStart(st, i);
+}
+
+/* Nach „fertig“ oder „Überspringen“: nächster Schritt oder Abzeichen. */
+function weiterNach(st, i){
+  var d = DREHBUCH[st];
+  if(i + 1 < d.schritte.length){ spielSchritt(st, i + 1); return; }
+  S.schritt[st] = d.schritte.length;
+  complete(st);   // wirkt nur einmal je Station
+  spielNachrichten(st, ["Das Abzeichen <b>" + d.badge + "</b> gehört euch!"], function(){
+    figur.zustand("jubel");
+    antworten(st, d.schritte.length);
+  });
+}
+
+function fertig(st){
+  var i = aktSchritt(st), s = DREHBUCH[st].schritte[i];
+  sage(st, s.fertig);
+  if(s.bonus){ S.bonus[s.id] = 1; save(); }
+  if(istUmweg(st, i)){
+    // Extra erledigt: zurück zum alten Stand, ohne etwas neu abzuspielen
+    umweg = null;
+    delete S.skip[st + ":" + s.id];
+    save();
+    figur.zustand("jubel");
+    antworten(st, S.schritt[st]);
+    return;
+  }
+  weiterNach(st, i);
+}
+
+function ueberspringen(st){
+  var i = S.schritt[st], s = DREHBUCH[st].schritte[i];
+  sage(st, "Überspringen");
+  S.skip[st + ":" + s.id] = 1;
+  weiterNach(st, i);   // speichert
+}
+
+function machen(st){
+  var i = S.schritt[st], s = DREHBUCH[st].schritte[i];
+  sage(st, "Machen wir!", s.id);
+  antworten(st, i);
+}
+
+/* Übersprungene Zugabe nachholen. S.skip bleibt stehen, bis sie erledigt ist,
+   damit ein Neuladen mittendrin sie nicht verliert. */
+function extra(st, id){
+  var d = DREHBUCH[st];
+  for(var j = 0; j < d.schritte.length; j++){
+    if(d.schritte[j].id !== id) continue;
+    umweg = {st:st, i:j};
+    sage(st, "Extra: " + (d.schritte[j].titel || id), id);
+    spielSchritt(st, j);
+    return;
+  }
+}
+
+function zeigMir(st, key){
+  var i = aktSchritt(st), s = DREHBUCH[st].schritte[i];
+  if(!s.zeig || !s.zeig[key]) return;
+  sage(st, key);
+  spielNachrichten(st, s.zeig[key], function(){ antworten(st, i); });
+}
+
+/* Station ins Gespräch holen: Verlauf sofort, dann die Knöpfe des aktuellen
+   Schritts. Nur beim allerersten Besuch spricht die Figur Schritt 0. */
+function gesprZeige(st){
+  stopSpiel();
+  clearTimeout(stupsTimer); stupsFuer = null;
+  if(umweg && umweg.st !== st) umweg = null;
+  gesprStation = st;
+  wartetAufSicherheit = null;
+  chatEl.innerHTML = "";
+  antEl.innerHTML = "";
+  figur.zustand("leerlauf");
+  var d = DREHBUCH[st];
+  if(!d || !d.schritte || !d.schritte.length){
+    blase(st, "Diese Station schreibe ich gerade noch.");
+    return;
+  }
+  var log = S.chat[st] || [];
+  for(var k = 0; k < log.length; k++) zeigeEintrag(st, log[k]);
+  if(S.schritt[st] === undefined){
+    // unter dem Sicherheitsfenster hört keiner zu: erst danach begrüßen
+    if(document.body.classList.contains("safety-on")){ wartetAufSicherheit = st; return; }
+    spielSchritt(st, 0);
+    return;
+  }
+  antworten(st, umweg ? umweg.i : Math.min(S.schritt[st], d.schritte.length));
+}
+
+/* vom Sicherheitsfenster gerufen, sobald es zu ist */
+function gesprSicherheitZu(){
+  var st = wartetAufSicherheit;
+  wartetAufSicherheit = null;
+  if(st !== null && st === gesprStation && S.schritt[st] === undefined) spielSchritt(st, 0);
+}
+
+/* „Neues Team“: alles Flüchtige vergessen (S selbst setzt app.js zurück) */
+function gesprZuruecksetzen(){
+  stopSpiel(); clearTimeout(stupsTimer);
+  stupsGemacht = {}; stupsFuer = null; umweg = null; wartetAufSicherheit = null;
+}
+
+/* ---------- Stups ---------- */
+function stupsStart(st, i){
+  clearTimeout(stupsTimer);
+  stupsFuer = null;
+  if(i >= DREHBUCH[st].schritte.length || stupsGemacht[st + ":" + i]) return;
+  stupsFuer = {st:st, i:i};
+  stupsTimer = setTimeout(function(){
+    stupsFuer = null;
+    if(gesprStation !== st || spielTimer) return;
+    stupsGemacht[st + ":" + i] = 1;
+    // nur im Bild, nicht im Verlauf: Der Stups gehört nicht zum Gespräch
+    sichtbar(blase(st, STUPS_TEXT));
+  }, STUPS_MS);
+}
+
+/* ---------- Antworten (Klicks) ---------- */
+gespraechEl.addEventListener("click", function(){
+  // jeder Klick im Gespräch schiebt den Stups auf
+  if(stupsFuer) stupsStart(stupsFuer.st, stupsFuer.i);
+});
+
+antEl.addEventListener("click", function(e){
+  var b = e.target.closest ? e.target.closest("button") : null;
+  if(!b || gesprStation === null) return;
+  var st = gesprStation;
+  if(b.hasAttribute("data-fertig")) fertig(st);
+  else if(b.hasAttribute("data-zeig")) zeigMir(st, b.getAttribute("data-zeig"));
+  else if(b.hasAttribute("data-machen")) machen(st);
+  else if(b.hasAttribute("data-skip")) ueberspringen(st);
+  else if(b.hasAttribute("data-extra")) extra(st, b.getAttribute("data-extra"));
+  else if(b.hasAttribute("data-go")){ go(Number(b.getAttribute("data-go"))); timerAutoStart(); }
+  else if(b.hasAttribute("data-abschluss")){
+    var ft = document.getElementById("finaltitle");
+    if(ft) ft.textContent = "Workshop geschafft!";
+    paintProgress();
+    figur.zustand("jubel");
+  }
+  // data-frage („Geht nicht“): Frage-Feld folgt in der nächsten Aufgabe
+});
 /* ================= boot ================= */
 load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
@@ -3019,8 +3419,8 @@ document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
 paintBadges(); paintProgress(); paintRail();
 setLevel(0);
+if(!S.safe) openSafety(true);   // vor go(): Franco begrüßt erst, wenn das Fenster zu ist
 go(S.cur || 0);
-if(!S.safe) openSafety(true);
 
 var rt;
 window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(draw, 120); });

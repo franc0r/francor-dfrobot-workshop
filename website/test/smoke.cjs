@@ -75,6 +75,9 @@ function check(cond, msg) {
   await pR.waitForTimeout(300);
   check(await pR.$eval('#figur svg', e => getComputedStyle(e).animationName) === 'none', 'Figur: reduzierte Bewegung hält den Körper still');
   check(await pR.$eval('#figur .lid', e => getComputedStyle(e).animationName) === 'figur-blinzeln', 'Figur: blinzelt auch bei reduzierter Bewegung');
+  // Reduzierte Bewegung: kein Tipp-Effekt, alle Blasen des ersten Schritts sofort da (Drehbuch 0 hat dort 4)
+  await pR.click('#safetyok');
+  check(await pR.$$eval('#chat .blase', l => l.length) === 4 && await pR.$('#antworten button[data-fertig]') !== null, 'Gespräch: reduzierte Bewegung zeigt den ersten Schritt sofort');
   await ctxR.close();
 
   // Struktur
@@ -171,9 +174,51 @@ function check(cond, msg) {
 
   // Keine Punkteanzeige mehr
   check((await page.$('#ptsval')) === null, 'keine Punkteanzeige');
-  await page.click('.stepbtn[data-go="0"]');
-  await page.click('.station[data-st="0"] [data-next="1"]');
-  check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 1), 'Station 0 abgeschlossen → Abzeichen');
+  // Gespräch Station 0 – frischer Kontext, damit Franco den ersten Schritt gerade erst spricht.
+  // Er wartet, bis das Sicherheitsfenster zu ist.
+  {
+    const ctxG = await browser.newContext({ viewport: { width: 1280, height: 1000 }, offline: true });
+    const page = await ctxG.newPage();
+    page.on('pageerror', e => errors.push(String(e)));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await page.goto('file://' + DIST);
+    await page.waitForTimeout(300);
+    check((await page.$$('#chat .blase')).length === 0, 'Gespräch: Franco schweigt, solange das Sicherheitsfenster offen ist');
+    await page.click('#safetyok');
+    // Gespräch Station 0
+    check(await page.$eval('#chat .blase', e => !!e), 'Gespräch: erste Blase da');
+    check(await page.$eval('#figur', e => e.dataset.zustand) === 'reden', 'Figur: redet beim Abspielen');
+    await page.waitForTimeout(3200);
+    check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf', 'Figur: nach dem Schritt Leerlauf');
+    const n0 = await page.$$eval('#chat .blase', l => l.length);
+    await page.reload(); await page.waitForTimeout(300);
+    check(await page.$$eval('#chat .blase', l => l.length) === n0, 'Gespräch: Neuladen zeigt den Verlauf, nichts doppelt');
+    check(await page.$('#antworten button[data-fertig]') !== null, 'Gespräch: Antwortknöpfe nach Neuladen da');
+    check(await page.$('#antworten button[data-frage]') !== null, 'Gespräch: Knopf „Geht nicht“ da');
+    // „Zeig mir“: Zusatz-Erklärung ohne Schrittwechsel
+    const vorZeig = await page.$$eval('#chat .blase', l => l.length);
+    await page.click('#antworten button[data-zeig]'); await page.waitForTimeout(2200);
+    check(await page.$$eval('#chat .blase', l => l.length) === vorZeig + 3, 'Gespräch: „Zeig mir“ zeigt Antwort und Erklärung');
+    check(await page.$eval('#chat .blase.me', e => e.textContent) === 'Nochmal einfacher', 'Gespräch: eigene Antwort als Blase rechts');
+    let runden = 0;
+    while (await page.$('#antworten button[data-fertig]') && runden++ < 10) { await page.click('#antworten button[data-fertig]'); await page.waitForTimeout(3500); }
+    check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 1), 'Station 0 durchgespielt → Abzeichen');
+    check(await page.$('#antworten button[data-go="1"]') !== null, 'Gespräch: Knopf zur Station 1');
+    check(await page.$('#chat .blase.karte[data-k="k0-mqmap"]') !== null, 'Gespräch: Karte Maqueen-Übersicht im Verlauf');
+    await page.click('.stepbtn[data-go="0"]'); await page.waitForTimeout(300);
+    check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 1), 'Zurück zu Station 0: kein zweites Abzeichen');
+    check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf', 'Zurück zu Station 0: nichts wird neu abgespielt');
+    // Weiter zu Station 1: noch ohne Drehbuch, aber ohne Fehler
+    await page.click('#antworten button[data-go="1"]'); await page.waitForTimeout(300);
+    check(/schreibe ich gerade noch/.test(await page.$eval('#chat', e => e.textContent)), 'Gespräch: Station ohne Drehbuch sagt Bescheid');
+    check(await page.$eval('#timer', e => e.classList.contains('running')), 'Gespräch: Weiter startet den Timer');
+    // Neues Team leert das Gespräch, Franco wartet wieder auf das Sicherheitsfenster
+    await page.click('#resetbtn'); await page.waitForTimeout(200);
+    check((await page.$$('#chat .blase')).length === 0, '"Neues Team" leert das Gespräch');
+    await page.click('#safetyok'); await page.waitForTimeout(100);
+    check(await page.$$eval('#chat .blase', l => l.length) >= 1, '"Neues Team": Franco begrüßt nach dem Sicherheitsfenster');
+    await ctxG.close();
+  }
 
   // Betreuer-Handbuch
   await page.click('#coachbtn');

@@ -13,7 +13,7 @@ var STATIONS = [
   {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
 var DREHBUCH = [];
-var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
 
 function load(){
   try{
@@ -78,6 +78,7 @@ function go(i){
   for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
   paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
+  gesprZeige(i);   // Gespräch (maskottchen.js)
 }
 function reduced(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
 
@@ -205,7 +206,7 @@ function openSafety(v){
   document.body.classList.toggle("safety-on", v);
   if(v){ openCoach(false); safety.scrollTop = 0; safetyok.focus({preventScroll:true}); }
 }
-safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); });
+safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); gesprSicherheitZu(); });
 document.getElementById("safetybtn").addEventListener("click", function(){ openSafety(true); });
 safety.addEventListener("keydown", function(e){
   if(e.key === "Escape") e.stopPropagation();
@@ -213,7 +214,7 @@ safety.addEventListener("keydown", function(e){
 });
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
   save();
   document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
@@ -224,8 +225,10 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   document.getElementById("finaltitle").textContent = "Ziel erreicht";
   left = TOTAL; setRunning(false); tStarted = false; paintT();
   prog = []; setLevel(0); mbReset();
-  paintBadges(); paintProgress(); go(0);
-  openSafety(true);
+  gesprZuruecksetzen();
+  paintBadges(); paintProgress();
+  openSafety(true);   // vor go(0): Franco begrüßt erst, wenn das Fenster zu ist
+  go(0);
 });
 
 /* ================= SIMULATOR ================= */
@@ -928,8 +931,8 @@ document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
 paintBadges(); paintProgress(); paintRail();
 setLevel(0);
+if(!S.safe) openSafety(true);   // vor go(): Franco begrüßt erst, wenn das Fenster zu ist
 go(S.cur || 0);
-if(!S.safe) openSafety(true);
 
 var rt;
 window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(draw, 120); });

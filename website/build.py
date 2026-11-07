@@ -122,7 +122,9 @@ def makecode_links(html):
     b64 = base64.b64encode(io.open(VORLAGE, "rb").read()).decode("ascii")
     html = html.replace('href="makecode:neu"', 'href="%s#newproject"' % MAKECODE)
     html = html.replace('href="makecode:vorlage"', 'href="%s#project:%s"' % (MAKECODE, b64))
-    if "makecode:" in html:
+    # Drehbücher verweisen mit {karte:"makecode:neu"} / {karte:"makecode:vorlage"}
+    # auf die Knöpfe; das ist kein Link und bleibt stehen.
+    if "makecode:" in re.sub(r'karte:\s*"makecode:(?:neu|vorlage)"', "", html):
         raise SystemExit('unbekannter MakeCode-Platzhalter – nur makecode:neu und makecode:vorlage')
     return html
 
