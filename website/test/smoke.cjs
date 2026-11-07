@@ -284,6 +284,42 @@ function check(cond, msg) {
     await ctxN.close();
   }
 
+  // Vorlesen (Web Speech API, Schalter mgp-tts)
+  {
+    const mock = () => {
+      window.__gesprochen = [];
+      window.__abgebrochen = 0;
+      Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: { speak: u => window.__gesprochen.push(u.text), getVoices: () => [{ lang: 'de-DE', name: 'Test' }], cancel() { window.__abgebrochen++; } } });
+      window.SpeechSynthesisUtterance = function (t) { this.text = t; };
+    };
+    const ctxT = await browser.newContext({ viewport: { width: 1280, height: 1000 } });
+    const pT = await ctxT.newPage();
+    await pT.addInitScript(mock);
+    await pT.addInitScript(() => { try { if (!sessionStorage.getItem('tts-init')) { localStorage.setItem('mgp-tts', '1'); sessionStorage.setItem('tts-init', '1'); } } catch (e) {} });
+    await pT.goto('file://' + DIST);
+    await pT.click('#safetyok');
+    await pT.waitForTimeout(1500);
+    const gesp = await pT.evaluate(() => window.__gesprochen);
+    check(gesp.length >= 1, 'Vorlesen: Blase wird gesprochen');
+    check(gesp.length >= 1 && gesp[0].indexOf('<') === -1, 'Vorlesen: ohne HTML-Tags');
+    // Neuladen liest den Verlauf nicht noch einmal vor
+    await pT.evaluate(() => { window.__gesprochen.length = 0; });
+    await pT.reload();
+    await pT.waitForTimeout(800);
+    check((await pT.evaluate(() => window.__gesprochen.length)) === 0, 'Vorlesen: Verlauf nach Neuladen bleibt still');
+    // Schalter im Handbuch spiegelt mgp-tts und schreibt zurück
+    await pT.click('#coachbtn');
+    await pT.waitForTimeout(350);
+    check(await pT.$eval('#ttsbox', e => e.checked), 'Vorlesen: Schalter zeigt „an“');
+    await pT.click('#ttsbox');
+    check(await pT.evaluate(() => localStorage.getItem('mgp-tts')) === '0', 'Vorlesen: Schalter schreibt mgp-tts');
+    await pT.keyboard.press('Escape');
+    await pT.click('#resetbtn');
+    check(await pT.evaluate(() => localStorage.getItem('mgp-tts')) === '0', '„Neues Team“ lässt den Vorlese-Schalter stehen');
+    await ctxT.close();
+    check(await page.evaluate(() => localStorage.getItem('mgp-tts')) === null, 'Vorlesen: standardmäßig aus');
+  }
+
   // Betreuer-Handbuch
   await page.click('#coachbtn');
   await page.waitForTimeout(350);

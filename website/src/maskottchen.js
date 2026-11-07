@@ -86,9 +86,44 @@ function sichtbar(el){
   try{ el.scrollIntoView({block:"nearest", behavior: reduced() ? "auto" : "smooth"}); }catch(e){}
 }
 
+/* ---------- Vorlesen (Web Speech API, Standard aus, Schalter mgp-tts im Handbuch) ---------- */
+function ttsAn(){
+  try{ return localStorage.getItem("mgp-tts") === "1" && !!window.speechSynthesis && !!window.SpeechSynthesisUtterance; }catch(e){ return false; }
+}
+/* Satzgrenzen: Lookbehind nur, wo der Browser es kann */
+var TTS_SATZ = null;
+try{ TTS_SATZ = new RegExp("(?<=[.!?])\\s+"); }catch(e){ TTS_SATZ = /\s+/; }
+/* html → Klartext (ohne Tags, ohne Blockbilder), in Sätzen der Reihe nach einreihen */
+function vorlesen(html){
+  if(!ttsAn()) return;
+  try{
+    var t = document.createElement("div");
+    t.innerHTML = String(html).replace(/<br\s*\/?>/gi, " ");
+    var bl = t.querySelectorAll(".mcstack, svg, script, style");
+    for(var b = 0; b < bl.length; b++) bl[b].parentNode.removeChild(bl[b]);
+    var text = (t.textContent || "").replace(/\s+/g, " ").replace(/^ | $/g, "");
+    if(!text) return;
+    var stimme = null, vs = window.speechSynthesis.getVoices() || [];
+    for(var v = 0; v < vs.length; v++) if(/^de/i.test(vs[v].lang || "")){ stimme = vs[v]; break; }
+    var saetze = text.split(TTS_SATZ);
+    for(var i = 0; i < saetze.length; i++){
+      if(!saetze[i]) continue;
+      var u = new window.SpeechSynthesisUtterance(saetze[i]);
+      u.lang = "de-DE";
+      if(stimme) u.voice = stimme;
+      window.speechSynthesis.speak(u);
+    }
+  }catch(e){}
+}
+/* neuer Schritt: Altes nicht mehr nachsprechen */
+function vorlesenStopp(){
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+}
+
 /* Eine Blase anhängen. Bot-Blasen sind HTML aus dem Drehbuch (vertrauenswürdig),
-   eigene Antworten („me“) sind Text. */
-function blase(st, html, me){
+   eigene Antworten („me“) sind Text. sprich: frisch gesprochene Blase, wird vorgelesen
+   (nie beim Wiederzeigen des Verlaufs). */
+function blase(st, html, me, sprich){
   var el = document.createElement("div");
   el.className = "blase" + (me ? " me" : "");
   el.setAttribute("data-st", st);
@@ -100,6 +135,7 @@ function blase(st, html, me){
   // erst im Dokument, damit nestStack die Blockfarbe lesen kann
   var stapel = el.querySelectorAll(".mcstack");
   for(var m = 0; m < stapel.length; m++) nestStack(stapel[m]);
+  if(sprich) vorlesen(html);
   return el;
 }
 
@@ -136,8 +172,8 @@ function kartenZurueck(){
   for(var i = 0; i < l.length; i++) vorrat.appendChild(l[i]);
 }
 
-function zeigeEintrag(st, e){
-  return e.r === "karte" ? karte(st, e.k) : blase(st, e.h, e.r === "me");
+function zeigeEintrag(st, e, sprich){
+  return e.r === "karte" ? karte(st, e.k) : blase(st, e.h, e.r === "me", sprich);
 }
 function logPush(st, eintrag){
   if(!S.chat[st]) S.chat[st] = [];
@@ -166,6 +202,7 @@ function entschieden(st, s){
    damit ein Neuladen mitten im Tippen nichts verliert und nichts doppelt zeigt. */
 function spielNachrichten(st, liste, danach){
   stopSpiel();
+  vorlesenStopp();
   clearTimeout(stupsTimer); stupsFuer = null;
   antEl.innerHTML = "";
   if(!S.chat[st]) S.chat[st] = [];
@@ -181,7 +218,7 @@ function spielNachrichten(st, liste, danach){
   var j = 0;
   function naechste(){
     if(j < eintraege.length){
-      var e = eintraege[j++], el = zeigeEintrag(st, e);
+      var e = eintraege[j++], el = zeigeEintrag(st, e, true);
       sichtbar(el);
       if(e.r === "karte") figur.zuElement(el);
       if(tippMs()){ spielTimer = setTimeout(naechste, tippMs()); return; }
@@ -453,7 +490,7 @@ function llmFertig(st, text){
   var h = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
   logPush(st, {r:"bot", h:h});
   if(gesprStation !== st) return;
-  sichtbar(blase(st, h));
+  sichtbar(blase(st, h, false, true));
   nachFrage(st);
 }
 /* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung: Checkliste der Station */
@@ -582,7 +619,18 @@ function schluesselAnzeigen(){
   var cb = document.getElementById("coachbtn"), sv = document.getElementById("orkeysave"),
       rs = document.getElementById("llmreset"), del = document.getElementById("orkeydel"),
       inp = document.getElementById("orkey");
-  function frisch(){ zaehlerAnzeigen(); schluesselAnzeigen(); }
+  var tb = document.getElementById("ttsbox");
+  function ttsLesen(){
+    if(!tb) return;
+    var an = false;
+    try{ an = localStorage.getItem("mgp-tts") === "1"; }catch(e){}
+    tb.checked = an;
+  }
+  if(tb) tb.addEventListener("change", function(){
+    try{ localStorage.setItem("mgp-tts", tb.checked ? "1" : "0"); }catch(e){}
+    if(!tb.checked) vorlesenStopp();
+  });
+  function frisch(){ zaehlerAnzeigen(); schluesselAnzeigen(); ttsLesen(); }
   if(cb) cb.addEventListener("click", frisch);
   if(sv) sv.addEventListener("click", function(){
     var v = inp.value.replace(/^\s+|\s+$/g, "");
