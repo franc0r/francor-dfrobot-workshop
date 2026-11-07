@@ -12,6 +12,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
+var DREHBUCH = [];
 var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
 
 function load(){
@@ -919,6 +920,7 @@ function mbReset(){
   mbSetMode("draw");
 }
 
+/* @@EINHAENGEN@@ */
 /* ================= boot ================= */
 load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });

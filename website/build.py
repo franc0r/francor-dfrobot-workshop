@@ -69,7 +69,7 @@ def inline_assets(html):
     Offline-Regel verletzt, sobald die HTML-Datei allein weitergereicht wird.
     """
     def one(m):
-        rel = m.group(1)
+        rel = m.group(2)
         path = os.path.join(SRC, "assets", rel)
         if not os.path.exists(path):
             raise SystemExit("Asset fehlt: src/assets/" + rel)
@@ -77,9 +77,10 @@ def inline_assets(html):
         if not mime:
             raise SystemExit("unbekannter Asset-Typ: " + rel)
         data = base64.b64encode(io.open(path, "rb").read()).decode("ascii")
-        return 'src="data:%s;base64,%s"' % (mime, data)
+        return '%s="data:%s;base64,%s"' % (m.group(1), mime, data)
 
-    return re.sub(r'src="assets/([A-Za-z0-9._-]+)"', one, html)
+    # src= für <img>, href= für <image> im SVG
+    return re.sub(r'(src|href)="assets/([A-Za-z0-9._-]+)"', one, html)
 
 
 MAKECODE = "https://makecode.microbit.org/"
@@ -139,16 +140,41 @@ def stations():
     return "".join(out)
 
 
+def drehbuch_js():
+    """Alle src/drehbuch/NN-name.js, sortiert, hintereinander."""
+    d = os.path.join(SRC, "drehbuch")
+    out = []
+    for f in sorted(x for x in os.listdir(d) if x.endswith(".js")):
+        m = re.match(r"(\d\d)-[a-z0-9-]+\.js$", f)
+        if not m:
+            raise SystemExit("Drehbuch %s: Dateiname muss NN-name.js heißen" % f)
+        body = read("drehbuch/" + f)
+        if "DREHBUCH[%d]" % int(m.group(1)) not in body:
+            raise SystemExit("Drehbuch %s: DREHBUCH[%d] steht nicht darin" % (f, int(m.group(1))))
+        out.append("/* ---- Drehbuch %s ---- */\n%s\n" % (f, body))
+    return "".join(out)
+
+
+def karten_html():
+    """Alle src/karten/*.html, sortiert, für den versteckten Kartenvorrat."""
+    d = os.path.join(SRC, "karten")
+    return "".join(read("karten/" + f) + "\n" for f in sorted(os.listdir(d)) if f.endswith(".html"))
+
+
 STATIONSMINUTEN = 105   # Summe der Stationen ...
 PUFFER = 15             # ... plus Puffer = 120-Minuten-Slot
 
 
-def check_times(stations_html, app_js):
-    """Eyebrow-Minuten, Rail-Array und Handbuch-Zeitplan müssen zusammenpassen."""
+def check_times(stations_html, app_js, drehbuch=""):
+    """Eyebrow-Minuten, Rail-Array und Drehbuch-Minuten müssen zusammenpassen."""
     eyebrow = [int(x) for x in re.findall(r'<span class="tag">Station \d</span><span>(\d+) Minuten</span>', stations_html)]
     rail = [int(x) for x in re.findall(r'm:"(\d+) Min"', app_js)]
     if eyebrow != rail:
         raise SystemExit("Zeiten stimmen nicht überein: Eyebrows %s vs. STATIONS-Array %s" % (eyebrow, rail))
+    # Drehbücher: wo eines existiert, muss seine Minutenzahl zum STATIONS-Array passen
+    for nr, mins in re.findall(r'DREHBUCH\[(\d+)\]\s*=\s*\{(?:(?!DREHBUCH\[)[\s\S])*?\bmin:\s*(\d+)', drehbuch):
+        if int(nr) >= len(rail) or int(mins) != rail[int(nr)]:
+            raise SystemExit("Drehbuch %s: min %s passt nicht zum STATIONS-Array %s" % (nr, mins, rail))
     if sum(eyebrow) != STATIONSMINUTEN:
         raise SystemExit("Stationsminuten summieren auf %d, nicht %d (+ %d Puffer = %d)"
                          % (sum(eyebrow), STATIONSMINUTEN, PUFFER, STATIONSMINUTEN + PUFFER))
@@ -158,8 +184,13 @@ def check_times(stations_html, app_js):
 def assemble(target):
     css = read("styles.css")
     app = read("app.js")
+    drehbuch = drehbuch_js()
+    marke = "/* @@EINHAENGEN@@ */"
+    if app.count(marke) != 1:
+        raise SystemExit("Marke %s muss in app.js genau einmal vorkommen" % marke)
     st = stations()
-    check_times(st, app)
+    check_times(st, app, drehbuch)
+    app = app.replace(marke, drehbuch + read("maskottchen.js"))
 
     if target in STANDALONE:
         if FONTS_ONLINE not in css:
@@ -178,7 +209,11 @@ def assemble(target):
 
     body = ("\n" + topbar + "\n\n"
             '<div class="shell">\n' + read("rail.html") + "\n\n"
-            '  <main id="stage">\n\n' + st + "\n  </main>\n</div>\n\n"
+            '  <main id="stage">\n' + read("figur.html") + "\n"
+            '<section class="gespraech" id="gespraech"><div class="chat" id="chat"></div>'
+            '<div class="antworten" id="antworten"></div></section>\n'
+            '<div id="karten" hidden>\n' + karten_html() + "</div>\n\n"
+            + st + "\n  </main>\n</div>\n\n"
             '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
     body = makecode_links(inline_assets(body))

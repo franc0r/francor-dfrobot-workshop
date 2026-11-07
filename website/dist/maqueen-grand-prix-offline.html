@@ -734,6 +734,11 @@ body.safety-on{overflow:hidden}
   </nav>
 
   <main id="stage">
+<div id="figur"></div>
+<section class="gespraech" id="gespraech"><div class="chat" id="chat"></div><div class="antworten" id="antworten"></div></section>
+<div id="karten" hidden>
+<div class="karten" data-st="0"></div>
+</div>
 
   <!-- ============ STATION 0 ============ -->
   <section class="station" data-st="0">
@@ -2010,6 +2015,7 @@ var STATIONS = [
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
   {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
+var DREHBUCH = [];
 var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false};
 
 function load(){
@@ -2917,6 +2923,9 @@ function mbReset(){
   mbSetMode("draw");
 }
 
+/* ---- Drehbuch 00-boxenstopp.js ---- */
+DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", schritte:[]};
+/* Maskottchen: Figur, Gespräch und Ablauf. Folgt in den nächsten Aufgaben. */
 /* ================= boot ================= */
 load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
