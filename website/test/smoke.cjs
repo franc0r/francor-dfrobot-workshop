@@ -101,12 +101,22 @@ function check(cond, msg) {
     await p2.goto('file://' + DIST);
     await p2.waitForTimeout(300);
     check(await p2.evaluate(() => { const b = document.querySelector('#safety .sbox').getBoundingClientRect(); return b.left >= 0 && b.right <= window.innerWidth; }), 'Sicherheit: Fenster passt auf 360 px (dunkel)');
+    // Station 6 im Dunkelmodus auf Handybreite: Skizze im Gespräch
+    await p2.click('#safetyok'); await p2.waitForTimeout(100);
+    await p2.click('.stepbtn[data-go="6"]'); await p2.waitForTimeout(300);
+    await p2.evaluate(() => window.__karte(6, 'k6-gpmap'));
+    await p2.waitForTimeout(100);
+    check(await p2.$('#chat #gpmap') !== null, 'Station 6: Streckenskizze im Gespräch (dunkel, 360 px)');
+    check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß');
+    check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
+    const fig = await p2.$eval('.figur', e => { const r = e.getBoundingClientRect(); return { w: r.width, h: r.height, vis: getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'none' }; });
+    check(fig.vis && fig.w > 0 && fig.h > 0 && fig.w <= 80, 'Station 6: Figur sichtbar und höchstens 80 px breit bei 360 px (' + Math.round(fig.w) + ' px)');
     await ctx2.close();
   }
 
   // Karten sind im Vorrat versteckt, bis das Gespräch sie holt
   check(await page.$('#karten #mqmap') !== null, 'Karten: Vorrat trägt die Maqueen-Übersicht');
-  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-start', 'k1-herz', 'k1-quiz', 'k1-klemmt', 'k2-mbsim', 'k2-knoepfe', 'k2-neigen', 'k2-tabelle', 'k2-quiz', 'k2-wuerfel', 'k2-klemmt', 'k3-mqinsert', 'k3-sim', 'k3-motor', 'k3-dreh', 'k3-quadrat', 'k3-klemmt', 'k4-bloecke', 'k4-licht', 'k4-quiz', 'k4-klemmt', 'k5-laser', 'k5-logik', 'k5-bauen', 'k5-pause', 'k5-quiz', 'k5-klemmt', 'k6-gpmap', 'k6-final', 'k6-klemmt'])
+  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-start', 'k1-herz', 'k1-quiz', 'k1-klemmt', 'k2-mbsim', 'k2-knoepfe', 'k2-neigen', 'k2-tabelle', 'k2-quiz', 'k2-wuerfel', 'k2-klemmt', 'k3-mqinsert', 'k3-sim', 'k3-motor', 'k3-dreh', 'k3-quadrat', 'k3-klemmt', 'k4-bloecke', 'k4-licht', 'k4-quiz', 'k4-klemmt', 'k5-laser', 'k5-logik', 'k5-bauen', 'k5-pause', 'k5-quiz', 'k5-klemmt', 'k6-gpmap', 'k6-typen', 'k6-kreuzungen', 'k6-tempo', 'k6-ampel', 'k6-laser', 'k6-melodie', 'k6-plan', 'k6-final', 'k6-klemmt'])
     check(await page.$('#karten [data-karte="' + id + '"]') !== null, 'Karten: ' + id + ' im Vorrat');
 
   // Station 2: micro:bit-Simulator
@@ -190,9 +200,6 @@ function check(cond, msg) {
     await page.click('#antworten button[data-go="1"]'); await page.waitForTimeout(300);
     // (mit Tipp-Effekt steht der Schritt sofort im Verlauf, die Blasen folgen nach und nach)
     check(await page.evaluate(() => (JSON.parse(localStorage.getItem('mgp-v1')).chat[1] || []).some(e => /Ja, ihr dürft/.test(e.h || ''))), 'Gespräch: Weiter zu Station 1 startet deren Drehbuch');
-    // Station ohne Drehbuch: Station 6 hat noch keins (Task 9 schreibt es und streicht diese Prüfung)
-    await page.click('.stepbtn[data-go="6"]'); await page.waitForTimeout(300);
-    check(/schreibe ich gerade noch/.test(await page.$eval('#chat', e => e.textContent)), 'Gespräch: Station ohne Drehbuch sagt Bescheid');
     check(await page.$eval('#timer', e => e.classList.contains('running')), 'Gespräch: Weiter startet den Timer');
     // Neues Team leert das Gespräch, Franco wartet wieder auf das Sicherheitsfenster
     await page.click('#resetbtn'); await page.waitForTimeout(200);
@@ -336,6 +343,58 @@ function check(cond, msg) {
     check(await page.$eval('.stepbtn[data-go="5"]', e => e.classList.contains('done')), 'Station 5: Abzeichen trotz übersprungenem Staubsauger');
     check(await page.$('#antworten button[data-extra]') !== null && await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Staubsauger', 'Station 5: Extra heißt „Extra: Staubsauger“');
     await ctxT.close();
+  }
+
+  // Station 6 und Durchlauf aller Stationen: frischer Kontext, reduzierte Bewegung, jeder Knopf sofort
+  {
+    const ctxD = await browser.newContext({ reducedMotion: 'reduce', offline: true, viewport: { width: 1280, height: 1000 } });
+    const page = await ctxD.newPage();
+    page.on('pageerror', e => errors.push(String(e)));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await page.goto('file://' + DIST); await page.waitForTimeout(300);
+    await page.click('#safetyok'); await page.waitForTimeout(100);
+    // Schritt-IDs aus den Quellen (DREHBUCH ist in der Seite nicht global)
+    const vm = require('vm');
+    const dbCtx = vm.createContext({ DREHBUCH: [] });
+    const dbDir = path.join(__dirname, '..', 'src', 'drehbuch');
+    for (const f of fs.readdirSync(dbDir).filter(f => f.endsWith('.js')).sort()) vm.runInContext(fs.readFileSync(path.join(dbDir, f), 'utf8'), dbCtx);
+    const schrittId = (st, i) => { const d = dbCtx.DREHBUCH[st]; return d && d.schritte[i] ? d.schritte[i].id : (d && i >= d.schritte.length ? 'ende' : String(i)); };
+    const zustand = () => page.evaluate(() => { const s = JSON.parse(localStorage.getItem('mgp-v1') || '{}'); return { st: s.cur, i: (s.schritt || {})[s.cur] }; });
+    const stand = async () => { const z = await zustand(); return 'Station ' + z.st + ', Schritt ' + schrittId(z.st, z.i); };
+    const knoepfe = () => page.$$eval('#antworten button', l => l.map(b => b.textContent));
+    let schritte = 0, abgeschlossen = false, haenger = '';
+    const gesehen6 = new Set();
+    while (schritte++ < 150) {
+      await page.waitForSelector('#antworten button', { timeout: 2000 }).catch(() => {});
+      const z = await zustand();
+      if (z.st === 6) gesehen6.add(schrittId(6, z.i));
+      if (await page.$('#antworten button[data-abschluss]')) { await page.click('#antworten button[data-abschluss]'); await page.waitForTimeout(100); abgeschlossen = true; break; }
+      const sel = ['#antworten button[data-skip]', '#antworten button[data-fertig]', '#antworten button[data-go]'];
+      let geklickt = false;
+      for (const q of sel) if (await page.$(q)) { await page.click(q); await page.waitForTimeout(30); geklickt = true; break; }
+      if (!geklickt) { haenger = (await stand()) + ', Knöpfe: ' + JSON.stringify(await knoepfe()); break; }
+    }
+    if (!abgeschlossen && !haenger) haenger = (await stand()) + ' (mehr als 150 Klicks)';
+    check(abgeschlossen, 'Durchlauf: von Station 0 bis „Workshop abschließen ✓“' + (haenger ? ' — hängt bei ' + haenger : ''));
+    check(await page.$eval('#finaltitle', e => e.textContent).catch(() => '') === 'Workshop geschafft!', 'Durchlauf: #finaltitle „Workshop geschafft!“');
+    check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length) === 7, 'Durchlauf: alle 7 Abzeichen an');
+    check(await page.$('#chat [data-karte="k6-final"] #finaltitle') !== null, 'Station 6: Pokal-Karte im Gespräch');
+    check(await page.$eval('#finalwho', e => e.textContent).catch(() => '') === '7 von 7 Abzeichen', 'Station 6: Pokal zählt 7 von 7');
+    const soll6 = ['strecke', 'projekt', 'kreuzungen', 'tempo', 'laserstopp', 'melodie', 'lauf', 'profi', 'abschluss'];
+    check(soll6.every(id => gesehen6.has(id)), 'Station 6: Schritte ' + soll6.join(', ') + ' (gesehen: ' + [...gesehen6].join(', ') + ')');
+    // Station 6 im Verlauf: Skizze, Grand-Prix-Blöcke, Vorlage, Pro-Ziel als Extra
+    check(await page.$('#chat [data-karte="k6-gpmap"] #gpmap') !== null && (await page.$eval('#gpmap', e => e.getBoundingClientRect().height)) > 120, 'Station 6: Streckenskizze im Gespräch gezeichnet');
+    check(JSON.stringify(await page.$$eval('#chat #gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 6: Skizze nummeriert 1–4');
+    check(await page.$$eval('#chat #gpmap .gp-k', l => l.length === 4 && l.every(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden'; })), 'Station 6: Nummern 1–4 sichtbar');
+    const gpText = await page.$eval('#chat #gpmap', e => e.textContent).catch(() => '');
+    check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 6: Start, Ziel und Pro-Ziel beschriftet');
+    check(await page.$$eval('#chat .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 6: Grand-Prix-Blöcke in Graphit');
+    check(await page.$('#chat .blase.karte a[href^="https://makecode.microbit.org/#project:"]') !== null, 'Station 6: Knopf „Neues Roboter-Projekt starten“ im Gespräch');
+    const txt6 = await page.evaluate(() => (JSON.parse(localStorage.getItem('mgp-v1')).chat[6] || []).map(e => e.h || '').join(' '));
+    check(/Linie/.test(txt6) && /Gummibärchen/.test(txt6) && /Lagerroboter/.test(txt6), 'Station 6: Projekt Linie, Gummibärchen für alle, „Wo das wirklich fährt“');
+    check(await page.$('#antworten button[data-extra]') !== null && await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Pro-Ziel', 'Station 6: Extra heißt „Extra: Pro-Ziel“');
+    check(!/\p{Extended_Pictographic}/u.test(await page.$eval('#chat', e => e.textContent)), 'Station 6: kein Emoji');
+    await ctxD.close();
   }
 
   // Frage-Feld „Geht nicht“. Letzte Textblase = letzte .blase ohne .karte (die Karte folgt der Blase).
