@@ -1,0 +1,87 @@
+<div class="karten" data-st="6">
+  <div class="karte" data-karte="k6-gpmap">
+        <figure class="gpfig">
+          <svg id="gpmap" viewBox="-3 -3 106 206" role="img" aria-labelledby="gpmap-t">
+            <title id="gpmap-t">Die Strecke von oben: Start unten links, Kreuzungen 1 bis 4, Ziel und Pro-Ziel</title>
+            <defs>
+              <pattern id="gpchk" width="2" height="2" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#fff"/><rect width="1" height="1" fill="#111"/><rect x="1" y="1" width="1" height="1" fill="#111"/></pattern>
+            </defs>
+            <rect class="gp-mat" x="0" y="0" width="100" height="200"/>
+            <g class="gp-grid">
+              <path d="M10 0V200M20 0V200M30 0V200M40 0V200M50 0V200M60 0V200M70 0V200M80 0V200M90 0V200"/>
+              <path d="M0 10H100M0 20H100M0 30H100M0 40H100M0 50H100M0 60H100M0 70H100M0 80H100M0 90H100M0 100H100M0 110H100M0 120H100M0 130H100M0 140H100M0 150H100M0 160H100M0 170H100M0 180H100M0 190H100"/>
+            </g>
+            <!-- Tempo-Zone (gelb hinterlegt) -->
+            <path class="gp-zone" d="M52 62 V44 H72 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+            <!-- Startgerade + Sackgasse oben -->
+            <path class="gp-ln" d="M10 186 V10"/>
+            <rect class="gp-box" x="5" y="2" width="10" height="6" rx="0.8"/>
+            <!-- Abzweig nach rechts, zweite Gerade runter, unterer Bogen, wieder hoch -->
+            <path class="gp-ln" d="M10 40 H36 V147 H52 V44 H72"/>
+            <!-- Stummel mit Kiste -->
+            <path class="gp-ln" d="M36 75 H26"/>
+            <rect class="gp-box" x="20" y="71.5" width="6" height="7" rx="0.8"/>
+            <!-- Bauch -->
+            <path class="gp-ln" d="M72 44 C86 44 84 82 92 102 C100 124 94 147 76 147 H66 V51"/>
+            <!-- Ziel-T -->
+            <path class="gp-ln" d="M60 51 H72"/>
+            <!-- Tempo-Schild: Querstrich und Papierschild „1“ -->
+            <path class="gp-ln" d="M46 64 H58"/>
+            <path class="gp-lead" d="M28.4 59.6 L49.1 63.4"/>
+            <rect class="gp-sign" x="21.6" y="55.6" width="6.8" height="6.8" rx="0.6"/><text class="gp-signt" x="25" y="59">1</text>
+            <!-- Profis: Lücke, Strich, Kiste -->
+            <path class="gp-gap" d="M66 51 V34"/>
+            <path class="gp-ln" d="M66 34 V12"/>
+            <rect class="gp-box" x="61" y="3" width="10" height="6" rx="0.8"/>
+            <!-- Zielflaggen -->
+            <path class="gp-pole" d="M56 55 V47"/><rect x="56" y="47" width="4" height="3" fill="url(#gpchk)" stroke="#111" stroke-width="0.25"/>
+            <path class="gp-pole" d="M74 9 V1"/><rect x="74" y="1" width="4" height="3" fill="url(#gpchk)" stroke="#111" stroke-width="0.25"/>
+            <!-- Nummern -->
+            <circle class="gp-kc" cx="10" cy="40" r="3"/><text class="gp-k" x="10" y="40">1</text>
+            <circle class="gp-kc" cx="36" cy="75" r="3"/><text class="gp-k" x="36" y="75">2</text>
+            <circle class="gp-kc" cx="52" cy="64" r="3"/><text class="gp-k" x="52" y="64">3</text>
+            <circle class="gp-kc" cx="66" cy="51" r="3"/><text class="gp-k" x="66" y="51">4</text>
+            <!-- Beschriftung -->
+            <path class="gp-start" d="M10 187.5 L7.6 192.5 H12.4 Z"/>
+            <text class="gp-lab" x="14" y="192.5">Start</text>
+            <text class="gp-lab" x="55" y="59">Ziel</text>
+            <text class="gp-lab" x="79" y="4">Pro-Ziel</text>
+            <text class="gp-sm" x="17" y="5.8">Sackgasse</text>
+            <text class="gp-sm" x="68.5" y="21">nur Profis:</text>
+            <text class="gp-sm" x="68.5" y="24.6">Sprung über</text>
+            <text class="gp-sm" x="68.5" y="28.2">die Lücke</text>
+            <text class="gp-sm gp-b" x="70" y="160">Tempo-Zone</text>
+            <text class="gp-sm" x="70" y="163.6">ab dem Schild</text>
+            <text class="gp-sm" x="70" y="167.2">bis ins Ziel</text>
+          </svg>
+          <figcaption>
+            <p><b>Welche Kreuzung ist das für den Roboter?</b> Er fährt &ndash; nicht ihr. Rechts und links zählen also so, wie <b>er</b> gerade fährt. Stellt euch auf seinen Platz.</p>
+            <p>Der Roboter zählt jede Kreuzung, über die er fährt. Die roten Nummern zeigen, in welcher Reihenfolge er sie trifft.</p>
+            <ul class="gplegend">
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-box" x="1" y="1" width="8" height="6" rx="0.8"/></svg><span><b>Kiste:</b> Kommt er hier an, ist der Lauf vorbei.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-zone" d="M1 4 H9"/></svg><span><b>Gelb:</b> Tempo-Zone, ab dem Schild &bdquo;1&ldquo; langsam fahren.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><rect class="gp-sign" x="2.6" y="1.6" width="4.8" height="4.8" rx="0.5"/><text class="gp-signt" x="5" y="4" style="font-size:3.4px">1</text></svg><span><b>Schild &bdquo;1&ldquo;:</b> ein Papierschild neben der Strecke. Die rote Strichellinie zeigt, wo es gilt: ab Nummer 3.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-gap" d="M1 4 H9"/></svg><span><b>Gestrichelt:</b> keine Linie. Darüber springen nur die Profis.</span></li>
+              <li><svg viewBox="0 0 10 8" aria-hidden="true"><path class="gp-grid" d="M0 2H10M0 6H10M3 0V8M7 0V8"/></svg><span><b>Gitter:</b> ein Kästchen ist 10&nbsp;cm.</span></li>
+            </ul>
+            <div class="note">
+              <span class="nt">Gut hinschauen</span>
+              <p>Für den Roboter sehen <span class="gpnum">1</span> und <span class="gpnum">2</span> gleich aus. Was muss nach <span class="gpnum">1</span> anders sein?</p>
+            </div>
+          </figcaption>
+        </figure>
+  </div>
+  <div class="karte" data-karte="k6-final">
+      <div class="trophy">
+        <div class="big" id="finaltitle">Ziel erreicht</div>
+        <div class="who" id="finalwho">0 von 7 Abzeichen</div>
+        <div class="pillrow" id="finalbadges" style="justify-content:center; margin-top:16px"></div>
+      </div>
+  </div>
+  <div class="karte" data-karte="k6-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Er macht nach dem Sprung, was er will?</b> Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?<br><b>Die Melodie kommt schon am Ziel 4?</b> Woher weiß euer Programm, dass der Roboter schon gesprungen ist? Wie beim Pausenknopf in Station&nbsp;5: Merkt es euch in einer Variablen, zum Beispiel <b>gesprungen</b>.<br><b>Er verlässt die Linie in Kurven?</b> Nehmt ein kleineres Tempo (Speed 1 oder 2).</p>
+    </details>
+  </div>
+</div>

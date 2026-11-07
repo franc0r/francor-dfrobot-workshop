@@ -103,16 +103,37 @@ function blase(st, html, me){
   return el;
 }
 
-/* Eine Karte anhängen. Hier nur die MakeCode-Knöpfe; die übrigen Karten
-   kommen aus dem Vorrat #karten (nächste Aufgabe), bis dahin ein leerer Rahmen. */
+/* Eine Karte anhängen: MakeCode-Knöpfe werden erzeugt, alle anderen Karten
+   kommen aus dem versteckten Vorrat #karten (src/karten/*.html). Der Knoten wird
+   umgehängt, nie geklont: Simulatoren und Quiz sind einmalig (IDs, Handler aus app.js).
+   Unbekannte IDs ergeben einen leeren Rahmen. */
 function karte(st, id){
   var el = document.createElement("div");
   el.className = "blase karte";
   el.setAttribute("data-k", id);
-  var teil = id.split(":");
-  if(teil[0] === "makecode" && MAKECODE_KNOEPFE[teil[1]]) el.innerHTML = MAKECODE_KNOEPFE[teil[1]];
   chatEl.appendChild(el);
+  var teil = id.split(":");
+  if(teil[0] === "makecode"){
+    if(MAKECODE_KNOEPFE[teil[1]]) el.innerHTML = MAKECODE_KNOEPFE[teil[1]];
+    return el;
+  }
+  var k = document.querySelector('[data-karte="' + id + '"]');
+  if(k){
+    var alt = k.parentNode;
+    el.appendChild(k);
+    // Lag die Karte schon in einer älteren Blase, bleibt von der kein leerer Rahmen übrig
+    if(alt && alt !== el && alt.classList && alt.classList.contains("blase") && !alt.firstChild && alt.parentNode) alt.parentNode.removeChild(alt);
+    // Der Parcours-Canvas misst seine Breite; im versteckten Vorrat hatte er keine
+    if(id === "k3-sim"){ fit(); draw(); }
+  }
   return el;
+}
+/* Vor jedem Neuaufbau des Verlaufs: Karten zurück in den Vorrat, sonst gehen sie
+   mit dem Löschen des Gesprächs verloren. */
+function kartenZurueck(){
+  var vorrat = document.getElementById("karten");
+  var l = chatEl.querySelectorAll("[data-karte]");
+  for(var i = 0; i < l.length; i++) vorrat.appendChild(l[i]);
 }
 
 function zeigeEintrag(st, e){
@@ -288,16 +309,17 @@ function gesprZeige(st){
   if(umweg && umweg.st !== st) umweg = null;
   gesprStation = st;
   wartetAufSicherheit = null;
+  kartenZurueck();
   chatEl.innerHTML = "";
   antEl.innerHTML = "";
   figur.zustand("leerlauf");
   var d = DREHBUCH[st];
+  var log = S.chat[st] || [];
+  for(var k = 0; k < log.length; k++) zeigeEintrag(st, log[k]);
   if(!d || !d.schritte || !d.schritte.length){
     blase(st, "Diese Station schreibe ich gerade noch.");
     return;
   }
-  var log = S.chat[st] || [];
-  for(var k = 0; k < log.length; k++) zeigeEintrag(st, log[k]);
   if(S.schritt[st] === undefined){
     // unter dem Sicherheitsfenster hört keiner zu: erst danach begrüßen
     if(document.body.classList.contains("safety-on")){ wartetAufSicherheit = st; return; }
@@ -359,3 +381,14 @@ antEl.addEventListener("click", function(e){
   }
   // data-frage („Geht nicht“): Frage-Feld folgt in der nächsten Aufgabe
 });
+
+/* ---------- Testhaken (nur beim Doppelklick-Öffnen, nicht auf GitHub Pages) ----------
+   Der Smoketest holt damit Karten ins Gespräch, ohne ein Drehbuch durchzuspielen. */
+if(location.protocol === "file:"){
+  window.__karte = function(st, id){ karte(st, id); logPush(st, {r:"karte", k:id}); };
+  window.__drehbuchMin = (function(){
+    var l = [];
+    for(var i = 0; i < STATIONS.length; i++) l.push(DREHBUCH[i] ? DREHBUCH[i].min : null);
+    return l;
+  })();
+}

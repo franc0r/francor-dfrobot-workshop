@@ -129,19 +129,6 @@ def makecode_links(html):
     return html
 
 
-def stations():
-    d = os.path.join(SRC, "stations")
-    files = sorted(f for f in os.listdir(d) if f.endswith(".html"))
-    out = []
-    for i, f in enumerate(files):
-        body = read("stations/" + f)
-        m = re.search(r'data-st="(\d)"', body)
-        if not m or int(m.group(1)) != i:
-            raise SystemExit("Station %s: data-st passt nicht zur Reihenfolge (erwartet %d)" % (f, i))
-        out.append("  <!-- ============ STATION %d ============ -->\n%s\n" % (i, body))
-    return "".join(out)
-
-
 def drehbuch_js():
     """Alle src/drehbuch/NN-name.js, sortiert, hintereinander."""
     d = os.path.join(SRC, "drehbuch")
@@ -167,20 +154,17 @@ STATIONSMINUTEN = 105   # Summe der Stationen ...
 PUFFER = 15             # ... plus Puffer = 120-Minuten-Slot
 
 
-def check_times(stations_html, app_js, drehbuch=""):
-    """Eyebrow-Minuten, Rail-Array und Drehbuch-Minuten müssen zusammenpassen."""
-    eyebrow = [int(x) for x in re.findall(r'<span class="tag">Station \d</span><span>(\d+) Minuten</span>', stations_html)]
+def check_times(app_js, drehbuch=""):
+    """Rail-Array und Drehbuch-Minuten müssen zusammenpassen, Summe 105."""
     rail = [int(x) for x in re.findall(r'm:"(\d+) Min"', app_js)]
-    if eyebrow != rail:
-        raise SystemExit("Zeiten stimmen nicht überein: Eyebrows %s vs. STATIONS-Array %s" % (eyebrow, rail))
     # Drehbücher: wo eines existiert, muss seine Minutenzahl zum STATIONS-Array passen
     for nr, mins in re.findall(r'DREHBUCH\[(\d+)\]\s*=\s*\{(?:(?!DREHBUCH\[)[\s\S])*?\bmin:\s*(\d+)', drehbuch):
         if int(nr) >= len(rail) or int(mins) != rail[int(nr)]:
             raise SystemExit("Drehbuch %s: min %s passt nicht zum STATIONS-Array %s" % (nr, mins, rail))
-    if sum(eyebrow) != STATIONSMINUTEN:
+    if sum(rail) != STATIONSMINUTEN:
         raise SystemExit("Stationsminuten summieren auf %d, nicht %d (+ %d Puffer = %d)"
-                         % (sum(eyebrow), STATIONSMINUTEN, PUFFER, STATIONSMINUTEN + PUFFER))
-    return sum(eyebrow)
+                         % (sum(rail), STATIONSMINUTEN, PUFFER, STATIONSMINUTEN + PUFFER))
+    return sum(rail)
 
 
 def assemble(target):
@@ -190,8 +174,9 @@ def assemble(target):
     marke = "/* @@EINHAENGEN@@ */"
     if app.count(marke) != 1:
         raise SystemExit("Marke %s muss in app.js genau einmal vorkommen" % marke)
-    st = stations()
-    check_times(st, app, drehbuch)
+    if os.path.exists(os.path.join(SRC, "stations")):
+        raise SystemExit("Stationen gehören jetzt in drehbuch/ und karten/")
+    check_times(app, drehbuch)
     app = app.replace(marke, drehbuch + read("maskottchen.js"))
 
     if target in STANDALONE:
@@ -215,7 +200,7 @@ def assemble(target):
             '<section class="gespraech" id="gespraech"><div class="chat" id="chat"></div>'
             '<div class="antworten" id="antworten"></div></section>\n'
             '<div id="karten" hidden>\n' + karten_html() + "</div>\n\n"
-            + st + "\n  </main>\n</div>\n\n"
+            "\n  </main>\n</div>\n\n"
             '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
     body = makecode_links(inline_assets(body))

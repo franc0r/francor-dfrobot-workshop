@@ -6,11 +6,17 @@
  * Prüft, was am Messetag weh tun würde:
  *   1. Die Datei lädt mit komplett abgeschaltetem Netzwerk, ohne JS-Fehler.
  *   2. Es gibt keine externen Verweise (Schriften, Skripte, Bilder).
- *   3. Sieben Stationen, Minuten summieren auf 105 (+ 15 Puffer = 120), Rail und Eyebrows passen.
- *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln laufen.
- *   5. Parcours-Simulator: Level 1 mit "fahre 5" → im Ziel.
- *   6. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
- *   7. Sicherheitsfenster: beim Start da, nur der Knopf schließt, kommt nach "Neues Team" wieder.
+ *   3. Keine Stationsseiten mehr; Rail-Minuten summieren auf 105 (+ 15 Puffer = 120)
+ *      und stimmen mit den Drehbüchern überein (Testhaken window.__drehbuchMin).
+ *   4. Karten: alle Pflicht-Karten liegen im versteckten Vorrat #karten; der Testhaken
+ *      window.__karte holt sie ins Gespräch (nur unter file://).
+ *   5. micro:bit-Simulator im Gespräch: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln.
+ *   6. Parcours-Simulator im Gespräch: Canvas gezeichnet, Level 1 mit "fahre 5" → im Ziel,
+ *      nach Neuladen wieder im Gespräch.
+ *   7. Figur (Blinzeln, Blick, reduzierte Bewegung) und Gespräch Station 0 (Verlauf, Knöpfe,
+ *      Abzeichen, Neues Team).
+ *   8. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
+ *   9. Sicherheitsfenster: beim Start da, nur der Knopf schließt, kommt nach "Neues Team" wieder.
  */
 const path = require('path');
 const fs = require('fs');
@@ -80,68 +86,33 @@ function check(cond, msg) {
   check(await pR.$$eval('#chat .blase', l => l.length) === 4 && await pR.$('#antworten button[data-fertig]') !== null, 'Gespräch: reduzierte Bewegung zeigt den ersten Schritt sofort');
   await ctxR.close();
 
-  // Struktur
-  const n = await page.$$eval('.station', s => s.length);
-  check(n === 7, 'sieben Stationen (gefunden: ' + n + ')');
-  const mins = await page.$$eval('.eyebrow span:nth-child(2)', s => s.map(x => parseInt(x.textContent, 10)));
-  const sum = mins.reduce((a, b) => a + b, 0);
-  check(sum === 105, 'Stationsminuten summieren auf 105 (' + mins.join('+') + ' = ' + sum + ')');
+  // Struktur: keine Stationsseiten mehr, die Rail trägt die Minuten, die Drehbücher stimmen damit überein
+  check((await page.$$('.station')).length === 0, 'keine Stationsseiten mehr (alles läuft im Gespräch)');
   const railMins = await page.$$eval('.stepbtn .min', s => s.map(x => parseInt(x.textContent, 10)));
-  check(JSON.stringify(railMins) === JSON.stringify(mins), 'Rail-Minuten = Eyebrow-Minuten');
+  check(railMins.length === 7 && railMins.reduce((a, b) => a + b, 0) === 105, 'Rail: sieben Stationen, Minuten summieren auf 105 (' + railMins.join('+') + ')');
+  const dbMin = await page.evaluate(() => window.__drehbuchMin);
+  check(Array.isArray(dbMin) && dbMin.length >= 1 && dbMin.every((m, i) => m === undefined || m === null || m === railMins[i]), 'Drehbuch-Minuten = Rail-Minuten (' + JSON.stringify(dbMin) + ')');
 
-  // Station 0: Maqueen-Übersicht statt Bauteil-Tabelle
-  const mapH = await page.$eval('#mqmap svg', e => e.getBoundingClientRect().height).catch(() => 0);
-  check(mapH > 120, 'Station 0: Maqueen-Übersicht wird gezeichnet (Höhe ' + Math.round(mapH) + ')');
-  const mapText = await page.$eval('#mqmap', e => e.textContent).catch(() => '');
-  for (const w of ['Liniensensoren', 'Laserscanner', 'Lichtsensoren', 'micro:bit', 'Motoren', 'Summer', 'Schalter'])
-    check(mapText.includes(w), 'Station 0: Übersicht beschriftet "' + w + '"');
-  check((await page.$$('.station[data-st="0"] table')).length === 0, 'Station 0: Bauteil-Tabelle ist weg');
+  // Sicherheitsfenster auf Handybreite
+  {
+    const ctx2 = await browser.newContext({ offline: true, colorScheme: 'dark', viewport: { width: 360, height: 800 } });
+    const p2 = await ctx2.newPage();
+    p2.on('pageerror', e => errors.push(String(e)));
+    await p2.goto('file://' + DIST);
+    await p2.waitForTimeout(300);
+    check(await p2.evaluate(() => { const b = document.querySelector('#safety .sbox').getBoundingClientRect(); return b.left >= 0 && b.right <= window.innerWidth; }), 'Sicherheit: Fenster passt auf 360 px (dunkel)');
+    await ctx2.close();
+  }
 
-  // Symbole in Blöcken wie in MakeCode: 5×5-Bildchen statt Emoji
-  const icoOn = await page.$$eval('.station .mcb .ledico[aria-label="Herz"]', l => l.map(e => e.querySelectorAll('span.on').length));
-  check(icoOn.length >= 2 && icoOn.every(n => n === 16), 'Herz-Symbol in Blöcken als 5×5-Bild (' + icoOn.join(',') + ')');
-  check(!(await page.$$eval('.mcb', l => l.some(e => e.textContent.includes('❤')))), 'kein ❤-Emoji in Blöcken');
-
-  // Klammer-Blöcke: "dauerhaft" in Station 1 umschließt seine vier Blöcke
-  const loopKids = await page.$$eval('.station[data-st="1"] .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim() + ':' + c.querySelectorAll(':scope > .mcbody > .mcb').length));
-  check(loopKids.includes('beim Start:1') && loopKids.includes('dauerhaft:4'), 'Station 1: Klammer-Blöcke (' + loopKids.join(', ') + ')');
-  const ifElse = await page.$$eval('.station[data-st="5"] .mcc[data-c="b-logic"] > .mcbody', l => l.length).catch(() => 0);
-  check(ifElse === 4, 'Station 5: zwei wenn/sonst-Blöcke mit je zwei Fächern (' + ifElse + ')');
-  check(!(await page.$eval('.station[data-st="5"] .eyebrow', e => e.textContent)).includes('Bonus'), 'Station 5 ist keine Bonus-Station mehr');
-  check(await page.$$eval('.station[data-st="5"] .mcb.b-var', l => l.length === 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(220, 20, 60)')), 'Station 5: Variablen-Blöcke in Rot wie in MakeCode');
-
-  // Station 3: Einsetz-Animation
-  await page.click('.stepbtn[data-go="3"]');
-  const insH = await page.$eval('#mqinsert svg', e => e.getBoundingClientRect().height).catch(() => 0);
-  check(insH > 120, 'Station 3: Einsetz-Figur wird gezeichnet (Höhe ' + Math.round(insH) + ')');
-  const anim = await page.$eval('#mqinsert .mb-slide', e => getComputedStyle(e).animationName).catch(() => 'none');
-  check(anim !== 'none', 'Station 3: micro:bit gleitet per CSS-Animation (' + anim + ')');
-  check(/Lämpchen nach vorn/.test(await page.$eval('#mqinsert', e => e.textContent).catch(() => '')), 'Station 3: Figur sagt "Lämpchen nach vorn"');
-
-  // Station 6: Streckenskizze und Grand-Prix-Blöcke
-  await page.click('.stepbtn[data-go="6"]');
-  check((await page.$eval('#gpmap', e => e.getBoundingClientRect().height).catch(() => 0)) > 120, 'Station 6: Streckenskizze wird gezeichnet');
-  check(JSON.stringify(await page.$$eval('#gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 6: Skizze nummeriert 1–4');
-  const gpText = await page.$eval('#gpmap', e => e.textContent).catch(() => '');
-  check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 6: Start, Ziel und Pro-Ziel beschriftet');
-  check(await page.$$eval('.station[data-st="6"] .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 6: Grand-Prix-Blöcke in Graphit');
-  check(!/\p{Extended_Pictographic}/u.test(await page.$eval('.station[data-st="6"]', e => e.textContent)), 'Station 6: kein Emoji');
-
-  // Station 6 im Dunkelmodus auf Handybreite
-  const ctx2 = await browser.newContext({ offline: true, colorScheme: 'dark', viewport: { width: 360, height: 800 } });
-  const p2 = await ctx2.newPage();
-  p2.on('pageerror', e => errors.push(String(e)));
-  await p2.goto('file://' + DIST);
-  await p2.waitForTimeout(300);
-  check(await p2.evaluate(() => { const b = document.querySelector('#safety .sbox').getBoundingClientRect(); return b.left >= 0 && b.right <= window.innerWidth; }), 'Sicherheit: Fenster passt auf 360 px (dunkel)');
-  await p2.click('#safetyok');
-  await p2.click('.stepbtn[data-go="6"]');
-  check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß');
-  check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
-  await ctx2.close();
+  // Karten sind im Vorrat versteckt, bis das Gespräch sie holt
+  check(await page.$('#karten #mqmap') !== null, 'Karten: Vorrat trägt die Maqueen-Übersicht');
+  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-klemmt', 'k2-mbsim', 'k2-klemmt', 'k3-mqinsert', 'k3-sim', 'k3-klemmt', 'k4-klemmt', 'k5-klemmt', 'k6-gpmap', 'k6-final', 'k6-klemmt'])
+    check(await page.$('#karten [data-karte="' + id + '"]') !== null, 'Karten: ' + id + ' im Vorrat');
 
   // Station 2: micro:bit-Simulator
-  await page.click('.stepbtn[data-go="2"]');
+  await page.click('.stepbtn[data-go="2"]'); await page.waitForTimeout(400);
+  await page.evaluate(() => window.__karte(2, 'k2-mbsim'));   // Testhaken, nur unter file://
+  check(await page.$('#chat #mbmatrix') !== null, 'Karte: micro:bit-Simulator im Gespräch');
   const heart = '0101011111111110111000100';
   for (let i = 0; i < 25; i++) if (heart[i] === '1') await page.click('#mbmatrix .led[data-i="' + i + '"]');
   await page.waitForTimeout(200);
@@ -164,13 +135,20 @@ function check(cond, msg) {
   check(await page.$eval('#mbstatus', e => e.classList.contains('ok')), 'micro:bit: alle drei Ereignisse → Erfolg');
 
   // Station 3: Parcours-Simulator
-  await page.click('.stepbtn[data-go="3"]');
+  await page.click('.stepbtn[data-go="3"]'); await page.waitForTimeout(400);
+  await page.evaluate(() => window.__karte(3, 'k3-sim'));
+  check(await page.$eval('#chat #cv', e => e.getBoundingClientRect().width) > 100, 'Karte: Parcours-Canvas sichtbar und gezeichnet');
   await page.click('.pb:has-text("fahre")');
   const plus = page.locator('.prow .chip .step', { hasText: '+' }).first();
   for (let i = 0; i < 4; i++) await plus.click();
   await page.click('#runbtn');
   await page.waitForTimeout(2600);
   check(await page.$eval('#status', e => e.classList.contains('ok')), 'Parcours: Level 1 mit "fahre 5" im Ziel');
+  await page.click('#levsel button:nth-child(2)');
+  check(await page.$eval('#levsel button:nth-child(2)', e => e.getAttribute('aria-pressed') === 'true'), 'Parcours: Levelwahl im Gespräch klickbar');
+  await page.reload(); await page.waitForTimeout(400);
+  check(await page.$('#chat #cv') !== null, 'Karte: Parcours nach Neuladen wieder im Gespräch');
+  check(await page.$('#karten #cv') === null, 'Karte: Parcours liegt nicht doppelt im Vorrat');
 
   // Keine Punkteanzeige mehr
   check((await page.$('#ptsval')) === null, 'keine Punkteanzeige');
@@ -233,7 +211,6 @@ function check(cond, msg) {
   await page.click('#resetbtn');
   await page.waitForTimeout(200);
   check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), '"Neues Team" setzt Abzeichen zurück');
-  check(await page.$eval('.station[data-st="0"]', e => !e.hidden), '"Neues Team" springt zu Station 0');
   check(await page.$eval('#tval', e => e.textContent) === '120:00', '"Neues Team" stellt 120:00');
   check(await page.$eval('#safety', e => !e.hidden), '"Neues Team" zeigt das Sicherheitsfenster wieder');
 

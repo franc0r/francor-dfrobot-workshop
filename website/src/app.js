@@ -74,8 +74,6 @@ function paintRail(){
 }
 function go(i){
   S.cur = i; save();
-  var secs = document.querySelectorAll(".station");
-  for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
   paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
   gesprZeige(i);   // Gespräch (maskottchen.js)
@@ -87,24 +85,9 @@ function complete(i){
   paintRail(); paintBadges(); paintProgress(); save();
 }
 
-document.addEventListener("click", function(e){
-  var b = e.target.closest ? e.target.closest("[data-next]") : null;
-  if(!b) return;
-  var v = b.dataset.next;
-  var cur = Number(b.closest(".station").dataset.st);
-  if(v === "done"){
-    complete(cur);
-    document.getElementById("finaltitle").textContent = "Workshop geschafft!";
-    paintProgress();
-    return;
-  }
-  var t = Number(v);
-  if(t > cur) complete(cur);
-  go(t);
-  if(t > 0) timerAutoStart();
-});
-
-/* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
+/* ================= bonus (Team-Challenges, selbst abgehakt) =================
+   Die Bonus-Knöpfe der alten Stationsseiten gibt es nicht mehr (Bonus ist jetzt ein
+   Drehbuch-Schritt); bei leerer Auswahl tut dieser Block nichts. */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
   var id = btn.dataset.bonus, label = btn.innerHTML;
   btn.paintBonus = function(){
@@ -927,7 +910,9 @@ function mbReset(){
 /* ================= boot ================= */
 load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
-document.querySelectorAll(".station .mcstack").forEach(nestStack);
+// Die Karten liegen versteckt in #karten; ihre Blockstapel werden hier einmal geklammert,
+// damit karte() sie nur noch umhängen muss.
+document.querySelectorAll("#karten .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
 paintBadges(); paintProgress(); paintRail();
 setLevel(0);
