@@ -43,12 +43,21 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "An Kreuzung <span class=\"gpnum\">1</span> stellt ihr um. Die grauen Blöcke liegen in der Kategorie <b>Grand Prix</b>: <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> läuft einmal, sobald der Roboter dort ankommt.",
       {karte:"k6-kreuzungen"},
       "Die <b>???</b> findet ihr mit der Skizze heraus.",
-      "Einen Abzweig nach links gibt es auf der Strecke nicht. Der Block steht trotzdem da: Falls der Roboter sich einmal vermisst, fährt er geradeaus weiter.",
-      "Testen: Erster Lauf! Herunterladen, USB-Kabel ab, Roboter auf den Start, Knopf A. Kommt er ins Ziel?"
+      "Einen Abzweig nach links gibt es auf der Strecke nicht. Der Block steht trotzdem da: Falls der Roboter sich einmal vermisst, fährt er geradeaus weiter."
+    ],
+    chips:[ "Wo ist die Kategorie Grand Prix?", "Wo ist die Gruppe V3?", "Was gehört bei Kreuzung 1 hin?", "Wo kommen die Blöcke hin?" ],
+    fertig:"Regeln stehen ✓" },
+
+  { id:"melodie",
+    nachrichten:[
+      "Fehlt noch die <b>Siegesmelodie am Ziel</b>. Den Block <kbd>spiele Melodie</kbd> findet ihr bei <b>Musik</b>.",
+      {karte:"k6-melodie"},
+      "Welche Nummer hat das Ziel? Schaut auf die Skizze.",
+      "Testen: Erster Lauf! Herunterladen, USB-Kabel ab, Roboter auf den Start, Knopf A. Kommt er ins Ziel und spielt seine Melodie?"
     ],
     zeig:{ "Es klappt nicht":[ {karte:"k6-klemmt"} ] },
-    chips:[ "Wo ist die Kategorie Grand Prix?", "Wo ist die Gruppe V3?", "Was gehört bei Kreuzung 1 hin?", "Er biegt falsch ab" ],
-    fertig:"Er kommt ins Ziel ✓" },
+    chips:[ "Wo ist die Kategorie Musik?", "Er biegt falsch ab", "Die Melodie kommt nicht", "Welche Nummer hat das Ziel?" ],
+    fertig:"Er spielt am Ziel ✓" },
 
   { id:"tempo",
     nachrichten:[
@@ -77,15 +86,6 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
     ],
     chips:[ "Wo ist Matrix LiDAR Entfernung?", "Er hält nicht vor der Kiste", "Er bleibt stehen, obwohl nichts im Weg ist" ],
     fertig:"Er hält vor der Kiste ✓" },
-
-  { id:"melodie",
-    nachrichten:[
-      "Zum Schluss die <b>Siegesmelodie am Ziel</b>. Den Block <kbd>spiele Melodie</kbd> findet ihr bei <b>Musik</b>.",
-      {karte:"k6-melodie"},
-      "Welche Nummer hat das Ziel? Schaut auf die Skizze."
-    ],
-    chips:[ "Wo ist die Kategorie Musik?", "Welche Nummer hat das Ziel?", "Die Melodie kommt nicht" ],
-    fertig:"Er spielt am Ziel ✓" },
 
   { id:"lauf",
     nachrichten:[
