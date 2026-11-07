@@ -1193,6 +1193,40 @@ body.safety-on{overflow:hidden}
         </div>
       </div>
   </div>
+  <div class="karte" data-karte="k3-motor">
+    <div class="mcstack">
+      <div class="mccap">Geradeaus und anhalten</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-mq i1">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>120</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i1">stop <b>beide Räder</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k3-dreh">
+    <div class="mcstack">
+      <div class="mccap">Drehung auf der Stelle nach rechts</div>
+      <div class="mcb b-mq">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-mq">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-basic">pausiere (ms) <b>400</b></div>
+      <div class="mcb b-mq">stop <b>beide Räder</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k3-quadrat">
+    <div class="mcstack">
+      <div class="mccap">Quadrat mit Schleife &ndash; die ??? findet ihr heraus</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-loop i1"><b>4</b> -mal wiederholen</div>
+      <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-basic i2">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i2">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-mq i2">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-basic i2">pausiere (ms) <b>???</b></div>
+      <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+    </div>
+  </div>
   <div class="karte" data-karte="k3-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
@@ -1201,6 +1235,40 @@ body.safety-on{overflow:hidden}
   </div>
 </div>
 <div class="karten" data-st="4">
+  <div class="karte" data-karte="k4-bloecke">
+    <div class="mcstack">
+      <div class="mccap">Linienfolger &ndash; startet erst auf Knopfdruck</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+      <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+      <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k4-licht">
+    <div class="mcstack">
+      <div class="mccap">Fahren und gleichzeitig leuchten</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>blue</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k4-quiz">
+    <div class="quiz" data-quiz="q3" data-answer="a">
+      <div class="qh">Kontrollfrage</div>
+      <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
+        <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
+      </div>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
   <div class="karte" data-karte="k4-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
@@ -1209,6 +1277,73 @@ body.safety-on{overflow:hidden}
   </div>
 </div>
 <div class="karten" data-st="5">
+  <div class="karte" data-karte="k5-laser">
+    <div class="mcstack">
+      <div class="mccap">Laser einschalten und Messwerte abholen</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-logik">
+    <div class="mcstack">
+      <div class="mccap">Bremsassistent</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-mq i1">setze die Helligkeit der RGB LEDs auf <b>255</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>white</b></div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+      <div class="mcb b-logic i1">ansonsten</div>
+      <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-bauen">
+    <ol class="steps">
+      <li><span>Aus <b>Logik</b> den Block <kbd>wenn wahr dann &hellip; ansonsten</kbd> (der zweite von oben) in <kbd>dauerhaft</kbd> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>wahr</b></span> dann</div></div></span></li>
+      <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>0</b> <b>&lt;</b> <b>0</b></span> dann</div></div></span></li>
+      <li><span>Jetzt erst den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen und im Menü <b>Links</b> auf <b>Vorne</b> umstellen. Rechts <b>200</b> eintippen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
+    </ol>
+  </div>
+  <div class="karte" data-karte="k5-pause">
+    <div class="mcstack">
+      <div class="mccap">Pausenknopf</div>
+      <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+      <div class="mcb b-var i1">setze <span class="mcr b-var">pausiert</span> auf <span class="mcr b-logic"><b>wahr</b></span></div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-var i1">setze <span class="mcr b-var">pausiert</span> auf <span class="mcr b-logic"><b>falsch</b></span></div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-var">pausiert</span> <b>oder</b> <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span></span> dann</div>
+      <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+      <div class="mcb b-logic i1">ansonsten</div>
+      <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-quiz">
+    <div class="quiz" data-quiz="q4" data-answer="c">
+      <div class="qh">Denkfrage</div>
+      <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> <span>Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</span></button>
+        <button class="opt" data-k="b"><span class="k">B</span> Weil der Laser sonst zu heiß wird</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Weil einmal messen nichts nützt &ndash; das Hindernis kommt ja erst später</button>
+      </div>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
   <div class="karte" data-karte="k5-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
@@ -2700,6 +2835,253 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
     ]},
     chips:[ "Wo ist Mathematik?", "Er zeigt immer dieselbe Zahl", "Wie baue ich das Herz davor ein?", "Die Zahl läuft als Schrift durch" ],
     fertig:"Würfel läuft ✓" }
+]};
+/* ---- Drehbuch 03-fahrschule.js ---- */
+/* Drehbuch Station 3: Fahrschule. Quelle: src/stations/03-fahrschule.html (master).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). */
+DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken, dann fahren", schritte:[
+  { id:"einsetzen",
+    nachrichten:[
+      "Jetzt bekommt euer micro:bit Räder.",
+      "Steckt ihn in den Schlitz am Roboter, <b>mit den 25 Lämpchen nach vorn</b>. Schaut ihr von vorn auf den Roboter, seht ihr alle 25.",
+      {karte:"k3-mqinsert"},
+      "Dann kommen <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Von vorn gesehen sitzen beide links.",
+      "Ohne beide Schalter passiert gar nichts."
+    ],
+    chips:[ "Wie herum kommt der micro:bit rein?", "Wo sind die Schalter?", "Der Roboter leuchtet nicht", "Wo ist das Akkubrett?" ],
+    fertig:"Steckt, beide Schalter an ✓" },
+
+  { id:"vorlage",
+    nachrichten:[
+      "MakeCode kennt den Maqueen erst, wenn seine Block-Sammlung geladen ist. Dafür gibt es ein <b>Vorlagenprojekt</b>, in dem sie schon drinsteckt.",
+      "Klickt auf den Knopf. Das Roboter-Projekt geht in einem neuen Tab auf.",
+      {karte:"makecode:vorlage"},
+      "Links seht ihr jetzt eine neue Kategorie <b>Maqueen Plus V2</b>. Da liegen alle Roboter-Blöcke.",
+      "Gebt dem Projekt unten neben <b>Herunterladen</b> den Namen <b>Fahren</b>."
+    ],
+    zeig:{ "Wie kommen die Blöcke da rein?":[
+      "Nur zum Lesen: Unten links übers Zahnrad, dann <b>Erweiterungen</b>, nach <kbd>dfrobot</kbd> suchen und <b>DFRobot_MaqueenPlus_V2</b> wählen. Die heißt noch „V2“, kann aber alles von eurem V3.",
+      "Genau das steckt schon in eurer Vorlage. Bitte heute nicht anklicken: Hier gibt es kein Internet, das Nachladen würde nicht klappen."
+    ]},
+    chips:[ "Wo ist die Kategorie Maqueen Plus V2?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
+    fertig:"Vorlage ist offen ✓" },
+
+  { id:"simulator",
+    nachrichten:[
+      "Profis testen ihren Code, bevor er auf die Hardware geht. Sonst fährt der Roboter vom Tisch.",
+      "Löst hier im Simulator die Parcours <b>1</b> und <b>2</b>. Klickt links auf Bausteine, dann auf <b>Ausführen</b>.",
+      {karte:"k3-sim"},
+      "Parcours <b>3</b> ist der Bonus für Schnelle. Da hilft euch eine Schleife.",
+      "Danach fahrt ihr dasselbe in echt."
+    ],
+    chips:[ "Wie lösche ich einen Baustein?", "Der Roboter fährt gegen die Wand", "Wie komme ich zu Parcours 2?", "Was macht die Schleife?" ],
+    fertig:"Parcours 1 und 2 geschafft ✓" },
+
+  { id:"motoren",
+    nachrichten:[
+      "Der echte Maqueen kennt keine Felder. Er kennt <b>Geschwindigkeit</b> von 0 bis 255 und <b>Zeit</b>.",
+      "Aus „fahre 3 Felder“ wird also: fahren, warten, stoppen.",
+      {karte:"k3-motor"},
+      "<kbd>initialisiere Maqueen Plus V2</kbd> gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In der Vorlage steht er schon: nicht löschen.",
+      "Mit ihm fragt der micro:bit beim Roboter an: „Bist du da?“ Ein blinkendes <b>X</b> heißt keine Antwort, ein <b>Haken</b> heißt verbunden.",
+      "Zahlengefühl: Unter etwa <b>30</b> bewegt sich nichts, da ist der Motor zu schwach. 1000 ms sind eine Sekunde."
+    ],
+    chips:[ "Wo ist steuere beide Räder?", "Der micro:bit zeigt nur ein X", "Wo ist pausiere?", "Warum nicht Geschwindigkeit 255?" ],
+    fertig:"Gebaut ✓" },
+
+  { id:"aufbocken",
+    nachrichten:[
+      "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband. Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt.",
+      "Jetzt herunterladen. Drehen sich beide Räder eine Sekunde lang?",
+      "Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren.",
+      "Das gilt ab jetzt für <b>jedes neue Programm</b>: erst aufbocken, dann fahren."
+    ],
+    zeig:{ "Es klappt nicht":[
+      "Blinkt ein <b>X</b>? Dann antwortet der Roboter nicht. Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
+      {karte:"k3-klemmt"}
+    ]},
+    chips:[ "Die Räder drehen sich nicht", "Der micro:bit zeigt nur ein X", "Er fährt einen Bogen", "Nur ein Rad dreht sich" ],
+    fertig:"Räder drehen sich ✓" },
+
+  { id:"drehen",
+    nachrichten:[
+      "Der Maqueen hat kein Lenkrad. Er dreht, indem die beiden Räder <em>unterschiedlich schnell</em> laufen.",
+      "Läuft ein Rad vorwärts und das andere rückwärts, dreht er sich auf der Stelle.",
+      {karte:"k3-dreh"},
+      "Hängt diese Blöcke unter eure Geradeaus-Blöcke.",
+      "Testen: Herunterladen. Dreht sich der aufgebockte Roboter nach rechts?"
+    ],
+    chips:[ "Er dreht nach links statt nach rechts", "Wo ist linkes Rad?", "Er dreht keine ganze Ecke", "Wo hänge ich die Blöcke hin?" ],
+    fertig:"Er dreht ✓" },
+
+  { id:"quadrat", bonus:true, titel:"Quadrat",
+    nachrichten:[
+      "Team-Challenge: Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.",
+      "<b>Tipp 1:</b> Nehmt <kbd>wenn Knopf A geklickt</kbd> statt <kbd>beim Start</kbd>, das kennt ihr aus Station 2. Dann fährt er erst los, wenn er auf dem Boden steht und ihr drückt.",
+      "<b>Tipp 2:</b> Eine Seite vom Quadrat sind die Geradeaus-Blöcke plus die Dreh-Blöcke, und das 4-mal. Rechtsklick auf einen Block, dann <b>Duplizieren</b>: Das spart Arbeit.",
+      "<b>Tipp 3:</b> 400 ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800.",
+      "Probieren, messen, korrigieren: Genau so arbeiten Ingenieure.",
+      "Geschafft? Dann zeigt es eurem Betreuer."
+    ],
+    zeig:{ "Wir kommen nicht weiter":[
+      "Hier ist ein Gerüst. Die ??? findet ihr selbst heraus.",
+      {karte:"k3-quadrat"},
+      "Die Schleife <kbd>-mal wiederholen</kbd> kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>."
+    ]},
+    chips:[ "Wie viele ms für eine Ecke?", "Wo ist Duplizieren?", "Wo ist die Schleife?", "Er landet nicht am Start" ],
+    fertig:"Quadrat gefahren ✓" }
+]};
+/* ---- Drehbuch 04-augen.js ---- */
+/* Drehbuch Station 4: Augen. Quelle: src/stations/04-augen.html (master).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). Kein Sensorbild in src/assets,
+   deshalb erklärt der Schritt „sensor“ nur mit Blasen. */
+DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter bekommt Augen", schritte:[
+  { id:"projekt",
+    nachrichten:[
+      "Bis jetzt habt ihr dem Roboter gesagt, <em>was</em> er tun soll. Ab jetzt sagt ihr ihm, <em>worauf er achten</em> soll.",
+      "Das ist der Moment, in dem aus einem Fahrzeug ein Roboter wird.",
+      "Startet zuerst ein neues Roboter-Projekt. Sonst fahren eure Blöcke aus Station 3 weiter und stören die Linienverfolgung.",
+      {karte:"makecode:vorlage"},
+      "Gebt dem Projekt unten neben <b>Herunterladen</b> den Namen <b>Linie</b>. In Station 6 braucht ihr es wieder."
+    ],
+    chips:[ "Ist unser Fahren-Projekt dann weg?", "Wo gebe ich den Namen ein?", "Warum schon wieder ein neues Projekt?" ],
+    fertig:"Projekt Linie ist offen ✓" },
+
+  { id:"sensor",
+    nachrichten:[
+      "Unter dem Roboter sitzen fünf winzige Lampen, jede mit einem Lichtmesser daneben. Die Lampe leuchtet nach unten, der Messer schaut, wie viel Licht zurückkommt.",
+      "<b>Weiß spiegelt viel Licht zurück, Schwarz schluckt es.</b> Der Sensor liefert keine Farbe, sondern eine Zahl.",
+      "Weißes Papier gibt ungefähr <b>3800</b>, das heißt „hier ist keine Linie“. Schwarzes Klebeband gibt ungefähr <b>2700</b>, das heißt „hier ist meine Spur“.",
+      "Jeder Raum hat anderes Licht. Damit der Roboter weiß, was hier „schwarz“ heißt, lernt er das einmal: Das nennt man <b>kalibrieren</b>.",
+      "Bei euren Robotern hat das der Betreuer schon gemacht. Nur wenn eurer die Linie nicht findet, kalibriert ihr neu."
+    ],
+    zeig:{ "Wie kalibriere ich neu?":[
+      "Alle fünf Sensoren auf die schwarze Linie stellen und einschalten.",
+      "Dann die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis es blinkt."
+    ]},
+    chips:[ "Warum ist Schwarz die kleinere Zahl?", "Was heißt kalibrieren?", "Wo sitzen die Sensoren?", "Müssen wir selbst kalibrieren?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"bloecke",
+    nachrichten:[
+      "Im Maqueen steckt das Linienfolgen schon fertig drin, in fünf Geschwindigkeitsstufen. Stufe 1 ist gemütlich, Stufe 5 ist mutig.",
+      "Die Blöcke liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
+      "Sie sind auf Englisch: <b>Line patrolling</b> heißt „Linie abfahren“, <b>ON</b> ist an, <b>OFF</b> ist aus. <b>Speed</b> ist die Geschwindigkeit.",
+      {karte:"k4-bloecke"},
+      "Warum nicht alles in <kbd>beim Start</kbd>? Weil der Roboter sonst schon losfährt, während ihr ihn noch auf die Linie stellt."
+    ],
+    chips:[ "Wo ist … mehr?", "Wo ist die Gruppe V3?", "Wo stelle ich Speed ein?", "Warum mit Knopf A?" ],
+    fertig:"Gebaut ✓" },
+
+  { id:"fahren",
+    nachrichten:[
+      "Jetzt kommt der große Moment. Programm herunterladen, USB-Kabel abziehen.",
+      "Roboter auf den Start stellen, mit der Mitte über der schwarzen Linie, und einschalten.",
+      "<b>Knopf A</b> drücken: Er fährt. <b>Knopf B</b> hält ihn an."
+    ],
+    zeig:{ "Es klappt nicht":[
+      "Zeigt der micro:bit nur ein blinkendes <b>X</b>? Dann antwortet der Roboter nicht. Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
+      {karte:"k4-klemmt"}
+    ]},
+    chips:[ "Der micro:bit zeigt nur ein X", "Er fährt von der Linie runter", "Er fährt gar nicht los", "Wo ist der Block Line patrolling?" ],
+    fertig:"Er fährt!" },
+
+  { id:"licht",
+    nachrichten:[
+      "Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie mit <b>OFF</b> stoppt. Der micro:bit kann nebenher noch etwas anderes tun.",
+      "Zum Beispiel eine Lichtshow:",
+      {karte:"k4-licht"},
+      "Testen: Herunterladen, Roboter auf die Linie, Knopf A. Fährt er und blinkt dabei?",
+      "Und jetzt der eigentliche Aha-Moment: Ihr habt dem Roboter <b>nicht gesagt, wo er langfahren soll</b>. Ihr habt ihm gesagt, worauf er achten muss.",
+      "Legt die Strecke anders, er fährt sie trotzdem. Das ist der Unterschied zwischen einer Maschine und einem Roboter.",
+      "Heißt euer Projekt schon <b>Linie</b>? Sonst jetzt unten neben <b>Herunterladen</b> umbenennen."
+    ],
+    chips:[ "Wo ist RGB Car Lights?", "Die Lichter blinken nicht", "Kann ich andere Farben nehmen?", "Er fährt nicht mehr, seit es blinkt" ],
+    fertig:"Fährt und blinkt ✓" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Eine Kontrollfrage noch, dann gehört das Abzeichen euch.",
+      {karte:"k4-quiz"}
+    ],
+    chips:[ "Welche Zahl heißt Schwarz?", "Wie viele Sensoren hat er?", "Was ist eine Kreuzung?" ],
+    fertig:"Beantwortet ✓" }
+]};
+/* ---- Drehbuch 05-reflexe.js ---- */
+/* Drehbuch Station 5: Reflexe. Quelle: src/stations/05-reflexe.html (master).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). Der Laser-Stopp ist Pflicht,
+   der Grand Prix braucht ihn; nur der Staubsauger ist Extra. */
+DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: wenn … dann … ansonsten", schritte:[
+  { id:"projekt",
+    nachrichten:[
+      "Ein Roboter, der nur einem Plan folgt, fährt gegen die erste Wand. Jetzt bringt ihr ihm bei, selbst zu entscheiden, viele Male pro Sekunde.",
+      "Startet wieder ein neues Roboter-Projekt. Sonst läuft die Linienverfolgung aus Station 4 weiter, und zwei Programme kämpfen um die Motoren.",
+      {karte:"makecode:vorlage"}
+    ],
+    chips:[ "Ist unser Projekt Linie dann weg?", "Warum schon wieder neu?", "Der Knopf macht nichts" ],
+    fertig:"Neues Projekt offen ✓" },
+
+  { id:"laser",
+    nachrichten:[
+      "Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleiner Laserscanner mit 8 mal 8 = <b>64 Laserstrahlen</b>. Er misst in Millimetern, von 20 mm bis 4000 mm.",
+      "Genau so ein Sensor sitzt auch in selbstfahrenden Autos, nur größer.",
+      "Der Scanner hat seine eigene Kategorie mit lila Blöcken: <b>Matrix LiDAR Entfernung</b>.",
+      {karte:"k5-laser"},
+      "In <kbd>beim Start</kbd> wird er eingeschaltet. In <kbd>dauerhaft</kbd> holt ihr zuerst neue Messwerte ab und fragt dann den Abstand nach vorn ab."
+    ],
+    chips:[ "Wo ist Matrix LiDAR Entfernung?", "Was heißt 0x33?", "Wie weit sieht der Laser?", "Was ist ein Lidar?" ],
+    fertig:"Laser ist an ✓" },
+
+  { id:"wenn",
+    nachrichten:[
+      "Der <kbd>dauerhaft</kbd>-Block wiederholt alles darin, immer und immer wieder. Darin sitzt die Entscheidung.",
+      "Ist der Weg frei, wird gefahren. Ist etwas näher als 20 cm, wird gebremst.",
+      {karte:"k5-logik"},
+      "Die Bedingung baut ihr in dieser Reihenfolge. Erst die Form, dann der Inhalt: Der Vergleich ist das Loch, in das der Sensor passt.",
+      {karte:"k5-bauen"},
+      "Testen: Herunterladen, Roboter auf den Boden, Hand davorhalten. Er bremst, bevor ihr ihn berührt.",
+      "Diesen Laser-Stopp braucht ihr im Grand Prix wieder. Also nicht überspringen!"
+    ],
+    zeig:{
+      "Es klappt nicht":[ {karte:"k5-klemmt"} ],
+      "Noch ein Ton dazu?":[
+        "Hängt ihr einen <kbd>spiele Ton</kbd>-Block dazu, wartet der Roboter, bis der Ton fertig ist. So lange misst er nicht und reagiert nicht.",
+        "Nehmt einen kurzen Ton, sonst wird der Bremsassistent träge."
+      ]
+    },
+    chips:[ "Wo ist wenn … dann … ansonsten?", "Der Laser-Block passt nicht ins Loch", "Er bremst nie", "Warum 200 und nicht 20?" ],
+    fertig:"Er bremst ✓" },
+
+  { id:"pausenknopf",
+    nachrichten:[
+      "Jetzt merkt sich der Roboter etwas. Eine <b>Variable</b> ist ein Merkzettel mit Namen: Das Programm schreibt etwas darauf, zum Beispiel <b>wahr</b> oder <b>falsch</b>.",
+      "Später liest es den Zettel an einer ganz anderen Stelle wieder. Im Grand Prix braucht ihr das für das Pro-Ziel.",
+      {karte:"k5-pause"},
+      "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd> klicken und sie <b>pausiert</b> nennen.",
+      "Den roten Block <kbd>setze pausiert auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen. Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>, bei Knopf A dasselbe mit <b>falsch</b>.",
+      "Zieht euren Laser-Vergleich aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben. Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>oder</kbd>: links <b>pausiert</b> aus <b>Variablen</b>, rechts wieder euer Vergleich.",
+      "Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander.",
+      "Testen: Der Roboter fährt, Knopf B: Er bleibt stehen und leuchtet rot. Knopf A: Er fährt weiter."
+    ],
+    chips:[ "Wo erstelle ich eine Variable?", "Wo ist der Block oder?", "Wo finde ich wahr und falsch?", "Nach Knopf A fährt er nicht weiter" ],
+    fertig:"Pausenknopf geht ✓" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Denkfrage, bevor es zum Rennen geht:",
+      {karte:"k5-quiz"}
+    ],
+    chips:[ "Was macht dauerhaft nochmal?", "Was passiert in beim Start?", "Reicht nicht einmal messen?" ],
+    fertig:"Beantwortet ✓" },
+
+  { id:"staubsauger", bonus:true, titel:"Staubsauger",
+    nachrichten:[
+      "Bonus: Schafft ihr es, dass der Roboter beim Hindernis nicht nur stoppt, sondern <b>zurücksetzt, sich dreht und weiterfährt</b>?",
+      "Dann habt ihr einen Staubsaugerroboter gebaut.",
+      "Geschafft? Dann zeigt es eurem Betreuer."
+    ],
+    chips:[ "Wie fährt er rückwärts?", "Wie dreht er sich auf der Stelle?", "Er dreht sich nur noch im Kreis" ],
+    fertig:"Staubsauger fährt ✓" }
 ]};
 /* Maskottchen: Figur, Gespräch, Frage-Feld und LLM-Anbindung. */
 

@@ -1,4 +1,71 @@
 <div class="karten" data-st="5">
+  <div class="karte" data-karte="k5-laser">
+    <div class="mcstack">
+      <div class="mccap">Laser einschalten und Messwerte abholen</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-logik">
+    <div class="mcstack">
+      <div class="mccap">Bremsassistent</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-mq i1">setze die Helligkeit der RGB LEDs auf <b>255</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>white</b></div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+      <div class="mcb b-logic i1">ansonsten</div>
+      <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-bauen">
+    <ol class="steps">
+      <li><span>Aus <b>Logik</b> den Block <kbd>wenn wahr dann &hellip; ansonsten</kbd> (der zweite von oben) in <kbd>dauerhaft</kbd> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>wahr</b></span> dann</div></div></span></li>
+      <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>0</b> <b>&lt;</b> <b>0</b></span> dann</div></div></span></li>
+      <li><span>Jetzt erst den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen und im Menü <b>Links</b> auf <b>Vorne</b> umstellen. Rechts <b>200</b> eintippen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
+    </ol>
+  </div>
+  <div class="karte" data-karte="k5-pause">
+    <div class="mcstack">
+      <div class="mccap">Pausenknopf</div>
+      <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+      <div class="mcb b-var i1">setze <span class="mcr b-var">pausiert</span> auf <span class="mcr b-logic"><b>wahr</b></span></div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-var i1">setze <span class="mcr b-var">pausiert</span> auf <span class="mcr b-logic"><b>falsch</b></span></div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-var">pausiert</span> <b>oder</b> <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span></span> dann</div>
+      <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>rot</b></div>
+      <div class="mcb b-logic i1">ansonsten</div>
+      <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
+      <div class="mcb b-mq i2">SET PIN <b>P1</b> RGB show color <b>grün</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-quiz">
+    <div class="quiz" data-quiz="q4" data-answer="c">
+      <div class="qh">Denkfrage</div>
+      <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> <span>Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</span></button>
+        <button class="opt" data-k="b"><span class="k">B</span> Weil der Laser sonst zu heiß wird</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Weil einmal messen nichts nützt &ndash; das Hindernis kommt ja erst später</button>
+      </div>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
   <div class="karte" data-karte="k5-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
