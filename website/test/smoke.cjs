@@ -243,7 +243,7 @@ function check(cond, msg) {
     check((await letzteBlase(page)).includes('A drücken'), 'Frage: LLM-Antwort als Blase');
     check(await page.$eval('#chat', e => !e.innerHTML.includes('<b>x</b>')), 'Frage: Antwort des Modells wird nicht als HTML gedeutet');
     check(anfrage && anfrage.auth === 'Bearer test' && anfrage.body.model === 'anthropic/claude-haiku-4.5' && anfrage.body.max_tokens === 200, 'Frage: Anfrage trägt Schlüssel, Modell, max_tokens');
-    check(anfrage.body.messages[0].role === 'system' && /höchstens drei Sätze/i.test(anfrage.body.messages[0].content) && anfrage.body.messages[0].content.length < 8000, 'Frage: Systemprompt mit Regeln, unter ca. 2000 Token');
+    check(anfrage.body.messages[0].role === 'system' && /höchstens drei Sätze/i.test(anfrage.body.messages[0].content) && anfrage.body.messages.reduce((n, m) => n + m.content.length, 0) < 6000, 'Frage: Systemprompt mit Regeln, unter ca. 2000 Token');
     check(anfrage.body.messages[anfrage.body.messages.length - 1].role === 'user' && anfrage.body.messages.length <= 6, 'Frage: höchstens 4 Verlaufseinträge plus Frage');
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf' && await page.$('#antworten button[data-nochfrage]') !== null, 'Frage: danach Leerlauf und „Noch eine Frage“');
     check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm'))).anfragen === 1, 'Zähler: eine Anfrage');
@@ -262,6 +262,19 @@ function check(cond, msg) {
     await page.waitForTimeout(500);
     check((await letzteBlase(page)).includes('Wink den Betreuer'), 'Frage: Serverfehler 500 → Rückfallantwort');
     check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm'))).anfragen === 1, 'Zähler: Fehler zählt nicht');
+    // späte Antwort nach „Neues Team“ darf nicht ins neue Gespräch
+    await page.unroute('https://openrouter.ai/**');
+    await page.route('https://openrouter.ai/**', async r => {
+      await new Promise(x => setTimeout(x, 800));
+      r.fulfill({ json: { choices: [{ message: { content: 'SPAETE-ANTWORT' } }], usage: { prompt_tokens: 10, completion_tokens: 5 } } });
+    });
+    await page.click('#antworten button[data-nochfrage]');
+    await page.fill('#frageeingabe', 'Noch eine');
+    await page.press('#frageeingabe', 'Enter');
+    await page.click('#resetbtn');
+    await page.waitForTimeout(1500);
+    check(!(await page.evaluate(() => localStorage.getItem('mgp-v1'))).includes('SPAETE-ANTWORT') && !(await page.$eval('#chat', e => e.textContent)).includes('SPAETE-ANTWORT'), '„Neues Team“: späte LLM-Antwort landet nicht im neuen Gespräch');
+    await page.click('#safetyok');
     await page.click('#coachbtn');
     await page.click('#llmreset');
     check(await page.$eval('#llmzaehler', e => /^0 Anfragen/.test(e.textContent.trim())), 'Handbuch: Zähler lässt sich nullen');

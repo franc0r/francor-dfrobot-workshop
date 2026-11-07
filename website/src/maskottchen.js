@@ -426,13 +426,17 @@ function fragen(st, text){
   sage(st, text);
   antEl.innerHTML = "";
   figur.zustand("gruebeln");
+  var gen = S;   // „Neues Team“ ersetzt S: eine späte Antwort gehört dann nicht mehr ins neue Gespräch
   p.then(function(a){
     zaehlerPlus(a.usage);
     return { ok:true, text:a.text };
   }, function(){
     return { ok:false };
   }).then(function(r){
+    if(S !== gen) return;
     if(r.ok) llmFertig(st, r.text); else rueckfall(st);
+  }).catch(function(){
+    if(S === gen) rueckfall(st);
   });
 }
 
@@ -455,10 +459,14 @@ function llmFertig(st, text){
 /* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung: Checkliste der Station */
 function rueckfall(st){
   logPush(st, {r:"bot", h:RUECKFALL_TEXT});
-  logPush(st, {r:"karte", k:"k" + st + "-klemmt"});
+  // dieselbe Karte nicht noch einmal ins Log, wenn sie die letzte Karte im Verlauf ist (Fragen dazwischen zählen nicht)
+  var log = S.chat[st] || [], j = log.length - 1, id = "k" + st + "-klemmt";
+  while(j >= 0 && (log[j].r === "me" || (log[j].r === "bot" && log[j].h === RUECKFALL_TEXT))) j--;
+  var neu = !(j >= 0 && log[j].r === "karte" && log[j].k === id);
+  if(neu) logPush(st, {r:"karte", k:id});
   if(gesprStation !== st) return;
   blase(st, RUECKFALL_TEXT);
-  sichtbar(karte(st, "k" + st + "-klemmt"));
+  if(neu) sichtbar(karte(st, id));
   nachFrage(st);
 }
 
@@ -468,7 +476,7 @@ var LLM_MODELL = "anthropic/claude-haiku-4.5";
 var LLM_MAX_TOKENS = 200;
 var LLM_TIMEOUT_MS = 15000;
 var LLM_CENT_PRO_MTOKEN = {ein: 100, aus: 500};   // Schätzung, nur für die Anzeige
-var LLM_KONTEXT_ZEICHEN = 8000;                   // ≈ 2000 Token bei etwa 4 Zeichen je Token
+var LLM_KONTEXT_ZEICHEN = 6000;                   // ≈ 2000 Token bei etwa 3 Zeichen je Token (Deutsch)
 var LLM_VERLAUF = 4;                              // so viele Verlaufseinträge gehen mit
 
 function ohneHtml(h){
@@ -482,7 +490,7 @@ function schrittText(s){
 }
 
 /* System-Prompt: feste Regeln, Drehbuch der Station in Kurzform, aktueller Schritt.
-   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 1600 Zeichen bleiben für Verlauf und Frage frei. */
+   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 2000 Zeichen bleiben für Verlauf (4 × 400) und Frage (400) frei. */
 function systemPrompt(st){
   var d = DREHBUCH[st], i = aktSchritt(st);
   var p = "Du bist " + MASKOTTCHEN_NAME + ", das Maskottchen des Robotik-Workshops von FRANCOR e. V. " +
@@ -493,7 +501,7 @@ function systemPrompt(st){
   if(!d || !d.schritte) return p;
   var aktuell = i < d.schritte.length ? d.schritte[i] : null;
   var ende = aktuell ? "\n\nAktueller Schritt (" + (aktuell.titel || aktuell.id) + "): " + kuerze(schrittText(aktuell), 600) : "";
-  var platz = LLM_KONTEXT_ZEICHEN - 1600 - p.length - ende.length - 120;
+  var platz = LLM_KONTEXT_ZEICHEN - 2000 - p.length - ende.length - 120;
   var kurz = "";
   for(var k = 0; k < d.schritte.length; k++){
     var z = (k + 1) + ". " + (d.schritte[k].titel || d.schritte[k].id) + ": " + kuerze(schrittText(d.schritte[k]), 300) + "\n";
