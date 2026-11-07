@@ -328,6 +328,7 @@ function check(cond, msg) {
     check(await page.$$eval('#chat [data-karte="k5-logik"] .mcc[data-c="b-logic"] > .mcbody', l => l.length) === 2, 'Station 5: wenn/ansonsten in k5-logik mit zwei Armen');
     check(await page.$$eval('#chat .mcc[data-c="b-logic"] > .mcbody', l => l.length) === 4, 'Station 5: beide wenn/ansonsten-Stapel ganz geklammert');
     check(await page.$$eval('#chat .mcb.b-var', l => l.length === 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(220, 20, 60)')), 'Station 5: zwei Variablenblöcke in Rot');
+    check(await page.$$eval('#chat .mcstack', l => l.every(st => { const r = st.getBoundingClientRect().right + 1; return [...st.querySelectorAll('.mcb')].every(b => b.getBoundingClientRect().right <= r); })), 'Station 5: lange Blöcke ragen nicht aus der Karte');
     check(await page.$$eval('#chat .mcb.b-lidar', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(91, 63, 232)')), 'Station 5: Laserblöcke lila');
     check(await page.$('#chat [data-karte="k5-quiz"] .quiz[data-quiz="q4"]') !== null, 'Station 5: Quiz als Karte');
     check(await page.$('#antworten button[data-skip]') !== null, 'Station 5: Staubsauger als Extra mit „Überspringen“');

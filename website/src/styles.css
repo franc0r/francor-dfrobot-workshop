@@ -730,6 +730,10 @@ body.safety-on{overflow:hidden}
 }
 .blase .mcstack{margin:6px 0 2px}
 .blase.karte{max-width:100%; padding:14px}
+/* lange Blöcke (Laser, wenn … < 200) brechen in der Karte um statt rechts abgeschnitten zu werden */
+.blase.karte .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px; max-width:100%; overflow-wrap:normal}
+.blase.karte .mcb b{white-space:nowrap}
+.blase.karte .mcc{max-width:100%}
 .blase.karte:empty{display:none}   /* Karte, deren Inhalt noch fehlt */
 .blase.karte a.btn{font-size:17px; padding:10px 18px}
 .antworten{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}

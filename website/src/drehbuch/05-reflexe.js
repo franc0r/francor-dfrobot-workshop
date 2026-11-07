@@ -13,7 +13,8 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
 
   { id:"laser",
     nachrichten:[
-      "Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleiner Laserscanner mit 8 mal 8 = <b>64 Laserstrahlen</b>. Er misst in Millimetern, von 20 mm bis 4000 mm.",
+      "Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleiner Laserscanner mit 8 mal 8 = <b>64 Laserstrahlen</b>.",
+      "Er misst in Millimetern, von 20 mm bis 4000 mm.",
       "Genau so ein Sensor sitzt auch in selbstfahrenden Autos, nur größer.",
       "Der Scanner hat seine eigene Kategorie mit lila Blöcken: <b>Matrix LiDAR Entfernung</b>.",
       {karte:"k5-laser"},
@@ -48,12 +49,21 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Später liest es den Zettel an einer ganz anderen Stelle wieder. Im Grand Prix braucht ihr das für das Pro-Ziel.",
       {karte:"k5-pause"},
       "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd> klicken und sie <b>pausiert</b> nennen.",
-      "Den roten Block <kbd>setze pausiert auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen. Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>, bei Knopf A dasselbe mit <b>falsch</b>.",
-      "Zieht euren Laser-Vergleich aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben. Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>oder</kbd>: links <b>pausiert</b> aus <b>Variablen</b>, rechts wieder euer Vergleich.",
+      "Den roten Block <kbd>setze pausiert auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen.",
+      "Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>. Bei Knopf A macht ihr dasselbe mit <b>falsch</b>."
+    ],
+    chips:[ "Wo erstelle ich eine Variable?", "Wo finde ich wahr und falsch?", "Wo ist setze pausiert?", "Warum heißt es Variable?" ],
+    fertig:"Knöpfe schreiben auf den Zettel ✓" },
+
+  { id:"oder",
+    nachrichten:[
+      "Jetzt muss das <kbd>dauerhaft</kbd> den Zettel lesen.",
+      "Zieht euren Laser-Vergleich aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben.",
+      "Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>oder</kbd>: links <b>pausiert</b> aus <b>Variablen</b>, rechts wieder euer Vergleich.",
       "Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander.",
       "Testen: Der Roboter fährt, Knopf B: Er bleibt stehen und leuchtet rot. Knopf A: Er fährt weiter."
     ],
-    chips:[ "Wo erstelle ich eine Variable?", "Wo ist der Block oder?", "Wo finde ich wahr und falsch?", "Nach Knopf A fährt er nicht weiter" ],
+    chips:[ "Wo ist der Block oder?", "Wo finde ich pausiert?", "Der Vergleich passt nicht mehr rein", "Nach Knopf A fährt er nicht weiter" ],
     fertig:"Pausenknopf geht ✓" },
 
   { id:"quiz",

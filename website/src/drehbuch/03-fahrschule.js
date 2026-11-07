@@ -22,7 +22,8 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
     ],
     zeig:{ "Wie kommen die Blöcke da rein?":[
       "Nur zum Lesen: Unten links übers Zahnrad, dann <b>Erweiterungen</b>, nach <kbd>dfrobot</kbd> suchen und <b>DFRobot_MaqueenPlus_V2</b> wählen. Die heißt noch „V2“, kann aber alles von eurem V3.",
-      "Genau das steckt schon in eurer Vorlage. Bitte heute nicht anklicken: Hier gibt es kein Internet, das Nachladen würde nicht klappen."
+      "Genau das steckt schon in eurer Vorlage, ihr müsst also nichts nachladen.",
+      "Bitte heute nicht anklicken: Nachladen braucht Internet, und das ist hier auf der Messe langsam und wackelig."
     ]},
     chips:[ "Wo ist die Kategorie Maqueen Plus V2?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
     fertig:"Vorlage ist offen ✓" },
@@ -52,7 +53,8 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
 
   { id:"aufbocken",
     nachrichten:[
-      "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband. Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt.",
+      "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband.",
+      "Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt.",
       "Jetzt herunterladen. Drehen sich beide Räder eine Sekunde lang?",
       "Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren.",
       "Das gilt ab jetzt für <b>jedes neue Programm</b>: erst aufbocken, dann fahren."

@@ -743,6 +743,10 @@ body.safety-on{overflow:hidden}
 }
 .blase .mcstack{margin:6px 0 2px}
 .blase.karte{max-width:100%; padding:14px}
+/* lange Blöcke (Laser, wenn … < 200) brechen in der Karte um statt rechts abgeschnitten zu werden */
+.blase.karte .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px; max-width:100%; overflow-wrap:normal}
+.blase.karte .mcb b{white-space:nowrap}
+.blase.karte .mcc{max-width:100%}
 .blase.karte:empty{display:none}   /* Karte, deren Inhalt noch fehlt */
 .blase.karte a.btn{font-size:17px; padding:10px 18px}
 .antworten{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
@@ -2861,7 +2865,8 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
     ],
     zeig:{ "Wie kommen die Blöcke da rein?":[
       "Nur zum Lesen: Unten links übers Zahnrad, dann <b>Erweiterungen</b>, nach <kbd>dfrobot</kbd> suchen und <b>DFRobot_MaqueenPlus_V2</b> wählen. Die heißt noch „V2“, kann aber alles von eurem V3.",
-      "Genau das steckt schon in eurer Vorlage. Bitte heute nicht anklicken: Hier gibt es kein Internet, das Nachladen würde nicht klappen."
+      "Genau das steckt schon in eurer Vorlage, ihr müsst also nichts nachladen.",
+      "Bitte heute nicht anklicken: Nachladen braucht Internet, und das ist hier auf der Messe langsam und wackelig."
     ]},
     chips:[ "Wo ist die Kategorie Maqueen Plus V2?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
     fertig:"Vorlage ist offen ✓" },
@@ -2891,7 +2896,8 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
 
   { id:"aufbocken",
     nachrichten:[
-      "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband. Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt.",
+      "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband.",
+      "Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt.",
       "Jetzt herunterladen. Drehen sich beide Räder eine Sekunde lang?",
       "Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren.",
       "Das gilt ab jetzt für <b>jedes neue Programm</b>: erst aufbocken, dann fahren."
@@ -3023,7 +3029,8 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
 
   { id:"laser",
     nachrichten:[
-      "Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleiner Laserscanner mit 8 mal 8 = <b>64 Laserstrahlen</b>. Er misst in Millimetern, von 20 mm bis 4000 mm.",
+      "Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleiner Laserscanner mit 8 mal 8 = <b>64 Laserstrahlen</b>.",
+      "Er misst in Millimetern, von 20 mm bis 4000 mm.",
       "Genau so ein Sensor sitzt auch in selbstfahrenden Autos, nur größer.",
       "Der Scanner hat seine eigene Kategorie mit lila Blöcken: <b>Matrix LiDAR Entfernung</b>.",
       {karte:"k5-laser"},
@@ -3058,12 +3065,21 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Später liest es den Zettel an einer ganz anderen Stelle wieder. Im Grand Prix braucht ihr das für das Pro-Ziel.",
       {karte:"k5-pause"},
       "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd> klicken und sie <b>pausiert</b> nennen.",
-      "Den roten Block <kbd>setze pausiert auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen. Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>, bei Knopf A dasselbe mit <b>falsch</b>.",
-      "Zieht euren Laser-Vergleich aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben. Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>oder</kbd>: links <b>pausiert</b> aus <b>Variablen</b>, rechts wieder euer Vergleich.",
+      "Den roten Block <kbd>setze pausiert auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen.",
+      "Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>. Bei Knopf A macht ihr dasselbe mit <b>falsch</b>."
+    ],
+    chips:[ "Wo erstelle ich eine Variable?", "Wo finde ich wahr und falsch?", "Wo ist setze pausiert?", "Warum heißt es Variable?" ],
+    fertig:"Knöpfe schreiben auf den Zettel ✓" },
+
+  { id:"oder",
+    nachrichten:[
+      "Jetzt muss das <kbd>dauerhaft</kbd> den Zettel lesen.",
+      "Zieht euren Laser-Vergleich aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben.",
+      "Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>oder</kbd>: links <b>pausiert</b> aus <b>Variablen</b>, rechts wieder euer Vergleich.",
       "Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander.",
       "Testen: Der Roboter fährt, Knopf B: Er bleibt stehen und leuchtet rot. Knopf A: Er fährt weiter."
     ],
-    chips:[ "Wo erstelle ich eine Variable?", "Wo ist der Block oder?", "Wo finde ich wahr und falsch?", "Nach Knopf A fährt er nicht weiter" ],
+    chips:[ "Wo ist der Block oder?", "Wo finde ich pausiert?", "Der Vergleich passt nicht mehr rein", "Nach Knopf A fährt er nicht weiter" ],
     fertig:"Pausenknopf geht ✓" },
 
   { id:"quiz",
