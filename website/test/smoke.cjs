@@ -15,9 +15,10 @@
  *   6. Gespräch Station 0 bis 6: Verlauf, Knöpfe, Bonus/Extra, Abzeichen, Neuladen;
  *      ein Durchlauf aller sieben Drehbücher bis „Workshop geschafft!“ mit 7 Abzeichen.
  *   7. Dunkelmodus auf Handybreite (360 px): Sicherheitsfenster, Streckenskizze Station 6.
- *   8. Frage-Feld „Geht nicht“: ohne Netz die Rückfallantwort mit Checkliste; mit
- *      gefälschtem OpenRouter (Playwright route) Antwort, Anfrageform, Zähler mgp-llm,
- *      Serverfehler, späte Antwort nach „Neues Team“, Schlüssel bleibt erhalten.
+ *   8. Frage-Feld „Geht nicht“: ohne Netz die Rückfallantwort mit Checkliste; Kontingent
+ *      (S.fragen ≥ 30: kein fetch); mit gefälschtem OpenRouter (Playwright route) Antwort,
+ *      Anfrageform [system, user] mit Mitschrift, Zähler mgp-llm, Serverfehler, späte
+ *      Antwort nach „Neues Team“, Schlüssel bleibt erhalten.
  *   9. Vorlesen (Schalter mgp-tts): Standard aus, ohne HTML, Verlauf bleibt still.
  *  10. Betreuer-Handbuch öffnet sich; "Neues Team" setzt zurück und zeigt das
  *      Sicherheitsfenster wieder (nur der Knopf schließt es).
@@ -85,9 +86,11 @@ function check(cond, msg) {
   await pR.waitForTimeout(300);
   check(await pR.$eval('#figur svg', e => getComputedStyle(e).animationName) === 'none', 'Figur: reduzierte Bewegung hält den Körper still');
   check(await pR.$eval('#figur .lid', e => getComputedStyle(e).animationName) === 'figur-blinzeln', 'Figur: blinzelt auch bei reduzierter Bewegung');
-  // Reduzierte Bewegung: kein Tipp-Effekt, alle Blasen des ersten Schritts sofort da (Drehbuch 0 hat dort 4)
+  // Reduzierte Bewegung: kein Tipp-Effekt, alle Blasen des ersten Schritts sofort da (Drehbuch 0 hat dort 5: 4 Text, 1 Blockstapel)
   await pR.click('#safetyok');
-  check(await pR.$$eval('#chat .blase', l => l.length) === 4 && await pR.$('#antworten button[data-fertig]') !== null, 'Gespräch: reduzierte Bewegung zeigt den ersten Schritt sofort');
+  check(await pR.$$eval('#chat .blase', l => l.length) === 5 && await pR.$('#antworten button[data-fertig]') !== null, 'Gespräch: reduzierte Bewegung zeigt den ersten Schritt sofort');
+  check(await pR.$eval('#figur svg', e => e.getAttribute('aria-label')) === 'Franco, das FRANCOR-Maskottchen', 'Figur: aria-label aus MASKOTTCHEN_NAME');
+  check(await pR.$$eval('#coach .figurname-ref', l => l.length >= 3 && l.every(e => e.textContent === 'Franco')), 'Handbuch: Name der Figur aus MASKOTTCHEN_NAME');
   await ctxR.close();
 
   // Struktur: keine Stationsseiten mehr, die Rail trägt die Minuten, die Drehbücher stimmen damit überein
@@ -152,20 +155,27 @@ function check(cond, msg) {
   await page.click('.stepbtn[data-go="3"]'); await page.waitForTimeout(400);
   await page.evaluate(() => window.__karte(3, 'k3-sim'));
   check(await page.$eval('#chat #cv', e => e.getBoundingClientRect().width) > 100, 'Karte: Parcours-Canvas sichtbar und gezeichnet');
-  await page.click('.pb:has-text("fahre")');
-  const plus = page.locator('.prow .chip .step', { hasText: '+' }).first();
-  for (let i = 0; i < 4; i++) await plus.click();
-  await page.click('#runbtn');
-  await page.waitForTimeout(2600);
-  check(await page.$eval('#status', e => e.classList.contains('ok')), 'Parcours: Level 1 mit "fahre 5" im Ziel');
+  const level1 = async () => {
+    await page.click('.pb:has-text("fahre")');
+    const plus = page.locator('.prow .chip .step', { hasText: '+' }).first();
+    for (let i = 0; i < 4; i++) await plus.click();
+    await page.click('#runbtn');
+    await page.waitForTimeout(2600);
+    return page.$eval('#status', e => e.classList.contains('ok'));
+  };
+  check(await level1(), 'Parcours: Level 1 mit "fahre 5" im Ziel');
   await page.click('#levsel button:nth-child(2)');
   check(await page.$eval('#levsel button:nth-child(2)', e => e.getAttribute('aria-pressed') === 'true'), 'Parcours: Levelwahl im Gespräch klickbar');
   await page.reload(); await page.waitForTimeout(400);
   check(await page.$('#chat #cv') !== null, 'Karte: Parcours nach Neuladen wieder im Gespräch');
   check(await page.$('#karten #cv') === null, 'Karte: Parcours liegt nicht doppelt im Vorrat');
+  check(await page.$eval('#chat #cv', e => e.getBoundingClientRect().width) > 100, 'Karte: Parcours-Canvas nach Neuladen gezeichnet (Breite > 100)');
+  await page.click('#levsel button:nth-child(1)');
+  check(await level1(), 'Parcours: nach Neuladen fährt "fahre 5" wieder ins Ziel');
 
   // Keine Punkteanzeige mehr
   check((await page.$('#ptsval')) === null, 'keine Punkteanzeige');
+  // (erster Schritt: 5 Blasen × 700 ms)
   // Gespräch Station 0 – frischer Kontext, damit Franco den ersten Schritt gerade erst spricht.
   // Er wartet, bis das Sicherheitsfenster zu ist.
   {
@@ -180,7 +190,7 @@ function check(cond, msg) {
     // Gespräch Station 0
     check(await page.$eval('#chat .blase', e => !!e), 'Gespräch: erste Blase da');
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'reden', 'Figur: redet beim Abspielen');
-    await page.waitForTimeout(3200);
+    await page.waitForTimeout(4000);
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf', 'Figur: nach dem Schritt Leerlauf');
     const n0 = await page.$$eval('#chat .blase', l => l.length);
     await page.reload(); await page.waitForTimeout(300);
@@ -410,7 +420,11 @@ function check(cond, msg) {
     page.on('pageerror', e => errors.push(String(e)));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await page.goto('file://' + DIST); await page.waitForTimeout(300);
-    await page.click('#safetyok'); await page.waitForTimeout(3300);
+    await page.click('#safetyok'); await page.waitForTimeout(4000);
+    await page.click('#antworten button[data-frage]');
+    check(await page.$eval('#figur', e => e.dataset.zustand) === 'sorge', 'Frage: Figur schaut besorgt, solange das Feld offen ist');
+    await page.click('#frage button[data-zurueck]');
+    check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf' && await page.$('#antworten button[data-fertig]') !== null, 'Frage: „Doch nicht“ zurück zu Leerlauf und Knöpfen');
     await page.click('#antworten button[data-frage]');
     check(await page.$$eval('#frage .chips button', l => l.length >= 3), 'Frage: Chips da');
     check(await page.$eval('#frageeingabe', e => parseFloat(getComputedStyle(e).fontSize) >= 16), 'Frage: Eingabefeld mindestens 16 px');
@@ -422,7 +436,31 @@ function check(cond, msg) {
     check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm')) || '{"anfragen":0}').anfragen === 0, 'Frage ohne Netz: Zähler bleibt bei 0');
     await page.reload(); await page.waitForTimeout(300);
     check((await letzteBlase(page)).includes('Wink den Betreuer') && await page.$('#chat details.hint') !== null, 'Frage ohne Netz: Verlauf übersteht Neuladen');
+    check(await page.evaluate(() => JSON.parse(localStorage.getItem('mgp-v1')).fragen) === 1, 'Kontingent: Frage zählt in S.fragen');
     await ctxF.close();
+  }
+  {
+    // Kontingent: 30 Fragen verbraucht → kein fetch, Kontingent-Blase und Checkliste
+    const ctxK = await browser.newContext({ viewport: { width: 1280, height: 1000 }, reducedMotion: 'reduce' });
+    const page = await ctxK.newPage();
+    page.on('pageerror', e => errors.push(String(e)));
+    let anfragen = 0;
+    await page.route('https://openrouter.ai/**', r => { anfragen++; r.fulfill({ json: { choices: [{ message: { content: 'NICHT-ERWARTET' } }] } }); });
+    await page.goto('file://' + DIST); await page.waitForTimeout(300);
+    await page.evaluate(() => {
+      localStorage.setItem('mgp-key', 'test');
+      const s = JSON.parse(localStorage.getItem('mgp-v1') || '{}'); s.fragen = 30; localStorage.setItem('mgp-v1', JSON.stringify(s));
+    });
+    await page.reload(); await page.waitForTimeout(300);
+    await page.click('#safetyok'); await page.waitForTimeout(200);
+    await page.click('#antworten button[data-frage]');
+    await page.click('#frage .chips button');
+    await page.waitForTimeout(500);
+    check(anfragen === 0, 'Kontingent: nach 30 Fragen keine Anfrage an OpenRouter');
+    check((await letzteBlase(page)).includes('Frage-Kontingent') && await page.$('#chat details.hint') !== null, 'Kontingent: Blase „Frage-Kontingent … aufgebraucht“ mit Checkliste');
+    await page.click('#resetbtn'); await page.waitForTimeout(100);
+    check(await page.evaluate(() => JSON.parse(localStorage.getItem('mgp-v1')).fragen) === 0, 'Kontingent: „Neues Team“ setzt S.fragen zurück');
+    await ctxK.close();
   }
   {
     // mit Netz (gefälscht) und Schlüssel
@@ -438,16 +476,20 @@ function check(cond, msg) {
     });
     await page.goto('file://' + DIST); await page.waitForTimeout(300);
     await page.evaluate(() => localStorage.setItem('mgp-key', 'test'));
-    await page.click('#safetyok'); await page.waitForTimeout(3300);
+    await page.click('#safetyok'); await page.waitForTimeout(4000);
     await page.click('#antworten button[data-frage]');
-    await page.click('#frage .chips button');
+    await page.fill('#frageeingabe', 'Ist a < b und b > c?');
+    await page.press('#frageeingabe', 'Enter');
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'gruebeln', 'Frage: Figur grübelt, solange das LLM antwortet');
     await page.waitForTimeout(900);
     check((await letzteBlase(page)).includes('A drücken'), 'Frage: LLM-Antwort als Blase');
     check(await page.$eval('#chat', e => !e.innerHTML.includes('<b>x</b>')), 'Frage: Antwort des Modells wird nicht als HTML gedeutet');
     check(anfrage && anfrage.auth === 'Bearer test' && anfrage.body.model === 'anthropic/claude-haiku-4.5' && anfrage.body.max_tokens === 200, 'Frage: Anfrage trägt Schlüssel, Modell, max_tokens');
     check(anfrage.body.messages[0].role === 'system' && /höchstens drei Sätze/i.test(anfrage.body.messages[0].content) && anfrage.body.messages.reduce((n, m) => n + m.content.length, 0) < 6000, 'Frage: Systemprompt mit Regeln, unter ca. 2000 Token');
-    check(anfrage.body.messages[anfrage.body.messages.length - 1].role === 'user' && anfrage.body.messages.length <= 6, 'Frage: höchstens 4 Verlaufseinträge plus Frage');
+    // Rollenfolge (Anthropic über OpenRouter): nach system zuerst user, nie zweimal dieselbe Rolle
+    const rollenOk = b => { const r = b.messages.map(m => m.role); const ns = r.filter(x => x !== 'system'); return r[0] === 'system' && ns[0] === 'user' && r.every((x, i) => i === 0 || x !== r[i - 1]) && r[r.length - 1] === 'user'; };
+    check(rollenOk(anfrage.body), 'Frage: erste Nachricht nach system ist user, Rollen wechseln (' + anfrage.body.messages.map(m => m.role).join(',') + ')');
+    check(/Bisher im Gespräch:[\s\S]*Franco: [\s\S]*Frage des Teams: Ist a < b und b > c\?/.test(anfrage.body.messages[1].content), 'Frage: Mitschrift und Frage in der user-Nachricht');
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf' && await page.$('#antworten button[data-nochfrage]') !== null, 'Frage: danach Leerlauf und „Noch eine Frage“');
     check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm'))).anfragen === 1, 'Zähler: eine Anfrage');
     await page.click('#coachbtn');
@@ -458,12 +500,15 @@ function check(cond, msg) {
     check(!html.includes('sk-or-'), 'kein Schlüssel in der Datei');
     // Serverfehler: Rückfallantwort, Zähler bleibt
     await page.unroute('https://openrouter.ai/**');
-    await page.route('https://openrouter.ai/**', r => r.fulfill({ status: 500, body: 'kaputt' }));
+    let anfrage2 = null;
+    await page.route('https://openrouter.ai/**', r => { anfrage2 = JSON.parse(r.request().postData() || '{}'); r.fulfill({ status: 500, body: 'kaputt' }); });
     await page.click('#antworten button[data-nochfrage]');
     await page.fill('#frageeingabe', 'Es geht nicht');
     await page.press('#frageeingabe', 'Enter');
     await page.waitForTimeout(500);
     check((await letzteBlase(page)).includes('Wink den Betreuer'), 'Frage: Serverfehler 500 → Rückfallantwort');
+    check(anfrage2 && rollenOk(anfrage2) && anfrage2.messages.length === 2 && anfrage2.messages.reduce((n, m) => n + m.content.length, 0) < 6000, 'Frage mit Verlauf: [system, user], unter dem Zeichenbudget');
+    check(anfrage2 && anfrage2.messages[1].content.includes('Team: Ist a < b und b > c?'), 'Frage mit Verlauf: eigene Frage „a < b … > c“ bleibt Text (kein HTML-Strip)');
     check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm'))).anfragen === 1, 'Zähler: Fehler zählt nicht');
     // späte Antwort nach „Neues Team“ darf nicht ins neue Gespräch
     await page.unroute('https://openrouter.ai/**');

@@ -725,7 +725,7 @@ body.safety-on{overflow:hidden}
   padding:11px 16px; font-size:17px; line-height:1.5; overflow-wrap:anywhere;
 }
 .blase.me{
-  align-self:flex-end; background:#E9483F; border-color:#E9483F; color:#fff;
+  align-self:flex-end; background:#C8352D; border-color:#E9483F; color:#fff;   /* #C8352D: weiße Schrift erreicht WCAG AA */
   border-radius:16px 16px 4px 16px; font-weight:500;
 }
 .blase .mcstack{margin:6px 0 2px}
@@ -744,10 +744,10 @@ body.safety-on{overflow:hidden}
 .antworten button:hover{background:var(--accent-soft)}
 /* der Knopf, der weiterführt, ist gefüllt */
 .antworten button[data-fertig], .antworten button[data-go], .antworten button[data-abschluss], .antworten button[data-machen]{
-  background:#E9483F; color:#fff;
+  background:#C8352D; color:#fff;
 }
 .antworten button[data-fertig]:hover, .antworten button[data-go]:hover,
-.antworten button[data-abschluss]:hover, .antworten button[data-machen]:hover{background:#E9483F; filter:brightness(1.08)}
+.antworten button[data-abschluss]:hover, .antworten button[data-machen]:hover{background:#C8352D; filter:brightness(1.08)}
 .antworten button.extra{border-style:dashed; font-size:14px; font-weight:500; color:var(--ink-2); padding:5px 14px}
 @media (max-width:760px){
   .blase{font-size:16px; padding:10px 14px}

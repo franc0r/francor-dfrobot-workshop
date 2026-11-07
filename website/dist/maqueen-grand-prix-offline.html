@@ -738,7 +738,7 @@ body.safety-on{overflow:hidden}
   padding:11px 16px; font-size:17px; line-height:1.5; overflow-wrap:anywhere;
 }
 .blase.me{
-  align-self:flex-end; background:#E9483F; border-color:#E9483F; color:#fff;
+  align-self:flex-end; background:#C8352D; border-color:#E9483F; color:#fff;   /* #C8352D: weiße Schrift erreicht WCAG AA */
   border-radius:16px 16px 4px 16px; font-weight:500;
 }
 .blase .mcstack{margin:6px 0 2px}
@@ -757,10 +757,10 @@ body.safety-on{overflow:hidden}
 .antworten button:hover{background:var(--accent-soft)}
 /* der Knopf, der weiterführt, ist gefüllt */
 .antworten button[data-fertig], .antworten button[data-go], .antworten button[data-abschluss], .antworten button[data-machen]{
-  background:#E9483F; color:#fff;
+  background:#C8352D; color:#fff;
 }
 .antworten button[data-fertig]:hover, .antworten button[data-go]:hover,
-.antworten button[data-abschluss]:hover, .antworten button[data-machen]:hover{background:#E9483F; filter:brightness(1.08)}
+.antworten button[data-abschluss]:hover, .antworten button[data-machen]:hover{background:#C8352D; filter:brightness(1.08)}
 .antworten button.extra{border-style:dashed; font-size:14px; font-weight:500; color:var(--ink-2); padding:5px 14px}
 @media (max-width:760px){
   .blase{font-size:16px; padding:10px 14px}
@@ -820,7 +820,7 @@ body.safety-on{overflow:hidden}
 
   <main id="stage">
 <div class="figur" id="figur" data-zustand="leerlauf">
-  <svg viewBox="0 0 105 120" role="img" aria-label="Franco, das FRANCOR-Maskottchen">
+  <svg viewBox="0 0 105 120" role="img" aria-label="das FRANCOR-Maskottchen">
     <image href="data:image/png;base64,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" x="0" y="0" width="105" height="120"/>
     <rect x="36" y="26" width="52" height="18" rx="9" fill="#1a1a1a"/>
     <g class="augen">
@@ -1578,7 +1578,7 @@ body.safety-on{overflow:hidden}
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
         <li>Grand-Prix-Strecke aufkleben und die <b>Zählfahrt</b> machen (Abschnitt &bdquo;Grand Prix aufbauen und betreuen&ldquo;)</li>
-        <li>Auf jedem Platz den <b>Schlüssel im Abschnitt &bdquo;Maskottchen&ldquo;</b> eintragen und einmal &bdquo;Geht nicht&ldquo; probieren: Kommt eine echte Antwort von Franco und zeigt der Zähler &bdquo;1 Anfrage&ldquo;, stimmen Schlüssel und Netz. Danach den Zähler nullen</li>
+        <li>Auf jedem Platz den <b>Schlüssel im Abschnitt &bdquo;Maskottchen&ldquo;</b> eintragen und einmal &bdquo;Geht nicht&ldquo; probieren: Kommt eine echte Antwort von <span class="figurname-ref">Franco</span> und zeigt der Zähler &bdquo;1 Anfrage&ldquo;, stimmen Schlüssel und Netz. Danach den Zähler nullen</li>
       </ul>
     </section>
 
@@ -1668,24 +1668,24 @@ body.safety-on{overflow:hidden}
 
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:14px"><b>Wenn doch etwas fehlt:</b> Ein Handy-Hotspot reicht, um einem einzelnen Gerät den Cache nachzuladen – rechne mit einigen zehn Megabyte, nicht mit Sekunden. Bei Raspberry-Pi-Arbeitsplätzen ist der schnellere Weg oft, die SD-Karte eines fertig vorbereiteten Geräts zu klonen und zu tauschen.</p>
 
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Und Franco?</b> Das Gespräch mit allen Stationen, Karten und Simulatoren steckt in der Datei und läuft ohne Netz. Nur die Antworten auf &bdquo;Geht nicht&ldquo; kommen über das Internet; ohne Netz zeigt Franco dort die Checkliste der Station und schickt das Team zu euch (Abschnitt &bdquo;Maskottchen&ldquo;).</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Und <span class="figurname-ref">Franco</span>?</b> Das Gespräch mit allen Stationen, Karten und Simulatoren steckt in der Datei und läuft ohne Netz. Nur die Antworten auf &bdquo;Geht nicht&ldquo; kommen über das Internet; ohne Netz zeigt <span class="figurname-ref">Franco</span> dort die Checkliste der Station und schickt das Team zu euch (Abschnitt &bdquo;Maskottchen&ldquo;).</p>
 
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Und die letzte Rückfallebene: <b>Station 2 dieser Seite braucht überhaupt nichts</b> außer der lokalen Datei. Wenn am Messetag alles schiefgeht, ist der micro:bit-Simulator im Browser immer noch ein vollständiges kleines Erlebnis für Vorbeigehende.</p>
     </section>
 
     <section>
       <h3>Maskottchen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)"><b>Ohne Netz oder ohne Schlüssel</b> läuft der Workshop genauso. Drückt ein Team „Geht nicht“, antwortet Franco dann mit der Checkliste „Wenn es klemmt“ der Station und bittet, euch zu winken. Das Frage-Feld sendet nur, wenn ein Schlüssel eingetragen ist und das Netz da ist; bei jedem Fehler (kein Netz, Zeitüberschreitung nach 15 s, Serverfehler) kommt dieselbe Rückfallantwort.</p>
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Schlüssel eintragen</b> (OpenRouter, einmal pro Arbeitsplatz). Er liegt nur in diesem Browser, nie in der Datei, und bleibt auch nach „Neues Team“ erhalten.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)"><b>Ohne Netz oder ohne Schlüssel</b> läuft der Workshop genauso. Drückt ein Team „Geht nicht“, antwortet <span class="figurname-ref">Franco</span> dann mit der Checkliste „Wenn es klemmt“ der Station und bittet, euch zu winken. Das Frage-Feld sendet nur, wenn ein Schlüssel eingetragen ist und das Netz da ist; bei jedem Fehler (kein Netz, Zeitüberschreitung nach 15 s, Serverfehler) kommt dieselbe Rückfallantwort.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Schlüssel eintragen</b> (OpenRouter, einmal pro Arbeitsplatz). Er liegt nur in diesem Browser, nie in der Datei, und bleibt auch nach „Neues Team“ erhalten. Legt bei OpenRouter für die Messe einen <b>eigenen Schlüssel mit kleinem Guthaben-Limit</b> an (ein paar Dollar). Tragt ihn nur in die Offline-Datei auf den Messe-Rechnern ein, nie auf der öffentlichen Pages-Seite, und löscht ihn bei OpenRouter nach der Messe.</p>
       <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px">
         <input id="orkey" type="password" autocomplete="off" placeholder="Schlüssel" style="flex:1 1 200px; min-width:0; font-size:16px; padding:8px 10px">
         <button type="button" class="btn" id="orkeysave">Speichern</button>
         <button type="button" class="btn sec" id="orkeydel">Löschen</button>
       </div>
       <p style="font-size:.94rem; margin-top:6px"><b id="orkeystate">kein Schlüssel</b></p>
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Kosten.</b> Jede Frage schickt höchstens etwa 2000 Token mit und bekommt höchstens 200 zurück. Der Zähler rechnet grob mit 1 Dollar je Million Token hinein und 5 Dollar heraus; die echten Kosten stehen bei OpenRouter.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Kosten.</b> Jede Frage schickt höchstens etwa 2000 Token mit und bekommt höchstens 200 zurück. Der Zähler rechnet grob mit 1 Dollar je Million Token hinein und 5 Dollar heraus; die echten Kosten stehen bei OpenRouter. Jedes Team hat höchstens 30 Fragen; danach antwortet <span class="figurname-ref">Franco</span> nur noch mit der Checkliste und schickt zu euch. „Neues Team“ setzt das zurück.</p>
       <p style="font-size:.94rem; margin-top:6px"><span id="llmzaehler">0 Anfragen · ca. 0 Cent</span> <button type="button" class="btn sec" id="llmreset" style="margin-left:8px">Zähler nullen</button></p>
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Vorlesen.</b> Auf Wunsch liest die Browser-Stimme die Blasen vor. Standard ist aus, die Messe ist laut. Der Schalter gilt nur für diesen Arbeitsplatz und bleibt bei „Neues Team“ stehen.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Vorlesen.</b> Auf Wunsch liest die Browser-Stimme die Blasen vor. Standard ist aus, die Messe ist laut. Der Schalter gilt nur für diesen Arbeitsplatz und bleibt bei „Neues Team“ stehen. Chromium nimmt die Stimmen des Systems; ohne deutsche Stimme bleibt es still. Auf Raspberry Pi OS deshalb <kbd>sudo apt install espeak-ng speech-dispatcher</kbd> und Chromium neu starten, unter Windows und macOS ist meist schon eine deutsche Stimme da.</p>
       <label style="font-size:.94rem; display:flex; gap:8px; align-items:center; margin-top:6px"><input type="checkbox" id="ttsbox"> Vorlesen</label>
     </section>
 
@@ -1824,7 +1824,7 @@ var STATIONS = [
   {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
 var DREHBUCH = [];
-var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
 
 function load(){
   try{
@@ -2008,7 +2008,7 @@ safety.addEventListener("keydown", function(e){
 });
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
   save();
   document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
@@ -2723,8 +2723,9 @@ function mbReset(){
 DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", schritte:[
   { id:"regelkreis",
     nachrichten:[
-      "Hallo! Ich begleite euch heute durch den Workshop. Am Ende fährt euer Roboter ganz allein.",
-      "Ein ferngesteuertes Auto ist noch kein Roboter. Ein echter Roboter macht immer dieselben drei Dinge:",
+      "Hallo! Ich begleite euch heute durch den Workshop.",
+      "Am Ende fährt euer Roboter ganz allein. Ein ferngesteuertes Auto ist noch kein Roboter.",
+      "Ein echter Roboter macht immer dieselben drei Dinge:",
       '<div class="mcstack flat"><div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>' +
         '<div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>euer Programm</b></div>' +
         '<div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div></div>',
@@ -2768,12 +2769,17 @@ DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", sch
 DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Erster Kontakt", schritte:[
   { id:"oeffnen",
     nachrichten:[
-      "Jetzt wird es ernst: Gleich wandert Code, den ihr selbst baut, über ein Kabel in einen echten Computer.",
-      "Der macht dann genau das, was ihr sagt. Nicht mehr und nicht weniger.",
+      "Jetzt wird es ernst: Gleich wandert Code, den ihr selbst baut, über ein Kabel in einen echten Computer. Der macht genau das, was ihr sagt, nicht mehr und nicht weniger.",
       "Ihr wollt endlich an den Laptop?",
       "Ja, ihr dürft. Jetzt.",
       "Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.",
-      {karte:"makecode:neu"},
+      {karte:"makecode:neu"}
+    ],
+    chips:[ "Der Knopf macht nichts", "Müssen wir uns anmelden?", "Der neue Tab bleibt leer" ],
+    fertig:"MakeCode ist offen ✓" },
+
+  { id:"umschauen",
+    nachrichten:[
       "Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau.",
       "Einen Block zieht ihr mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster. Dort rastet er ein wie ein Puzzleteil.",
       "Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus."
@@ -2783,8 +2789,8 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Er
       "<b>Block löschen:</b> anklicken und <kbd>Entf</kbd> drücken. Oder einfach zurück nach links ziehen.",
       "<b>Zahl ändern:</b> auf die Zahl klicken und eintippen, zum Beispiel 300."
     ]},
-    chips:[ "Der Knopf macht nichts", "Müssen wir uns anmelden?", "Wo sind die Blöcke?", "Wie lösche ich einen Block?" ],
-    fertig:"MakeCode ist offen ✓" },
+    chips:[ "Wo sind die Blöcke?", "Wie lösche ich einen Block?", "Der Block rastet nicht ein", "Was ist die Vorschau rechts?" ],
+    fertig:"Alles gefunden ✓" },
 
   { id:"lebenszeichen",
     nachrichten:[
@@ -2793,16 +2799,21 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Er
       {karte:"k1-start"},
       {karte:"k1-herz"},
       "<kbd>beim Start</kbd> zeigt „Hallo“ nur einmal, direkt nach dem Einschalten. Danach ist es weg.",
-      "<kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Das ist sein Herzschlag, das eigentliche Lebenszeichen.",
-      "Merkt euch das Muster: Etwas läuft immer wieder, ohne Ende. Genau das braucht euer Roboter gleich für jeden Sensor."
+      "<kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Das ist sein Herzschlag, das eigentliche Lebenszeichen."
     ],
     chips:[ "Wo finde ich zeige Symbol?", "Wie stelle ich 300 ein?", "Was heißt ms?", "Wo ist Bildschirminhalt löschen?" ],
     fertig:"Gebaut ✓" },
 
-  { id:"uebertragen",
+  { id:"anstecken",
     nachrichten:[
       "Und jetzt rüber damit auf den echten micro:bit.",
-      "Steckt den micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel, den Roboter braucht ihr noch nicht.",
+      "Steckt den micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel, den Roboter braucht ihr noch nicht."
+    ],
+    chips:[ "Wo ist die USB-Buchse am micro:bit?", "Welches Kabel nehmen wir?", "Am micro:bit leuchtet nichts" ],
+    fertig:"Steckt ✓" },
+
+  { id:"uebertragen",
+    nachrichten:[
       "In MakeCode klickt ihr auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät: <b>micro:bit koppeln</b>, auswählen, verbinden.",
       "Auf dem micro:bit blinkt eine gelbe LED. Das ist euer Code, der hinüberfließt.",
       "Hört sie auf, läuft euer Programm. Erst „Hallo“, dann blinkt das Herz?",
@@ -2818,6 +2829,7 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Er
 
   { id:"quiz",
     nachrichten:[
+      "Merkt euch das Muster: Etwas läuft immer wieder, ohne Ende. Genau das braucht euer Roboter gleich für jeden Sensor.",
       "Eine Frage noch, dann gehört das Abzeichen euch.",
       {karte:"k1-quiz"}
     ],
@@ -2843,29 +2855,43 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
     nachrichten:[
       "Der Bildschirm des micro:bit sind 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus.",
       "Probiert es zuerst hier im Simulator, Reiter <b>1 · Zeichnen</b>. Klickt die Punkte einfach an.",
-      {karte:"k2-mbsim"},
-      "Dann in MakeCode: <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild.",
-      "Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.",
-      "Testen: Herunterladen. Steht euer Bild auf dem micro:bit?"
+      {karte:"k2-mbsim"}
     ],
     zeig:{ "Warum ist das clever?":[
       "25 Lämpchen, jedes an oder aus: Das sind über 33 Millionen mögliche Bilder.",
       "Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>."
     ]},
-    chips:[ "Wo ist zeige LEDs?", "Wie mache ich einen Punkt wieder aus?", "Kann ich auch Buchstaben malen?", "Das Bild kommt nicht auf den micro:bit" ],
+    chips:[ "Wie mache ich einen Punkt wieder aus?", "Kann ich auch Buchstaben malen?", "Wo ist Reiter 1?" ],
+    fertig:"Bild gemalt ✓" },
+
+  { id:"bild",
+    nachrichten:[
+      "Dann in MakeCode: <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild.",
+      "Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.",
+      "Testen: Herunterladen. Steht euer Bild auf dem micro:bit?"
+    ],
+    chips:[ "Wo ist zeige LEDs?", "Wo ist beim Start?", "Kann ich auch Buchstaben malen?", "Das Bild kommt nicht auf den micro:bit" ],
     fertig:"Bild steht ✓" },
 
-  { id:"knoepfe",
+  { id:"ereignis",
     nachrichten:[
       "Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt ein Block, der <em>wartet</em>, bis etwas passiert.",
       "Solche Blöcke heißen Ereignisse. Probiert es im Simulator, Reiter <b>2 · Knöpfe</b>.",
-      {karte:"k2-mbsim"},
+      {karte:"k2-mbsim"}
+    ],
+    chips:[ "Was ist ein Ereignis?", "Wo ist Reiter 2?", "Im Simulator passiert nichts" ],
+    fertig:"Im Simulator probiert ✓" },
+
+  { id:"knoepfe",
+    nachrichten:[
       "<kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>.",
       {karte:"k2-knoepfe"},
-      "Beide Ereignisse liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide und macht das Passende, sobald der Knopf kommt.",
       "Legt Ereignis-Blöcke <b>frei</b> ins Programmierfenster, nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>. Sie warten selbst auf ihren Moment.",
       "Testen: Herunterladen, Knopf A drücken, dann Knopf B."
     ],
+    zeig:{ "Stören die sich nicht?":[
+      "Beide Ereignisse liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide und macht das Passende, sobald der Knopf kommt."
+    ]},
     chips:[ "Welcher Knopf ist A?", "Wo ist wenn Knopf A geklickt?", "Muss das in dauerhaft rein?", "Das Herz geht nicht mehr weg" ],
     fertig:"Knöpfe gehen ✓" },
 
@@ -2874,7 +2900,13 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "Im micro:bit sitzt ein Beschleunigungssensor. Derselbe Bauteiltyp lässt euer Handy das Bild drehen.",
       "Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>.",
       "Probiert es im Simulator, Reiter <b>3 · Neigen</b>.",
-      {karte:"k2-mbsim"},
+      {karte:"k2-mbsim"}
+    ],
+    chips:[ "Was ist ein Beschleunigungssensor?", "Wo ist Reiter 3?", "Im Simulator kommt kein Pfeil" ],
+    fertig:"Im Simulator gekippt ✓" },
+
+  { id:"pfeile",
+    nachrichten:[
       "In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein.",
       "Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b>, ganz unten: ein Stück nach unten scrollen.",
       {karte:"k2-neigen"},
@@ -2884,7 +2916,7 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "Kein Pfeil? Kippt deutlich, fast senkrecht, und schüttelt kräftig und ruckartig statt sanft zu wedeln.",
       {karte:"k2-klemmt"}
     ]},
-    chips:[ "Wo ist zeige Pfeil?", "Wo stelle ich Logo nach oben ein?", "Beim Kippen kommt kein Pfeil", "Was ist ein Beschleunigungssensor?" ],
+    chips:[ "Wo ist zeige Pfeil?", "Wo stelle ich Logo nach oben ein?", "Beim Kippen kommt kein Pfeil", "Der Totenkopf kommt nicht" ],
     fertig:"Pfeile und Totenkopf ✓" },
 
   { id:"grenze",
@@ -2911,11 +2943,12 @@ DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"D
       "Team-Challenge: Macht aus dem Schütteln einen <b>Würfel</b>. Statt Ton und Totenkopf zeigt der micro:bit eine zufällige Zahl.",
       {karte:"k2-wuerfel"},
       "Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b>: Stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.",
-      "Testen: Herunterladen und dreimal schütteln. Kommen verschiedene Zahlen?",
-      "Noch Zeit? Lasst vor der Zahl kurz ein Herz erscheinen, als kleinen Trommelwirbel.",
-      "Geschafft? Dann zeigt es eurem Betreuer."
+      "Testen: Herunterladen und dreimal schütteln. Kommen verschiedene Zahlen?"
     ],
-    zeig:{ "Es klappt nicht":[
+    zeig:{ "Noch Zeit?":[
+      "Lasst vor der Zahl kurz ein Herz erscheinen, als kleinen Trommelwirbel.",
+      "Geschafft? Dann zeigt es eurem Betreuer."
+    ], "Es klappt nicht":[
       "Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.",
       {karte:"k2-klemmt"}
     ]},
@@ -2970,22 +3003,31 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
       "Aus „fahre 3 Felder“ wird also: fahren, warten, stoppen.",
       {karte:"k3-motor"},
       "<kbd>initialisiere Maqueen Plus V2</kbd> gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In der Vorlage steht er schon: nicht löschen.",
-      "Mit ihm fragt der micro:bit beim Roboter an: „Bist du da?“ Ein blinkendes <b>X</b> heißt keine Antwort, ein <b>Haken</b> heißt verbunden.",
       "Zahlengefühl: Unter etwa <b>30</b> bewegt sich nichts, da ist der Motor zu schwach. 1000 ms sind eine Sekunde."
     ],
+    zeig:{ "Was macht initialisiere?":[
+      "Mit ihm fragt der micro:bit beim Roboter an: „Bist du da?“ Ein blinkendes <b>X</b> heißt keine Antwort, ein <b>Haken</b> heißt verbunden."
+    ]},
     chips:[ "Wo ist steuere beide Räder?", "Der micro:bit zeigt nur ein X", "Wo ist pausiere?", "Warum nicht Geschwindigkeit 255?" ],
     fertig:"Gebaut ✓" },
 
   { id:"aufbocken",
     nachrichten:[
       "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband.",
-      "Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt.",
+      "Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt."
+    ],
+    chips:[ "Wir haben keine Schachtel", "Wie hoch muss er stehen?", "Warum aufbocken?" ],
+    fertig:"Räder hängen in der Luft ✓" },
+
+  { id:"probelauf",
+    nachrichten:[
       "Jetzt herunterladen. Drehen sich beide Räder eine Sekunde lang?",
       "Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren.",
       "Das gilt ab jetzt für <b>jedes neue Programm</b>: erst aufbocken, dann fahren."
     ],
     zeig:{ "Es klappt nicht":[
-      "Blinkt ein <b>X</b>? Dann antwortet der Roboter nicht. Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
+      "Blinkt ein <b>X</b>? Dann antwortet der Roboter nicht.",
+      "Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
       {karte:"k3-klemmt"}
     ]},
     chips:[ "Die Räder drehen sich nicht", "Der micro:bit zeigt nur ein X", "Er fährt einen Bogen", "Nur ein Rad dreht sich" ],
@@ -3006,12 +3048,14 @@ DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken
     nachrichten:[
       "Team-Challenge: Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.",
       "<b>Tipp 1:</b> Nehmt <kbd>wenn Knopf A geklickt</kbd> statt <kbd>beim Start</kbd>, das kennt ihr aus Station 2. Dann fährt er erst los, wenn er auf dem Boden steht und ihr drückt.",
-      "<b>Tipp 2:</b> Eine Seite vom Quadrat sind die Geradeaus-Blöcke plus die Dreh-Blöcke, und das 4-mal. Rechtsklick auf einen Block, dann <b>Duplizieren</b>: Das spart Arbeit.",
-      "<b>Tipp 3:</b> 400 ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800.",
+      "<b>Tipp 2:</b> 400 ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800."
+    ],
+    zeig:{ "Mehr Tipps":[
+      "<b>Tipp 3:</b> Eine Seite vom Quadrat sind die Geradeaus-Blöcke plus die Dreh-Blöcke, und das 4-mal.",
+      "Rechtsklick auf einen Block, dann <b>Duplizieren</b>: Das spart Arbeit.",
       "Probieren, messen, korrigieren: Genau so arbeiten Ingenieure.",
       "Geschafft? Dann zeigt es eurem Betreuer."
-    ],
-    zeig:{ "Wir kommen nicht weiter":[
+    ], "Wir kommen nicht weiter":[
       "Hier ist ein Gerüst. Die ??? findet ihr selbst heraus.",
       {karte:"k3-quadrat"},
       "Die Schleife <kbd>-mal wiederholen</kbd> kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>."
@@ -3039,7 +3083,13 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
     nachrichten:[
       "Unter dem Roboter sitzen fünf winzige Lampen, jede mit einem Lichtmesser daneben. Die Lampe leuchtet nach unten, der Messer schaut, wie viel Licht zurückkommt.",
       "<b>Weiß spiegelt viel Licht zurück, Schwarz schluckt es.</b> Der Sensor liefert keine Farbe, sondern eine Zahl.",
-      "Weißes Papier gibt ungefähr <b>3800</b>, das heißt „hier ist keine Linie“. Schwarzes Klebeband gibt ungefähr <b>2700</b>, das heißt „hier ist meine Spur“.",
+      "Weißes Papier gibt ungefähr <b>3800</b>, das heißt „hier ist keine Linie“. Schwarzes Klebeband gibt ungefähr <b>2700</b>, das heißt „hier ist meine Spur“."
+    ],
+    chips:[ "Warum ist Schwarz die kleinere Zahl?", "Wo sitzen die Sensoren?", "Was misst der Sensor genau?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"kalibrieren",
+    nachrichten:[
       "Jeder Raum hat anderes Licht. Damit der Roboter weiß, was hier „schwarz“ heißt, lernt er das einmal: Das nennt man <b>kalibrieren</b>.",
       "Bei euren Robotern hat das der Betreuer schon gemacht. Nur wenn eurer die Linie nicht findet, kalibriert ihr neu."
     ],
@@ -3047,8 +3097,8 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
       "Alle fünf Sensoren auf die schwarze Linie stellen und einschalten.",
       "Dann die Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis es blinkt."
     ]},
-    chips:[ "Warum ist Schwarz die kleinere Zahl?", "Was heißt kalibrieren?", "Wo sitzen die Sensoren?", "Müssen wir selbst kalibrieren?" ],
-    fertig:"Verstanden ✓" },
+    chips:[ "Was heißt kalibrieren?", "Müssen wir selbst kalibrieren?", "Wo ist die Calc-Key?" ],
+    fertig:"Alles klar ✓" },
 
   { id:"bloecke",
     nachrichten:[
@@ -3068,7 +3118,8 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
       "<b>Knopf A</b> drücken: Er fährt. <b>Knopf B</b> hält ihn an."
     ],
     zeig:{ "Es klappt nicht":[
-      "Zeigt der micro:bit nur ein blinkendes <b>X</b>? Dann antwortet der Roboter nicht. Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
+      "Zeigt der micro:bit nur ein blinkendes <b>X</b>? Dann antwortet der Roboter nicht.",
+      "Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
       {karte:"k4-klemmt"}
     ]},
     chips:[ "Der micro:bit zeigt nur ein X", "Er fährt von der Linie runter", "Er fährt gar nicht los", "Wo ist der Block Line patrolling?" ],
@@ -3079,13 +3130,19 @@ DREHBUCH[4] = {name:"Augen", min:18, badge:"Spurhalter", titel:"Der Roboter beko
       "Die Linienverfolgung läuft im Hintergrund weiter, bis ihr sie mit <b>OFF</b> stoppt. Der micro:bit kann nebenher noch etwas anderes tun.",
       "Zum Beispiel eine Lichtshow:",
       {karte:"k4-licht"},
-      "Testen: Herunterladen, Roboter auf die Linie, Knopf A. Fährt er und blinkt dabei?",
+      "Testen: Herunterladen, Roboter auf die Linie, Knopf A. Fährt er und blinkt dabei?"
+    ],
+    chips:[ "Wo ist RGB Car Lights?", "Die Lichter blinken nicht", "Kann ich andere Farben nehmen?", "Er fährt nicht mehr, seit es blinkt" ],
+    fertig:"Fährt und blinkt ✓" },
+
+  { id:"aha",
+    nachrichten:[
       "Und jetzt der eigentliche Aha-Moment: Ihr habt dem Roboter <b>nicht gesagt, wo er langfahren soll</b>. Ihr habt ihm gesagt, worauf er achten muss.",
       "Legt die Strecke anders, er fährt sie trotzdem. Das ist der Unterschied zwischen einer Maschine und einem Roboter.",
       "Heißt euer Projekt schon <b>Linie</b>? Sonst jetzt unten neben <b>Herunterladen</b> umbenennen."
     ],
-    chips:[ "Wo ist RGB Car Lights?", "Die Lichter blinken nicht", "Kann ich andere Farben nehmen?", "Er fährt nicht mehr, seit es blinkt" ],
-    fertig:"Fährt und blinkt ✓" },
+    chips:[ "Was ist der Unterschied zur Maschine?", "Wo benenne ich das Projekt um?", "Fährt er auch eine andere Strecke?" ],
+    fertig:"Projekt heißt Linie ✓" },
 
   { id:"quiz",
     nachrichten:[
@@ -3112,8 +3169,7 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
   { id:"laser",
     nachrichten:[
       "Vorne sitzt kein einfacher Abstandsmesser, sondern ein kleiner Laserscanner mit 8 mal 8 = <b>64 Laserstrahlen</b>.",
-      "Er misst in Millimetern, von 20 mm bis 4000 mm.",
-      "Genau so ein Sensor sitzt auch in selbstfahrenden Autos, nur größer.",
+      "Er misst in Millimetern, von 20 mm bis 4000 mm. Genau so ein Sensor sitzt auch in selbstfahrenden Autos, nur größer.",
       "Der Scanner hat seine eigene Kategorie mit lila Blöcken: <b>Matrix LiDAR Entfernung</b>.",
       {karte:"k5-laser"},
       "In <kbd>beim Start</kbd> wird er eingeschaltet. In <kbd>dauerhaft</kbd> holt ihr zuerst neue Messwerte ab und fragt dann den Abstand nach vorn ab."
@@ -3127,7 +3183,13 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Ist der Weg frei, wird gefahren. Ist etwas näher als 20 cm, wird gebremst.",
       {karte:"k5-logik"},
       "Die Bedingung baut ihr in dieser Reihenfolge. Erst die Form, dann der Inhalt: Der Vergleich ist das Loch, in das der Sensor passt.",
-      {karte:"k5-bauen"},
+      {karte:"k5-bauen"}
+    ],
+    chips:[ "Wo ist wenn … dann … ansonsten?", "Der Laser-Block passt nicht ins Loch", "Wo ist der Vergleich?", "Warum 200 und nicht 20?" ],
+    fertig:"Gebaut ✓" },
+
+  { id:"bremsen",
+    nachrichten:[
       "Testen: Herunterladen, Roboter auf den Boden, Hand davorhalten. Er bremst, bevor ihr ihn berührt.",
       "Diesen Laser-Stopp braucht ihr im Grand Prix wieder. Also nicht überspringen!"
     ],
@@ -3138,7 +3200,7 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
         "Nehmt einen kurzen Ton, sonst wird der Bremsassistent träge."
       ]
     },
-    chips:[ "Wo ist wenn … dann … ansonsten?", "Der Laser-Block passt nicht ins Loch", "Er bremst nie", "Warum 200 und nicht 20?" ],
+    chips:[ "Er bremst nie", "Er fährt gar nicht los", "Er bremst zu spät", "Er ruckelt beim Bremsen" ],
     fertig:"Er bremst ✓" },
 
   { id:"pausenknopf",
@@ -3146,11 +3208,17 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Jetzt merkt sich der Roboter etwas. Eine <b>Variable</b> ist ein Merkzettel mit Namen: Das Programm schreibt etwas darauf, zum Beispiel <b>wahr</b> oder <b>falsch</b>.",
       "Später liest es den Zettel an einer ganz anderen Stelle wieder. Im Grand Prix braucht ihr das für das Pro-Ziel.",
       {karte:"k5-pause"},
-      "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd> klicken und sie <b>pausiert</b> nennen.",
+      "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd> klicken und sie <b>pausiert</b> nennen."
+    ],
+    chips:[ "Wo erstelle ich eine Variable?", "Warum heißt es Variable?", "Wo tippe ich den Namen ein?" ],
+    fertig:"Variable pausiert ist da ✓" },
+
+  { id:"zettel",
+    nachrichten:[
       "Den roten Block <kbd>setze pausiert auf 0</kbd> in <kbd>wenn Knopf B geklickt</kbd> ziehen.",
       "Auf die <b>0</b> kommt aus <b>Logik</b> der Block <b>wahr</b>. Bei Knopf A macht ihr dasselbe mit <b>falsch</b>."
     ],
-    chips:[ "Wo erstelle ich eine Variable?", "Wo finde ich wahr und falsch?", "Wo ist setze pausiert?", "Warum heißt es Variable?" ],
+    chips:[ "Wo finde ich wahr und falsch?", "Wo ist setze pausiert?", "Wo ist wenn Knopf B geklickt?" ],
     fertig:"Knöpfe schreiben auf den Zettel ✓" },
 
   { id:"oder",
@@ -3158,9 +3226,11 @@ DREHBUCH[5] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Reflexe: w
       "Jetzt muss das <kbd>dauerhaft</kbd> den Zettel lesen.",
       "Zieht euren Laser-Vergleich aus dem <kbd>wenn</kbd> heraus und legt ihn kurz daneben.",
       "Auf den freien Platz kommt aus <b>Logik</b> der Block <kbd>oder</kbd>: links <b>pausiert</b> aus <b>Variablen</b>, rechts wieder euer Vergleich.",
-      "Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander.",
       "Testen: Der Roboter fährt, Knopf B: Er bleibt stehen und leuchtet rot. Knopf A: Er fährt weiter."
     ],
+    zeig:{ "Warum geht das?":[
+      "Der Knopf schreibt auf den Zettel, das <kbd>dauerhaft</kbd> liest ihn. So reden zwei Teile eures Programms miteinander."
+    ]},
     chips:[ "Wo ist der Block oder?", "Wo finde ich pausiert?", "Der Vergleich passt nicht mehr rein", "Nach Knopf A fährt er nicht weiter" ],
     fertig:"Pausenknopf geht ✓" },
 
@@ -3210,15 +3280,23 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
   { id:"projekt",
     nachrichten:[
       "Ihr arbeitet in eurem Projekt aus Station 4 weiter. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen.",
-      "Löscht zuerst den <kbd>dauerhaft</kbd>-Block mit dem Rot-Blau-Blinken. Zieht ihn einfach nach links in die Blockliste.",
-      "Er würde später eure Startampel überschreiben und den Laser bremsen.",
-      "Der Rest darf bleiben. <b>Line Following Settings Speed</b> in <kbd>beim Start</kbd> könnt ihr löschen oder stehen lassen: Knopf A stellt das Tempo sowieso neu ein.",
-      "<kbd>wenn Knopf B geklickt</kbd> mit <b>Line patrolling OFF</b> bleibt euer Not-Aus.",
       "Kein „Linie“ dabei? Dann startet ein neues Roboter-Projekt und baut das Programm ganz nach.",
       {karte:"makecode:vorlage"}
     ],
-    chips:[ "Wo ist das Haus?", "Wir finden das Projekt Linie nicht", "Wie lösche ich einen Block?", "Welcher dauerhaft-Block ist gemeint?" ],
+    chips:[ "Wo ist das Haus?", "Wir finden das Projekt Linie nicht", "Wo ist Meine Projekte?" ],
     fertig:"Linie ist offen ✓" },
+
+  { id:"aufraeumen",
+    nachrichten:[
+      "Löscht zuerst den <kbd>dauerhaft</kbd>-Block mit dem Rot-Blau-Blinken. Zieht ihn einfach nach links in die Blockliste.",
+      "Der Rest darf bleiben. <b>Line Following Settings Speed</b> in <kbd>beim Start</kbd> könnt ihr löschen oder stehen lassen: Knopf A stellt das Tempo sowieso neu ein.",
+      "<kbd>wenn Knopf B geklickt</kbd> mit <b>Line patrolling OFF</b> bleibt euer Not-Aus."
+    ],
+    zeig:{ "Warum löschen?":[
+      "Er würde später eure Startampel überschreiben und den Laser bremsen."
+    ]},
+    chips:[ "Wie lösche ich einen Block?", "Welcher dauerhaft-Block ist gemeint?", "Dürfen wir Speed stehen lassen?" ],
+    fertig:"Aufgeräumt ✓" },
 
   { id:"kreuzungen",
     nachrichten:[
@@ -3226,9 +3304,11 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Setzt alle vier Regeln, auch die, die auf der Strecke nicht vorkommen. Die Blöcke liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
       "An Kreuzung <span class=\"gpnum\">1</span> stellt ihr um. Die grauen Blöcke liegen in der Kategorie <b>Grand Prix</b>: <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> läuft einmal, sobald der Roboter dort ankommt.",
       {karte:"k6-kreuzungen"},
-      "Die <b>???</b> findet ihr mit der Skizze heraus.",
-      "Einen Abzweig nach links gibt es auf der Strecke nicht. Der Block steht trotzdem da: Falls der Roboter sich einmal vermisst, fährt er geradeaus weiter."
+      "Die <b>???</b> findet ihr mit der Skizze heraus."
     ],
+    zeig:{ "Warum auch links?":[
+      "Einen Abzweig nach links gibt es auf der Strecke nicht. Der Block steht trotzdem da: Falls der Roboter sich einmal vermisst, fährt er geradeaus weiter."
+    ]},
     chips:[ "Wo ist die Kategorie Grand Prix?", "Wo ist die Gruppe V3?", "Was gehört bei Kreuzung 1 hin?", "Wo kommen die Blöcke hin?" ],
     fertig:"Regeln stehen ✓" },
 
@@ -3237,7 +3317,8 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Fehlt noch die <b>Siegesmelodie am Ziel</b>. Den Block <kbd>spiele Melodie</kbd> findet ihr bei <b>Musik</b>.",
       {karte:"k6-melodie"},
       "Welche Nummer hat das Ziel? Schaut auf die Skizze.",
-      "Testen: Erster Lauf! Herunterladen, USB-Kabel ab, Roboter auf den Start, Knopf A. Kommt er ins Ziel und spielt seine Melodie?"
+      "Testen: Erster Lauf! Herunterladen, USB-Kabel ab, Roboter auf den Start, Knopf A.",
+      "Kommt er ins Ziel und spielt seine Melodie?"
     ],
     zeig:{ "Es klappt nicht":[ {karte:"k6-klemmt"} ] },
     chips:[ "Wo ist die Kategorie Musik?", "Er biegt falsch ab", "Die Melodie kommt nicht", "Welche Nummer hat das Ziel?" ],
@@ -3276,10 +3357,11 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Jetzt das Rennen. Gestartet wird immer mit <b>Knopf A</b>.",
       "Fangt mit <b>Speed 1 oder 2</b> an. Schneller erst, wenn ein Lauf sauber geklappt hat.",
       "Erreicht der Roboter eine <b>Kiste</b>, ist der Lauf vorbei. Tragt ihn zurück an den Start und versucht es noch einmal.",
-      "In der Tempo-Zone muss auf dem Display eine <b>1</b> stehen. Keine 1? Dann seid ihr <b>geblitzt</b>: plus 3 Sekunden.",
-      "Die Zeit wird gestoppt, damit ihr vergleichen könnt. Gummibärchen bekommen <b>alle</b>."
+      "In der Tempo-Zone muss auf dem Display eine <b>1</b> stehen. Sonst seid ihr <b>geblitzt</b>: plus 3 Sekunden."
     ],
-    zeig:{ "Es klappt nicht":[ {karte:"k6-klemmt"} ] },
+    zeig:{ "Es klappt nicht":[ {karte:"k6-klemmt"} ], "Wer gewinnt?":[
+      "Die Zeit wird gestoppt, damit ihr vergleichen könnt. Gummibärchen bekommen <b>alle</b>."
+    ]},
     chips:[ "Er verlässt die Linie in Kurven", "Er fährt in die Kiste", "Wir sind geblitzt worden", "Dürfen wir schneller fahren?" ],
     fertig:"Wir sind durch!" },
 
@@ -3288,10 +3370,12 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
       "Für Profis: Hinter dem Ziel liegt noch ein zweites Ziel. Dazwischen ist eine Lücke ohne Linie.",
       "So ist der Plan:",
       {karte:"k6-plan"},
-      "Der Block hat drei Felder: die Richtung, die Strecke in cm und ob man ihn unterbrechen darf.",
-      "<b>Blinker:</b> Lasst vor dem Abbiegen das Licht auf der richtigen Seite leuchten, wie beim Auto."
+      "Der Block hat drei Felder: die Richtung, die Strecke in cm und ob man ihn unterbrechen darf."
     ],
     zeig:{
+      "Noch Zeit?":[
+        "<b>Blinker:</b> Lasst vor dem Abbiegen das Licht auf der richtigen Seite leuchten, wie beim Auto."
+      ],
       "Er macht nach dem Sprung, was er will?":[
         "Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?"
       ],
@@ -3306,13 +3390,19 @@ DREHBUCH[6] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
   { id:"abschluss",
     nachrichten:[
       "Ihr seid im Ziel! Holt euch eure Gummibärchen, die gibt es für alle.",
-      "Die Zeit war nur zum Vergleichen. Hier gewinnt jedes Team, das ins Ziel kommt.",
+      "Die Zeit war nur zum Vergleichen. Hier gewinnt jedes Team, das ins Ziel kommt."
+    ],
+    chips:[ "Wo gibt es die Gummibärchen?", "Wie schnell waren die anderen?", "Dürfen wir noch einmal fahren?" ],
+    fertig:"Gummibärchen geholt ✓" },
+
+  { id:"alltag",
+    nachrichten:[
       "Wo das, was ihr heute gebaut habt, wirklich fährt: Der Linienfolger ist die Technik hinter <b>Lagerrobotern</b> bei großen Versandhändlern.",
       "Der Bremsassistent steckt so ähnlich in fast jedem Neuwagen.",
       "Und der Regelkreis „wahrnehmen – entscheiden – handeln“ ist derselbe, egal ob im Staubsauger oder im Marsrover.",
       {karte:"k6-final"}
     ],
-    chips:[ "Was ist ein Lagerroboter?", "Wo gibt es die Gummibärchen?", "Was ist ein Regelkreis nochmal?" ],
+    chips:[ "Was ist ein Lagerroboter?", "Was ist ein Bremsassistent?", "Was ist ein Regelkreis nochmal?" ],
     fertig:"Geschafft ✓" }
 ]};
 /* Maskottchen: Figur, Gespräch, Frage-Feld und LLM-Anbindung. */
@@ -3327,6 +3417,11 @@ var figur = (function(){
   var jubelTimer = null;
   var MAX = 3.2;                    // größter Blickausschlag in SVG-Einheiten
   if(nameEl) nameEl.textContent = MASKOTTCHEN_NAME;
+  var svgEl = el ? el.querySelector("svg") : null;
+  if(svgEl) svgEl.setAttribute("aria-label", MASKOTTCHEN_NAME + ", das FRANCOR-Maskottchen");
+  // Handbuch: Stellen, die den Namen nennen
+  var refs = document.querySelectorAll(".figurname-ref");
+  for(var r = 0; r < refs.length; r++) refs[r].textContent = MASKOTTCHEN_NAME;
 
   function zustand(name){
     if(!el) return;
@@ -3377,6 +3472,7 @@ var figur = (function(){
      S.chat[st]     Verlauf: {r:"bot", h:html} · {r:"me", h:text} · {r:"karte", k:id}
                     („me“ kann ja:"id" tragen: Bonus-Schritt id ist angenommen)
      S.skip["st:id"] = 1   Bonus übersprungen; bleibt als „Extra: …“ erreichbar
+     S.fragen       Fragen dieses Teams an „Geht nicht“; ab LLM_FRAGEN_MAX kein LLM mehr
    Die Figur spricht von selbst nur beim Schrittwechsel, danach nur auf Klick.
    Einzige Ausnahme ist der Stups nach STUPS_MS ohne Klick, einmal je Schritt. */
 var TIPP_MS = 700;               // Abstand zwischen zwei Blasen (Tipp-Effekt)
@@ -3659,6 +3755,7 @@ function zeigMir(st, key){
    Schritts. Nur beim allerersten Besuch spricht die Figur Schritt 0. */
 function gesprZeige(st){
   stopSpiel();
+  vorlesenStopp();
   clearTimeout(stupsTimer); stupsFuer = null;
   if(umweg && umweg.st !== st) umweg = null;
   gesprStation = st;
@@ -3692,7 +3789,7 @@ function gesprSicherheitZu(){
 
 /* „Neues Team“: alles Flüchtige vergessen (S selbst setzt app.js zurück) */
 function gesprZuruecksetzen(){
-  stopSpiel(); clearTimeout(stupsTimer);
+  stopSpiel(); clearTimeout(stupsTimer); vorlesenStopp();
   stupsGemacht = {}; stupsFuer = null; umweg = null; wartetAufSicherheit = null;
 }
 
@@ -3738,6 +3835,8 @@ antEl.addEventListener("click", function(e){
 
 /* ---------- Frage-Feld ---------- */
 var RUECKFALL_TEXT = "Hm, da komm ich gerade nicht ran. Schaut mal hier rein, und wenn das nichts bringt: Wink den Betreuer her.";
+var KONTINGENT_TEXT = "Mein Frage-Kontingent für dieses Team ist aufgebraucht — ab jetzt hilft der Betreuer.";
+var LLM_FRAGEN_MAX = 30;         // Fragen je Team; danach nur noch Checkliste und Betreuer (bremst einen geleakten Schlüssel)
 
 /* „Geht nicht“: Eingabefeld mit Vorschlagsfragen (Chips) des aktuellen Schritts */
 function frageOeffnen(st){
@@ -3745,6 +3844,7 @@ function frageOeffnen(st){
   if(!d || i >= d.schritte.length) return;
   var chips = d.schritte[i].chips || [];
   clearTimeout(stupsTimer); stupsFuer = null;
+  figur.zustand("sorge");
   antEl.innerHTML = "";
   var f = document.createElement("form");
   f.className = "frage"; f.id = "frage";
@@ -3762,7 +3862,7 @@ function frageOeffnen(st){
     var b = e.target.closest ? e.target.closest("button") : null;
     if(!b) return;
     if(b.classList.contains("chip")) fragen(st, b.textContent);
-    else if(b.hasAttribute("data-zurueck")) antworten(st, aktSchritt(st));
+    else if(b.hasAttribute("data-zurueck")){ figur.zustand("leerlauf"); antworten(st, aktSchritt(st)); }
   });
   f.addEventListener("submit", function(e){
     e.preventDefault();
@@ -3776,6 +3876,12 @@ function frageOeffnen(st){
 function fragen(st, text){
   text = String(text || "").replace(/^\s+|\s+$/g, "");
   if(!text) return;
+  if((+S.fragen || 0) >= LLM_FRAGEN_MAX){
+    sage(st, text);
+    rueckfall(st, KONTINGENT_TEXT);
+    return;
+  }
+  S.fragen = (+S.fragen || 0) + 1;   // gespeichert mit sage()
   var p = llmAntwort(st, text);
   sage(st, text);
   antEl.innerHTML = "";
@@ -3810,16 +3916,17 @@ function llmFertig(st, text){
   sichtbar(blase(st, h, false, true));
   nachFrage(st);
 }
-/* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung: Checkliste der Station */
-function rueckfall(st){
-  logPush(st, {r:"bot", h:RUECKFALL_TEXT});
+/* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung, Kontingent aufgebraucht: Checkliste der Station */
+function rueckfall(st, text){
+  text = text || RUECKFALL_TEXT;
+  logPush(st, {r:"bot", h:text});
   // dieselbe Karte nicht noch einmal ins Log, wenn sie die letzte Karte im Verlauf ist (Fragen dazwischen zählen nicht)
   var log = S.chat[st] || [], j = log.length - 1, id = "k" + st + "-klemmt";
-  while(j >= 0 && (log[j].r === "me" || (log[j].r === "bot" && log[j].h === RUECKFALL_TEXT))) j--;
+  while(j >= 0 && (log[j].r === "me" || (log[j].r === "bot" && (log[j].h === RUECKFALL_TEXT || log[j].h === KONTINGENT_TEXT)))) j--;
   var neu = !(j >= 0 && log[j].r === "karte" && log[j].k === id);
   if(neu) logPush(st, {r:"karte", k:id});
   if(gesprStation !== st) return;
-  blase(st, RUECKFALL_TEXT);
+  blase(st, text);
   if(neu) sichtbar(karte(st, id));
   nachFrage(st);
 }
@@ -3831,7 +3938,7 @@ var LLM_MAX_TOKENS = 200;
 var LLM_TIMEOUT_MS = 15000;
 var LLM_CENT_PRO_MTOKEN = {ein: 100, aus: 500};   // Schätzung, nur für die Anzeige
 var LLM_KONTEXT_ZEICHEN = 6000;                   // ≈ 2000 Token bei etwa 3 Zeichen je Token (Deutsch)
-var LLM_VERLAUF = 4;                              // so viele Verlaufseinträge gehen mit
+var LLM_VERLAUF = 4;                              // so viele Verlaufseinträge gehen mit (als Mitschrift in der Frage)
 
 function ohneHtml(h){
   return String(h).replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s+/g, " ").replace(/^ | $/g, "");
@@ -3844,7 +3951,7 @@ function schrittText(s){
 }
 
 /* System-Prompt: feste Regeln, Drehbuch der Station in Kurzform, aktueller Schritt.
-   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 2000 Zeichen bleiben für Verlauf (4 × 400) und Frage (400) frei. */
+   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 2000 Zeichen bleiben für die Mitschrift (4 × 400 plus Namen) und die Frage (400) frei. */
 function systemPrompt(st){
   var d = DREHBUCH[st], i = aktSchritt(st);
   var p = "Du bist " + MASKOTTCHEN_NAME + ", das Maskottchen des Robotik-Workshops von FRANCOR e. V. " +
@@ -3865,15 +3972,22 @@ function systemPrompt(st){
   return p + "\n\nDrehbuch der Station " + st + " (" + d.name + "):\n" + kurz + ende;
 }
 
-/* letzte Textbeiträge des Verlaufs als Chat-Nachrichten (Karten übersprungen, HTML entfernt) */
+/* letzte Textbeiträge des Verlaufs als kurze Mitschrift „Franco: … / Team: …“ (Karten übersprungen).
+   Sie steht in der einen user-Nachricht: Die Anfrage ist immer [system, user], so verlangen es
+   Anthropic-Modelle (erste Nachricht nach system ist user, Rollen wechseln sich ab).
+   Bot-Blasen sind HTML und werden entschärft, eigene Antworten („me“) sind schon Text. */
 function llmVerlauf(st){
   var log = S.chat[st] || [], aus = [];
   for(var k = log.length - 1; k >= 0 && aus.length < LLM_VERLAUF; k--){
     var e = log[k];
     if(e.r !== "bot" && e.r !== "me") continue;
-    aus.unshift({role: e.r === "me" ? "user" : "assistant", content: kuerze(ohneHtml(e.h), 400)});
+    aus.unshift((e.r === "me" ? "Team: " : MASKOTTCHEN_NAME + ": ") + kuerze(e.r === "me" ? String(e.h) : ohneHtml(e.h), 400));
   }
   return aus;
+}
+function llmFrage(st, text){
+  var v = llmVerlauf(st), f = kuerze(text, 400);
+  return v.length ? "Bisher im Gespräch:\n" + v.join("\n") + "\n\nFrage des Teams: " + f : f;
 }
 
 /* Promise<{text, usage}>. Jeder Fehler (kein Schlüssel, kein Netz, Status, Zeit, kaputtes JSON) wird zur Ablehnung. */
@@ -3884,7 +3998,7 @@ function llmAntwort(st, text){
     if(!key){ nein(new Error("kein Schlüssel")); return; }
     var ctl = typeof AbortController === "function" ? new AbortController() : null;
     var uhr = setTimeout(function(){ if(ctl) ctl.abort(); nein(new Error("Zeit")); }, LLM_TIMEOUT_MS);
-    var msgs = [{role:"system", content: systemPrompt(st)}].concat(llmVerlauf(st), [{role:"user", content: kuerze(text, 400)}]);
+    var msgs = [{role:"system", content: systemPrompt(st)}, {role:"user", content: llmFrage(st, text)}];
     fetch(LLM_URL, {
       method: "POST",
       headers: {"Content-Type":"application/json", "Authorization":"Bearer " + key},

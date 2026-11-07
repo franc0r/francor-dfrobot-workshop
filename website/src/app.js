@@ -13,7 +13,7 @@ var STATIONS = [
   {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
 var DREHBUCH = [];
-var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
+var S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
 
 function load(){
   try{
@@ -197,7 +197,7 @@ safety.addEventListener("keydown", function(e){
 });
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}};
+  S = {done:[], quiz:{}, levels:{}, mb:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
   save();
   document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){

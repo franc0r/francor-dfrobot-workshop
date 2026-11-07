@@ -10,6 +10,11 @@ var figur = (function(){
   var jubelTimer = null;
   var MAX = 3.2;                    // größter Blickausschlag in SVG-Einheiten
   if(nameEl) nameEl.textContent = MASKOTTCHEN_NAME;
+  var svgEl = el ? el.querySelector("svg") : null;
+  if(svgEl) svgEl.setAttribute("aria-label", MASKOTTCHEN_NAME + ", das FRANCOR-Maskottchen");
+  // Handbuch: Stellen, die den Namen nennen
+  var refs = document.querySelectorAll(".figurname-ref");
+  for(var r = 0; r < refs.length; r++) refs[r].textContent = MASKOTTCHEN_NAME;
 
   function zustand(name){
     if(!el) return;
@@ -60,6 +65,7 @@ var figur = (function(){
      S.chat[st]     Verlauf: {r:"bot", h:html} · {r:"me", h:text} · {r:"karte", k:id}
                     („me“ kann ja:"id" tragen: Bonus-Schritt id ist angenommen)
      S.skip["st:id"] = 1   Bonus übersprungen; bleibt als „Extra: …“ erreichbar
+     S.fragen       Fragen dieses Teams an „Geht nicht“; ab LLM_FRAGEN_MAX kein LLM mehr
    Die Figur spricht von selbst nur beim Schrittwechsel, danach nur auf Klick.
    Einzige Ausnahme ist der Stups nach STUPS_MS ohne Klick, einmal je Schritt. */
 var TIPP_MS = 700;               // Abstand zwischen zwei Blasen (Tipp-Effekt)
@@ -342,6 +348,7 @@ function zeigMir(st, key){
    Schritts. Nur beim allerersten Besuch spricht die Figur Schritt 0. */
 function gesprZeige(st){
   stopSpiel();
+  vorlesenStopp();
   clearTimeout(stupsTimer); stupsFuer = null;
   if(umweg && umweg.st !== st) umweg = null;
   gesprStation = st;
@@ -375,7 +382,7 @@ function gesprSicherheitZu(){
 
 /* „Neues Team“: alles Flüchtige vergessen (S selbst setzt app.js zurück) */
 function gesprZuruecksetzen(){
-  stopSpiel(); clearTimeout(stupsTimer);
+  stopSpiel(); clearTimeout(stupsTimer); vorlesenStopp();
   stupsGemacht = {}; stupsFuer = null; umweg = null; wartetAufSicherheit = null;
 }
 
@@ -421,6 +428,8 @@ antEl.addEventListener("click", function(e){
 
 /* ---------- Frage-Feld ---------- */
 var RUECKFALL_TEXT = "Hm, da komm ich gerade nicht ran. Schaut mal hier rein, und wenn das nichts bringt: Wink den Betreuer her.";
+var KONTINGENT_TEXT = "Mein Frage-Kontingent für dieses Team ist aufgebraucht — ab jetzt hilft der Betreuer.";
+var LLM_FRAGEN_MAX = 30;         // Fragen je Team; danach nur noch Checkliste und Betreuer (bremst einen geleakten Schlüssel)
 
 /* „Geht nicht“: Eingabefeld mit Vorschlagsfragen (Chips) des aktuellen Schritts */
 function frageOeffnen(st){
@@ -428,6 +437,7 @@ function frageOeffnen(st){
   if(!d || i >= d.schritte.length) return;
   var chips = d.schritte[i].chips || [];
   clearTimeout(stupsTimer); stupsFuer = null;
+  figur.zustand("sorge");
   antEl.innerHTML = "";
   var f = document.createElement("form");
   f.className = "frage"; f.id = "frage";
@@ -445,7 +455,7 @@ function frageOeffnen(st){
     var b = e.target.closest ? e.target.closest("button") : null;
     if(!b) return;
     if(b.classList.contains("chip")) fragen(st, b.textContent);
-    else if(b.hasAttribute("data-zurueck")) antworten(st, aktSchritt(st));
+    else if(b.hasAttribute("data-zurueck")){ figur.zustand("leerlauf"); antworten(st, aktSchritt(st)); }
   });
   f.addEventListener("submit", function(e){
     e.preventDefault();
@@ -459,6 +469,12 @@ function frageOeffnen(st){
 function fragen(st, text){
   text = String(text || "").replace(/^\s+|\s+$/g, "");
   if(!text) return;
+  if((+S.fragen || 0) >= LLM_FRAGEN_MAX){
+    sage(st, text);
+    rueckfall(st, KONTINGENT_TEXT);
+    return;
+  }
+  S.fragen = (+S.fragen || 0) + 1;   // gespeichert mit sage()
   var p = llmAntwort(st, text);
   sage(st, text);
   antEl.innerHTML = "";
@@ -493,16 +509,17 @@ function llmFertig(st, text){
   sichtbar(blase(st, h, false, true));
   nachFrage(st);
 }
-/* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung: Checkliste der Station */
-function rueckfall(st){
-  logPush(st, {r:"bot", h:RUECKFALL_TEXT});
+/* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung, Kontingent aufgebraucht: Checkliste der Station */
+function rueckfall(st, text){
+  text = text || RUECKFALL_TEXT;
+  logPush(st, {r:"bot", h:text});
   // dieselbe Karte nicht noch einmal ins Log, wenn sie die letzte Karte im Verlauf ist (Fragen dazwischen zählen nicht)
   var log = S.chat[st] || [], j = log.length - 1, id = "k" + st + "-klemmt";
-  while(j >= 0 && (log[j].r === "me" || (log[j].r === "bot" && log[j].h === RUECKFALL_TEXT))) j--;
+  while(j >= 0 && (log[j].r === "me" || (log[j].r === "bot" && (log[j].h === RUECKFALL_TEXT || log[j].h === KONTINGENT_TEXT)))) j--;
   var neu = !(j >= 0 && log[j].r === "karte" && log[j].k === id);
   if(neu) logPush(st, {r:"karte", k:id});
   if(gesprStation !== st) return;
-  blase(st, RUECKFALL_TEXT);
+  blase(st, text);
   if(neu) sichtbar(karte(st, id));
   nachFrage(st);
 }
@@ -514,7 +531,7 @@ var LLM_MAX_TOKENS = 200;
 var LLM_TIMEOUT_MS = 15000;
 var LLM_CENT_PRO_MTOKEN = {ein: 100, aus: 500};   // Schätzung, nur für die Anzeige
 var LLM_KONTEXT_ZEICHEN = 6000;                   // ≈ 2000 Token bei etwa 3 Zeichen je Token (Deutsch)
-var LLM_VERLAUF = 4;                              // so viele Verlaufseinträge gehen mit
+var LLM_VERLAUF = 4;                              // so viele Verlaufseinträge gehen mit (als Mitschrift in der Frage)
 
 function ohneHtml(h){
   return String(h).replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s+/g, " ").replace(/^ | $/g, "");
@@ -527,7 +544,7 @@ function schrittText(s){
 }
 
 /* System-Prompt: feste Regeln, Drehbuch der Station in Kurzform, aktueller Schritt.
-   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 2000 Zeichen bleiben für Verlauf (4 × 400) und Frage (400) frei. */
+   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 2000 Zeichen bleiben für die Mitschrift (4 × 400 plus Namen) und die Frage (400) frei. */
 function systemPrompt(st){
   var d = DREHBUCH[st], i = aktSchritt(st);
   var p = "Du bist " + MASKOTTCHEN_NAME + ", das Maskottchen des Robotik-Workshops von FRANCOR e. V. " +
@@ -548,15 +565,22 @@ function systemPrompt(st){
   return p + "\n\nDrehbuch der Station " + st + " (" + d.name + "):\n" + kurz + ende;
 }
 
-/* letzte Textbeiträge des Verlaufs als Chat-Nachrichten (Karten übersprungen, HTML entfernt) */
+/* letzte Textbeiträge des Verlaufs als kurze Mitschrift „Franco: … / Team: …“ (Karten übersprungen).
+   Sie steht in der einen user-Nachricht: Die Anfrage ist immer [system, user], so verlangen es
+   Anthropic-Modelle (erste Nachricht nach system ist user, Rollen wechseln sich ab).
+   Bot-Blasen sind HTML und werden entschärft, eigene Antworten („me“) sind schon Text. */
 function llmVerlauf(st){
   var log = S.chat[st] || [], aus = [];
   for(var k = log.length - 1; k >= 0 && aus.length < LLM_VERLAUF; k--){
     var e = log[k];
     if(e.r !== "bot" && e.r !== "me") continue;
-    aus.unshift({role: e.r === "me" ? "user" : "assistant", content: kuerze(ohneHtml(e.h), 400)});
+    aus.unshift((e.r === "me" ? "Team: " : MASKOTTCHEN_NAME + ": ") + kuerze(e.r === "me" ? String(e.h) : ohneHtml(e.h), 400));
   }
   return aus;
+}
+function llmFrage(st, text){
+  var v = llmVerlauf(st), f = kuerze(text, 400);
+  return v.length ? "Bisher im Gespräch:\n" + v.join("\n") + "\n\nFrage des Teams: " + f : f;
 }
 
 /* Promise<{text, usage}>. Jeder Fehler (kein Schlüssel, kein Netz, Status, Zeit, kaputtes JSON) wird zur Ablehnung. */
@@ -567,7 +591,7 @@ function llmAntwort(st, text){
     if(!key){ nein(new Error("kein Schlüssel")); return; }
     var ctl = typeof AbortController === "function" ? new AbortController() : null;
     var uhr = setTimeout(function(){ if(ctl) ctl.abort(); nein(new Error("Zeit")); }, LLM_TIMEOUT_MS);
-    var msgs = [{role:"system", content: systemPrompt(st)}].concat(llmVerlauf(st), [{role:"user", content: kuerze(text, 400)}]);
+    var msgs = [{role:"system", content: systemPrompt(st)}, {role:"user", content: llmFrage(st, text)}];
     fetch(LLM_URL, {
       method: "POST",
       headers: {"Content-Type":"application/json", "Authorization":"Bearer " + key},

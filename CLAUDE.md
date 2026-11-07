@@ -29,6 +29,9 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    Die Station muss auch ohne das Tutorial gehen: Die Anleitung bleibt auf der Seite.
    `#pub:`-Teilen-Links nicht verwenden. Eingebettetes MakeCode (iframe) bleibt verboten,
    es startet offline nicht (getestet 29.10.2026).
+   Auf dem Zweig `worktree-maskottchen` ist der `fetch` an OpenRouter (`LLM_URL` in
+   `maskottchen.js`) die eine erlaubte Anfrage nach außen, siehe „Maskottchen-Zweig“ —
+   nicht „wegreparieren“.
 2. **Eine Datei.** Die Offline-Ausgabe ist eine einzelne HTML-Datei, die per Doppelklick
    aus dem Dateisystem läuft (`file://`). Keine Build-Abhängigkeit zur Laufzeit.
    Bilder gehören deshalb nach `website/src/assets/` und werden im Quelltext als
@@ -91,6 +94,14 @@ bleibt unberührt; ob der Zweig gemergt wird, entscheidet Martin nach dem Trocke
 - **Zähler**: Jede erfolgreiche Anfrage zählt Anfragen und Token in `mgp-llm`; das Handbuch
   zeigt sie in `#llmzaehler` grob als Cent (Schätzung über `LLM_CENT_PRO_MTOKEN`), mit
   Knopf „Zähler nullen“. Fehler zählen nicht. Die echten Kosten stehen bei OpenRouter.
+- **Kontingent**: `S.fragen` zählt die Fragen je Team; ab `LLM_FRAGEN_MAX` (30) fragt „Geht
+  nicht“ das LLM nicht mehr, sondern zeigt „Mein Frage-Kontingent … ab jetzt hilft der
+  Betreuer.“ und die Checkliste. „Neues Team“ setzt es mit `S` zurück. Das Handbuch rät zu
+  einem eigenen Schlüssel mit kleinem Guthaben-Limit, nur in der Offline-Datei, nach der
+  Messe löschen.
+- **Anfrage**: immer `[system, user]`; die letzten vier Blasen gehen als Mitschrift
+  („Franco: … / Team: …“) in die user-Nachricht. Anthropic-Modelle verlangen, dass nach
+  `system` zuerst `user` kommt und die Rollen wechseln.
 - **Betreuer**: Schlüssel trägt man im Handbuch, Abschnitt „Maskottchen“, einmal pro
   Arbeitsplatz ein; er liegt nur im Browser, nie in der Datei. „Neues Team“ löscht nur
   `mgp-v1` und lässt Schlüssel, Zähler und Vorlese-Schalter stehen.
@@ -305,7 +316,10 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 - Danach: Parcours-Bauplan mit dem gemessenen Radius gegenprüfen (Klebeplan steht in
   `tools/grand-prix-druck.html`, Seite 2), Stand-Paket zum Drucken
   (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
-- Maskottchen-Zweig: Name der Figur (Platzhalter „Franco“, `MASKOTTCHEN_NAME`) und die
+- Maskottchen-Zweig: Name der Figur (Platzhalter „Franco“, `MASKOTTCHEN_NAME`; setzt beim
+  Start Namensschild, `aria-label` der Figur, die `.figurname-ref` im Handbuch und den
+  System-Prompt. Fest geschrieben steht der Name nur noch in CLAUDE.md, der Spec und den
+  Testerwartungen in `smoke.cjs`) und die
   Entscheidung, ob der Zweig nach dem Trockenlauf gemergt wird. Was dabei zu prüfen ist,
   steht in `docs/02-offline-und-trockenlauf.md`, Abschnitt „Maskottchen“.
 - Fotos vom echten Gerät neben die beiden SVG-Figuren, falls die Zeichnung am Tisch nicht
