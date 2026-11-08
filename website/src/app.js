@@ -52,7 +52,15 @@ function paintBadges(){
     badgesEl.appendChild(b);
   });
 }
+/* Die Stückliste ist keine Station: kein Zähler, keine Minuten, kein Abzeichen.
+   Sie hängt als Seite „teile“ oben in der Leiste und ist für die, die nach dem
+   Workshop fragen, wo es den Roboter gibt. */
 function buildRail(){
+  var pg = document.createElement("button");
+  pg.type = "button"; pg.className = "stepbtn page"; pg.dataset.go = "teile";
+  pg.innerHTML = '<span class="num">i</span><span class="lbl">Stückliste<span class="min">für zu Hause</span></span>';
+  pg.addEventListener("click", function(){ go("teile"); });
+  rail.insertBefore(pg, rail.firstElementChild);
   STATIONS.forEach(function(st,i){
     var b = document.createElement("button");
     b.type = "button"; b.className = "stepbtn"; b.dataset.go = i;
@@ -64,8 +72,10 @@ function buildRail(){
 function paintRail(){
   var btns = rail.querySelectorAll(".stepbtn");
   for(var i=0;i<btns.length;i++){
-    var idx = Number(btns[i].dataset.go);
-    btns[i].setAttribute("aria-current", idx === S.cur ? "true" : "false");
+    var idx = btns[i].dataset.go;
+    btns[i].setAttribute("aria-current", idx === String(S.cur) ? "true" : "false");
+    if(btns[i].classList.contains("page")) continue;
+    idx = Number(idx);
     btns[i].classList.toggle("done", S.done.indexOf(idx) > -1);
     if(S.done.indexOf(idx) > -1) btns[i].querySelector(".num").textContent = "✓";
     else btns[i].querySelector(".num").textContent = idx;
@@ -74,7 +84,7 @@ function paintRail(){
 function go(i){
   S.cur = i; save();
   var secs = document.querySelectorAll(".station");
-  for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
+  for(var k=0;k<secs.length;k++){ secs[k].hidden = secs[k].dataset.st !== String(i); }
   paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
 }
@@ -86,6 +96,8 @@ function complete(i){
 }
 
 document.addEventListener("click", function(e){
+  var g = e.target.closest ? e.target.closest("main [data-go]") : null;
+  if(g){ go(g.dataset.go === "teile" ? "teile" : Number(g.dataset.go)); return; }
   var b = e.target.closest ? e.target.closest("[data-next]") : null;
   if(!b) return;
   var v = b.dataset.next;
@@ -926,7 +938,7 @@ document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
 paintBadges(); paintProgress(); paintRail();
 setLevel(0);
-go(S.cur || 0);
+go(S.cur === "teile" ? "teile" : (Number(S.cur) || 0));
 if(!S.safe) openSafety(true);
 
 var rt;

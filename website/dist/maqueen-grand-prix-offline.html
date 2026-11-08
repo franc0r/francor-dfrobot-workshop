@@ -168,6 +168,10 @@ input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius
 .stepbtn .lbl{font-size:14px; font-weight:600; line-height:1.25}
 .stepbtn .min{display:block; font-family:var(--mono); font-size:10.5px; font-weight:400; color:var(--ink-3)}
 @media (max-width:900px){ .stepbtn .min{display:none} }
+/* Stückliste: Seite oben in der Leiste, aber keine Station – gestrichelter Kreis statt Nummer, Abstand zur Liste */
+.stepbtn.page{margin-bottom:10px}
+.stepbtn.page .num{border-style:dashed; font-style:italic; font-family:var(--display)}
+@media (max-width:900px){ .stepbtn.page{margin-bottom:0} }
 .railfoot{margin-top:14px; padding:12px 10px; border-top:1px solid var(--line-soft)}
 @media (max-width:900px){ .railfoot{display:none} }
 .badgegrid{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
@@ -197,6 +201,24 @@ input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius
 .st-body h3 .idx{font-family:var(--mono); font-size:12px; color:var(--accent); margin-right:8px; font-weight:600}
 .lead{max-width:66ch; color:var(--ink-2)}
 .block{display:flex; flex-direction:column; gap:10px}
+
+/* Stückliste: ein Kasten je Teil */
+.parts{display:flex; flex-direction:column; gap:12px; max-width:74ch}
+.part{border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; background:var(--surface-2); display:flex; flex-direction:column; gap:8px}
+.part p{font-size:.95rem; color:var(--ink-2)}
+.part p b{color:var(--ink)}
+.part p.small{font-size:.88rem; color:var(--ink-3)}
+.pt-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.pt-head h4{font-size:1.02rem; letter-spacing:-.01em}
+.pt-n{
+  flex:0 0 24px; height:24px; display:grid; place-items:center; border-radius:50%;
+  background:var(--accent); color:var(--accent-ink); font-family:var(--mono); font-size:12px; font-weight:600;
+}
+.pt-role{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.find{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.find .fl{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+ul.plain{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; max-width:74ch; color:var(--ink-2)}
+ul.plain .btn{margin-left:8px; padding:4px 10px; font-size:.85rem; vertical-align:middle}
 
 /* numbered steps */
 ol.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0}
@@ -735,6 +757,76 @@ body.safety-on{overflow:hidden}
 
   <main id="stage">
 
+  <!-- ============ STÜCKLISTE (keine Station, zum Mitnehmen) ============ -->
+  <section class="station page" data-st="teile" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Für zu Hause</span><span>Stückliste</span><span>keine Station</span></div>
+      <h2>So einen Roboter selbst haben</h2>
+      <p class="goal">Viele haben beim Workshop gefragt, wo es den Roboter gibt. Hier steht, was du brauchst und wie du es im Internet findest. Einen Shop nennen wir absichtlich nicht &ndash; es gibt viele, und Preise und Links veralten schnell.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Drei Dinge, dann fährt er</h3>
+        <p class="lead">Der Roboter aus dem Workshop besteht aus zwei Teilen, die man getrennt kauft, plus Batterien. Alles andere &ndash; das Programm, die Blöcke, diese Seite &ndash; ist kostenlos.</p>
+        <div class="parts">
+
+          <div class="part">
+            <div class="pt-head"><span class="pt-n">1</span><h4>BBC micro:bit V2</h4><span class="pt-role">das Gehirn</span></div>
+            <p>Der kleine Computer, der in den Schlitz des Roboters gesteckt wird. Auf ihm läuft dein Programm. Nimm die <b>Version&nbsp;2 (V2)</b>: Nur sie hat den Lautsprecher und das Mikrofon, die wir im Workshop benutzt haben. Die alte V1 wird kaum noch verkauft.</p>
+            <p>Es gibt ihn <b>einzeln</b> (nur die Platine) oder als <b>&bdquo;Go&ldquo;-Set</b> mit kurzem USB-Kabel, Batteriehalter und zwei AAA-Batterien. Den Batteriehalter brauchst du am Roboter nicht &ndash; dort versorgt der Roboter den micro:bit. Das Kabel brauchst du aber: Zum Übertragen des Programms muss es ein <b>Micro-USB-Datenkabel</b> sein. Reine Ladekabel sehen gleich aus und funktionieren nicht.</p>
+            <div class="find"><span class="fl">Suche nach</span><kbd>micro:bit V2</kbd><kbd>micro:bit V2 Go</kbd></div>
+            <p class="small">Die Herstellerseite der micro:bit-Stiftung (microbit.org) hat unter &bdquo;Kaufen&ldquo; eine Händlerliste nach Ländern. In Deutschland führen ihn Elektronik-Versender, Schulbedarf-Händler und die großen Marktplätze.</p>
+          </div>
+
+          <div class="part">
+            <div class="pt-head"><span class="pt-n">2</span><h4>Maqueen Plus V3</h4><span class="pt-role">das Fahrzeug</span></div>
+            <p>Der Roboter von <b>DFRobot</b>: Platine mit zwei Motoren und Rädern, fünf Liniensensoren unten, Lichtern, Summer, dem Akkubrett &ndash; und dem <b>Laserscanner</b> (Matrix-Laser) vorn, der liegt mit im Karton. Nicht dabei sind der micro:bit und die Batterien.</p>
+            <p>Es gibt zwei Ausführungen, die Technik ist dieselbe, nur die Stromversorgung unterscheidet sich: <b>&bdquo;18650&ldquo;</b> (ein Lithium-Akku, wird im Roboter per USB-C geladen) und <b>&bdquo;AA&ldquo;</b> (vier Mignon-Batterien, kein Laden im Roboter). Für zu Hause ist AA die einfachere Wahl: Batterien oder Akkus hat jeder, und es gibt nichts falsch zu kaufen.</p>
+            <div class="find"><span class="fl">Suche nach</span><kbd>Maqueen Plus V3</kbd><kbd>DFRobot MBT0050</kbd></div>
+            <p class="small">Vorsicht beim Suchen: &bdquo;Maqueen&ldquo; allein findet auch die kleineren Geschwister (Maqueen Lite) und den Vorgänger <b>Plus V2</b> ohne Laserscanner. Den V3 erkennst du am Laser-Würfel vorn und am &bdquo;V3&ldquo; im Namen. Die Herstellerseite (dfrobot.com) listet unter &bdquo;Distributors&ldquo; Händler in Europa.</p>
+          </div>
+
+          <div class="part">
+            <div class="pt-head"><span class="pt-n">3</span><h4>Batterien</h4><span class="pt-role">die Energie</span></div>
+            <p><b>Ausführung AA:</b> 4&nbsp;×&nbsp;AA (Mignon) &ndash; entweder normale 1,5-V-Batterien oder <b>NiMH-Akkus</b> (1,2&nbsp;V) mit eigenem Ladegerät. Keine AAA, die sind kleiner und passen nicht. Der Roboter lädt nichts selbst; normale Batterien nie in ein Ladegerät stecken. Wer oft fährt, ist mit Akkus günstiger dran.</p>
+            <p><b>Ausführung 18650:</b> 1&nbsp;×&nbsp;Lithium-Akku Größe 18650, 3,7&nbsp;V, laut Hersteller <b>mit Schutzschaltung</b> und mit erhöhtem Pluspol (&bdquo;Button Top&ldquo;, etwa 67&nbsp;mm lang) &ndash; flache Zellen (65&nbsp;mm) haben keinen Kontakt. Geladen wird im Roboter über USB-C mit einem gewöhnlichen 5-V-Netzteil, etwa vier Stunden. Keine anderen Akkutypen einsetzen. Eine 18650-Zelle ist so eine wie in Powerbanks: nicht kurzschließen, nicht in Kinderhände.</p>
+            <div class="find"><span class="fl">Suche nach</span><kbd>AA NiMH Akku Ladegerät Set</kbd><kbd>18650 Akku geschützt Button Top</kbd></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Was es ungefähr kostet</h3>
+        <p class="lead">Grober Richtwert, Stand Herbst 2026: der micro:bit um die 20 bis 30 Euro, der Roboter um die 90 bis 110 Euro, dazu Batterien. Alles zusammen also gut 120 Euro. Der Roboter ist der größte Posten &ndash; der micro:bit allein ist auch ohne Roboter ein tolles Spielzeug (Station&nbsp;1 und 2 gehen damit komplett).</p>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>So findest du es im Internet</h3>
+        <ol class="steps">
+          <li><span>Suchbegriffe genau so eintippen, wie sie oben in den Kästchen stehen. Dann landest du bei den richtigen Produkten und nicht bei den Geschwistern.</span></li>
+          <li><span>Die Herstellerseiten (microbit.org, dfrobot.com) verkaufen nicht selbst nach Deutschland, haben aber Händlerlisten. Von dort aus Preise vergleichen.</span></li>
+          <li><span>Auf das Land des Händlers achten. Bei Versand von außerhalb der EU kommen Zoll und Einfuhrsteuer dazu &ndash; das macht ein scheinbar günstiges Angebot teurer.</span></li>
+          <li><span>Gebraucht ist beim micro:bit kein Problem, er ist robust. Nur darauf achten, dass es eine <b>V2</b> ist (goldenes Logo oben, das man berühren kann).</span></li>
+        </ol>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">04</span>Was du sonst noch brauchst</h3>
+        <ul class="plain">
+
+          <li><span>Einen Computer mit <b>Chrome oder Edge</b>. Der Programm-Editor MakeCode läuft kostenlos im Browser, nichts installieren. <a class="btn sec" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">MakeCode öffnen</a></span></li>
+          <li><span>Für eine Strecke: <b>schwarzes Isolierband</b> (19&nbsp;mm) auf hellem Boden, weißem Karton oder einer Papierrolle. Kurven aus kurzen Stücken, keine spitzen Ecken.</span></li>
+          <li><span>Diese Seite. Alle sechs Stationen funktionieren zu Hause genauso &ndash; von Station&nbsp;1 bis zum Grand Prix.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="stfoot">
+      <span class="pts">Keine Station &ndash; zum Mitnehmen</span>
+      <span class="spacer"></span>
+      <button class="btn" data-go="0">Zum Workshop &rarr;</button>
+    </div>
+  </section>
   <!-- ============ STATION 0 ============ -->
   <section class="station" data-st="0">
     <div class="st-head">
@@ -1716,6 +1808,11 @@ body.safety-on{overflow:hidden}
         <p>Der Linienfolger ist die Technik hinter <b>Lagerrobotern</b> bei großen Versandhändlern. Der Bremsassistent steckt so ähnlich in fast jedem Neuwagen. Und der Regelkreis „wahrnehmen &ndash; entscheiden &ndash; handeln" ist derselbe, egal ob im Staubsauger oder im Marsrover.</p>
       </div>
 
+      <div class="note">
+        <span class="nt">Zu Hause weitermachen</span>
+        <p>Du willst so einen Roboter selbst haben? Was du brauchst und wie du es findest, steht in der <b>Stückliste</b> oben in der Leiste. <button class="btn sec" data-go="teile" style="margin-top:10px">Stückliste öffnen</button></p>
+      </div>
+
       <div class="trophy">
         <div class="big" id="finaltitle">Ziel erreicht</div>
         <div class="who" id="finalwho">0 von 7 Abzeichen</div>
@@ -1764,6 +1861,7 @@ body.safety-on{overflow:hidden}
         <li>Diese Seite in einem Tab, MakeCode im zweiten</li>
         <li><b>Etwas zum Aufbocken</b>, z.&nbsp;B. ein Holzklotz oder eine kleine Schachtel, auf der der Roboter steht und die Räder frei drehen – am Tisch fährt er nur so (Sicherheitsregel)</li>
       </ul>
+      <p style="margin-top:10px; font-size:.94rem; color:var(--ink-2)">Fragt jemand, <b>wo es den Roboter gibt</b>: auf die Seite <b>Stückliste</b> ganz oben in der Leiste verweisen. Sie nennt die drei Teile (micro:bit V2, Maqueen Plus V3 in der 18650- oder AA-Ausführung, Batterien), Suchbegriffe und die Händlerlisten der Hersteller – bewusst keinen Shop. Der Verein empfiehlt keinen Händler.</p>
       <h3 style="margin-top:16px">Für den Stand insgesamt</h3>
       <ul>
         <li>Grand-Prix-Strecke: weiße, matte Matte 100&nbsp;×&nbsp;200&nbsp;cm und eine Rolle schwarzes Isolierband, 19&nbsp;mm breit. Kurven aus kurzen schrägen Stücken kleben, keine spitzen Ecken – das fährt der Linienfolger sicher</li>
@@ -2050,7 +2148,15 @@ function paintBadges(){
     badgesEl.appendChild(b);
   });
 }
+/* Die Stückliste ist keine Station: kein Zähler, keine Minuten, kein Abzeichen.
+   Sie hängt als Seite „teile“ oben in der Leiste und ist für die, die nach dem
+   Workshop fragen, wo es den Roboter gibt. */
 function buildRail(){
+  var pg = document.createElement("button");
+  pg.type = "button"; pg.className = "stepbtn page"; pg.dataset.go = "teile";
+  pg.innerHTML = '<span class="num">i</span><span class="lbl">Stückliste<span class="min">für zu Hause</span></span>';
+  pg.addEventListener("click", function(){ go("teile"); });
+  rail.insertBefore(pg, rail.firstElementChild);
   STATIONS.forEach(function(st,i){
     var b = document.createElement("button");
     b.type = "button"; b.className = "stepbtn"; b.dataset.go = i;
@@ -2062,8 +2168,10 @@ function buildRail(){
 function paintRail(){
   var btns = rail.querySelectorAll(".stepbtn");
   for(var i=0;i<btns.length;i++){
-    var idx = Number(btns[i].dataset.go);
-    btns[i].setAttribute("aria-current", idx === S.cur ? "true" : "false");
+    var idx = btns[i].dataset.go;
+    btns[i].setAttribute("aria-current", idx === String(S.cur) ? "true" : "false");
+    if(btns[i].classList.contains("page")) continue;
+    idx = Number(idx);
     btns[i].classList.toggle("done", S.done.indexOf(idx) > -1);
     if(S.done.indexOf(idx) > -1) btns[i].querySelector(".num").textContent = "✓";
     else btns[i].querySelector(".num").textContent = idx;
@@ -2072,7 +2180,7 @@ function paintRail(){
 function go(i){
   S.cur = i; save();
   var secs = document.querySelectorAll(".station");
-  for(var k=0;k<secs.length;k++){ secs[k].hidden = Number(secs[k].dataset.st) !== i; }
+  for(var k=0;k<secs.length;k++){ secs[k].hidden = secs[k].dataset.st !== String(i); }
   paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
 }
@@ -2084,6 +2192,8 @@ function complete(i){
 }
 
 document.addEventListener("click", function(e){
+  var g = e.target.closest ? e.target.closest("main [data-go]") : null;
+  if(g){ go(g.dataset.go === "teile" ? "teile" : Number(g.dataset.go)); return; }
   var b = e.target.closest ? e.target.closest("[data-next]") : null;
   if(!b) return;
   var v = b.dataset.next;
@@ -2924,7 +3034,7 @@ document.querySelectorAll(".station .mcstack").forEach(nestStack);
 buildRail(); buildPalette(); buildLevSel(); mbInit();
 paintBadges(); paintProgress(); paintRail();
 setLevel(0);
-go(S.cur || 0);
+go(S.cur === "teile" ? "teile" : (Number(S.cur) || 0));
 if(!S.safe) openSafety(true);
 
 var rt;

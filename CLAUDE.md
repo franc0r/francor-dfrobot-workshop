@@ -71,6 +71,11 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     topbar.html       Kopfzeile: 120-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
+    stueckliste.html  Seite „Stückliste“ (data-st="teile"): oberster Knopf in der Leiste, keine
+                      Station – ohne Minuten, Timer, Abzeichen. Für alle, die fragen, wo es den
+                      Roboter gibt: micro:bit V2, Maqueen Plus V3 (18650 oder AA), Batterien,
+                      Suchbegriffe, Händlerlisten der Hersteller. Bewusst kein Shop-Link (Martin,
+                      08.11.2026); Regel 1 verbietet ihn ohnehin
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
     sicherheit.html   Sicherheitsfenster beim Teamstart (nach „Neues Team“, Knopf „Sicherheit“)

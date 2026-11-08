@@ -7,6 +7,7 @@
  *   1. Die Datei lädt mit komplett abgeschaltetem Netzwerk, ohne JS-Fehler.
  *   2. Es gibt keine externen Verweise (Schriften, Skripte, Bilder).
  *   3. Sieben Stationen, Minuten summieren auf 105 (+ 15 Puffer = 120), Rail und Eyebrows passen.
+ *      Dazu die Stückliste als Seite oben in der Leiste – ohne Minuten, Timer und Abzeichen.
  *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln laufen.
  *   5. Parcours-Simulator: Level 1 mit "fahre 5" → im Ziel.
  *   6. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
@@ -62,13 +63,30 @@ function check(cond, msg) {
   await page.click('#safetyok');
 
   // Struktur
-  const n = await page.$$eval('.station', s => s.length);
+  const n = await page.$$eval('.station:not(.page)', s => s.length);
   check(n === 7, 'sieben Stationen (gefunden: ' + n + ')');
-  const mins = await page.$$eval('.eyebrow span:nth-child(2)', s => s.map(x => parseInt(x.textContent, 10)));
+  const mins = await page.$$eval('.station:not(.page) .eyebrow span:nth-child(2)', s => s.map(x => parseInt(x.textContent, 10)));
   const sum = mins.reduce((a, b) => a + b, 0);
   check(sum === 105, 'Stationsminuten summieren auf 105 (' + mins.join('+') + ' = ' + sum + ')');
-  const railMins = await page.$$eval('.stepbtn .min', s => s.map(x => parseInt(x.textContent, 10)));
+  const railMins = await page.$$eval('.stepbtn:not(.page) .min', s => s.map(x => parseInt(x.textContent, 10)));
   check(JSON.stringify(railMins) === JSON.stringify(mins), 'Rail-Minuten = Eyebrow-Minuten');
+
+  // Stückliste: Seite oben in der Leiste, keine Station
+  check(await page.$eval('#rail .stepbtn:first-of-type', e => e.classList.contains('page') && e.textContent.includes('Stückliste')), 'Stückliste: erster Knopf in der Leiste');
+  check(await page.$$eval('.stepbtn .min', s => s.filter(x => /\d/.test(x.textContent)).length) === 7, 'Stückliste: zählt nicht zu den Stationsminuten');
+  await page.click('.stepbtn[data-go="teile"]');
+  check(await page.$eval('.page[data-st="teile"]', e => !e.hidden) && await page.$eval('.station[data-st="0"]', e => e.hidden), 'Stückliste: öffnet und blendet die Stationen aus');
+  check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Stückliste: startet den Timer nicht');
+  const teile = (await page.$eval('.page[data-st="teile"]', e => e.textContent)).replace(/\u00a0/g, ' ');
+  for (const w of ['micro:bit V2', 'Maqueen Plus V3', 'DFRobot', '18650', '4 × AA', 'Datenkabel', 'Button Top'])
+    check(teile.includes(w), 'Stückliste: nennt "' + w + '"');
+  check(await page.$$eval('.page[data-st="teile"] a[href]', l => l.every(a => a.getAttribute('href').startsWith('https://makecode.microbit.org/#'))), 'Stückliste: kein Shop-Link, nur MakeCode');
+  check(!/\p{Extended_Pictographic}/u.test(teile), 'Stückliste: kein Emoji');
+  await page.reload(); await page.waitForTimeout(300);
+  check(await page.$eval('.page[data-st="teile"]', e => !e.hidden), 'Stückliste: bleibt nach Neuladen offen');
+  await page.click('.page[data-st="teile"] [data-go="0"]');
+  check(await page.$eval('.station[data-st="0"]', e => !e.hidden), 'Stückliste: Knopf „Zum Workshop“ führt zu Station 0');
+  check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), 'Stückliste: vergibt kein Abzeichen');
 
   // Station 0: Maqueen-Übersicht statt Bauteil-Tabelle
   const mapH = await page.$eval('#mqmap svg', e => e.getBoundingClientRect().height).catch(() => 0);

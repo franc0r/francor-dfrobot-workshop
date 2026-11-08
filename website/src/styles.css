@@ -155,6 +155,10 @@ input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius
 .stepbtn .lbl{font-size:14px; font-weight:600; line-height:1.25}
 .stepbtn .min{display:block; font-family:var(--mono); font-size:10.5px; font-weight:400; color:var(--ink-3)}
 @media (max-width:900px){ .stepbtn .min{display:none} }
+/* Stückliste: Seite oben in der Leiste, aber keine Station – gestrichelter Kreis statt Nummer, Abstand zur Liste */
+.stepbtn.page{margin-bottom:10px}
+.stepbtn.page .num{border-style:dashed; font-style:italic; font-family:var(--display)}
+@media (max-width:900px){ .stepbtn.page{margin-bottom:0} }
 .railfoot{margin-top:14px; padding:12px 10px; border-top:1px solid var(--line-soft)}
 @media (max-width:900px){ .railfoot{display:none} }
 .badgegrid{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
@@ -184,6 +188,24 @@ input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius
 .st-body h3 .idx{font-family:var(--mono); font-size:12px; color:var(--accent); margin-right:8px; font-weight:600}
 .lead{max-width:66ch; color:var(--ink-2)}
 .block{display:flex; flex-direction:column; gap:10px}
+
+/* Stückliste: ein Kasten je Teil */
+.parts{display:flex; flex-direction:column; gap:12px; max-width:74ch}
+.part{border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; background:var(--surface-2); display:flex; flex-direction:column; gap:8px}
+.part p{font-size:.95rem; color:var(--ink-2)}
+.part p b{color:var(--ink)}
+.part p.small{font-size:.88rem; color:var(--ink-3)}
+.pt-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.pt-head h4{font-size:1.02rem; letter-spacing:-.01em}
+.pt-n{
+  flex:0 0 24px; height:24px; display:grid; place-items:center; border-radius:50%;
+  background:var(--accent); color:var(--accent-ink); font-family:var(--mono); font-size:12px; font-weight:600;
+}
+.pt-role{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.find{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.find .fl{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+ul.plain{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; max-width:74ch; color:var(--ink-2)}
+ul.plain .btn{margin-left:8px; padding:4px 10px; font-size:.85rem; vertical-align:middle}
 
 /* numbered steps */
 ol.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0}
