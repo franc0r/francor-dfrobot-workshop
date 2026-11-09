@@ -69,8 +69,7 @@ Alles unterhalb von `website/`:
 - Text einer Station: `src/stations/NN-*.html` bearbeiten, dann `python3 build.py && npm test`.
 - Minuten einer Station: an **drei** Stellen — Eyebrow in der Stationsdatei, `STATIONS`-Array
   in `src/app.js`, Zeitplan in `src/handbuch.html`. Der Build meckert, wenn die ersten beiden
-  auseinanderlaufen oder die Summe nicht 90 ist.
-- Simulator-Level: `LEVELS` in `src/app.js`.
+  auseinanderlaufen oder die Summe nicht 105 ist.
 - Bild einbauen: Datei nach `src/assets/`, im HTML `src="assets/datei.png"` schreiben.
   Der Build bettet sie ein – nie eine URL verwenden, sonst bricht der Offline-Build ab.
 

@@ -8,10 +8,9 @@
  *   2. Es gibt keine externen Verweise (Schriften, Skripte, Bilder).
  *   3. Sieben Stationen, Minuten summieren auf 105 (+ 15 Puffer = 120), Rail und Eyebrows passen.
  *      Dazu die Stückliste als Seite oben in der Leiste – ohne Minuten, Timer und Abzeichen.
- *   4. micro:bit-Simulator: Herz zeichnen → Erfolg, Logo oben/unten und Schütteln laufen.
- *   5. Parcours-Simulator: Level 1 mit "fahre 5" → im Ziel.
- *   6. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
- *   7. Sicherheitsfenster: beim Start da, nur der Knopf schließt, kommt nach "Neues Team" wieder.
+ *   4. Keine eigenen Simulatoren; Station 2 verweist auf den MakeCode-Simulator.
+ *   5. Betreuer-Handbuch öffnet sich, "Neues Team" setzt zurück.
+ *   6. Sicherheitsfenster: beim Start da, nur der Knopf schließt, kommt nach "Neues Team" wieder.
  */
 const path = require('path');
 const fs = require('fs');
@@ -139,37 +138,10 @@ function check(cond, msg) {
   check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
   await ctx2.close();
 
-  // Station 2: micro:bit-Simulator
-  await page.click('.stepbtn[data-go="2"]');
-  const heart = '0101011111111110111000100';
-  for (let i = 0; i < 25; i++) if (heart[i] === '1') await page.click('#mbmatrix .led[data-i="' + i + '"]');
-  await page.waitForTimeout(200);
-  check(await page.$eval('#mbstatus', e => e.classList.contains('ok')), 'micro:bit: Herz gezeichnet → Erfolg');
-  await page.click('#mbtabs button:nth-child(3)');
-  const shown = () => page.$$eval('#mbmatrix .led', l => l.map(e => e.classList.contains('on') ? '1' : '0').join(''));
-  await page.fill('#mbtilt', '-700');
-  await page.dispatchEvent('#mbtilt', 'input');
-  check(await page.$eval('#mbxval', e => e.textContent) === '-700', 'micro:bit: Neigung -700 angezeigt');
-  check(await shown() === '0010001110101010010000100', 'micro:bit: Logo nach oben → Pfeil Norden');
-  await page.fill('#mbtilt', '100');
-  await page.dispatchEvent('#mbtilt', 'input');
-  check(await shown() === '0010001110101010010000100', 'micro:bit: unter der Grenze bleibt die Anzeige stehen');
-  await page.fill('#mbtilt', '700');
-  await page.dispatchEvent('#mbtilt', 'input');
-  check(await shown() === '0010000100101010111000100', 'micro:bit: Logo nach unten → Pfeil Süden');
-  await page.click('#mbshake');
-  await page.waitForTimeout(900);
-  check(await shown() === '0111010101111110111001110', 'micro:bit: Schütteln zeigt Totenkopf');
-  check(await page.$eval('#mbstatus', e => e.classList.contains('ok')), 'micro:bit: alle drei Ereignisse → Erfolg');
-
-  // Station 3: Parcours-Simulator
-  await page.click('.stepbtn[data-go="3"]');
-  await page.click('.pb:has-text("fahre")');
-  const plus = page.locator('.prow .chip .step', { hasText: '+' }).first();
-  for (let i = 0; i < 4; i++) await plus.click();
-  await page.click('#runbtn');
-  await page.waitForTimeout(2600);
-  check(await page.$eval('#status', e => e.classList.contains('ok')), 'Parcours: Level 1 mit "fahre 5" im Ziel');
+  // Station 2 und 3: keine eigenen Simulatoren mehr (Martin, 09.11.2026)
+  check((await page.$('#mbsim')) === null && (await page.$('#sim')) === null, 'keine Simulator-Kästen auf der Seite');
+  check(!/Reiter/.test(await page.$eval('.station[data-st="2"]', e => e.textContent)), 'Station 2: kein Verweis auf Simulator-Reiter');
+  check(/MakeCode/.test(await page.$eval('.station[data-st="2"] .block', e => e.textContent)), 'Station 2: verweist auf den MakeCode-Simulator');
 
   // Keine Punkteanzeige mehr
   check((await page.$('#ptsval')) === null, 'keine Punkteanzeige');
