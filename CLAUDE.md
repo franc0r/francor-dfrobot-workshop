@@ -17,8 +17,8 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    Sie laden nichts in die Seite, sondern öffnen MakeCode im zweiten Tab, das aus dem Cache läuft.
    Im Quelltext stehen sie als `href="makecode:neu"` (→ `#newproject`, Knopf „Neues Projekt
    starten“, Station 1 und 2) und `href="makecode:vorlage"` (→ `#project:` + Base64 von
-   `microbit/vorlage/vorlage.mkcd`, Knopf „Neues Roboter-Projekt starten“, Station 3–5, als
-   Rückfall auch 6);
+   `microbit/vorlage/vorlage.mkcd`, Knopf „Neues Roboter-Projekt starten“, Station 3, als
+   Rückfall auch 4 und 5);
    `build.py` setzt sie ein. `#project:` trägt das ganze Projekt im Link und geht offline.
    Seit 29.10.2026 (Martin: auf der Messe gibt es doch Internet, wenn auch langsam) darf ein
    solcher Link auch ein MakeCode-Tutorial von GitHub öffnen:
@@ -54,9 +54,9 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    (`STATIONSMINUTEN`, `PUFFER`).
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
    `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Grand-Prix-Blöcke
-   (Bibliothek `custom.ts`), die Kreuzungsblöcke (`At Crossroads …`, Station 6) und
+   (Bibliothek `custom.ts`), die Kreuzungsblöcke (`At Crossroads …`, Station 5) und
    `PID Distance Control` (wartet nicht, siehe Block H, Punkt 15); die Laserblöcke aus
-   Station 5 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer alle Stationen und das
+   Station 4 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer alle Stationen und das
    Handbuch gemeinsam anfassen.
 
 ## Aufbau
@@ -67,7 +67,7 @@ die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
 ```
 website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
   src/
-    styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Simulatoren
+    styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Maqueen-Figuren
     topbar.html       Kopfzeile: 120-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
@@ -79,7 +79,7 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
     sicherheit.html   Sicherheitsfenster beim Teamstart (nach „Neues Team“, Knopf „Sicherheit“)
-    app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, beide Simulatoren
+    app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, Block-Optik (nestStack)
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
@@ -115,25 +115,29 @@ Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fas
 nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
 ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
-## Die Stationen (Stand 05.11.2026)
+## Die Stationen (Stand 09.11.2026)
 
 | Nr | Datei | Min | Kern | Abzeichen |
 |---|---|---|---|---|
-| 0 | 00-boxenstopp | 5 | Regelkreis wahrnehmen → entscheiden → handeln | Rookie |
-| 1 | 01-erster-kontakt | 13 | MakeCode-Bedienung, beim Start (einmal) vs. dauerhaft (ohne Ende), erstes Flashen | Ersteinschalter |
-| 2 | 02-microbit-allein | 15 | LED-Matrix, Knopf-Ereignisse, Logo oben/unten + Schütteln; Würfel ist Team-Challenge | Pixelkünstler |
-| 3 | 03-fahrschule | 14 | Vorlage öffnen (Erweiterung ist schon geladen), Parcours-Simulator, Motorblöcke | Fahrlehrer |
-| 4 | 04-augen | 18 | Linienverfolgung auf Knopf A — der Wow-Moment; Kalibrieren macht der Betreuer beim Aufbau, Schüler nur bei Bedarf | Spurhalter |
-| 5 | 05-reflexe | 10 | Laserscanner, wenn/dann/ansonsten, Variable als Merkzettel (Pausenknopf) — Pflicht, der Grand Prix braucht den Laser-Stopp | Bremsassistent |
-| 6 | 06-grand-prix | 30 | Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Laser-Stopp, Lauf auf Zeit — nie streichen | Champion |
+| 0 | 00-boxenstopp | 5 | Regelkreis, Bauteile am Maqueen | Rookie |
+| 1 | 01-erster-kontakt | 15 | MakeCode, Herz blinkt (`beim Start`/`dauerhaft`), flashen | Ersteinschalter |
+| 2 | 02-microbit-allein | 15 | LEDs, Knöpfe, Neigung, Schütteln, Würfel; Sensor = Zahl | Pixelkünstler |
+| 3 | 03-fahrschule | 20 | Vorlage, einstecken, Schalter, Haken; dann Linie: Knopf A → Startampel + `Line patrolling ON`, Knopf B → `OFF`, `Speed`; Projekt heißt „Linie“ | Spurhalter |
+| 4 | 04-reflexe | 10 | Im Projekt Linie: Laser-Stopp in `dauerhaft`, `wenn Entfernung Vorne < 200 dann Line patrolling OFF` und rotes Licht | Bremsassistent |
+| 5 | 05-grand-prix | 40 | Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit; Profi: Pro-Ziel mit Variable und PID | Champion |
 | – | Puffer | 15 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
 
 Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
-Station 2 setzt „ein Sensor liefert Zahlen, die Grenze legt euer Programm fest" — auf dem
-Gerät mit fertigen Ereignissen (Logo nach oben/unten), im Simulator sieht man die Zahl y und
-die Grenze 200, die die micro:bit-Erfinder gesetzt haben;
-Station 4 greift beides wieder auf — die Linienverfolgung läuft dauerhaft, die Grenze ist
-weiß ≈ 3800 / schwarz ≈ 2700.
+Station 2 setzt „Ereignis“ und „ein Sensor liefert Zahlen, die Grenze ist 200“ — auf dem Gerät
+mit fertigen Ereignissen (Logo nach oben/unten), im MakeCode-Simulator und im Extra
+`zeige Zahl (Beschleunigung y)` sieht man die Zahl; Station 3 greift beides an der Linientabelle
+auf (weiß ≈ 3800 / schwarz ≈ 2700) und lässt den Roboter zum ersten Mal selbst fahren;
+Station 4 setzt die erste eigene Grenze (200 mm); Station 5 baut alles zusammen. Ab Station 3
+arbeiten die Teams durchgehend an einem Projekt („Linie“).
+
+Textbudget je Station (`TEXTBUDGET` in `build.py`, Wörter nach dem Tag-Entfernen, stumpf
+gezählt): 200 / 350 / 550 / 500 / 300 / 850. Der Build bricht ab, wenn eine Station darüber
+liegt — dann kürzen, nicht das Budget heben (Martin, 09.11.2026: „Zuviel Text“).
 
 Entlastung vom 15.09.2026 (siehe Cowork-Projekt „Anfänger Robotik Workshop",
 `claude/vorschlag-entlastung-stationen.md`): Zeitplan neu verteilt, Station 2 gekürzt
@@ -142,10 +146,20 @@ Vorlage statt eigenem Erweiterung-Laden, Station 6 auf drei Tuning-Ideen reduzie
 baut Station 1 jetzt explizit eine dauerhaft-Schleife neben beim Start, damit jedes Team das
 im Pflichtteil einmal selbst sieht (vorher nur im überspringbaren Bonus in Station 5 erklärt).
 
+Parcours first vom 09.11.2026 (Workshop-Rückmeldung; Entwurf in
+`docs/superpowers/specs/2026-11-09-parcours-first-design.md`): Zu viel Text, und Aufgaben, die
+der Grand Prix nicht braucht (Räder drehen, Quadrat fahren). Seitdem gilt: Die Roboter-Stationen
+zeigen nur, was das Grand-Prix-Programm braucht — kein Motorblock, keine Schleife, keine Variable
+außer im Profi-Teil. Die micro:bit-Stationen ohne Roboter behalten Neigung, Schütteln und Würfel
+(Martin, 09.11.2026). Fahrschule und Augen sind eine Station (3), Reflexe ist Station 4 mit nur
+dem Laser-Stopp (Staubsauger-Challenge und Pausenknopf gestrichen), der Grand Prix ist Station 5
+mit 40 Minuten. Die beiden eigenen Simulatoren der Seite sind gestrichen (Martin: der
+micro:bit-Simulator war verwirrend); Station 2 nutzt den Simulator in MakeCode.
+
 Grand Prix vom 03.–05.11.2026 (Sitzung mit Martin; Entwurf in
-`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.md`): Station 6 dauert 30 statt
-15 Minuten, der Workshop 120 statt 90 (Martin, 03./04.11.2026). Station 5 ist Pflicht statt
-Bonus (Martin, 04.11.2026); nur die Staubsauger-Challenge darin bleibt Bonus. Die Teams lesen
+`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.md`): Der Grand Prix (damals
+Station 6) dauert 30 statt 15 Minuten, der Workshop 120 statt 90 (Martin, 03./04.11.2026). Die
+Reflexe (damals Station 5) sind Pflicht statt Bonus (Martin, 04.11.2026). Die Teams lesen
 eine Skizze der Strecke, stellen die Kreuzungsregeln ein, schalten an Kreuzung 1 um, fahren ab
 dem Tempo-Schild langsam und hören am Ziel ihre Siegesmelodie (Melodie als Pflicht: Martin,
 05.11.2026; Profis hören sie erst am Pro-Ziel). Kein Wettbewerb: Gummibärchen für alle, die Zeit
@@ -187,22 +201,11 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 - Arbeitsplätze: Laptop oder **Raspberry Pi 4 (4 GB+)**; Raspberry Pi OS ist von der micro:bit
   Foundation offiziell unterstützt. 2–4 Plätze pro Slot, je zwei Schüler.
 
-## Was der Simulator-Code kann und was nicht
+## Block-Optik und Figuren
 
-- **Parcours-Simulator** (`website/src/app.js`, Abschnitt SIMULATOR): Gitter, Roboter, Bausteine per Klick
-  (kein Drag & Drop — auf Messe-Touchscreens robuster), `-mal wiederholen`-Block mit einer Ebene
-  Verschachtelung, drei Level in `LEVELS`. Koordinaten: x nach rechts, y nach unten, dir 0=rechts,
-  1=unten, 2=links, 3=oben. Level 3 ist mit 5 Bausteinen lösbar (Schleife), sonst 16.
-- **micro:bit-Simulator** (Abschnitt micro:bit SIMULATOR): 5×5-LEDs als Buttons, Muster als
-  25-Zeichen-Strings in `PAT`, drei Modi (Zeichnen / Knöpfe / Neigen). Der Neigungsregler
-  liefert y in -1023..1023 wie der echte Sensor; unter -200 meldet er „Logo nach oben“
-  (Pfeil Norden), über 200 „Logo nach unten“ (Pfeil Süden), dazwischen bleibt die Anzeige.
-  200 ist die Tilt-Toleranz der micro:bit-Firmware (CODAL) — bis zum Trockenlauf
-  (Block F) nicht am Gerät bestätigt, ebenso das Vorzeichen. Schütteln spielt ein
-  Mittleres C (0,5 s) und zeigt den Totenkopf. Die Platine ist dem MakeCode-Simulator
-  nachgezeichnet: Grafik als Inline-SVG (viewBox 400×320), LEDs und Knöpfe A/B als
-  HTML-Buttons darüber, positioniert in Prozent derselben Koordinaten. Beim Neigen kippt
-  sie per CSS (`--tilt`), beim Schütteln wackelt sie.
+Die Seite hat seit 09.11.2026 keine eigenen Simulatoren mehr (Parcours- und micro:bit-Simulator
+gestrichen, siehe „Parcours first“). Was in `app.js` bleibt: Fortschritt, Quiz, Timer, Block-Optik.
+
 - **Block-Optik**: In den Stationen stehen die `.mcb`-Blöcke flach untereinander, eingerückt
   mit `i1`/`i2`. `nestStack()` in `app.js` baut daraus beim Laden die Klammer-Form wie in
   MakeCode (Kopf, Arm, Fuß); ein `sonst` direkt nach seinem `wenn` wird dessen Mittelsteg.
@@ -210,7 +213,8 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   (die Regelkreis-Treppe in Station 0). Symbole wie das Herz sind 5×5-Bildchen aus `PAT`
   (`<b data-led="heart">`), kein Emoji.
 - Fortschritt liegt in `localStorage` unter `mgp-v1`. „Neues Team" löscht ihn — das ist der
-  Knopf zwischen zwei Messe-Slots.
+  Knopf zwischen zwei Messe-Slots. `load()` stutzt Stände aus einer Fassung mit mehr Stationen
+  zurecht (bis 09.11.2026 waren es sieben).
 - **Maqueen-Figuren**: die Übersicht in Station 0 (`#mqmap`, Draufsicht mit nummerierter
   Legende) und die Einsetz-Animation in Station 3 (`#mqinsert`, leicht erhöhter Blick von
   vorn, micro:bit gleitet per CSS in den Schlitz, danach beide Schalter auf ON) sind
@@ -235,25 +239,26 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   unten (Screenshot 02.11.2026). Rechtsklick-Menü: „Duplizieren“
   (Kürzel D), „Blöcke löschen“ (Entf) — bestätigt 02.11.2026.
   Motor ist bestätigt (Screenshot 08.10.2026): `steuere [beide Räder] [vorwärts], Geschwindigkeit 120`
-  und `stop [beide Räder]`, einzeln `linkes Rad` / `rechtes Rad`. Kategoriefarbe: siehe Regel 3.
+  und `stop [beide Räder]`, einzeln `linkes Rad` / `rechtes Rad` — seit 09.11.2026 auf keiner
+  Station mehr. Kategoriefarbe: siehe Regel 3.
   Quellcode der Erweiterung (github.com/DFRobot/pxt-DFRobot_MaqueenPlus_v20, master am
   08.10.2026) bestätigt: Kategoriefarbe `#0fbc11`; `initialisiere Maqueen Plus V2` gehört in
   jedes Roboterprogramm (setzt die V3-Platine zurück, wartet mit blinkendem X auf Antwort,
   dann Haken) und steht in allen Stationen ab 3. Die Linienverfolgung heißt
   `Line patrolling ON/OFF` plus `Line Following Settings Speed 1–5` (Gruppe „V3“ unter „Mehr“,
-  ohne deutsche Übersetzung); von Martin am Gerät bestätigt (08.10.2026), Stationen 4 und 6
-  sind umgestellt. Laserscanner: eigene Erweiterung **Matrix LiDAR Entfernung**
+  ohne deutsche Übersetzung); von Martin am Gerät bestätigt (08.10.2026), heute in Station 3–5. Laserscanner: eigene Erweiterung **Matrix LiDAR Entfernung**
   (github.com/DFRobot/pxt-DFRobot_matrixLidarDistanceSensor, reines TypeScript, Farbe `#5b3fe8`,
   in den Stationen `.b-lidar`); muss mit in die Vorlage. Laser- und Lichtblöcke
-  (`RGB Car Lights`, `SET PIN P1 RGB show color`) in Station 4/5 am Gerät bestätigt
-  (Screenshot 08.10.2026); die 3-s-Pause nach dem Einschalten war dabei nicht nötig.
+  (`RGB Car Lights`, `SET PIN P1 RGB show color`) am Gerät bestätigt (Screenshot 08.10.2026; heute Station 3–5); die 3-s-Pause nach dem Einschalten war dabei nicht nötig.
   MakeCode-Logik heißt deutsch `wenn … dann … ansonsten`; `nestStack()` kennt beides.
   Der Melodieblock heißt `spiele [Melodie …] [im Hintergrund]` (Martin am Gerät, 05.11.2026).
   Noch vorläufig (Liste in `docs/02-offline-und-trockenlauf.md`): die drei Grand-Prix-Blöcke,
-  die vier Kreuzungsblöcke, `PID Distance Control`.
-- Gemessene Werte: cm bei Tempo 120 in 1 s, ms für 90° (erster Wert von Martin, 08.10.2026:
-  ~650 ms bei Geschwindigkeit 100 — die Quadrat-Hilfe in Station 3 nennt deshalb 500–800), sichere Linienstufe, kleinster Kurvenradius
-- Entscheidung: Station 2 auf 12 Min kürzen, damit der Roboter früher fährt? (Review-Punkt, offen)
+  die vier Kreuzungsblöcke, `PID Distance Control`, und der Block `zeige Zahl (Beschleunigung
+  (mg) y)` im Extra von Station 2 (Wortlaut am Gerät prüfen).
+- Gemessene Werte: sichere Linienstufe (Speed 1 auf dem Teststreifen, 2 auf der Strecke?),
+  kleinster Kurvenradius. Motorwerte (cm/s, ms für 90°) braucht niemand mehr.
+- Firmware-Verhalten: Was tut `Line patrolling ON`, wenn kein Sensor Schwarz sieht — steht der
+  Roboter, oder sucht er? Davon hängt ab, wie Station 3 den Start auf dem Teststreifen erklärt.
 - Danach: Parcours-Bauplan mit dem gemessenen Radius gegenprüfen (Klebeplan steht in
   `tools/grand-prix-druck.html`, Seite 2), Stand-Paket zum Drucken
   (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)

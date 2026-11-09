@@ -27,13 +27,14 @@ Arbeitsplatz kopieren und dort importieren.
 | Editor öffnen, Blöcke bauen, übersetzen, flashen | Erweiterung neu nachladen |
 | Bereits importierte Erweiterungen nutzen | Projekte über Link teilen |
 | Projekte lokal speichern und laden | Editor-Sprache umstellen (vorher wählen) |
-| Die Workshop-Seite samt Simulatoren (lokale Datei) | Beispiele aus der MakeCode-Galerie |
+| Die Workshop-Seite (lokale Datei) | Beispiele aus der MakeCode-Galerie |
 
 ### Konsequenz für dieses Repo
 - `dist/maqueen-grand-prix-offline.html` ist die Datei für die Arbeitsplätze: keine externen
   Aufrufe, Systemschriften. `build.py` und `test/smoke.cjs` erzwingen das.
 - Der claude.ai-Link (Artefakt-Fassung) ist nur fürs Planen und Teilen.
-- Rückfallebene: Station 2 der Seite braucht überhaupt nichts außer der Datei.
+- Rückfallebene: Station 0 der Seite plus Vorführroboter plus fertige `.hex` aus
+  `microbit/stations/` per Laufwerk MICROBIT (seit 09.11.2026 ohne eigenen Simulator).
 
 ## Trockenlauf-Protokoll
 
@@ -48,7 +49,7 @@ Block H steht noch nicht im Artefakt und muss dort nachgetragen werden:
 |---|---|---|
 | A | Arbeitsplatz und Flashen | 15 Min |
 | B | **Ohne Internet** — der entscheidende Block | 12 Min |
-| C | Der Roboter fährt (Messwerte: cm/s, ms für 90°, Steckrichtung, Tempo-Schwelle) | 15 Min |
+| C | Der Roboter fährt (Steckrichtung, Haken, `Line patrolling ON` ohne Linie unter den Sensoren) | 15 Min |
 | D | Liniensensoren und Strecke (Rohwerte, Stufe, Kurvenradius, Stopp-Block) | 15 Min |
 | E | Laserscanner — die offene Flanke | 15 Min |
 | F | micro:bit-Station gegenprüfen (Würfel, Logo oben/unten ab y = ±200) | 8 Min |
@@ -56,13 +57,13 @@ Block H steht noch nicht im Artefakt und muss dort nachgetragen werden:
 | H | Grand Prix: Strecke, Kreuzungen, Bibliothek (Liste unten) | ca. 40 Min |
 
 Ergebnisse, die in `src/` zurückfließen müssen:
-- Wortlaut der Maqueen-Blöcke (Motor, Stopp, Licht, Linienverfolgung, Laserscanner) → alle Stationen + Handbuch
-- cm bei Tempo 120 / 1 s und ms für 90° → Station 3
-- sichere Linienstufe, kleinster Kurvenradius → Station 4, Handbuch, Parcours-Bauplan
-- Rohwerte weiß/schwarz und deren Richtung → Station 4 Tabelle und Quiz q3
+- Wortlaut der Maqueen-Blöcke (Licht, Linienverfolgung, Laserscanner) → alle Stationen + Handbuch
+- sichere Linienstufe, kleinster Kurvenradius → Station 3, Handbuch, Parcours-Bauplan
+- Rohwerte weiß/schwarz und deren Richtung → Station 3 Tabelle und Quiz q3
+- Verhalten von `Line patrolling ON` ohne Linie unter den Sensoren → Station 3 (Teststreifen), Handbuch
 - Steckrichtung micro:bit → Station 3
 - Grenze für „Logo nach oben/unten“ (angenommen y = ±200) und deren Vorzeichen → Station 2
-  (Tabelle, „wichtigster Satz“) und micro:bit-Simulator (`app.js`, `TILT`)
+  („wichtigster Satz“, Extra `zeige Zahl (Beschleunigung (mg) y)` — Wortlaut prüfen)
 - Akkulaufzeit, Aufbauzeit → Handbuch
 - Zählnummern 1–4, Höchststufe, Schild-Lage → alle Stellen aus der Liste in
   `microbit/stations/05-grand-prix/README.md` gemeinsam, danach `loesung.hex` und `bloecke.png`
@@ -140,7 +141,7 @@ Beim Trockenlauf mit MakeCode vergleichen und alle Stellen gemeinsam ändern.
 - `PID Distance Control` mit den Feldern `CW` (Richtung), Strecke in cm und
   `Allow interruption`.
 - `RGB Car Lights All color` mit den Farben `yellow` und `green` (für die Startampel; `red`
-  ist aus Station 4/5 bestätigt).
+  ist aus den damaligen Stationen 4/5 bestätigt, heute 3/4).
 
 Schon am Gerät bestätigt (nicht mehr prüfen): `Line patrolling ON/OFF`,
 `Line Following Settings Speed 1–5` (08.10.2026), `spiele [Melodie …] [im Hintergrund]`

@@ -70,6 +70,8 @@ Alles unterhalb von `website/`:
 - Minuten einer Station: an **drei** Stellen — Eyebrow in der Stationsdatei, `STATIONS`-Array
   in `src/app.js`, Zeitplan in `src/handbuch.html`. Der Build meckert, wenn die ersten beiden
   auseinanderlaufen oder die Summe nicht 105 ist.
+- Textbudget: `build.py` zählt je Station die Wörter (Tags raus) und bricht ab, wenn
+  `TEXTBUDGET` überschritten ist. Dann kürzen, nicht das Budget heben.
 - Bild einbauen: Datei nach `src/assets/`, im HTML `src="assets/datei.png"` schreiben.
   Der Build bettet sie ein – nie eine URL verwenden, sonst bricht der Offline-Build ab.
 
