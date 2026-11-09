@@ -460,7 +460,7 @@ function check(cond, msg) {
     // Schlüssel-Fenster über den Knopf in der Kopfzeile
     check(await page.$eval('#keydlg', e => e.hidden), 'Schlüssel: Fenster ist zu, bis man den Knopf drückt');
     await page.click('#keybtn');
-    check(await page.$eval('#keydlg', e => !e.hidden), 'Schlüssel: Knopf „Schlüssel“ öffnet das Fenster');
+    check(await page.$eval('#keydlg', e => !e.hidden), 'Schlüssel: Knopf „LLM Setup“ öffnet das Fenster');
     check(await page.$eval('#orkeystate', e => /gesetzt/.test(e.textContent)), 'Schlüssel: „Schlüssel gesetzt“ angezeigt');
     check(await page.$eval('#orkey', e => e.type === 'password' && e.value === ''), 'Schlüssel: Passwortfeld, leer');
     await page.fill('#orkey', ' sk-or-neu '); await page.press('#orkey', 'Enter');

@@ -654,7 +654,7 @@ function schluesselAnzeigen(){
   });
   function frisch(){ zaehlerAnzeigen(); schluesselAnzeigen(); ttsLesen(); }
   if(cb) cb.addEventListener("click", frisch);
-  // Schlüssel-Fenster: Knopf „Schlüssel“ in der Kopfzeile; Escape, Klick daneben
+  // Fenster „LLM Setup“: Knopf in der Kopfzeile; Escape, Klick daneben
   // und „Schließen“ machen es wieder zu. Gespeichert wird wie bisher in mgp-key.
   var kd = document.getElementById("keydlg"), kb = document.getElementById("keybtn"), kok = document.getElementById("keydlgok");
   function keydlgZeigen(v){

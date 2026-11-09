@@ -51,7 +51,7 @@
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
         <li>Grand-Prix-Strecke aufkleben und die <b>Zählfahrt</b> machen (Abschnitt &bdquo;Grand Prix aufbauen und betreuen&ldquo;)</li>
-        <li>Auf jedem Platz den <b>Schlüssel über den Knopf &bdquo;Schlüssel&ldquo; in der Kopfzeile</b> eintragen und einmal &bdquo;Geht nicht&ldquo; probieren: Kommt eine echte Antwort von <span class="figurname-ref">Franco</span> und zeigt der Zähler &bdquo;1 Anfrage&ldquo;, stimmen Schlüssel und Netz. Danach den Zähler nullen</li>
+        <li>Auf jedem Platz den <b>Schlüssel über den Knopf &bdquo;LLM Setup&ldquo; in der Kopfzeile</b> eintragen und einmal &bdquo;Geht nicht&ldquo; probieren: Kommt eine echte Antwort von <span class="figurname-ref">Franco</span> und zeigt der Zähler &bdquo;1 Anfrage&ldquo;, stimmen Schlüssel und Netz. Danach den Zähler nullen</li>
       </ul>
     </section>
 
@@ -123,7 +123,7 @@
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
         <li>MakeCode im Chromium über „Installieren“ als App ablegen – der Cache ist dann stabiler gegen Aufräumaktionen des Browsers</li>
         <li>MakeCode einmal mit Netz öffnen, auch über den Knopf <b>Neues Projekt starten</b> (Station 1) – damit liegt der Editor selbst im Cache</li>
-        <li>Den <b>Schlüssel über den Knopf &bdquo;Schlüssel&ldquo; in der Kopfzeile</b> eintragen und in irgendeiner Station einmal &bdquo;Geht nicht&ldquo; probieren. Ohne Netz kommt später nur die Rückfallantwort – das ist in Ordnung, aber hier soll einmal die echte Antwort kommen</li>
+        <li>Den <b>Schlüssel über den Knopf &bdquo;LLM Setup&ldquo; in der Kopfzeile</b> eintragen und in irgendeiner Station einmal &bdquo;Geht nicht&ldquo; probieren. Ohne Netz kommt später nur die Rückfallantwort – das ist in Ordnung, aber hier soll einmal die echte Antwort kommen</li>
       </ul>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Und dann der eigentliche Test</h3>
@@ -149,7 +149,7 @@
     <section>
       <h3>Maskottchen</h3>
       <p style="font-size:.94rem; color:var(--ink-2)"><b>Ohne Netz oder ohne Schlüssel</b> läuft der Workshop genauso. Drückt ein Team „Geht nicht“, antwortet <span class="figurname-ref">Franco</span> dann mit der Checkliste „Wenn es klemmt“ der Station und bittet, euch zu winken. Das Frage-Feld sendet nur, wenn ein Schlüssel eingetragen ist und das Netz da ist; bei jedem Fehler (kein Netz, Zeitüberschreitung nach 15 s, Serverfehler) kommt dieselbe Rückfallantwort.</p>
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Schlüssel eintragen</b> (OpenRouter, einmal pro Arbeitsplatz): Knopf <b>„Schlüssel“</b> oben in der Kopfzeile. Er liegt nur in diesem Browser, nie in der Datei, und bleibt auch nach „Neues Team“ erhalten. Legt bei OpenRouter für die Messe einen <b>eigenen Schlüssel mit kleinem Guthaben-Limit</b> an (ein paar Dollar). Tragt ihn nur in die Offline-Datei auf den Messe-Rechnern ein, nie auf der öffentlichen Pages-Seite, und löscht ihn bei OpenRouter nach der Messe.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Schlüssel eintragen</b> (OpenRouter, einmal pro Arbeitsplatz): Knopf <b>„LLM Setup“</b> oben in der Kopfzeile. Er liegt nur in diesem Browser, nie in der Datei, und bleibt auch nach „Neues Team“ erhalten. Legt bei OpenRouter für die Messe einen <b>eigenen Schlüssel mit kleinem Guthaben-Limit</b> an (ein paar Dollar). Tragt ihn nur in die Offline-Datei auf den Messe-Rechnern ein, nie auf der öffentlichen Pages-Seite, und löscht ihn bei OpenRouter nach der Messe.</p>
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Kosten.</b> Jede Frage schickt höchstens etwa 2000 Token mit und bekommt höchstens 200 zurück. Der Zähler rechnet grob mit 1 Dollar je Million Token hinein und 5 Dollar heraus; die echten Kosten stehen bei OpenRouter. Jedes Team hat höchstens 30 Fragen; danach antwortet <span class="figurname-ref">Franco</span> nur noch mit der Checkliste und schickt zu euch. „Neues Team“ setzt das zurück.</p>
       <p style="font-size:.94rem; margin-top:6px"><span id="llmzaehler">0 Anfragen · ca. 0 Cent</span> <button type="button" class="btn sec" id="llmreset" style="margin-left:8px">Zähler nullen</button></p>
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Vorlesen.</b> Auf Wunsch liest die Browser-Stimme die Blasen vor. Standard ist aus, die Messe ist laut. Der Schalter gilt nur für diesen Arbeitsplatz und bleibt bei „Neues Team“ stehen. Chromium nimmt die Stimmen des Systems; ohne deutsche Stimme bleibt es still. Auf Raspberry Pi OS deshalb <kbd>sudo apt install espeak-ng speech-dispatcher</kbd> und Chromium neu starten, unter Windows und macOS ist meist schon eine deutsche Stimme da.</p>
