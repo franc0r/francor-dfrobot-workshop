@@ -1,13 +1,14 @@
-# Station 06 — Grand Prix
+# Station 05 — Grand Prix
 
-Lauf auf Zeit über die Grand-Prix-Strecke (Matte 100 × 200 cm, Skizze in Station 6 und in
-`tools/grand-prix-druck.html`). Das Programm baut auf dem Projekt „Linie“ aus Station 4 auf
+Lauf auf Zeit über die Grand-Prix-Strecke (Matte 100 × 200 cm, Skizze in Station 5 und in
+`tools/grand-prix-druck.html`). Das Programm baut auf dem Projekt „Linie“ aus Station 3 und 4 auf
 und braucht die Bibliothek „Grand Prix“ (`microbit/bibliothek/custom.ts`, steckt in der Vorlage).
 
 Hier liegen:
 
 - `loesung.js` (normal) und `loesung-profi.js` (Profi) — MakeCode-JavaScript, am 05.11.2026
-  von Martin auf der Strecke gefahren. Einfügen: Vorlage öffnen, oben auf **JavaScript**
+  von Martin auf der Strecke gefahren; Knopf B (Not-Aus) und das rote Licht beim Laser-Stopp
+  sind am 09.11.2026 aus Station 3 und 4 dazugekommen und noch nicht gefahren. Einfügen: Vorlage öffnen, oben auf **JavaScript**
   umschalten, alles ersetzen, zurück auf **Blöcke**. Die Bibliothek „Grand Prix“ muss im
   Projekt sein, sonst gehen die Blöcke nicht.
 
@@ -41,6 +42,7 @@ nicht vor.
   `Line Following Settings Speed 2`, Startampel (`RGB Car Lights` rot, 1 s, gelb, 1 s, grün),
   dann `Line patrolling ON`. Jeder Druck auf A ist so ein sauberer Neustart, auch nach einem
   Halt durch den Laser.
+- **wenn Knopf B geklickt:** `Line patrolling OFF` — der Not-Aus aus Station 3.
 - **wenn Kreuzung Nummer 1 erreicht:** Abzweig rechts auf `Straight` — der Roboter fährt am
   Stummel (2) geradeaus vorbei.
 - **wenn Kreuzung Nummer 3 erreicht:** `Line Following Settings Speed 1` und `zeige Zahl 1`
@@ -48,7 +50,8 @@ nicht vor.
 - **wenn Kreuzung Nummer 4 erreicht:** `spiele Melodie … im Hintergrund` (Siegesmelodie). Das
   T steht auf `Stop`, der Roboter hält von selbst.
 - **dauerhaft:** Hindernisvermeidungsdaten abrufen; wenn `Entfernung Vorne (mm) < 200`, dann
-  `Line patrolling OFF`. Auf dem richtigen Weg greift das nie; es fängt die Sackgasse und den
+  `Line patrolling OFF` und `RGB Car Lights All` rot (der Laser-Stopp aus Station 4). Auf dem
+  richtigen Weg greift das nie; es fängt die Sackgasse und den
   Stummel ab.
 
 ## Was die Musterlösung tut (Profi)
@@ -68,6 +71,9 @@ Wie normal, dazu:
   Die Pause ist nötig: `PID Distance Control` wartet auch mit `No interruptions allowed`
   nicht, bis die Strecke gefahren ist (Martin am Gerät, 05.11.2026). Ohne Pause schaltet die
   Linienverfolgung mitten im Sprung wieder an.
+- **Merker `gesprungen`:** Variable nicht `pause` nennen — den Namen hat MakeCode schon
+  (eingebaute Funktion), dann meldet es „Cannot redeclare block-scoped variable“ (Martin,
+  05.11.2026).
 - **Siegesmelodie am Pro-Ziel:** Im `dauerhaft` spielt der Laser-Stopp die Melodie, wenn
   `gesprungen` wahr ist, und setzt den Merker zurück. Knopf A setzt ihn ebenfalls zurück.
 - **Startampel** wie normal; 500 ms nach dem Losfahren geht rechts der Blinker an (gelb,
@@ -80,21 +86,21 @@ Pro-Ziel erkennt sie am Laser-Stopp, nicht an einer Nummer (Block H, Punkt 5).
 ## Wo die Zählnummern stehen
 
 Verschiebt der Trockenlauf eine Nummer, müssen **alle** diese Stellen zusammen geändert werden.
-Die Strecke ist viermal gezeichnet — Spec-Skizze, Station 6, Druckblatt Seite 1 und Seite 2 —,
+Die Strecke ist viermal gezeichnet — Spec-Skizze, Station 5, Druckblatt Seite 1 und Seite 2 —,
 und jede Zeichnung trägt die Nummern 1–4 an denselben Koordinaten.
 
 1. `docs/superpowers/specs/2026-11-04-grand-prix-parcours-skizze.html` — die maßgebliche
    Zeichnung aus der Sitzung (und die Zählfolge-Tabelle im Spec daneben,
    `2026-11-04-grand-prix-parcours-design.md`).
-2. Station 6 als Gespräch: `website/src/karten/06-grand-prix.html` und
-   `website/src/drehbuch/06-grand-prix.js`
-   - Karte `k6-gpmap`, Skizze `#gpmap`: die vier `.gp-k`-Nummern und der Hinweis
+2. Station 5 als Gespräch: `website/src/karten/05-grand-prix.html` und
+   `website/src/drehbuch/05-grand-prix.js`
+   - Karte `k5-gpmap`, Skizze `#gpmap`: die vier `.gp-k`-Nummern und der Hinweis
      „Gut hinschauen: Für den Roboter sehen 1 und 2 gleich aus“
-   - Schritt `kreuzungen` („An Kreuzung 1 stellt ihr um“) und Karte `k6-kreuzungen` mit dem
+   - Schritt `kreuzungen` („An Kreuzung 1 stellt ihr um“) und Karte `k5-kreuzungen` mit dem
      Block `wenn Kreuzung Nummer 1 erreicht`
-   - die `???`-Blöcke `wenn Kreuzung Nummer ??? erreicht` in `k6-tempo` (Tempo-Zone = 3) und
-     `k6-melodie` (Siegesmelodie = 4) — die Nummer steht nicht da, aber der Lösungsweg hängt daran
-   - Profi-Plan `k6-plan` „Am Ziel 4 kurz warten“ und im Schritt `profi` „Die Melodie kommt
+   - die `???`-Blöcke `wenn Kreuzung Nummer ??? erreicht` in `k5-tempo` (Tempo-Zone = 3) und
+     `k5-melodie` (Siegesmelodie = 4) — die Nummer steht nicht da, aber der Lösungsweg hängt daran
+   - Profi-Plan `k5-plan` „Am Ziel 4 kurz warten“ und im Schritt `profi` „Die Melodie kommt
      schon am Ziel 4?“
 3. `website/src/handbuch.html`, Abschnitt „Grand Prix aufbauen und betreuen“
    - Lösungstabelle „Lösung: die Zählfolge“ und die typischen Fehler darunter („An 1 …“)

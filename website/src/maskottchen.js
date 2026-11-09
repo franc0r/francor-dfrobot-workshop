@@ -147,7 +147,7 @@ function blase(st, html, me, sprich){
 
 /* Eine Karte anhängen: MakeCode-Knöpfe werden erzeugt, alle anderen Karten
    kommen aus dem versteckten Vorrat #karten (src/karten/*.html). Der Knoten wird
-   umgehängt, nie geklont: Simulatoren und Quiz sind einmalig (IDs, Handler aus app.js).
+   umgehängt, nie geklont: Quiz und Figuren sind einmalig (IDs, Handler aus app.js).
    Unbekannte IDs ergeben einen leeren Rahmen. */
 function karte(st, id){
   var el = document.createElement("div");
@@ -165,8 +165,6 @@ function karte(st, id){
     el.appendChild(k);
     // Lag die Karte schon in einer älteren Blase, bleibt von der kein leerer Rahmen übrig
     if(alt && alt !== el && alt.classList && alt.classList.contains("blase") && !alt.firstChild && alt.parentNode) alt.parentNode.removeChild(alt);
-    // Der Parcours-Canvas misst seine Breite; im versteckten Vorrat hatte er keine
-    if(id === "k3-sim"){ fit(); draw(); }
   }
   return el;
 }

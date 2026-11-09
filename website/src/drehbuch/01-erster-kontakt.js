@@ -1,6 +1,6 @@
 /* Drehbuch Station 1: Erster Kontakt. Quelle: src/stations/01-erster-kontakt.html (master).
    Schema siehe maskottchen.js (Abschnitt Gespräch). */
-DREHBUCH[1] = {name:"Erster Kontakt", min:13, badge:"Ersteinschalter", titel:"Erster Kontakt", schritte:[
+DREHBUCH[1] = {name:"Erster Kontakt", min:15, badge:"Ersteinschalter", titel:"Erster Kontakt", schritte:[
   { id:"oeffnen",
     nachrichten:[
       "Jetzt wird es ernst: Gleich wandert Code, den ihr selbst baut, über ein Kabel in einen echten Computer. Der macht genau das, was ihr sagt, nicht mehr und nicht weniger.",

@@ -155,6 +155,10 @@ input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius
 .stepbtn .lbl{font-size:14px; font-weight:600; line-height:1.25}
 .stepbtn .min{display:block; font-family:var(--mono); font-size:10.5px; font-weight:400; color:var(--ink-3)}
 @media (max-width:900px){ .stepbtn .min{display:none} }
+/* Stückliste: Seite oben in der Leiste, aber keine Station – gestrichelter Kreis statt Nummer, Abstand zur Liste */
+.stepbtn.page{margin-bottom:10px}
+.stepbtn.page .num{border-style:dashed; font-style:italic; font-family:var(--display)}
+@media (max-width:900px){ .stepbtn.page{margin-bottom:0} }
 .railfoot{margin-top:14px; padding:12px 10px; border-top:1px solid var(--line-soft)}
 @media (max-width:900px){ .railfoot{display:none} }
 .badgegrid{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
@@ -184,6 +188,37 @@ input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius
 .st-body h3 .idx{font-family:var(--mono); font-size:12px; color:var(--accent); margin-right:8px; font-weight:600}
 .lead{max-width:66ch; color:var(--ink-2)}
 .block{display:flex; flex-direction:column; gap:10px}
+
+/* Stückliste: ein Kasten je Teil */
+.parts{display:flex; flex-direction:column; gap:12px; max-width:74ch}
+.part{border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; background:var(--surface-2); display:flex; flex-direction:column; gap:8px}
+.part p{font-size:.95rem; color:var(--ink-2)}
+.part p b{color:var(--ink)}
+.part p.small{font-size:.88rem; color:var(--ink-3)}
+.pt-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.pt-head h4{font-size:1.02rem; letter-spacing:-.01em}
+.pt-n{
+  flex:0 0 24px; height:24px; display:grid; place-items:center; border-radius:50%;
+  background:var(--accent); color:var(--accent-ink); font-family:var(--mono); font-size:12px; font-weight:600;
+}
+.pt-role{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+.find{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.find .fl{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+ul.plain{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; max-width:74ch; color:var(--ink-2)}
+/* buttons – Grundregeln für alle Knöpfe und Knopf-Links (Rückkehr 09.11.2026: waren mit dem
+   Simulator-Block gelöscht worden) */
+.btn{
+  border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink);
+  border-radius:8px; padding:8px 15px; font-weight:600; font-size:.92rem;
+}
+.btn:hover{filter:brightness(1.06)}
+a.btn{display:inline-block; text-decoration:none}
+.steps a.btn{margin-top:8px}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.sec{background:var(--surface); color:var(--ink-2); border-color:var(--line)}
+.btn.sec:hover{border-color:var(--accent); color:var(--accent); filter:none}
+
+ul.plain .btn{margin-left:8px; padding:4px 10px; font-size:.85rem; vertical-align:middle}
 
 /* numbered steps */
 ol.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0}
@@ -230,13 +265,6 @@ kbd{
   border-left:16px solid var(--c);
 }
 .mcfoot{height:14px; width:140px; background:var(--c); border-radius:0 6px 6px 6px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
-/* zeige LEDs: Raster im Block, wie in MakeCode */
-.mcb.mcleds{flex-direction:column; align-items:flex-start; gap:10px; padding-bottom:12px}
-.ledgrid{display:grid; grid-template-columns:repeat(5,18px); gap:5px; margin-left:4px}
-.ledgrid span{width:18px; height:18px; border-radius:4px; background:rgba(0,0,0,.2)}
-.ledgrid span.on{background:#fff}
-/* in der schmalen Simulator-Spalte dürfen lange Blöcke umbrechen */
-#mbcode .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px}
 .mcb.i1{margin-left:20px} .mcb.i2{margin-left:40px}
 /* Kategoriefarben wie in MakeCode micro:bit (Screenshot 02.11.2026) */
 .b-basic{background:#1E90FF}
@@ -345,7 +373,7 @@ kbd{
 .mqfig .cellf{fill:#D9DEE2; stroke:#9AA3A9; stroke-width:1}
 .mqfig .cellnub{fill:#9AA3A9}
 
-/* Grand-Prix-Strecke (Station 6). 1 Einheit = 1 cm. Matte, Band, Kisten und Schrift auf der
+/* Grand-Prix-Strecke (Station 5). 1 Einheit = 1 cm. Matte, Band, Kisten und Schrift auf der
    Matte haben feste Farben: Die Matte ist auch im Dunkelmodus weiß, dunkle Schrift bleibt lesbar. */
 .gpfig{display:grid; grid-template-columns:minmax(0,360px) minmax(0,1fr); gap:18px 26px; align-items:start; margin:0; max-width:900px}
 @media (max-width:760px){ .gpfig{grid-template-columns:minmax(0,1fr)} }
@@ -434,100 +462,6 @@ kbd{
 .opt.wrong{border-color:var(--accent); background:var(--accent-soft); opacity:.75}
 .qfb{margin-top:11px; font-size:.93rem; color:var(--ink-2); max-width:60ch}
 
-/* simulator */
-.sim{border:1px solid var(--line); border-radius:12px; background:var(--surface-2); overflow:hidden}
-.simbar{
-  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-  padding:11px 14px; border-bottom:1px solid var(--line); background:var(--surface);
-}
-.simbar .title{font-family:var(--display); font-weight:700; font-size:.98rem; margin-right:auto}
-.levsel{display:flex; gap:5px}
-.levsel button{
-  font-family:var(--mono); font-size:12px; border:1px solid var(--line);
-  background:var(--surface-2); border-radius:7px; padding:4px 10px; color:var(--ink-2);
-}
-.levsel button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
-.levsel button.solved{border-color:var(--teal); color:var(--teal)}
-.levsel button.solved[aria-pressed="true"]{background:var(--teal); border-color:var(--teal); color:var(--surface)}
-.simgrid{display:grid; grid-template-columns:166px minmax(0,1.05fr) minmax(0,1.3fr); gap:0}
-@media (max-width:860px){ .simgrid{grid-template-columns:1fr} }
-.simcol{padding:14px; border-right:1px solid var(--line)}
-.simcol:last-child{border-right:0}
-@media (max-width:860px){ .simcol{border-right:0; border-bottom:1px solid var(--line)} }
-.colhead{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin-bottom:10px}
-.palette{display:flex; flex-direction:column; gap:6px}
-.pb{
-  display:flex; align-items:center; gap:8px; border:0; border-radius:7px;
-  padding:8px 10px; font-family:var(--mono); font-size:12px; font-weight:500; color:#fff;
-  text-align:left; box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);
-}
-.pb:hover{filter:brightness(1.08)}
-.pb:active{transform:translateY(1px)}
-.prog{display:flex; flex-direction:column; gap:5px; min-height:120px}
-.prow{display:flex; align-items:center; gap:6px}
-.prow .chip{
-  flex:1; display:flex; align-items:center; gap:8px; border-radius:7px; padding:7px 10px;
-  font-family:var(--mono); font-size:12px; color:#fff; box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);
-  min-width:0;
-}
-.prow .chip.active{outline:2.5px solid var(--accent); outline-offset:2px}
-.prow.kid{margin-left:18px}
-.chip .lbl{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-.chip .step{
-  border:0; background:rgba(255,255,255,.24); color:#fff; border-radius:4px;
-  width:20px; height:20px; display:grid; place-items:center; font-size:13px; line-height:1; padding:0;
-}
-.chip .val{font-weight:600; min-width:14px; text-align:center; font-variant-numeric:tabular-nums}
-.prow .tool{
-  border:1px solid var(--line); background:var(--surface); border-radius:5px;
-  width:24px; height:24px; display:grid; place-items:center; font-size:12px; color:var(--ink-3); padding:0;
-}
-.prow .tool:hover{color:var(--accent); border-color:var(--accent)}
-.chip.running{box-shadow:inset 0 -2px 0 rgba(0,0,0,.2), 0 0 0 3px var(--accent)}
-.dropzone{
-  margin-left:18px; border:1.5px dashed var(--line); border-radius:7px; padding:6px 10px;
-  font-family:var(--mono); font-size:11px; color:var(--ink-3);
-}
-.dropzone.on{border-color:var(--accent); color:var(--accent)}
-.emptyprog{font-family:var(--mono); font-size:12px; color:var(--ink-3); border:1.5px dashed var(--line); border-radius:8px; padding:14px; text-align:center}
-.simactions{display:flex; gap:7px; margin-top:12px; flex-wrap:wrap}
-.btn{
-  border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink);
-  border-radius:8px; padding:8px 15px; font-weight:600; font-size:.92rem;
-}
-.btn:hover{filter:brightness(1.06)}
-a.btn{display:inline-block; text-decoration:none}
-.steps a.btn{margin-top:8px}
-.btn:disabled{opacity:.5; cursor:not-allowed}
-.btn.sec{background:var(--surface); color:var(--ink-2); border-color:var(--line)}
-.btn.sec:hover{border-color:var(--accent); color:var(--accent); filter:none}
-canvas{width:100%; height:auto; display:block; border-radius:9px; background:var(--surface)}
-.simstatus{
-  margin-top:10px; font-size:.9rem; min-height:2.6em; padding:9px 12px; border-radius:8px;
-  background:var(--surface); border:1px solid var(--line); color:var(--ink-2);
-}
-.simstatus.ok{border-color:var(--teal); background:var(--teal-soft); color:var(--teal); font-weight:600}
-.simstatus.bad{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
-/* Feuerwerk bei gelöster Simulator-Aufgabe (mbFirework in app.js) */
-.fxwrap{position:relative; margin-top:10px}
-.fxwrap .simstatus{margin-top:0}
-.fx{position:absolute; inset:0; pointer-events:none}
-.simstatus.pop{animation:st-pop .5s ease-out}
-@keyframes st-pop{0%{transform:scale(1)} 35%{transform:scale(1.04); box-shadow:0 0 0 6px var(--teal-soft)} 100%{transform:scale(1)}}
-.spark{
-  position:absolute; width:9px; height:9px; margin:-4.5px 0 0 -4.5px; border-radius:50%; z-index:2;
-  pointer-events:none; animation:spark .9s cubic-bezier(.2,.7,.3,1) forwards;
-}
-@keyframes spark{
-  0%{transform:translate(0,0) scale(.6); opacity:1}
-  60%{opacity:1}
-  100%{transform:translate(var(--dx),var(--dy)) scale(.4); opacity:0}
-}
-.missionbox{font-size:.92rem; color:var(--ink-2); margin-bottom:10px; max-width:52ch}
-.missionbox b{color:var(--ink)}
-.counter{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); margin-top:8px}
-.counter.over{color:var(--accent)}
-
 /* footer nav */
 .stfoot{
   display:flex; align-items:center; gap:12px; flex-wrap:wrap;
@@ -603,84 +537,8 @@ body.safety-on{overflow:hidden}
   border-radius:20px; padding:4px 11px; color:var(--ink-2); background:var(--surface);
 }
 
-/* ---------- micro:bit board ---------- */
-.mbwrap{display:flex; flex-direction:column; align-items:center; gap:14px}
-/* Platine wie im MakeCode-Simulator: Grafik als SVG (Koordinaten 400×320),
-   LEDs und Knöpfe als Buttons darüber, in Prozent derselben Koordinaten. */
-.mbboard{
-  position:relative; width:100%; max-width:330px; aspect-ratio:400/320;
-  transform:perspective(900px) rotateX(var(--tilt,0deg)); transform-origin:50% 55%;
-  transition:transform .18s ease-out;
-}
-.mbboard.shake{animation:mb-shake .5s linear}
-@keyframes mb-shake{
-  0%,100%{translate:0 0; rotate:0deg} 15%{translate:-7px 2px; rotate:-3deg} 30%{translate:6px -2px; rotate:3deg}
-  45%{translate:-5px 1px; rotate:-2deg} 60%{translate:4px -1px; rotate:2deg} 80%{translate:-2px 0; rotate:-1deg}
-}
-.mbart{position:absolute; inset:0; width:100%; height:100%; overflow:visible; filter:drop-shadow(0 12px 16px rgba(0,0,0,.28))}
-.mbart .pcb{fill:#141414; stroke:#2E2E2E; stroke-width:1}
-.mbart .usb{fill:#9AA0A4; stroke:#6E7478}
-.mbart .yel{fill:#FFC800}
-.mbart .gold,.mbart .pad{fill:#D9AE2E}
-.mbart .pad{stroke:#B8901C; stroke-width:1}
-.mbart .slot rect{fill:#8E6E12}
-.mbart .hole{fill:var(--surface-2); stroke:#B8901C; stroke-width:1.5}
-.mbart circle.hole[r="3.5"]{stroke:#3A3A3A}
-.mbart .pins text{font:700 15px var(--sans); fill:#111; text-anchor:middle}
-.mbart .logo{fill:none; stroke:#D9AE2E; stroke-width:5}
-.mbart .logodot{fill:#D9AE2E}
-.mbart .micled{fill:none; stroke:#D9AE2E; stroke-width:1.2}
-.mbart .mic{fill:none; stroke:#E8443A; stroke-width:2; stroke-linecap:round}
-.mbart .btnl{font:800 14px var(--sans); fill:#111; text-anchor:middle}
-.mbmatrix{
-  position:absolute; left:32.19%; top:29.53%; width:35.63%; height:42.19%;
-  display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows:repeat(5,1fr);
-}
-.led{position:relative; padding:0; border:0; background:none; border-radius:4px}
-.led::before{
-  content:""; position:absolute; left:50%; top:50%; width:27%; height:50%; translate:-50% -50%;
-  border-radius:1.5px; background:linear-gradient(90deg,#5A5A5A,#B9B9B9 35%,#B9B9B9 65%,#5A5A5A);
-  transition:background .12s, box-shadow .12s;
-}
-.led.on::before{background:#FF2A1A; box-shadow:0 0 6px 2px rgba(255,40,26,.85), 0 0 14px 4px rgba(255,40,26,.45)}
-.led.tap{cursor:pointer}
-.led.tap:hover{background:rgba(255,255,255,.08)}
-.led.tap:not(.on):hover::before{background:#7A3530}
-.mbbtn{
-  position:absolute; left:8%; top:41.56%; width:11%; height:13.75%; padding:0;
-  border:1px solid #5C5C5C; border-radius:3px; background:linear-gradient(180deg,#BDBDBD,#8C8C8C);
-}
-.mbbtn.b{left:81%}
-.mbbtn::after{
-  content:""; position:absolute; inset:17%; border-radius:50%; background:#0C0C0C;
-  box-shadow:inset 0 -2px 2px rgba(255,255,255,.15); transition:transform .08s;
-}
-.mbbtn:disabled{cursor:default}
-.mbbtn:not(:disabled){cursor:pointer}
-.mbbtn:not(:disabled):hover{outline:2px solid #FFC800; outline-offset:2px}
-.mbbtn.pressed::after{transform:scale(.86); background:#2A2A2A}
-.mbctl{width:100%; max-width:280px; display:flex; flex-direction:column; gap:9px}
-.mbctl[hidden]{display:none}
-.mbctl label{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
-.mbctl input[type=range]{width:100%; accent-color:var(--accent)}
-.mbreadout{
-  font-family:var(--mono); font-size:12.5px; color:var(--ink-2);
-  display:flex; justify-content:space-between; gap:10px; font-variant-numeric:tabular-nums;
-}
-.mbreadout b{color:var(--accent)}
-.mbmini{display:grid; grid-template-columns:repeat(5,1fr); gap:4px; width:78px; margin-top:8px}
-.mbmini span{display:block; width:12px; height:15px; border-radius:2px; background:var(--line)}
-.mbmini span.on{background:var(--accent)}
-.mbchips{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
-.mbchips span{
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
-  border:1px dashed var(--line); border-radius:16px; padding:2px 9px; color:var(--ink-3);
-}
-.mbchips span.on{border-style:solid; border-color:var(--teal); background:var(--teal-soft); color:var(--teal)}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
-  .mbboard{transition:none}
-  .mbboard.shake{animation:none}
   .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
 }
 

@@ -1,107 +1,72 @@
-/* Drehbuch Station 3: Fahrschule. Quelle: src/stations/03-fahrschule.html (master).
-   Schema siehe maskottchen.js (Abschnitt Gespräch). */
-DREHBUCH[3] = {name:"Fahrschule", min:14, badge:"Fahrlehrer", titel:"Erst denken, dann fahren", schritte:[
-  { id:"einsetzen",
-    nachrichten:[
-      "Jetzt bekommt euer micro:bit Räder.",
-      "Steckt ihn in den Schlitz am Roboter, <b>mit den 25 Lämpchen nach vorn</b>. Schaut ihr von vorn auf den Roboter, seht ihr alle 25.",
-      {karte:"k3-mqinsert"},
-      "Dann kommen <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte. Von vorn gesehen sitzen beide links.",
-      "Ohne beide Schalter passiert gar nichts."
-    ],
-    chips:[ "Wie herum kommt der micro:bit rein?", "Wo sind die Schalter?", "Der Roboter leuchtet nicht", "Wo ist das Akkubrett?" ],
-    fertig:"Steckt, beide Schalter an ✓" },
-
+/* Drehbuch Station 3: Fahrschule. Quelle: master, Station 03 (Parcours first, 09.11.2026:
+   Einsetzen, Vorlage, Liniensensor, Knopf A = Ampel + Line patrolling ON, Knopf B = OFF).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). Kein Motorblock, keine Schleife:
+   Hier wird nur geübt, was der Grand Prix braucht. */
+DREHBUCH[3] = {name:"Fahrschule", min:20, badge:"Spurhalter", titel:"Der Roboter fährt die Linie", schritte:[
   { id:"vorlage",
     nachrichten:[
-      "MakeCode kennt den Maqueen erst, wenn seine Block-Sammlung geladen ist. Dafür gibt es ein <b>Vorlagenprojekt</b>, in dem sie schon drinsteckt.",
-      "Klickt auf den Knopf. Das Roboter-Projekt geht in einem neuen Tab auf.",
+      "Jetzt bekommt euer micro:bit Räder. Du sagst dem Roboter nicht, wo er langfahren soll, sondern worauf er achten soll.",
+      "Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken, Kategorie <b>Maqueen Plus V2</b>.",
       {karte:"makecode:vorlage"},
-      "Links seht ihr jetzt eine neue Kategorie <b>Maqueen Plus V2</b>. Da liegen alle Roboter-Blöcke.",
-      "Gebt dem Projekt unten neben <b>Herunterladen</b> den Namen <b>Fahren</b>."
+      "Nennt es unten neben <b>Herunterladen</b> <b>Linie</b>. Ihr arbeitet bis zum Grand Prix darin."
     ],
-    zeig:{ "Wie kommen die Blöcke da rein?":[
-      "Nur zum Lesen: Unten links übers Zahnrad, dann <b>Erweiterungen</b>, nach <kbd>dfrobot</kbd> suchen und <b>DFRobot_MaqueenPlus_V2</b> wählen. Die heißt noch „V2“, kann aber alles von eurem V3.",
-      "Genau das steckt schon in eurer Vorlage, ihr müsst also nichts nachladen.",
-      "Bitte heute nicht anklicken: Nachladen braucht Internet, und das ist hier auf der Messe langsam und wackelig."
+    zeig:{ "Warum eine Vorlage?":[
+      "MakeCode kennt den Maqueen erst, wenn seine Block-Sammlung geladen ist. In der Vorlage steckt sie schon drin.",
+      "Bitte heute nichts nachladen: Das braucht Internet, und das ist auf der Messe langsam."
     ]},
     chips:[ "Wo ist die Kategorie Maqueen Plus V2?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
-    fertig:"Vorlage ist offen ✓" },
+    fertig:"Projekt Linie ist offen ✓" },
 
-  { id:"simulator",
+  { id:"einsetzen",
     nachrichten:[
-      "Profis testen ihren Code, bevor er auf die Hardware geht. Sonst fährt der Roboter vom Tisch.",
-      "Löst hier im Simulator die Parcours <b>1</b> und <b>2</b>. Klickt links auf Bausteine, dann auf <b>Ausführen</b>.",
-      {karte:"k3-sim"},
-      "Parcours <b>3</b> ist der Bonus für Schnelle. Da hilft euch eine Schleife.",
-      "Danach fahrt ihr dasselbe in echt."
+      "micro:bit in den Schlitz, <b>Lämpchen nach vorn</b>. Dann <b>beide</b> Schalter auf ON.",
+      {karte:"k3-mqinsert"},
+      "<kbd>initialisiere Maqueen Plus V2</kbd> steht in der Vorlage oben in <kbd>beim Start</kbd>: nicht löschen.",
+      "Blinkt ein <b>X</b>, antwortet der Roboter nicht: Schalter und Sitz prüfen. <b>Haken</b> heißt verbunden."
     ],
-    chips:[ "Wie lösche ich einen Baustein?", "Der Roboter fährt gegen die Wand", "Wie komme ich zu Parcours 2?", "Was macht die Schleife?" ],
-    fertig:"Parcours 1 und 2 geschafft ✓" },
+    chips:[ "Wie herum kommt der micro:bit rein?", "Wo sind die Schalter?", "Der micro:bit zeigt nur ein X", "Der Roboter leuchtet nicht" ],
+    fertig:"Steckt, beide Schalter an ✓" },
 
-  { id:"motoren",
+  { id:"sensor",
     nachrichten:[
-      "Der echte Maqueen kennt keine Felder. Er kennt <b>Geschwindigkeit</b> von 0 bis 255 und <b>Zeit</b>.",
-      "Aus „fahre 3 Felder“ wird also: fahren, warten, stoppen.",
-      {karte:"k3-motor"},
-      "<kbd>initialisiere Maqueen Plus V2</kbd> gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In der Vorlage steht er schon: nicht löschen.",
-      "Zahlengefühl: Unter etwa <b>30</b> bewegt sich nichts, da ist der Motor zu schwach. 1000 ms sind eine Sekunde."
+      "Unten sitzen fünf Lichtmesser. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert eine Zahl:",
+      {karte:"k3-tabelle"},
+      "Was hier „schwarz“ heißt, hat euer Roboter beim Aufbau gelernt. Das nennt man kalibrieren, der Betreuer hat es schon gemacht."
     ],
-    zeig:{ "Was macht initialisiere?":[
-      "Mit ihm fragt der micro:bit beim Roboter an: „Bist du da?“ Ein blinkendes <b>X</b> heißt keine Antwort, ein <b>Haken</b> heißt verbunden."
+    zeig:{ "Wie kalibriere ich neu?":[
+      "Alle fünf Sensoren auf Schwarz stellen, einschalten. Dann die Taste <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt."
     ]},
-    chips:[ "Wo ist steuere beide Räder?", "Der micro:bit zeigt nur ein X", "Wo ist pausiere?", "Warum nicht Geschwindigkeit 255?" ],
+    chips:[ "Warum ist Schwarz die kleinere Zahl?", "Wo sitzen die Sensoren?", "Was heißt kalibrieren?", "Wo ist die Calc-Key?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"bloecke",
+    nachrichten:[
+      "Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
+      "Sie sind auf Englisch: <b>Line patrolling</b> heißt „Linie abfahren“, <b>Speed</b> Stufe, <b>RGB Car Lights</b> sind die Lichter.",
+      {karte:"k3-bloecke"},
+      "Nicht in <kbd>beim Start</kbd>: Sonst fährt er los, während ihr ihn noch hinstellt. Knopf B ist euer Not-Aus."
+    ],
+    chips:[ "Wo ist … mehr?", "Wo ist die Gruppe V3?", "Wo ist RGB Car Lights?", "Wo ist pausiere?" ],
     fertig:"Gebaut ✓" },
 
-  { id:"aufbocken",
+  { id:"fahren",
     nachrichten:[
-      "Achtung, bevor ihr herunterladet: Stellt den Roboter auf eine kleine Schachtel oder eine Rolle Klebeband.",
-      "Die Räder müssen in der Luft hängen, wie bei einem Auto in der Werkstatt."
-    ],
-    chips:[ "Wir haben keine Schachtel", "Wie hoch muss er stehen?", "Warum aufbocken?" ],
-    fertig:"Räder hängen in der Luft ✓" },
-
-  { id:"probelauf",
-    nachrichten:[
-      "Jetzt herunterladen. Drehen sich beide Räder eine Sekunde lang?",
-      "Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren.",
-      "Das gilt ab jetzt für <b>jedes neue Programm</b>: erst aufbocken, dann fahren."
+      "Herunterladen, USB-Kabel abziehen. Roboter auf den Teststreifen am Boden, Mitte über der Linie, einschalten.",
+      "<b>Knopf A</b>: Ampel, dann fährt er. <b>Knopf B</b> hält ihn an.",
+      "Testen: Fährt er der Linie nach? Legt den Streifen anders hin."
     ],
     zeig:{ "Es klappt nicht":[
-      "Blinkt ein <b>X</b>? Dann antwortet der Roboter nicht.",
-      "Prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt.",
+      "Zeigt der micro:bit nur ein blinkendes <b>X</b>? Dann antwortet der Roboter nicht: beide Schalter und den Sitz im Schlitz prüfen.",
       {karte:"k3-klemmt"}
     ]},
-    chips:[ "Die Räder drehen sich nicht", "Der micro:bit zeigt nur ein X", "Er fährt einen Bogen", "Nur ein Rad dreht sich" ],
-    fertig:"Räder drehen sich ✓" },
+    chips:[ "Der micro:bit zeigt nur ein X", "Er fährt von der Linie runter", "Er fährt gar nicht los", "Die Ampel leuchtet nicht" ],
+    fertig:"Er fährt!" },
 
-  { id:"drehen",
+  { id:"quiz",
     nachrichten:[
-      "Der Maqueen hat kein Lenkrad. Er dreht, indem die beiden Räder <em>unterschiedlich schnell</em> laufen.",
-      "Läuft ein Rad vorwärts und das andere rückwärts, dreht er sich auf der Stelle.",
-      {karte:"k3-dreh"},
-      "Hängt diese Blöcke unter eure Geradeaus-Blöcke.",
-      "Testen: Herunterladen. Dreht sich der aufgebockte Roboter nach rechts?"
+      "Eine Kontrollfrage noch, dann gehört das Abzeichen euch.",
+      {karte:"k3-quiz"}
     ],
-    chips:[ "Er dreht nach links statt nach rechts", "Wo ist linkes Rad?", "Er dreht keine ganze Ecke", "Wo hänge ich die Blöcke hin?" ],
-    fertig:"Er dreht ✓" },
-
-  { id:"quadrat", bonus:true, titel:"Quadrat",
-    nachrichten:[
-      "Team-Challenge: Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.",
-      "<b>Tipp 1:</b> Nehmt <kbd>wenn Knopf A geklickt</kbd> statt <kbd>beim Start</kbd>, das kennt ihr aus Station 2. Dann fährt er erst los, wenn er auf dem Boden steht und ihr drückt.",
-      "<b>Tipp 2:</b> 400 ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800."
-    ],
-    zeig:{ "Mehr Tipps":[
-      "<b>Tipp 3:</b> Eine Seite vom Quadrat sind die Geradeaus-Blöcke plus die Dreh-Blöcke, und das 4-mal.",
-      "Rechtsklick auf einen Block, dann <b>Duplizieren</b>: Das spart Arbeit.",
-      "Probieren, messen, korrigieren: Genau so arbeiten Ingenieure.",
-      "Geschafft? Dann zeigt es eurem Betreuer."
-    ], "Wir kommen nicht weiter":[
-      "Hier ist ein Gerüst. Die ??? findet ihr selbst heraus.",
-      {karte:"k3-quadrat"},
-      "Die Schleife <kbd>-mal wiederholen</kbd> kennt ihr aus Parcours 3 im Simulator. Sie liegt in MakeCode bei den grünen <b>Schleifen</b>."
-    ]},
-    chips:[ "Wie viele ms für eine Ecke?", "Wo ist Duplizieren?", "Wo ist die Schleife?", "Er landet nicht am Start" ],
-    fertig:"Quadrat gefahren ✓" }
+    chips:[ "Welche Zahl heißt Schwarz?", "Wie viele Sensoren hat er?", "Was ist eine Kreuzung?" ],
+    fertig:"Beantwortet ✓" }
 ]};

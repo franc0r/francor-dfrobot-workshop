@@ -8,19 +8,19 @@
  *      Skripte, Bilder), nur die MakeCode-Links; kein Schlüssel in der Datei.
  *   2. Struktur: keine Stationsseiten mehr; Rail-Minuten summieren auf 105 (+ 15 Puffer = 120)
  *      und stimmen mit den Drehbüchern überein (Testhaken window.__drehbuchMin, nur file://).
+ *      Dazu die Stückliste als Seite oben in der Leiste – ohne Minuten, Timer, Abzeichen und
+ *      ohne Gespräch (Figur und #gespraech sind dort ausgeblendet).
  *   3. Figur: Name, Blinzeln, Blick zur Maus, reduzierte Bewegung (kein Tipp-Effekt).
  *   4. Karten: liegen versteckt im Vorrat #karten; window.__karte holt sie ins Gespräch.
- *   5. Simulatoren im Gespräch: micro:bit (Herz, Logo oben/unten, Schütteln) und Parcours
- *      (Level 1 mit "fahre 5" im Ziel, nach Neuladen wieder da).
- *   6. Gespräch Station 0 bis 6: Verlauf, Knöpfe, Bonus/Extra, Abzeichen, Neuladen;
- *      ein Durchlauf aller sieben Drehbücher bis „Workshop geschafft!“ mit 7 Abzeichen.
- *   7. Dunkelmodus auf Handybreite (360 px): Sicherheitsfenster, Streckenskizze Station 6.
- *   8. Frage-Feld „Geht nicht“: ohne Netz die Rückfallantwort mit Checkliste; Kontingent
+ *   5. Gespräch Station 0 bis 5: Verlauf, Knöpfe, „Zeig mir“, Bonus/Extra, Abzeichen, Neuladen;
+ *      ein Durchlauf aller sechs Drehbücher bis „Workshop geschafft!“ mit 6 Abzeichen.
+ *   6. Dunkelmodus auf Handybreite (360 px): Sicherheitsfenster, Streckenskizze Station 5.
+ *   7. Frage-Feld „Geht nicht“: ohne Netz die Rückfallantwort mit Checkliste; Kontingent
  *      (S.fragen ≥ 30: kein fetch); mit gefälschtem OpenRouter (Playwright route) Antwort,
  *      Anfrageform [system, user] mit Mitschrift, Zähler mgp-llm, Serverfehler, späte
  *      Antwort nach „Neues Team“, Schlüssel bleibt erhalten.
- *   9. Vorlesen (Schalter mgp-tts): Standard aus, ohne HTML, Verlauf bleibt still.
- *  10. Betreuer-Handbuch öffnet sich; "Neues Team" setzt zurück und zeigt das
+ *   8. Vorlesen (Schalter mgp-tts): Standard aus, ohne HTML, Verlauf bleibt still.
+ *   9. Betreuer-Handbuch öffnet sich; "Neues Team" setzt zurück und zeigt das
  *      Sicherheitsfenster wieder (nur der Knopf schließt es).
  */
 const path = require('path');
@@ -95,9 +95,9 @@ function check(cond, msg) {
   await ctxR.close();
 
   // Struktur: keine Stationsseiten mehr, die Rail trägt die Minuten, die Drehbücher stimmen damit überein
-  check((await page.$$('.station')).length === 0, 'keine Stationsseiten mehr (alles läuft im Gespräch)');
-  const railMins = await page.$$eval('.stepbtn .min', s => s.map(x => parseInt(x.textContent, 10)));
-  check(railMins.length === 7 && railMins.reduce((a, b) => a + b, 0) === 105, 'Rail: sieben Stationen, Minuten summieren auf 105 (' + railMins.join('+') + ')');
+  check((await page.$$('.station:not(.page)')).length === 0, 'keine Stationsseiten mehr (alles läuft im Gespräch)');
+  const railMins = await page.$$eval('.stepbtn:not(.page) .min', s => s.map(x => parseInt(x.textContent, 10)));
+  check(railMins.length === 6 && railMins.reduce((a, b) => a + b, 0) === 105, 'Rail: sechs Stationen, Minuten summieren auf 105 (' + railMins.join('+') + ')');
   const dbMin = await page.evaluate(() => window.__drehbuchMin);
   check(Array.isArray(dbMin) && dbMin.length >= 1 && dbMin.every((m, i) => m === undefined || m === null || m === railMins[i]), 'Drehbuch-Minuten = Rail-Minuten (' + JSON.stringify(dbMin) + ')');
 
@@ -109,71 +109,41 @@ function check(cond, msg) {
     await p2.goto('file://' + DIST);
     await p2.waitForTimeout(300);
     check(await p2.evaluate(() => { const b = document.querySelector('#safety .sbox').getBoundingClientRect(); return b.left >= 0 && b.right <= window.innerWidth; }), 'Sicherheit: Fenster passt auf 360 px (dunkel)');
-    // Station 6 im Dunkelmodus auf Handybreite: Skizze im Gespräch
+    // Station 5 im Dunkelmodus auf Handybreite: Skizze im Gespräch
     await p2.click('#safetyok'); await p2.waitForTimeout(100);
-    await p2.click('.stepbtn[data-go="6"]'); await p2.waitForTimeout(300);
-    await p2.evaluate(() => window.__karte(6, 'k6-gpmap'));
+    await p2.click('.stepbtn[data-go="5"]'); await p2.waitForTimeout(300);
+    await p2.evaluate(() => window.__karte(5, 'k5-gpmap'));
     await p2.waitForTimeout(100);
-    check(await p2.$('#chat #gpmap') !== null, 'Station 6: Streckenskizze im Gespräch (dunkel, 360 px)');
-    check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß');
-    check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
+    check(await p2.$('#chat #gpmap') !== null, 'Station 5: Streckenskizze im Gespräch (dunkel, 360 px)');
+    check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 5: Matte bleibt im Dunkelmodus weiß');
+    check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 5: kein waagerechter Scroll bei 360 px');
     const fig = await p2.$eval('.figur', e => { const r = e.getBoundingClientRect(); return { w: r.width, h: r.height, vis: getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'none' }; });
-    check(fig.vis && fig.w > 0 && fig.h > 0 && fig.w <= 80, 'Station 6: Figur sichtbar und höchstens 80 px breit bei 360 px (' + Math.round(fig.w) + ' px)');
+    check(fig.vis && fig.w > 0 && fig.h > 0 && fig.w <= 80, 'Station 5: Figur sichtbar und höchstens 80 px breit bei 360 px (' + Math.round(fig.w) + ' px)');
     check(await p2.$eval('#figur .mund', e => getComputedStyle(e).stroke) === 'rgb(230, 237, 239)', 'Figur: Mund ist im Dunkelmodus hell');
     await ctx2.close();
   }
 
   // Karten sind im Vorrat versteckt, bis das Gespräch sie holt
   check(await page.$('#karten #mqmap') !== null, 'Karten: Vorrat trägt die Maqueen-Übersicht');
-  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-start', 'k1-herz', 'k1-quiz', 'k1-klemmt', 'k2-mbsim', 'k2-knoepfe', 'k2-neigen', 'k2-tabelle', 'k2-quiz', 'k2-wuerfel', 'k2-klemmt', 'k3-mqinsert', 'k3-sim', 'k3-motor', 'k3-dreh', 'k3-quadrat', 'k3-klemmt', 'k4-bloecke', 'k4-licht', 'k4-quiz', 'k4-klemmt', 'k5-laser', 'k5-logik', 'k5-bauen', 'k5-pause', 'k5-quiz', 'k5-klemmt', 'k6-gpmap', 'k6-typen', 'k6-kreuzungen', 'k6-tempo', 'k6-ampel', 'k6-laser', 'k6-melodie', 'k6-plan', 'k6-final', 'k6-klemmt'])
+  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-start', 'k1-herz', 'k1-quiz', 'k1-klemmt', 'k2-knoepfe', 'k2-neigen', 'k2-tabelle', 'k2-zahl', 'k2-quiz', 'k2-wuerfel', 'k2-klemmt', 'k3-mqinsert', 'k3-tabelle', 'k3-bloecke', 'k3-quiz', 'k3-klemmt', 'k4-laser', 'k4-bedingung', 'k4-bauen', 'k4-quiz', 'k4-klemmt', 'k5-gpmap', 'k5-typen', 'k5-kreuzungen', 'k5-melodie', 'k5-tempo', 'k5-plan', 'k5-variable', 'k5-final', 'k5-klemmt'])
     check(await page.$('#karten [data-karte="' + id + '"]') !== null, 'Karten: ' + id + ' im Vorrat');
 
-  // Station 2: micro:bit-Simulator
-  await page.click('.stepbtn[data-go="2"]'); await page.waitForTimeout(400);
-  await page.evaluate(() => window.__karte(2, 'k2-mbsim'));   // Testhaken, nur unter file://
-  check(await page.$('#chat #mbmatrix') !== null, 'Karte: micro:bit-Simulator im Gespräch');
-  const heart = '0101011111111110111000100';
-  for (let i = 0; i < 25; i++) if (heart[i] === '1') await page.click('#mbmatrix .led[data-i="' + i + '"]');
-  await page.waitForTimeout(200);
-  check(await page.$eval('#mbstatus', e => e.classList.contains('ok')), 'micro:bit: Herz gezeichnet → Erfolg');
-  await page.click('#mbtabs button:nth-child(3)');
-  const shown = () => page.$$eval('#mbmatrix .led', l => l.map(e => e.classList.contains('on') ? '1' : '0').join(''));
-  await page.fill('#mbtilt', '-700');
-  await page.dispatchEvent('#mbtilt', 'input');
-  check(await page.$eval('#mbxval', e => e.textContent) === '-700', 'micro:bit: Neigung -700 angezeigt');
-  check(await shown() === '0010001110101010010000100', 'micro:bit: Logo nach oben → Pfeil Norden');
-  await page.fill('#mbtilt', '100');
-  await page.dispatchEvent('#mbtilt', 'input');
-  check(await shown() === '0010001110101010010000100', 'micro:bit: unter der Grenze bleibt die Anzeige stehen');
-  await page.fill('#mbtilt', '700');
-  await page.dispatchEvent('#mbtilt', 'input');
-  check(await shown() === '0010000100101010111000100', 'micro:bit: Logo nach unten → Pfeil Süden');
-  await page.click('#mbshake');
-  await page.waitForTimeout(900);
-  check(await shown() === '0111010101111110111001110', 'micro:bit: Schütteln zeigt Totenkopf');
-  check(await page.$eval('#mbstatus', e => e.classList.contains('ok')), 'micro:bit: alle drei Ereignisse → Erfolg');
-
-  // Station 3: Parcours-Simulator
-  await page.click('.stepbtn[data-go="3"]'); await page.waitForTimeout(400);
-  await page.evaluate(() => window.__karte(3, 'k3-sim'));
-  check(await page.$eval('#chat #cv', e => e.getBoundingClientRect().width) > 100, 'Karte: Parcours-Canvas sichtbar und gezeichnet');
-  const level1 = async () => {
-    await page.click('.pb:has-text("fahre")');
-    const plus = page.locator('.prow .chip .step', { hasText: '+' }).first();
-    for (let i = 0; i < 4; i++) await plus.click();
-    await page.click('#runbtn');
-    await page.waitForTimeout(2600);
-    return page.$eval('#status', e => e.classList.contains('ok'));
-  };
-  check(await level1(), 'Parcours: Level 1 mit "fahre 5" im Ziel');
-  await page.click('#levsel button:nth-child(2)');
-  check(await page.$eval('#levsel button:nth-child(2)', e => e.getAttribute('aria-pressed') === 'true'), 'Parcours: Levelwahl im Gespräch klickbar');
-  await page.reload(); await page.waitForTimeout(400);
-  check(await page.$('#chat #cv') !== null, 'Karte: Parcours nach Neuladen wieder im Gespräch');
-  check(await page.$('#karten #cv') === null, 'Karte: Parcours liegt nicht doppelt im Vorrat');
-  check(await page.$eval('#chat #cv', e => e.getBoundingClientRect().width) > 100, 'Karte: Parcours-Canvas nach Neuladen gezeichnet (Breite > 100)');
-  await page.click('#levsel button:nth-child(1)');
-  check(await level1(), 'Parcours: nach Neuladen fährt "fahre 5" wieder ins Ziel');
+  // Stückliste: Seite oben in der Leiste, keine Station, kein Gespräch
+  check(await page.$eval('#rail .stepbtn:first-of-type', e => e.classList.contains('page') && e.textContent.includes('Stückliste')), 'Stückliste: erster Knopf in der Leiste');
+  check(await page.$$eval('.stepbtn .min', s => s.filter(x => /\d/.test(x.textContent)).length) === 6, 'Stückliste: zählt nicht zu den Stationsminuten');
+  await page.click('.stepbtn[data-go="teile"]'); await page.waitForTimeout(100);
+  check(await page.$eval('.page[data-st="teile"]', e => !e.hidden) && await page.$eval('#gespraech', e => e.hidden) && await page.$eval('#figur', e => e.hidden), 'Stückliste: öffnet, Gespräch und Figur sind ausgeblendet');
+  check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Stückliste: startet den Timer nicht');
+  const teile = (await page.$eval('.page[data-st="teile"]', e => e.textContent)).replace(/\u00a0/g, ' ');
+  for (const w of ['micro:bit V2', 'Maqueen Plus V3', 'DFRobot', '18650', '4 × AA', 'Datenkabel', 'Button Top'])
+    check(teile.includes(w), 'Stückliste: nennt "' + w + '"');
+  check(await page.$$eval('.page[data-st="teile"] a[href]', l => l.every(a => a.getAttribute('href').startsWith('https://makecode.microbit.org/#'))), 'Stückliste: kein Shop-Link, nur MakeCode');
+  check(!/\p{Extended_Pictographic}/u.test(teile), 'Stückliste: kein Emoji');
+  await page.reload(); await page.waitForTimeout(300);
+  check(await page.$eval('.page[data-st="teile"]', e => !e.hidden) && await page.$eval('#gespraech', e => e.hidden), 'Stückliste: bleibt nach Neuladen offen');
+  await page.click('.page[data-st="teile"] [data-go="0"]'); await page.waitForTimeout(100);
+  check(await page.$eval('.page[data-st="teile"]', e => e.hidden) && await page.$eval('#gespraech', e => !e.hidden) && await page.$eval('#figur', e => !e.hidden), 'Stückliste: Knopf „Zum Workshop“ führt zurück ins Gespräch');
+  check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), 'Stückliste: vergibt kein Abzeichen');
 
   // Keine Punkteanzeige mehr
   check((await page.$('#ptsval')) === null, 'keine Punkteanzeige');
@@ -200,11 +170,6 @@ function check(cond, msg) {
     check(await page.$$eval('#chat .blase', l => l.length) === n0, 'Gespräch: Neuladen zeigt den Verlauf, nichts doppelt');
     check(await page.$('#antworten button[data-fertig]') !== null, 'Gespräch: Antwortknöpfe nach Neuladen da');
     check(await page.$('#antworten button[data-frage]') !== null, 'Gespräch: Knopf „Geht nicht“ da');
-    // „Zeig mir“: Zusatz-Erklärung ohne Schrittwechsel
-    const vorZeig = await page.$$eval('#chat .blase', l => l.length);
-    await page.click('#antworten button[data-zeig]'); await page.waitForTimeout(2200);
-    check(await page.$$eval('#chat .blase', l => l.length) === vorZeig + 3, 'Gespräch: „Zeig mir“ zeigt Antwort und Erklärung');
-    check(await page.$eval('#chat .blase.me', e => e.textContent) === 'Nochmal einfacher', 'Gespräch: eigene Antwort als Blase rechts');
     let runden = 0;
     while (await page.$('#antworten button[data-fertig]') && runden++ < 10) { await page.click('#antworten button[data-fertig]'); await page.waitForTimeout(3500); }
     check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 1), 'Station 0 durchgespielt → Abzeichen');
@@ -239,6 +204,13 @@ function check(cond, msg) {
     await page.click('.stepbtn[data-go="1"]'); await page.waitForTimeout(100);
     check(/Ja, ihr dürft\. Jetzt\./.test(await page.$eval('#chat', e => e.textContent)), 'Station 1: Franco gibt die Erlaubnis');
     check(await page.$('#chat .blase.karte a[href="https://makecode.microbit.org/#newproject"]') !== null, 'Station 1: Knopf „Neues Projekt starten“ im Gespräch');
+    // „Zeig mir“: Zusatz-Erklärung ohne Schrittwechsel (Schritt „umschauen“)
+    await weiter();
+    const vorZeig = await page.$$eval('#chat .blase', l => l.length);
+    await page.click('#antworten button[data-zeig="So bedient ihr MakeCode"]'); await page.waitForTimeout(100);
+    check(await page.$$eval('#chat .blase', l => l.length) === vorZeig + 4, 'Gespräch: „Zeig mir“ zeigt Antwort und Erklärung');
+    check(await page.$$eval('#chat .blase.me', l => l.length && l[l.length - 1].textContent) === 'So bedient ihr MakeCode', 'Gespräch: eigene Antwort als Blase rechts');
+    check(await page.$('#antworten button[data-fertig]') !== null && (await page.$eval('#antworten button[data-fertig]', e => e.textContent)) === 'Alles gefunden ✓', 'Gespräch: „Zeig mir“ wechselt den Schritt nicht');
     let r1 = 0;
     while (!(await page.$('#chat [data-karte="k1-herz"]')) && r1++ < 5) await weiter();
     check(await page.isVisible('#chat [data-karte="k1-herz"]'), 'Station 1: Karte k1-herz sichtbar');
@@ -252,7 +224,7 @@ function check(cond, msg) {
     // Station 2: Bonus überspringen blockiert das Abzeichen nicht (Review-Fokus 5)
     await page.click('#antworten button[data-go="2"]'); await page.waitForTimeout(100);
     // unterwegs: „Es klappt nicht“ beim Neigen holt die Checkliste, die Grenze ist ein eigener Schritt
-    let r2 = 0, klemmtNeigen = false, grenzeFertig = '';
+    let r2 = 0, klemmtNeigen = false, grenzeFertig = '', zahlKarte = false;
     while (!(await page.$('#antworten button[data-skip]')) && await page.$('#antworten button[data-fertig]') && r2++ < 12) {
       // Schritt erkennen am Fertig-Knopf (die Drehbücher liegen nicht global)
       const fk = await page.$eval('#antworten button[data-fertig]', e => e.textContent);
@@ -260,12 +232,17 @@ function check(cond, msg) {
         await page.click('#antworten button[data-zeig="Es klappt nicht"]'); await page.waitForTimeout(50);
         klemmtNeigen = await page.$('#chat [data-karte="k2-klemmt"]') !== null;
       }
-      if (await page.$('#chat [data-karte="k2-tabelle"]') && !grenzeFertig) grenzeFertig = fk;
+      if (await page.$('#chat [data-karte="k2-tabelle"]') && !grenzeFertig) {
+        grenzeFertig = fk;
+        await page.click('#antworten button[data-zeig="Die Zahl selbst sehen"]'); await page.waitForTimeout(50);
+        zahlKarte = await page.$('#chat [data-karte="k2-zahl"] .mcc') !== null;
+      }
       await weiter();
     }
     check(klemmtNeigen, 'Station 2: „Es klappt nicht“ beim Neigen zeigt k2-klemmt');
     check(grenzeFertig === 'Verstanden ✓', 'Station 2: Grenze 200 als eigener Schritt mit Tabelle (' + grenzeFertig + ')');
-    check(await page.$('#chat #mbmatrix') !== null, 'Station 2: micro:bit-Simulator im Gespräch');
+    check(zahlKarte, 'Station 2: Extra „Die Zahl selbst sehen“ zeigt zeige Zahl (Beschleunigung y) als Klammer');
+    check(await page.$('#chat #mbmatrix') === null && await page.$('#karten #mbsim') === null, 'Station 2: kein eigener Simulator mehr (MakeCode-Simulator)');
     check(await page.$('#antworten button[data-skip]') !== null && (await page.$eval('#antworten button[data-skip]', e => e.textContent)) === 'Überspringen', 'Station 2: Knopf „Überspringen“ beim Würfel');
     const vorher = await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length);
     await page.click('#antworten button[data-skip]'); await page.waitForTimeout(100);
@@ -282,7 +259,7 @@ function check(cond, msg) {
     await ctxS.close();
   }
 
-  // Station 3 bis 5 als Gespräch. Reduzierte Bewegung; Schritte erkennt der Test am Fertig-Knopf.
+  // Station 3 und 4 als Gespräch. Reduzierte Bewegung; Schritte erkennt der Test am Fertig-Knopf.
   {
     const ctxT = await browser.newContext({ reducedMotion: 'reduce', offline: true, viewport: { width: 1280, height: 1000 } });
     const page = await ctxT.newPage();
@@ -295,74 +272,49 @@ function check(cond, msg) {
     const klammern = () => page.$$eval('#chat .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim().replace(/\s+/g, ' ') + ':' + c.querySelectorAll(':scope > .mcbody > .mcb, :scope > .mcbody > .mcc').length));
     const abzeichen = () => page.$eval('#badges', e => e.querySelectorAll('.badge.on').length);
 
-    // Station 3: Einsetzen, Vorlage, Simulator, Motorblöcke, Quadrat als Extra
+    // Station 3: Vorlage „Linie“, Einsetzen, Sensorzahlen, Ampel + Line patrolling, Fahren, Quiz
     await page.click('.stepbtn[data-go="3"]'); await page.waitForTimeout(100);
-    check(await page.$('#chat [data-karte="k3-mqinsert"] #mqinsert') !== null, 'Station 3: Einsetz-Figur im Gespräch');
-    let r3 = 0, klemmt3 = false;
-    while (!(await page.$('#antworten button[data-skip]')) && await page.$('#antworten button[data-fertig]') && r3++ < 12) {
-      if (await page.$('#antworten button[data-zeig="Es klappt nicht"]') && !klemmt3) {
+    check(/Linie/.test(await page.$eval('#chat', e => e.textContent)) && await page.$('#chat .blase.karte a[href^="https://makecode.microbit.org/#project:"]') !== null, 'Station 3: Knopf „Neues Roboter-Projekt starten“, Projekt heißt Linie');
+    let r3 = 0, klemmt3 = false, chips3 = null;
+    while (await page.$('#antworten button[data-fertig]') && r3++ < 10) {
+      if (await fertigText() === 'Er fährt!' && !chips3) {
         await page.click('#antworten button[data-zeig="Es klappt nicht"]'); await page.waitForTimeout(50);
         klemmt3 = await page.$('#chat [data-karte="k3-klemmt"]') !== null;
-      }
-      await weiter();
-    }
-    check(await page.$('#chat .blase.karte a[href^="https://makecode.microbit.org/#project:"]') !== null, 'Station 3: Knopf „Neues Roboter-Projekt starten“ im Gespräch');
-    check(await page.$('#chat [data-karte="k3-sim"] #cv') !== null && await page.$eval('#cv', c => c.getBoundingClientRect().width > 100), 'Station 3: Parcours-Simulator im Gespräch');
-    check(/Bonus für Schnelle/.test(await page.$eval('#chat', e => e.textContent)), 'Station 3: Level 3 als Bonus für Schnelle');
-    const k3 = await klammern();
-    check(k3.includes('beim Start:4'), 'Station 3: Geradeaus-Blöcke als Klammer (' + k3.join(', ') + ')');
-    check(await page.$$eval('#chat .mcb.b-mq', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(15, 188, 17)')), 'Station 3: Maqueen-Blöcke hellgrün');
-    check(klemmt3, 'Station 3: „Es klappt nicht“ zeigt k3-klemmt');
-    check(await page.$('#antworten button[data-skip]') !== null, 'Station 3: Quadrat als Extra mit „Überspringen“');
-    const v3 = await abzeichen();
-    await page.click('#antworten button[data-skip]'); await page.waitForTimeout(100);
-    check(await abzeichen() === v3 + 1 && await page.$eval('.stepbtn[data-go="3"]', e => e.classList.contains('done')), 'Station 3: Abzeichen trotz übersprungenem Quadrat');
-    check(await page.$('#antworten button[data-extra]') !== null && await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Quadrat', 'Station 3: Extra heißt „Extra: Quadrat“');
-    await page.click('#antworten button[data-extra]'); await page.waitForTimeout(100);
-    check(/500 und 800/.test(await page.$eval('#chat', e => e.textContent)), 'Station 3: Quadrat-Tipp 500 bis 800 ms');
-    await page.click('#antworten button[data-zeig="Wir kommen nicht weiter"]'); await page.waitForTimeout(50);
-    check((await klammern()).some(k => /4 -mal wiederholen:6/.test(k)), 'Station 3: Quadrat-Gerüst mit Schleife');
-    await weiter();
-    check(await page.evaluate(() => JSON.parse(localStorage.getItem('mgp-v1')).bonus.quadrat === 1), 'Station 3: Quadrat erledigt');
-
-    // Station 4: Projekt Linie, Zahlen, Blöcke, Fahren mit verbindlichen Chips, Quiz
-    await page.click('.stepbtn[data-go="4"]'); await page.waitForTimeout(100);
-    check(/Linie/.test(await page.$eval('#chat', e => e.textContent)) && await page.$('#chat .blase.karte a[href^="https://makecode.microbit.org/#project:"]') !== null, 'Station 4: neues Roboter-Projekt „Linie“');
-    let r4 = 0, chips4 = null;
-    while (await page.$('#antworten button[data-fertig]') && r4++ < 10) {
-      if (await fertigText() === 'Er fährt!' && !chips4) {
         await page.click('#antworten button[data-frage]'); await page.waitForTimeout(50);
-        chips4 = await page.$$eval('#frage .chip', l => l.map(e => e.textContent));
+        chips3 = await page.$$eval('#frage .chip', l => l.map(e => e.textContent));
         await page.click('#frage button[data-zurueck]'); await page.waitForTimeout(50);
       }
       await weiter();
     }
-    const txt4 = await page.$eval('#chat', e => e.textContent);
-    check(/3800/.test(txt4) && /2700/.test(txt4), 'Station 4: Weiß ≈ 3800, Schwarz ≈ 2700');
-    const k4 = await klammern();
-    check(k4.includes('beim Start:2') && k4.includes('wenn Knopf A geklickt:1') && k4.includes('wenn Knopf B geklickt:1'), 'Station 4: Linienfolger-Blöcke als Klammer (' + k4.join(', ') + ')');
-    check(JSON.stringify(chips4) === JSON.stringify(['Der micro:bit zeigt nur ein X', 'Er fährt von der Linie runter', 'Er fährt gar nicht los', 'Wo ist der Block Line patrolling?']), 'Station 4: Chips beim Fahren (' + JSON.stringify(chips4) + ')');
-    check(await page.$('#chat [data-karte="k4-quiz"] .quiz[data-quiz="q3"]') !== null, 'Station 4: Quiz als Karte');
-    check(await page.$eval('.stepbtn[data-go="4"]', e => e.classList.contains('done')), 'Station 4 durchgespielt → Abzeichen');
+    check(await page.$('#chat [data-karte="k3-mqinsert"] #mqinsert') !== null, 'Station 3: Einsetz-Figur im Gespräch');
+    const txt3 = await page.$eval('#chat', e => e.textContent);
+    check(/3800/.test(txt3) && /2700/.test(txt3), 'Station 3: Weiß ≈ 3800, Schwarz ≈ 2700');
+    const k3 = await klammern();
+    check(k3.includes('beim Start:1') && k3.includes('wenn Knopf A geklickt:7') && k3.includes('wenn Knopf B geklickt:1'), 'Station 3: Ampel + Line patrolling als Klammer (' + k3.join(', ') + ')');
+    check(await page.$$eval('#chat .mcb.b-mq', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(15, 188, 17)')), 'Station 3: Maqueen-Blöcke hellgrün');
+    check(!/steuere|linkes Rad|beide Räder|-mal wiederholen/.test(txt3), 'Station 3: kein Motorblock, keine Schleife (Parcours first)');
+    check(klemmt3, 'Station 3: „Es klappt nicht“ zeigt k3-klemmt');
+    check(JSON.stringify(chips3) === JSON.stringify(['Der micro:bit zeigt nur ein X', 'Er fährt von der Linie runter', 'Er fährt gar nicht los', 'Die Ampel leuchtet nicht']), 'Station 3: Chips beim Fahren (' + JSON.stringify(chips3) + ')');
+    check(await page.$('#chat [data-karte="k3-quiz"] .quiz[data-quiz="q3"]') !== null, 'Station 3: Quiz als Karte');
+    check(await page.$eval('.stepbtn[data-go="3"]', e => e.classList.contains('done')), 'Station 3 durchgespielt → Abzeichen');
 
-    // Station 5: Laser, wenn/ansonsten, Pausenknopf, Quiz, Staubsauger als Extra
-    await page.click('#antworten button[data-go="5"]'); await page.waitForTimeout(100);
-    let r5 = 0;
-    while (!(await page.$('#antworten button[data-skip]')) && await page.$('#antworten button[data-fertig]') && r5++ < 10) await weiter();
-    check(await page.$$eval('#chat [data-karte="k5-logik"] .mcc[data-c="b-logic"] > .mcbody', l => l.length) === 2, 'Station 5: wenn/ansonsten in k5-logik mit zwei Armen');
-    check(await page.$$eval('#chat .mcc[data-c="b-logic"] > .mcbody', l => l.length) === 4, 'Station 5: beide wenn/ansonsten-Stapel ganz geklammert');
-    check(await page.$$eval('#chat .mcb.b-var', l => l.length === 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(220, 20, 60)')), 'Station 5: zwei Variablenblöcke in Rot');
-    check(await page.$$eval('#chat .mcstack', l => l.every(st => { const r = st.getBoundingClientRect().right + 1; return [...st.querySelectorAll('.mcb')].every(b => b.getBoundingClientRect().right <= r); })), 'Station 5: lange Blöcke ragen nicht aus der Karte');
-    check(await page.$$eval('#chat .mcb.b-lidar', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(91, 63, 232)')), 'Station 5: Laserblöcke lila');
-    check(await page.$('#chat [data-karte="k5-quiz"] .quiz[data-quiz="q4"]') !== null, 'Station 5: Quiz als Karte');
-    check(await page.$('#antworten button[data-skip]') !== null, 'Station 5: Staubsauger als Extra mit „Überspringen“');
-    await page.click('#antworten button[data-skip]'); await page.waitForTimeout(100);
-    check(await page.$eval('.stepbtn[data-go="5"]', e => e.classList.contains('done')), 'Station 5: Abzeichen trotz übersprungenem Staubsauger');
-    check(await page.$('#antworten button[data-extra]') !== null && await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Staubsauger', 'Station 5: Extra heißt „Extra: Staubsauger“');
+    // Station 4: weiter im Projekt Linie, Laser, Bedingung mit Bauanleitung, Denkfrage
+    await page.click('#antworten button[data-go="4"]'); await page.waitForTimeout(100);
+    check(/Meine Projekte/.test(await page.$eval('#chat', e => e.textContent)), 'Station 4: weiter im Projekt Linie');
+    let r4 = 0;
+    while (await page.$('#antworten button[data-fertig]') && r4++ < 10) await weiter();
+    const k4 = await klammern();
+    check(k4.includes('dauerhaft:2') && k4.some(k => /^wenn .*< 200 dann:2$/.test(k)), 'Station 4: Laser-Stopp als Klammer, wenn mit zwei Blöcken (' + k4.join(', ') + ')');
+    check(await page.$$eval('#chat .mcb.b-lidar', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(91, 63, 232)')), 'Station 4: Laserblöcke lila');
+    check(await page.$$eval('#chat .mcstack', l => l.every(st => { const r = st.getBoundingClientRect().right + 1; return [...st.querySelectorAll('.mcb')].every(b => b.getBoundingClientRect().right <= r); })), 'Station 4: lange Blöcke ragen nicht aus der Karte');
+    check(await page.$('#chat [data-karte="k4-bauen"] ol.steps') !== null, 'Station 4: Bauanleitung „Erst die Form, dann der Inhalt“');
+    check(!/ansonsten|Variable|pausiert|Staubsauger/.test(await page.$eval('#chat', e => e.textContent)), 'Station 4: nur der Laser-Stopp (kein ansonsten, keine Variable)');
+    check(await page.$('#chat [data-karte="k4-quiz"] .quiz[data-quiz="q4"]') !== null, 'Station 4: Quiz als Karte');
+    check(await page.$eval('.stepbtn[data-go="4"]', e => e.classList.contains('done')), 'Station 4 durchgespielt → Abzeichen');
     await ctxT.close();
   }
 
-  // Station 6 und Durchlauf aller Stationen: frischer Kontext, reduzierte Bewegung, jeder Knopf sofort
+  // Station 5 und Durchlauf aller Stationen: frischer Kontext, reduzierte Bewegung, jeder Knopf sofort
   {
     const ctxD = await browser.newContext({ reducedMotion: 'reduce', offline: true, viewport: { width: 1280, height: 1000 } });
     const page = await ctxD.newPage();
@@ -380,11 +332,11 @@ function check(cond, msg) {
     const stand = async () => { const z = await zustand(); return 'Station ' + z.st + ', Schritt ' + schrittId(z.st, z.i); };
     const knoepfe = () => page.$$eval('#antworten button', l => l.map(b => b.textContent));
     let schritte = 0, abgeschlossen = false, haenger = '';
-    const gesehen6 = new Set();
+    const gesehen5 = new Set();
     while (schritte++ < 150) {
       await page.waitForSelector('#antworten button', { timeout: 2000 }).catch(() => {});
       const z = await zustand();
-      if (z.st === 6) gesehen6.add(schrittId(6, z.i));
+      if (z.st === 5) gesehen5.add(schrittId(5, z.i));
       if (await page.$('#antworten button[data-abschluss]')) { await page.click('#antworten button[data-abschluss]'); await page.waitForTimeout(100); abgeschlossen = true; break; }
       const sel = ['#antworten button[data-skip]', '#antworten button[data-fertig]', '#antworten button[data-go]'];
       let geklickt = false;
@@ -394,23 +346,30 @@ function check(cond, msg) {
     if (!abgeschlossen && !haenger) haenger = (await stand()) + ' (mehr als 150 Klicks)';
     check(abgeschlossen, 'Durchlauf: von Station 0 bis „Workshop abschließen ✓“' + (haenger ? ' — hängt bei ' + haenger : ''));
     check(await page.$eval('#finaltitle', e => e.textContent).catch(() => '') === 'Workshop geschafft!', 'Durchlauf: #finaltitle „Workshop geschafft!“');
-    check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length) === 7, 'Durchlauf: alle 7 Abzeichen an');
-    check(await page.$('#chat [data-karte="k6-final"] #finaltitle') !== null, 'Station 6: Pokal-Karte im Gespräch');
-    check(await page.$eval('#finalwho', e => e.textContent).catch(() => '') === '7 von 7 Abzeichen', 'Station 6: Pokal zählt 7 von 7');
-    const soll6 = ['strecke', 'projekt', 'kreuzungen', 'tempo', 'laserstopp', 'melodie', 'lauf', 'profi', 'abschluss'];
-    check(soll6.every(id => gesehen6.has(id)), 'Station 6: Schritte ' + soll6.join(', ') + ' (gesehen: ' + [...gesehen6].join(', ') + ')');
-    // Station 6 im Verlauf: Skizze, Grand-Prix-Blöcke, Vorlage, Pro-Ziel als Extra
-    check(await page.$('#chat [data-karte="k6-gpmap"] #gpmap') !== null && (await page.$eval('#gpmap', e => e.getBoundingClientRect().height)) > 120, 'Station 6: Streckenskizze im Gespräch gezeichnet');
-    check(JSON.stringify(await page.$$eval('#chat #gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 6: Skizze nummeriert 1–4');
-    check(await page.$$eval('#chat #gpmap .gp-k', l => l.length === 4 && l.every(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden'; })), 'Station 6: Nummern 1–4 sichtbar');
+    check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length) === 6, 'Durchlauf: alle 6 Abzeichen an');
+    check(await page.$('#chat [data-karte="k5-final"] #finaltitle') !== null, 'Station 5: Pokal-Karte im Gespräch');
+    check(await page.$eval('#finalwho', e => e.textContent).catch(() => '') === '6 von 6 Abzeichen', 'Station 5: Pokal zählt 6 von 6');
+    const soll5 = ['strecke', 'arten', 'projekt', 'kreuzungen', 'melodie', 'tempo', 'lauf', 'profi', 'abschluss'];
+    check(soll5.every(id => gesehen5.has(id)), 'Station 5: Schritte ' + soll5.join(', ') + ' (gesehen: ' + [...gesehen5].join(', ') + ')');
+    // Station 5 im Verlauf: Skizze, Grand-Prix-Blöcke, Ampel + Speed 2 + Laser im Programm, Pro-Ziel als Extra, Stückliste
+    check(await page.$('#chat [data-karte="k5-gpmap"] #gpmap') !== null && (await page.$eval('#gpmap', e => e.getBoundingClientRect().height)) > 120, 'Station 5: Streckenskizze im Gespräch gezeichnet');
+    check(JSON.stringify(await page.$$eval('#chat #gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 5: Skizze nummeriert 1–4');
+    check(await page.$$eval('#chat #gpmap .gp-k', l => l.length === 4 && l.every(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden'; })), 'Station 5: Nummern 1–4 sichtbar');
     const gpText = await page.$eval('#chat #gpmap', e => e.textContent).catch(() => '');
-    check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 6: Start, Ziel und Pro-Ziel beschriftet');
-    check(await page.$$eval('#chat .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 6: Grand-Prix-Blöcke in Graphit');
-    check(await page.$('#chat .blase.karte a[href^="https://makecode.microbit.org/#project:"]') !== null, 'Station 6: Knopf „Neues Roboter-Projekt starten“ im Gespräch');
-    const txt6 = await page.evaluate(() => (JSON.parse(localStorage.getItem('mgp-v1')).chat[6] || []).map(e => e.h || '').join(' '));
-    check(/Linie/.test(txt6) && /Gummibärchen/.test(txt6) && /Lagerroboter/.test(txt6), 'Station 6: Projekt Linie, Gummibärchen für alle, „Wo das wirklich fährt“');
-    check(await page.$('#antworten button[data-extra]') !== null && await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Pro-Ziel', 'Station 6: Extra heißt „Extra: Pro-Ziel“');
-    check(!/\p{Extended_Pictographic}/u.test(await page.$eval('#chat', e => e.textContent)), 'Station 6: kein Emoji');
+    check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 5: Start, Ziel und Pro-Ziel beschriftet');
+    check(await page.$$eval('#chat .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 5: Grand-Prix-Blöcke in Graphit');
+    const k5 = await page.$$eval('#chat [data-karte="k5-kreuzungen"] .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim().replace(/\s+/g, ' ') + ':' + c.querySelectorAll(':scope > .mcbody > .mcb, :scope > .mcbody > .mcc').length));
+    check(k5.includes('wenn Knopf A geklickt:12') && k5.includes('dauerhaft:2'), 'Station 5: Knopf A mit Regeln, Ampel, Speed 2, Line patrolling ON; Laser-Stopp in dauerhaft (' + k5.join(', ') + ')');
+    const txt5 = await page.evaluate(() => (JSON.parse(localStorage.getItem('mgp-v1')).chat[5] || []).map(e => e.h || '').join(' '));
+    check(/Meine Projekte/.test(txt5) && /Gummibärchen/.test(txt5) && /Stückliste/.test(txt5), 'Station 5: weiter im Projekt Linie, Gummibärchen für alle, Hinweis auf die Stückliste');
+    check(await page.$('#chat button[data-go="teile"]') !== null, 'Station 5: Knopf „Stückliste öffnen“ im Gespräch');
+    check(await page.$('#antworten button[data-extra]') !== null && await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Pro-Ziel', 'Station 5: Extra heißt „Extra: Pro-Ziel“');
+    await page.click('#antworten button[data-extra]'); await page.waitForTimeout(100);
+    await page.click('#antworten button[data-zeig="Die Melodie kommt schon am Ziel 4?"]'); await page.waitForTimeout(50);
+    check(await page.$$eval('#chat .mcb.b-var', l => l.length === 1 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(220, 20, 60)')), 'Station 5: Variable gesprungen im Pro-Ziel, rot');
+    check(!/\p{Extended_Pictographic}/u.test(await page.$eval('#chat', e => e.textContent)), 'Station 5: kein Emoji');
+    await page.click('#chat button[data-go="teile"]'); await page.waitForTimeout(100);
+    check(await page.$eval('.page[data-st="teile"]', e => !e.hidden) && await page.$eval('#gespraech', e => e.hidden), 'Station 5: Knopf „Stückliste öffnen“ öffnet die Seite');
     await ctxD.close();
   }
 

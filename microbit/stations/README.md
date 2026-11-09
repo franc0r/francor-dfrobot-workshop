@@ -1,7 +1,7 @@
 # Musterlösungen
 
 Eine Mappe je Station. Nummer und Name sind dieselben wie bei der Seite:
-`04-augen/` gehört zu `../../website/src/stations/04-augen.html`. Wenn sich ein
+`03-fahrschule/` gehört zu `../../website/src/stations/03-fahrschule.html`. Wenn sich ein
 Blocktext ändert, werden beide zusammen angefasst.
 
 In jede Mappe gehören:

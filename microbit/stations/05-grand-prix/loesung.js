@@ -13,6 +13,9 @@ input.onButtonPressed(Button.A, function () {
     maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.Green)
     maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.ON)
 })
+input.onButtonPressed(Button.B, function () {
+    maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.OFF)
+})
 grandPrix.beiKreuzung(4, function () {
     music.play(music.builtInPlayableMelody(Melodies.Dadadadum), music.PlaybackMode.InBackground)
 })
@@ -29,5 +32,6 @@ basic.forever(function () {
     matrixLidarDistance.getData()
     if (matrixLidarDistance.getObstacleDistance(matrixLidarDistance.ObstacleSide.Front) < 200) {
         maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.OFF)
+        maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.Red)
     }
 })

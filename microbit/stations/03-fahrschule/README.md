@@ -1,35 +1,24 @@
 # Station 03 — Fahrschule
 
-Erweiterung geladen, Motorblöcke, erste Fahrt.
+Vorlage öffnen, micro:bit einstecken, Linie auf Knopf A — der Wow-Moment. Das Projekt heißt
+„Linie“; Station 4 und 5 bauen darin weiter.
 
-## Musterlösungen als JavaScript
+`loesung.js` (MakeCode-JavaScript): `beim Start` nur `initialisiere Maqueen Plus V2` (steht
+so in der Vorlage). **Knopf A:** Startampel (`RGB Car Lights All` rot, 1 s, gelb, 1 s, grün),
+`Line Following Settings Speed 1`, `Line patrolling ON`. **Knopf B:** `Line patrolling OFF`
+— der Not-Aus. Kein `dauerhaft`: Die Linienverfolgung läuft im Hintergrund.
 
-- `loesung.js`: „Geradeaus und anhalten“ — 1 s mit Geschwindigkeit 120, dann stop.
-- `loesung-quadrat.js`: das Quadrat wie auf der Seite, `4 -mal wiederholen` auf Knopf A,
-  Drehung 650 ms.
-- `loesung-funktionen.js`: Martins Fassung mit `fahreGeradeaus` und `dreheRechts` (unten).
+Einfügen: in MakeCode oben auf **JavaScript** umschalten, alles ersetzen, zurück auf
+**Blöcke**. Die Einzelblöcke sind seit 08.10.2026 am Gerät bestätigt, diese Zusammenstellung
+ist noch nicht gefahren (Stand 09.11.2026).
 
-Einfügen: in MakeCode oben auf **JavaScript** umschalten, alles ersetzen, zurück auf **Blöcke**. Noch nicht in MakeCode umgewandelt oder am Gerät gefahren (Stand 05.11.2026).
-Martins Funktionen-Fassung ist als Blöcke am Gerät getestet, die JavaScript-Abschrift nicht.
+Seit 09.11.2026 („Parcours first“) gibt es hier keine Motorlösungen mehr (Geradeaus, Quadrat,
+Funktionen): Der Grand Prix braucht keinen Motorblock. Die alten Dateien stehen in der
+Git-Geschichte vor diesem Datum.
 
-## Musterlösung: Quadrat mit Funktionen
+Nach dem Trockenlauf hier ablegen:
 
-![Blöcke](bloecke.png)
+- `loesung.hex`
+- `bloecke.png`
 
-Martins Lösung der Quadrat-Challenge (08.10.2026), am Gerät getestet.
-
-- **wenn Knopf A geklickt**: ruft viermal abwechselnd `dreheRechts` und `fahreGeradeaus` auf.
-  Der Roboter startet erst auf Knopfdruck, also nicht schon beim Flashen.
-- **Funktion fahreGeradeaus**: `steuere beide Räder vorwärts, Geschwindigkeit 100`,
-  `pausiere (ms) 1000`, `stop beide Räder`.
-- **Funktion dreheRechts**: `steuere linkes Rad vorwärts, Geschwindigkeit 100`,
-  `steuere rechtes Rad rückwärts, Geschwindigkeit 100`, `pausiere (ms) 650`, `stop beide Räder`.
-
-Werte: **650 ms** ergeben bei Geschwindigkeit 100 etwa eine 90°-Drehung (Untergrund und
-Akkustand verschieben das). Die Hilfe auf der Seite nennt deshalb 500–800 ms.
-
-Funktionen kommen auf der Workshop-Seite nicht vor. Auf der Seite steht als Gerüst die
-einfachere Fassung mit `4 -mal wiederholen`. Diese Lösung ist für Betreuende gedacht: Sie zeigen
-sie schnellen Teams als Ausblick („einem Stück Programm einen Namen geben“).
-
-Noch nachzureichen: `loesung.hex` (in MakeCode herunterladen und hier ablegen).
+und darunter notieren, was das Programm tut und welche Werte darin stecken.

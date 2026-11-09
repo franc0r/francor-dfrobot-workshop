@@ -4,7 +4,7 @@
  *   node test/drehbuch.cjs
  *
  * Lädt STATIONS aus app.js und alle Drehbücher in einem vm-Kontext und prüft:
- * genau sieben Drehbücher 0–6, Namen/Minuten/Abzeichen passen zu STATIONS, Summe 105, Schrittform,
+ * genau sechs Drehbücher 0–5, Namen/Minuten/Abzeichen passen zu STATIONS, Summe 105, Schrittform,
  * keine Emoji, jeder Kartenverweis existiert in src/karten/*.html.
  * Länge (Spec „Ziele“/„Format“): höchstens 4 Textblasen vor den Antwortknöpfen (Karten und reine
  * Blockstapel zählen nicht, bei Bonus-Schritten zählt die Zeile „Lust auf Extra?“ mit), und keine
@@ -15,7 +15,7 @@ const fs = require('fs');
 const vm = require('vm');
 
 const SRC = path.join(__dirname, '..', 'src');
-const ERWARTET = 7;
+const ERWARTET = 6;
 let failures = 0;
 function check(cond, msg) {
   if (cond) console.log('  ok   ' + msg);

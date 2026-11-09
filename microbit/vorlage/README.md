@@ -14,7 +14,7 @@ graphitgraue Kategorie). Sie zählt im Hintergrund jede Kreuzung, die die
 Linienverfolgung meldet, und bringt drei Blöcke mit: `wenn Kreuzung Nummer 1 erreicht`
 (läuft einmal an dieser Kreuzung), `Kreuzungen gezählt` und `setze Kreuzungszähler zurück`.
 Die Kreuzungsregeln der Linienverfolgung fasst sie bewusst nicht an – die setzen die
-Teams selbst in Station 6. Die Quelle liegt in `../bibliothek/custom.ts`; nach einer
+Teams selbst in Station 5. Die Quelle liegt in `../bibliothek/custom.ts`; nach einer
 Änderung dort `python3 vorlage.py` laufen lassen, `build.py` bricht sonst ab, wenn die
 Bibliothek in der Vorlage fehlt.
 

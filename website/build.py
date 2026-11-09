@@ -150,6 +150,54 @@ def karten_html():
     return "".join(read("karten/" + f) + "\n" for f in sorted(os.listdir(d)) if f.endswith(".html"))
 
 
+# Textbudget je Station (Spec 2026-11-09-parcours-first, Abschnitt Textbudget; Station 5 auf
+# 850 angehoben, weil das Grand-Prix-Programm vollständig auf der Seite steht). Gezählt wird
+# stumpf: Tags raus, alles Übrige an Leerzeichen getrennt – auch Blocktexte, Knöpfe, Tabellen.
+# Auf diesem Zweig zählt je Station, was das Team im Gespräch liest: die Nachrichten des
+# Drehbuchs (auch die hinter den Zeig-Knöpfen) plus die Karten-Datei. Chips, Fertig-Knöpfe,
+# IDs und Kartenverweise zählen nicht. Ein Gespräch spricht in ganzen Sätzen, deshalb gilt
+# hier das Budget von master mal GESPRAECHSFAKTOR (Entscheidung 09.11.2026, bis Martin sie kippt).
+TEXTBUDGET = [200, 350, 550, 500, 300, 850]
+GESPRAECHSFAKTOR = 1.5
+
+
+def wortzahl(body: str) -> int:
+    return len(re.sub(r'<[^>]*>', ' ', body).split())
+
+
+def drehbuch_text(js: str) -> str:
+    """Nur die Nachrichten eines Drehbuchs: Schlüsselwörter, Chips, Fertig-Texte und
+    Kartenverweise fallen raus, übrig bleiben die Zeichenketten, die das Team liest."""
+    js = re.sub(r'\bchips\s*:\s*\[[^\]]*\]', '', js)
+    js = re.sub(r'\b(fertig|id|titel|name|badge)\s*:\s*"(?:[^"\\]|\\.)*"', '', js)
+    js = re.sub(r'\{\s*karte\s*:\s*"[^"]*"\s*\}', '', js)
+    js = re.sub(r'"((?:[^"\\]|\\.)*)"\s*:\s*\[', '[', js)   # Knopftexte der Zeig-Blöcke
+    return " ".join(re.findall(r'"((?:[^"\\]|\\.)*)"', js))
+
+
+_gezaehlt = False   # Wortzahlen nur einmal ausgeben, nicht je Ziel
+
+
+def check_textbudget():
+    global _gezaehlt
+    dreh = sorted(f for f in os.listdir(os.path.join(SRC, "drehbuch")) if f.endswith(".js"))
+    karten = sorted(f for f in os.listdir(os.path.join(SRC, "karten")) if f.endswith(".html"))
+    if len(dreh) != len(TEXTBUDGET) or len(karten) != len(TEXTBUDGET):
+        raise SystemExit("%d Drehbücher, %d Kartendateien, aber %d Textbudgets"
+                         % (len(dreh), len(karten), len(TEXTBUDGET)))
+    for i, (dj, kh) in enumerate(zip(dreh, karten)):
+        if dj[:2] != "%02d" % i or kh[:2] != "%02d" % i or dj[:-3] != kh[:-5]:
+            raise SystemExit("Drehbuch %s und Karten %s passen nicht zu Station %d" % (dj, kh, i))
+        n = wortzahl(drehbuch_text(read("drehbuch/" + dj))) + wortzahl(read("karten/" + kh))
+        budget = int(TEXTBUDGET[i] * GESPRAECHSFAKTOR)
+        if n > budget:
+            raise SystemExit("Station %s: %d Wörter, Budget %d (%d × %.1f)"
+                             % (dj[:-3], n, budget, TEXTBUDGET[i], GESPRAECHSFAKTOR))
+        if not _gezaehlt:
+            print("Station %d: %d/%d Wörter" % (i, n, budget))
+    _gezaehlt = True
+
+
 STATIONSMINUTEN = 105   # Summe der Stationen ...
 PUFFER = 15             # ... plus Puffer = 120-Minuten-Slot
 
@@ -177,6 +225,7 @@ def assemble(target):
     if os.path.exists(os.path.join(SRC, "stations")):
         raise SystemExit("Stationen gehören jetzt in drehbuch/ und karten/")
     check_times(app, drehbuch)
+    check_textbudget()
     app = app.replace(marke, drehbuch + read("maskottchen.js"))
 
     if target in STANDALONE:
@@ -200,6 +249,7 @@ def assemble(target):
             '<section class="gespraech" id="gespraech"><div class="chat" id="chat"></div>'
             '<div class="antworten" id="antworten"></div></section>\n'
             '<div id="karten" hidden>\n' + karten_html() + "</div>\n\n"
+            + read("stueckliste.html") + "\n"
             "\n  </main>\n</div>\n\n"
             '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")

@@ -4,23 +4,19 @@ DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", sch
   { id:"regelkreis",
     nachrichten:[
       "Hallo! Ich begleite euch heute durch den Workshop.",
-      "Am Ende fährt euer Roboter ganz allein. Ein ferngesteuertes Auto ist noch kein Roboter.",
+      "Am Ende fährt euer Roboter ganz allein, ohne Fernsteuerung.",
       "Ein echter Roboter macht immer dieselben drei Dinge:",
       '<div class="mcstack flat"><div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>' +
         '<div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>euer Programm</b></div>' +
         '<div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div></div>',
       "Und dann wieder von vorn, tausendmal pro Minute. Diese Schleife heißt <em>Regelkreis</em>."
     ],
-    zeig:{ "Nochmal einfacher":[
-      "Stell dir vor, du fängst einen Ball: Die Augen sehen ihn, der Kopf rechnet, die Hände greifen zu.",
-      "Genau so macht es der Roboter. Nur heißen seine Augen Sensoren, und sein Kopf ist euer Programm."
-    ]},
     chips:[ "Was ist ein Sensor?", "Was heißt Regelkreis?", "Ist ein Staubsauger-Roboter auch so?" ],
     fertig:"Verstanden ✓" },
 
   { id:"fahrzeug",
     nachrichten:[
-      "Das ist euer Fahrzeug, der Maqueen, von oben. Die Farben passen zum Regelkreis.",
+      "Euer Maqueen von oben, die Farben passen zum Regelkreis:",
       {karte:"k0-mqmap"},
       "Findet ihr die beiden Schalter am echten Roboter? Die braucht ihr später."
     ],
@@ -37,8 +33,7 @@ DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", sch
 
   { id:"los",
     nachrichten:[
-      "Stark, ihr wisst jetzt, wie ein Roboter tickt.",
-      "Gleich schreibt ihr euer erstes Programm. Bereit?"
+      "Ihr wisst jetzt, wie ein Roboter tickt. Gleich schreibt ihr euer erstes Programm, bereit?"
     ],
     chips:[ "Was machen wir als Nächstes?", "Wie lange dauert der Workshop?", "Brauchen wir Vorwissen?" ],
     fertig:"Los geht's ✓" }

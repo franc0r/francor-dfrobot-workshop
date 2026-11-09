@@ -8,12 +8,11 @@
       <h3>Zeitplan · 120-Minuten-Slot</h3>
       <table class="plan">
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
-        <tr><td>0:05–0:18</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
-        <tr><td>0:18–0:33</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: Im Simulator sehen sie, dass &bdquo;Logo nach oben&ldquo; nur eine Zahl jenseits der Grenze 200 ist. Beides brauchen sie später beim Roboter wieder.</td></tr>
-        <tr><td>0:33–0:47</td><td><b>Fahrschule.</b> Vorlage mit bereits geladener Erweiterung öffnen (nicht mehr selbst laden), Simulator, dann Motorblöcke real. Quadrat-Challenge als Extra für schnelle Teams. Die Seite gibt Tipps und ein Gerüst mit <em>4 -mal wiederholen</em>. Wer das schnell schafft, dem zeigt ihr <em>Funktionen</em> (Musterlösung in <kbd>microbit/stations/03-fahrschule/</kbd>): Ein Stück Programm bekommt einen Namen wie <em>dreheRechts</em> und wird dann nur noch aufgerufen. Richtwert: 650&nbsp;ms bei Geschwindigkeit 100 ergeben etwa 90°.</td></tr>
-        <tr><td>0:47–1:05</td><td><b>Augen.</b> Linienverfolgung. Kalibrieren nur bei Bedarf – die Roboter sind beim Aufbau schon kalibriert. Der Wow-Moment des Workshops – Zeit lassen, applaudieren.</td></tr>
-        <tr><td>1:05–1:15</td><td><b>Reflexe.</b> Lidar und Bedingung, dazu Variablen als Merkzettel (Pausenknopf). Pflicht – der Grand Prix braucht den Laser-Stopp, die Profis dort auch eine Variable.</td></tr>
-        <tr><td>1:15–1:45</td><td><b>Grand Prix.</b> Strecke lesen, Kreuzungen einstellen, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+        <tr><td>0:05–0:20</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
+        <tr><td>0:20–0:35</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: &bdquo;Logo nach oben&ldquo; ist nur eine Zahl jenseits der Grenze 200. Beides brauchen sie später beim Roboter wieder.</td></tr>
+        <tr><td>0:35–0:55</td><td><b>Fahrschule.</b> Vorlage öffnen (Erweiterung ist schon drin), micro:bit einstecken, beide Schalter an, Haken abwarten. Dann die Linie auf Knopf A mit Startampel, Knopf B als Not-Aus; getestet wird auf dem Teststreifen am Boden. Der Wow-Moment des Workshops – Zeit lassen, applaudieren. Kalibrieren nur bei Bedarf, die Roboter sind beim Aufbau schon kalibriert.</td></tr>
+        <tr><td>0:55–1:05</td><td><b>Reflexe.</b> Laser-Stopp im Projekt Linie: <em>wenn</em> Abstand unter 200&nbsp;mm, dann <em>Line patrolling OFF</em> und rotes Licht. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
+        <tr><td>1:05–1:45</td><td><b>Grand Prix.</b> 40 Minuten: Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
         <tr><td>1:45–2:00</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
       </table>
     </section>
@@ -27,7 +26,9 @@
         <li>Browser: <b>Chrome, Chromium oder Edge</b> ab Version 126 – Safari und Firefox können nicht direkt flashen</li>
         <li>Diese Seite in einem Tab, MakeCode im zweiten</li>
         <li><b>Etwas zum Aufbocken</b>, z.&nbsp;B. ein Holzklotz oder eine kleine Schachtel, auf der der Roboter steht und die Räder frei drehen – am Tisch fährt er nur so (Sicherheitsregel)</li>
+        <li><b>Teststreifen</b>: ein A3-Blatt oder ein Mattenrest mit 60&nbsp;cm geradem schwarzem Isolierband, liegt am Boden neben dem Tisch. Darauf testen die Teams in Station 3 und 4, bevor sie auf die Strecke dürfen</li>
       </ul>
+      <p style="margin-top:10px; font-size:.94rem; color:var(--ink-2)">Fragt jemand, <b>wo es den Roboter gibt</b>: auf die Seite <b>Stückliste</b> ganz oben in der Leiste verweisen. Sie nennt die drei Teile (micro:bit V2, Maqueen Plus V3 in der 18650- oder AA-Ausführung, Batterien), Suchbegriffe und die Händlerlisten der Hersteller – bewusst keinen Shop. Der Verein empfiehlt keinen Händler.</p>
       <h3 style="margin-top:16px">Für den Stand insgesamt</h3>
       <ul>
         <li>Grand-Prix-Strecke: weiße, matte Matte 100&nbsp;×&nbsp;200&nbsp;cm und eine Rolle schwarzes Isolierband, 19&nbsp;mm breit. Kurven aus kurzen schrägen Stücken kleben, keine spitzen Ecken – das fährt der Linienfolger sicher</li>
@@ -62,7 +63,7 @@
 
     <section>
       <h3>Grand Prix aufbauen und betreuen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Station 6 dauert 30 Minuten. Die Teams lesen die Skizze, stellen die Kreuzungsregeln ein und fahren auf Zeit. Es ist <b>kein Wettbewerb</b>: Am Ziel gibt es Gummibärchen für alle, die Zeit stoppt ihr nur zum Vergleichen.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Station 5 dauert 40 Minuten. Die Teams lesen die Skizze, stellen die Kreuzungsregeln ein und fahren auf Zeit. Es ist <b>kein Wettbewerb</b>: Am Ziel gibt es Gummibärchen für alle, die Zeit stoppt ihr nur zum Vergleichen.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Aufbau</h3>
       <ul class="check">
@@ -86,7 +87,7 @@
           <tr><td>4</td><td>Ziel</td><td>T</td><td><em>At T-junction</em> <b>Stop</b>; in <em>wenn Kreuzung Nummer 4 erreicht</em> die Siegesmelodie</td></tr>
         </table>
       </div>
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><em>At Left Turn and Straight Intersection</em> steht auf <b>Straight</b>, kommt auf dem Normalweg aber nicht vor. Die Regeln gehören in <kbd>wenn Knopf A geklickt</kbd> vor <em>Line patrolling ON</em>, nicht in <em>beim Start</em> – so startet jeder Druck auf A sauber. Die Musterlösung liegt in <kbd>microbit/stations/06-grand-prix/</kbd>. Typische Fehler: An 1 <b>Straight</b> &rarr; Sackgasse, Kiste. Nicht umgestellt &rarr; biegt in den Stummel, Kiste. Kreuzung auf <b>Stop</b> &rarr; bleibt am Schild stehen. Falsche Nummer im Ereignis &rarr; keine Melodie oder kein Tempowechsel.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><em>At Left Turn and Straight Intersection</em> steht auf <b>Straight</b>, kommt auf dem Normalweg aber nicht vor. Die Regeln gehören in <kbd>wenn Knopf A geklickt</kbd> vor <em>Line patrolling ON</em>, nicht in <em>beim Start</em> – so startet jeder Druck auf A sauber. Die Musterlösung liegt in <kbd>microbit/stations/05-grand-prix/</kbd>. Typische Fehler: An 1 <b>Straight</b> &rarr; Sackgasse, Kiste. Nicht umgestellt &rarr; biegt in den Stummel, Kiste. Kreuzung auf <b>Stop</b> &rarr; bleibt am Schild stehen. Falsche Nummer im Ereignis &rarr; keine Melodie oder kein Tempowechsel.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Laufregeln</h3>
       <ul>
@@ -97,7 +98,7 @@
       </ul>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Minute-15-Regel</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Restzeit im Timer etwa 30:00) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/06-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Restzeit im Timer etwa 30:00) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/05-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Der Reset-Fallstrick (gewollt)</h3>
       <p style="font-size:.94rem; color:var(--ink-2)"><em>Line patrolling OFF</em> löscht in der Firmware alle Kreuzungsregeln. Nach <em>ON</em> gelten wieder die Standardregeln. Wer im Profi-Teil nach dem Sprung über die Lücke nur <em>ON</em> schaltet, hat seine Regeln verloren. <b>Woran ihr es erkennt:</b> Der Roboter ignoriert nach einem Halt seine Regeln. <b>Die Frage, die weiterhilft:</b> &bdquo;Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?&ldquo;</p>
@@ -134,15 +135,15 @@
           <tr><td>Editor öffnen, Blöcke bauen, übersetzen, flashen</td><td>Eine Erweiterung neu nachladen</td></tr>
           <tr><td>Bereits importierte Erweiterungen benutzen</td><td>Projekte über Link teilen</td></tr>
           <tr><td>Projekte lokal speichern und laden</td><td>Die Sprache des Editors umstellen (vorher wählen)</td></tr>
-          <tr><td>Diese Seite samt beider Simulatoren</td><td>Beispielprojekte aus der MakeCode-Galerie öffnen</td></tr>
+          <tr><td>Diese Seite</td><td>Beispielprojekte aus der MakeCode-Galerie öffnen</td></tr>
         </table>
       </div>
 
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:14px"><b>Wenn doch etwas fehlt:</b> Ein Handy-Hotspot reicht, um einem einzelnen Gerät den Cache nachzuladen – rechne mit einigen zehn Megabyte, nicht mit Sekunden. Bei Raspberry-Pi-Arbeitsplätzen ist der schnellere Weg oft, die SD-Karte eines fertig vorbereiteten Geräts zu klonen und zu tauschen.</p>
 
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Und <span class="figurname-ref">Franco</span>?</b> Das Gespräch mit allen Stationen, Karten und Simulatoren steckt in der Datei und läuft ohne Netz. Nur die Antworten auf &bdquo;Geht nicht&ldquo; kommen über das Internet; ohne Netz zeigt <span class="figurname-ref">Franco</span> dort die Checkliste der Station und schickt das Team zu euch (Abschnitt &bdquo;Maskottchen&ldquo;).</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Und <span class="figurname-ref">Franco</span>?</b> Das Gespräch mit allen Stationen und Karten steckt in der Datei und läuft ohne Netz. Nur die Antworten auf &bdquo;Geht nicht&ldquo; kommen über das Internet; ohne Netz zeigt <span class="figurname-ref">Franco</span> dort die Checkliste der Station und schickt das Team zu euch (Abschnitt &bdquo;Maskottchen&ldquo;).</p>
 
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Und die letzte Rückfallebene: <b>Station 2 dieser Seite braucht überhaupt nichts</b> außer der lokalen Datei. Wenn am Messetag alles schiefgeht, ist der micro:bit-Simulator im Browser immer noch ein vollständiges kleines Erlebnis für Vorbeigehende.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Und die letzte Rückfallebene, wenn MakeCode gar nicht lädt: <b>Station 0 dieser Seite</b> (braucht nur die lokale Datei) plus der Vorführroboter plus die fertigen <kbd>.hex</kbd>-Dateien aus <kbd>microbit/stations/</kbd>, per Laufwerk <kbd>MICROBIT</kbd> aufgespielt. So fährt jedes Team trotzdem die Strecke.</p>
     </section>
 
     <section>
@@ -170,13 +171,21 @@
           <tr><td>Zwei Wege zum Flashen</td><td><b>A:</b> „Herunterladen“ → Gerät koppeln (WebUSB). <b>B:</b> die <kbd>.hex</kbd>-Datei aus dem Download-Ordner auf das automatisch eingehängte Laufwerk <kbd>MICROBIT</kbd> ziehen. <b>Weg B funktioniert praktisch immer</b> – wenn das Koppeln auf dem Pi scheitert, liegt es unter Linux meist daran, dass der Browser als normaler Benutzer nicht auf das USB-Gerät zugreifen darf. Beide Wege vorher durchspielen und den Schülern den funktionierenden zeigen.</td></tr>
           <tr><td>WebUSB unter Linux freischalten</td><td><b>Pflicht auf jedem frisch installierten Linux</b> (Pi wie Notebook; auf Ubuntu 26.04 nachgestellt): Ohne diese zwei Schritte findet „Gerät koppeln“ den micro:bit nicht, obwohl das Laufwerk <kbd>MICROBIT</kbd> auftaucht.<br><b>1. udev-Regel:</b> in <kbd>/etc/udev/rules.d/50-microbit.rules</kbd> die Zeile <kbd>SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0660", GROUP="plugdev"</kbd> (fertig im Repo unter <kbd>tools/pi/50-microbit.rules</kbd>), danach <kbd>sudo udevadm control --reload</kbd> und <kbd>sudo udevadm trigger</kbd>. 0d28/0204 ist die USB-Kennung der micro:bit-Firmware.<br><b>2. Benutzer in die Gruppe <kbd>plugdev</kbd>:</b> <kbd>sudo groupadd -f plugdev</kbd>, dann <kbd>sudo usermod -aG plugdev $USER</kbd>. Wirkt erst nach <b>Ab- und wieder Anmelden</b> (sicherer: Neustart). Prüfen mit <kbd>groups</kbd> – <kbd>plugdev</kbd> muss in der Liste stehen.<br>Dann den micro:bit neu anstecken. Klemmt es auf Ubuntu immer noch und Chromium ist als Snap installiert: <kbd>sudo snap connect chromium:raw-usb</kbd>. <b>Vor dem Messetag an jedem Gerät testen</b> – und wenn es nicht auf Anhieb klappt, ist Weg B die bessere Investition der Zeit.</td></tr>
           <tr><td>Firmware der micro:bits</td><td>Für WebUSB muss die Firmware aktuell sein. Am Pi das Laufwerk <kbd>MICROBIT</kbd> öffnen, <kbd>DETAILS.TXT</kbd> lesen: Version <b>0249 oder höher</b> ist in Ordnung, ältere vorher einmal aktualisieren.</td></tr>
-          <tr><td>Leistung</td><td>MakeCode im Browser ist speicherhungrig. <b>4 GB RAM als Minimum</b>, 8 GB entspannter. Nur zwei Tabs offen (diese Seite + MakeCode), in MakeCode den eingebauten Simulator einklappen – das spart auf dem Pi spürbar Leistung. Aktive Kühlung einplanen, ein Messetag ist lang.</td></tr>
+          <tr><td>Leistung</td><td>MakeCode im Browser ist speicherhungrig. <b>4 GB RAM als Minimum</b>, 8 GB entspannter. Nur zwei Tabs offen (diese Seite + MakeCode), in MakeCode die Vorschau links (den kleinen micro:bit) einklappen – das spart auf dem Pi spürbar Leistung. Aktive Kühlung einplanen, ein Messetag ist lang.</td></tr>
           <tr><td>Internet</td><td>Die MakeCode-Offline-App gibt es nicht für ARM – der Pi braucht den Browser-Editor. Der cacht sich aber selbst: <b>einmal online geladen, läuft er danach ohne Netz weiter.</b> Wie du den Stand komplett offline vorbereitest, steht im nächsten Abschnitt.</td></tr>
           <tr><td>Strom und Kabel</td><td>Offizielles Pi-Netzteil verwenden. Der micro:bit zieht seinen Strom über USB vom Pi; das ist unkritisch, solange der Roboter seinen eigenen Akku hat. Und auch hier gilt: <b>Datenkabel, keine Ladekabel.</b></td></tr>
-          <tr><td>Bildschirm</td><td>Mindestens 1280×720. Diese Workshop-Seite legt das Layout unter etwa 900 px Breite automatisch um, bleibt also auch auf kleinen Displays bedienbar – der Simulator wird dann untereinander gestapelt.</td></tr>
+          <tr><td>Bildschirm</td><td>Mindestens 1280×720. Diese Workshop-Seite legt das Layout unter etwa 900 px Breite automatisch um, bleibt also auch auf kleinen Displays bedienbar.</td></tr>
         </table>
       </div>
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Ein Vorteil, der oft untergeht: Auf einem Pi sind alle Stationen identisch eingerichtet und lassen sich per Image klonen. Ein Ersatz-Pi mit derselben SD-Karte ist in zwei Minuten einsatzbereit – das ist auf einer Messe mehr wert als ein schnellerer Laptop.</p>
+    </section>
+
+    <section>
+      <h3>Was ihr nebenbei erzählen könnt</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Stationen sind absichtlich knapp. Was dort fehlt, erzählt ihr am Tisch, wenn ein Team wartet oder fragt.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>25 Lämpchen</b>, jedes an oder aus – das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann: Das meint das Wort <em>digital</em>.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Wo das wirklich fährt:</b> Der Linienfolger ist der Lagerroboter, der im Versandzentrum Regale holt; der Laser-Stopp ist der Bremsassistent im Neuwagen. Den Regelkreis aus Station 0 hat jeder Roboter, vom Staubsaugerroboter bis zum Marsrover.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Warum der Roboter manchmal die Linie verliert:</b> Sonnenlicht durchs Fenster überstrahlt die Liniensensoren, glänzendes Band spiegelt wie Weiß. Deshalb mattes Isolierband und kein Platz direkt am Fenster.</p>
     </section>
 
     <section>
@@ -186,17 +195,16 @@
           <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
           <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
           <tr><td>Koppeln schlägt unter Linux fehl (Pi, Ubuntu)</td><td>Meist fehlt die udev-Regel oder der Benutzer ist nicht in <kbd>plugdev</kbd> (siehe „Stationen auf Raspberry Pi und Linux“) – das ist Aufbau-Arbeit, nicht Workshop-Zeit. Während des Slots nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
-          <tr><td>Laser bremst nicht vor der Hand (Station 5/6)</td><td>Steht der Abstandsblock auf <b>Vorne</b>? MakeCode bringt ihn mit <b>Links</b>. Steht beim Start <em>Matrix-Modus Hindernisvermeidung</em> und im <em>dauerhaft</em> zuerst <em>Hindernisvermeidungsdaten abrufen</em>? Mit dem Matrix-Modus hängt die Abfrage bis zu 8&nbsp;s</td></tr>
-          <tr><td>MakeCode meldet &bdquo;Cannot redeclare block-scoped variable&ldquo;</td><td>Die Variable heißt wie ein eingebauter Block, meist <b>pause</b>. Umbenennen, z.&nbsp;B. in <b>pausiert</b></td></tr>
+          <tr><td>Laser bremst nicht vor der Hand (Station 4/5)</td><td>Steht der Abstandsblock auf <b>Vorne</b>? MakeCode bringt ihn mit <b>Links</b>. Steht beim Start <em>Matrix-Modus Hindernisvermeidung</em> und im <em>dauerhaft</em> zuerst <em>Hindernisvermeidungsdaten abrufen</em>? Mit dem Matrix-Modus hängt die Abfrage bis zu 8&nbsp;s</td></tr>
+          <tr><td>MakeCode meldet &bdquo;Cannot redeclare block-scoped variable&ldquo;</td><td>Die Variable heißt wie ein eingebauter Block, meist <b>pause</b>. Umbenennen, z.&nbsp;B. in <b>gesprungen</b></td></tr>
           <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em>?</td></tr>
           <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>initialisiere Maqueen Plus V2</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
-          <tr><td>Motoren brummen, fahren aber nicht</td><td>Tempo unter 30, oder Akku schwach</td></tr>
-          <tr><td>Fährt Bogen statt gerade</td><td>Normal. Tempo eines Rads um 5–10 reduzieren</td></tr>
+          <tr><td>Motoren brummen, fahren aber nicht</td><td>Akku schwach – Batterien tauschen oder laden</td></tr>
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
           <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
-          <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 2 der Workshop-Seite braucht kein MakeCode</td></tr>
-          <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Neues Roboter-Projekt starten</b> (Station 3, 4 oder 5) nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
-          <tr><td>Neue Blöcke wirken nicht, Anzeige wird überschrieben, Roboter tut Unerwartetes</td><td>Das alte Programm läuft mit – das Team hat im Projekt der vorigen Station weitergebaut. Knopf oben in der Station nehmen: <b>Neues Projekt starten</b> (Station 2, leer) oder <b>Neues Roboter-Projekt starten</b> (Station 4 und 5, mit Maqueen-Blöcken). Nur Station 6 arbeitet bewusst im Programm aus Station 4 weiter</td></tr>
+          <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 0 erklären, Vorführroboter zeigen, fertige <kbd>.hex</kbd> aus <kbd>microbit/stations/</kbd> per Laufwerk <kbd>MICROBIT</kbd></td></tr>
+          <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Neues Roboter-Projekt starten</b> (Station 3; Rückfall in 4 und 5) nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
+          <tr><td>Neue Blöcke wirken nicht, Anzeige wird überschrieben, Roboter tut Unerwartetes</td><td>Das alte Programm läuft mit. In Station 1 und 2: Knopf <b>Neues Projekt starten</b> oben in der Station nehmen. Ab Station 3 ist Weiterbauen im Projekt <b>Linie</b> gewollt – dort stört meist ein doppelter Block in <em>dauerhaft</em> oder in <em>wenn Knopf A geklickt</em>: löschen</td></tr>
           <tr><td>Nichts geht mehr</td><td>Reset-Knopf auf der Rückseite des micro:bit</td></tr>
         </table>
       </div>
@@ -204,7 +212,7 @@
 
     <section>
       <h3>Blocknamen vorab prüfen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Motor-, Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Die Maqueen-Erweiterung bringt sie als Abhängigkeit mit; in der Vorlage ist sie deshalb schon drin.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Die Maqueen-Erweiterung bringt sie als Abhängigkeit mit; in der Vorlage ist sie deshalb schon drin.</p>
     </section>
 
     <section>
@@ -212,12 +220,12 @@
       <ul>
         <li><b>Nie den Code vorsagen.</b> Erst fragen: „Was soll passieren?", dann: „Welcher Block könnte das können?"</li>
         <li><b>Rollen tauschen alle 15 Minuten</b> – ein Kind an der Tastatur, eins am Roboter. Sonst tippt eines allein.</li>
-        <li><b>Nachzügler</b> steigen am besten bei Station 2 ein: micro:bit-Simulator im Browser, sofortiger Erfolg, kein Setup und keine Hardware nötig.</li>
+        <li><b>Nachzügler</b> steigen bei Station 1 ein: Herz blinken lassen, flashen, sofortiger Erfolg. Station 0 erzählt ihr ihnen in zwei Sätzen am Roboter.</li>
         <li><b>Station 2 funktioniert auch ohne Roboter.</b> Wer nur 25 Minuten Zeit hat oder wenn ein Maqueen ausfällt: micro:bit plus LED/Sensor-Teil allein ist bereits ein vollständiges kleines Erlebnis mit Würfel zum Mitnehmen.</li>
-        <li><b>Zu schnelle Teams</b> bekommen die Quadrat-Challenge aus Station 3, das Bonus-Level im Parcours-Simulator und die Staubsauger-Aufgabe aus Station 5.</li>
-        <li><b>Zu langsame Teams</b> lassen die Extras weg (Quadrat in Station 3, Staubsauger in Station 5) und nutzen den Puffer. Station 5 selbst nicht überspringen – der Grand Prix braucht den Laser-Stopp.</li>
+        <li><b>Zu schnelle Teams</b> bekommen den Würfel aus Station 2 und im Grand Prix den Profi-Teil (Sprung mit Variable).</li>
+        <li><b>Zu langsame Teams</b> lassen den Würfel weg und nutzen den Puffer. Station 4 nicht überspringen – der Grand Prix braucht den Laser-Stopp.</li>
         <li><b>Fehler nicht wegräumen.</b> Ein Roboter, der im Kreis fährt, ist die beste Lernsituation des Tages.</li>
-        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Abzeichen, Simulator und Timer zurück. Der Timer startet von selbst, sobald das Team Station 0 verlässt („Los geht's“ oder Leiste links); mit „Pause“ lässt er sich jederzeit anhalten. Ein Klick auf die Zeit ändert sie: „75“ für 75 Minuten oder „42:30“ eintippen, Enter.</li>
+        <li>Nach jedem Slot oben rechts <b>„Neues Team"</b> drücken – setzt Abzeichen und Timer zurück. Der Timer startet von selbst, sobald das Team Station 0 verlässt („Los geht's“ oder Leiste links); mit „Pause“ lässt er sich jederzeit anhalten. Ein Klick auf die Zeit ändert sie: „75“ für 75 Minuten oder „42:30“ eintippen, Enter.</li>
       </ul>
     </section>
 
@@ -225,7 +233,7 @@
       <h3>Sicherheit</h3>
       <ul>
         <li>18650-Akkus nur von Betreuenden wechseln, nie mit spitzen Gegenständen heraushebeln (Zuglasche benutzen)</li>
-        <li>Jedes neue Programm zuerst <b>aufgebockt</b> testen (Räder in der Luft, z.&nbsp;B. auf einer Klebebandrolle) – steht so auch in Station 3. Pro Tisch eine Unterlage bereitlegen.</li>
+        <li>Jedes neue Programm zuerst <b>aufgebockt</b> testen (Räder in der Luft, z.&nbsp;B. auf einer Klebebandrolle) – steht so im Sicherheitsfenster. Gefahren wird auf dem Teststreifen am Boden, nie auf dem Tisch. Pro Tisch eine Unterlage bereitlegen.</li>
         <li>Roboter nur auf dem Boden oder mit Randbegrenzung auf dem Tisch fahren lassen</li>
         <li>Haare und lose Bänder von den Rädern fernhalten</li>
       </ul>

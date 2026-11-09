@@ -9,7 +9,7 @@
  *   3. Als A4-PDF gedruckt sind es genau 2 Seiten.
  *   4. Keine Verweise nach außen (http), läuft mit abgeschaltetem Netz.
  *   5. Gleiche Geometrie: Band, Tempo-Zone, Lücke, Kisten, Schild und Nummernkreise sind auf
- *      beiden Druckseiten genau so gezeichnet wie in Station 6 (#gpmap in der Offline-Datei).
+ *      beiden Druckseiten genau so gezeichnet wie in Station 5 (#gpmap in der Offline-Datei).
  */
 const path = require('path');
 const fs = require('fs');
@@ -71,7 +71,7 @@ function check(cond, msg) {
   }
   await page.emulateMedia({ media: null });
 
-  // Geometrie der Strecke: Station 6 und beide Druckseiten müssen gleich sein.
+  // Geometrie der Strecke: Station 5 und beide Druckseiten müssen gleich sein.
   // Leerraum in d-Attributen wird vereinheitlicht, sonst zählt jedes Zeichen.
   const geo = root => {
     const norm = v => (v || '').trim().replace(/\s+/g, ' ');
@@ -98,10 +98,10 @@ function check(cond, msg) {
     const siteGeo = await st.$eval('#gpmap', (e, src) => new Function('return ' + src)()(e), geo.toString());
     await st.close();
     for (const key of Object.keys(siteGeo)) {
-      check(siteGeo[key].length > 0, 'Station 6 hat ' + key);
+      check(siteGeo[key].length > 0, 'Station 5 hat ' + key);
       sheetsGeo.forEach((g, i) => {
         const same = JSON.stringify(g[key]) === JSON.stringify(siteGeo[key]);
-        check(same, 'Seite ' + (i + 1) + ' = Station 6: ' + key + (same ? '' : ' (Seite: ' + JSON.stringify(g[key]) + ' / Station: ' + JSON.stringify(siteGeo[key]) + ')'));
+        check(same, 'Seite ' + (i + 1) + ' = Station 5: ' + key + (same ? '' : ' (Seite: ' + JSON.stringify(g[key]) + ' / Station: ' + JSON.stringify(siteGeo[key]) + ')'));
       });
     }
   }
