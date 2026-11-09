@@ -65,7 +65,7 @@ Ergebnisse, die in `src/` zurückfließen müssen:
   (Tabelle, „wichtigster Satz“) und micro:bit-Simulator (`app.js`, `TILT`)
 - Akkulaufzeit, Aufbauzeit → Handbuch
 - Zählnummern 1–4, Höchststufe, Schild-Lage → alle Stellen aus der Liste in
-  `microbit/stations/06-grand-prix/README.md` gemeinsam, danach `loesung.hex` und `bloecke.png`
+  `microbit/stations/05-grand-prix/README.md` gemeinsam, danach `loesung.hex` und `bloecke.png`
 
 ## Block H: Grand Prix
 
@@ -127,7 +127,7 @@ Aus dem Entwurf (`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.m
 ## Vorläufige Blocktexte (Grand Prix)
 
 Regel 6 der CLAUDE.md: Diese Texte stehen so auf der Seite, im Handbuch, auf dem Druckblatt
-und in `microbit/stations/06-grand-prix/README.md`, sind aber noch nicht am Gerät abgelesen.
+und in `microbit/stations/05-grand-prix/README.md`, sind aber noch nicht am Gerät abgelesen.
 Beim Trockenlauf mit MakeCode vergleichen und alle Stellen gemeinsam ändern.
 
 - Bibliothek **Grand Prix** (`microbit/bibliothek/custom.ts`, Farbe `#3C3C3C`):

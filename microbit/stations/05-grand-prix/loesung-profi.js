@@ -24,6 +24,9 @@ input.onButtonPressed(Button.A, function () {
     basic.pause(500)
     maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.Right, maqueenPlusV2.CarLightColors.Yellow)
 })
+input.onButtonPressed(Button.B, function () {
+    maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.OFF)
+})
 grandPrix.beiKreuzung(4, function () {
     basic.pause(500)
     if (matrixLidarDistance.getObstacleDistance(matrixLidarDistance.ObstacleSide.Front) >= 200) {
@@ -51,6 +54,7 @@ basic.forever(function () {
     matrixLidarDistance.getData()
     if (matrixLidarDistance.getObstacleDistance(matrixLidarDistance.ObstacleSide.Front) < 200) {
         maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.OFF)
+        maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.Red)
         if (gesprungen) {
             gesprungen = false
             music.play(music.builtInPlayableMelody(Melodies.Dadadadum), music.PlaybackMode.InBackground)

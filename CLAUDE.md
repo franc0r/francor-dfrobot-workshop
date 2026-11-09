@@ -101,7 +101,7 @@ docs/                 Konzept, Offline-Recherche, Review-Notizen
 ```
 
 Die Ordner unter `microbit/stations/` tragen dieselbe Nummer und denselben Namen wie
-die Dateien unter `website/src/stations/`: `04-augen/` gehört zu `04-augen.html`.
+die Dateien unter `website/src/stations/`: `03-fahrschule/` gehört zu `03-fahrschule.html`.
 Ändert sich ein Blocktext, werden beide zusammen angefasst — zusammen mit dem Handbuch.
 
 Arbeitsablauf: `cd website && python3 build.py && npm test`. Erst wenn beides grün ist,
@@ -150,7 +150,7 @@ eine Skizze der Strecke, stellen die Kreuzungsregeln ein, schalten an Kreuzung 1
 dem Tempo-Schild langsam und hören am Ziel ihre Siegesmelodie (Melodie als Pflicht: Martin,
 05.11.2026; Profis hören sie erst am Pro-Ziel). Kein Wettbewerb: Gummibärchen für alle, die Zeit
 nur zum Vergleichen. Die Zählnummern 1–4 gelten bis zum Trockenlauf; jede
-Stelle, die sie nennt, steht in `microbit/stations/06-grand-prix/README.md`.
+Stelle, die sie nennt, steht in `microbit/stations/05-grand-prix/README.md`.
 
 ## Verein und Logo
 
