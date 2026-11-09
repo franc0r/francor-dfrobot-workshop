@@ -1,18 +1,19 @@
   <section class="station" data-st="3" hidden>
     <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 3</span><span>14 Minuten</span><span>Fahrschule</span></div>
-      <h2>Erst denken, dann fahren</h2>
-      <p class="goal">Profis testen ihren Code, bevor er auf die Hardware geht &ndash; sonst fährt der Roboter vom Tisch.</p>
+      <div class="eyebrow"><span class="tag">Station 3</span><span>20 Minuten</span><span>Fahrschule</span></div>
+      <h2>Der Roboter fährt die Linie</h2>
+      <p class="goal">Du sagst dem Roboter nicht, wo er langfahren soll &ndash; du sagst ihm, worauf er achten soll. Das macht aus einem Fahrzeug einen Roboter.</p>
     </div>
     <div class="st-body">
+      <div class="note fresh">
+        <span class="nt">Zuerst: das Roboter-Projekt</span>
+        <p>Klickt auf den Knopf. In MakeCode geht ein neues Projekt auf, in dem die Roboter-Blöcke schon drin sind: Kategorie <b>Maqueen Plus V2</b>. Gebt dem Projekt unten neben <b>Herunterladen</b> den Namen <b>Linie</b>. Ihr arbeitet bis zum Grand Prix darin weiter.</p>
+        <a class="btn" href="makecode:vorlage" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
+      </div>
 
       <div class="block">
-        <h3><span class="idx">01</span>Zuerst: dem micro:bit den Roboter beibringen</h3>
-        <p class="lead">MakeCode kennt den Maqueen erst, wenn eine Block-Sammlung dafür geladen ist. Dafür gibt es ein <b>Vorlagenprojekt</b>, in dem sie schon drinsteckt &ndash; ihr müsst nichts nachladen.</p>
-        <ol class="steps">
-          <li><span>Klickt auf den Knopf. Das neue Roboter-Projekt geht in MakeCode in einem neuen Tab auf. Links seht ihr sofort eine neue Kategorie <b>Maqueen Plus V2</b> &ndash; da liegen alle Roboter-Blöcke.<br><a class="btn" href="makecode:vorlage" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a></span></li>
-          <li><span>micro:bit in den Schlitz am Roboter stecken &ndash; <b>mit den 25 Lämpchen nach vorn</b>, so dass ihr sie von vorn sehen könnt. Dann <b>beide</b> Schalter auf ON: einer am Akkubrett, einer an der Bodenplatte &ndash; von vorn gesehen beide links. Ohne beide passiert gar nichts.</span></li>
-        </ol>
+        <h3><span class="idx">01</span>Roboter anschließen</h3>
+        <p class="lead">micro:bit in den Schlitz stecken, <b>mit den 25 Lämpchen nach vorn</b>. Dann <b>beide</b> Schalter auf ON. Ohne beide passiert gar nichts.</p>
         <figure class="mqfig" id="mqinsert">
           <svg viewBox="0 0 420 326" role="img" aria-labelledby="mqins-t">
             <title id="mqins-t">Der micro:bit gleitet von oben in den Schlitz, die Lämpchen zeigen nach vorn</title>
@@ -78,87 +79,77 @@
             <g class="sw sw-anim" transform="translate(224,294)"><rect class="track" x="0" y="0" width="34" height="16" rx="8"/><circle class="knob" cx="8" cy="8" r="5"/><text class="lbl2" x="44" y="13">2 Bodenplatte</text></g>
             <text class="lbl" x="210" y="322" text-anchor="middle">Blick von vorn</text>
           </svg>
-          <figcaption><b>Lämpchen nach vorn.</b> Schaust du von vorn auf den Roboter, siehst du alle 25. Der USB-Anschluss zeigt nach oben. Sitzt der micro:bit, kommen beide Schalter auf ON. Von vorn gesehen sitzen beide <b>links</b>: Schalter 1 hinter der Batterie am Akkubrett, Schalter 2 unten am Rand der Bodenplatte, vor dem Rad.</figcaption>
+          <figcaption><b>Lämpchen nach vorn</b>, USB-Anschluss nach oben. Dann beide Schalter auf ON &ndash; von vorn gesehen beide <b>links</b>: 1 am Akkubrett hinter der Batterie, 2 am Rand der Bodenplatte vor dem Rad.</figcaption>
         </figure>
         <div class="note warn">
-          <span class="nt">Extra, nur zum Lesen &ndash; heute bitte nicht anklicken</span>
-          <p>So entsteht die Erweiterung, falls es euch interessiert: Unten links auf das Zahnrad <kbd>⚙</kbd> &rarr; <b>Erweiterungen</b> &rarr; nach <kbd>dfrobot</kbd> suchen &rarr; <b>DFRobot_MaqueenPlus_V2</b> auswählen (heißt noch &bdquo;V2&ldquo;, kann aber alles von eurem V3). Genau das steckt schon in eurer Vorlage &ndash; <b>hier gibt es kein Internet</b>, das Nachladen würde also nicht klappen. Bleibt bei der Vorlage.</p>
+          <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
+          <p>Der Block steht in eurer Vorlage ganz oben in <kbd>beim Start</kbd> &ndash; nicht löschen. Blinkt auf dem micro:bit ein <b>X</b>, antwortet der Roboter nicht: Schalter und Sitz im Schlitz prüfen. Ein <b>Haken</b> heißt: verbunden.</p>
         </div>
       </div>
 
       <div class="block">
-        <h3><span class="idx">02</span>Dieselbe Idee auf dem echten Roboter</h3>
-        <p class="lead">Der echte Maqueen kennt keine „Felder". Er kennt <b>Geschwindigkeit</b> (0&ndash;255) und <b>Zeit</b>. Aus „fahre 3 Felder" wird also: fahren, warten, stoppen.</p>
-        <div class="note warn">
-          <span class="nt">Erst aufbocken, dann fahren</span>
-          <p>Stell den Roboter <b>vor dem Flashen</b> auf eine kleine Schachtel oder eine Rolle Klebeband &ndash; so, dass <b>die Räder in der Luft hängen</b>. Wie ein Auto in der Werkstatt. Dann siehst du, ob sich die Räder richtig drehen, und der Roboter fährt nicht vom Tisch.<br>Erst wenn alles stimmt: USB-Kabel ab, Roboter auf den Boden, echt fahren. Das gilt für <b>jedes neue Programm</b>.</p>
+        <h3><span class="idx">02</span>Wie ein Liniensensor „sieht"</h3>
+        <p class="lead">Unter dem Fahrzeug sitzen fünf kleine Lampen mit je einem Lichtmesser. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert keine Farbe, sondern eine Zahl:</p>
+        <div class="tablewrap">
+          <table class="fix">
+            <tr><th>Untergrund</th><th>ungefährer Messwert</th><th>heißt für den Roboter</th></tr>
+            <tr><td>Weißes Papier</td><td>≈ 3800</td><td>„hier ist keine Linie"</td></tr>
+            <tr><td>Schwarzes Klebeband</td><td>≈ 2700</td><td>„hier ist meine Spur"</td></tr>
+          </table>
         </div>
+        <div class="note">
+          <span class="nt">Kalibrieren &ndash; schon erledigt</span>
+          <p>Jeder Raum hat anderes Licht. Was hier „schwarz" heißt, hat euer Roboter beim Aufbau schon gelernt. Nur wenn er die Linie nicht findet, kalibriert ihr neu &ndash; steht unten bei <b>Wenn es klemmt</b>.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>Knopf A: Ampel, dann fährt er</h3>
+        <p class="lead">Der Linienfolger steckt fertig im Maqueen, in fünf Stufen von 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Maqueen-Kategorie unter <b>&hellip; mehr</b>, Gruppe <b>V3</b>, auf Englisch: <b>Line patrolling</b> heißt „Linie abfahren", <b>ON</b> an, <b>OFF</b> aus, <b>Speed</b> Stufe. Die Lichter heißen <b>RGB Car Lights</b>.</p>
         <div class="mcstack">
-          <div class="mccap">Geradeaus und anhalten</div>
+          <div class="mccap">Startampel und Linie &ndash; startet erst auf Knopfdruck</div>
           <div class="mcb b-basic">beim Start</div>
           <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-          <div class="mcb b-mq i1">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>120</b></div>
+          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
           <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">stop <b>beide Räder</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
+          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
+          <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
+          <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+          <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
         </div>
-        <p class="testline"><b>Testen:</b> Herunterladen &rarr; Roboter aufgebockt: Drehen sich beide Räder eine Sekunde lang?</p>
-        <div class="note">
-          <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
-          <p>Dieser Block gehört in <b>jedes</b> Roboterprogramm, ganz oben in <kbd>beim Start</kbd>. In eurer Vorlage steht er schon &ndash; nicht löschen. Mit ihm fragt der micro:bit beim Roboter an: &bdquo;Bist du da?&ldquo; Blinkt ein <b>X</b>, antwortet der Roboter nicht &ndash; prüft beide Schalter und ob der micro:bit richtig im Schlitz steckt. Ein <b>Haken</b> heißt: verbunden, es kann losgehen.</p>
-        </div>
-        <div class="note">
-          <span class="nt">Zahlengefühl</span>
-          <p>Die Geschwindigkeit geht von 0 bis 255. Unter etwa <b>30</b> bewegt sich nichts &ndash; da ist der Motor zu schwach, um das Fahrzeug loszureißen. 1000&nbsp;ms sind eine Sekunde.</p>
-        </div>
+        <p class="lead">Warum nicht in <kbd>beim Start</kbd>? Weil der Roboter sonst losfährt, während ihr ihn noch auf die Linie stellt. Knopf B ist euer Not-Aus.</p>
+        <ol class="steps">
+          <li><span>Herunterladen, USB-Kabel abziehen.</span></li>
+          <li><span>Roboter auf den Teststreifen am Boden stellen, Mitte über der schwarzen Linie, einschalten.</span></li>
+          <li><span><b>Knopf A</b>: Ampel, dann fährt er. <b>Knopf B</b> hält ihn an.</span></li>
+        </ol>
+        <p class="testline"><b>Testen:</b> Fährt er der Linie nach? Legt den Streifen anders hin &ndash; er fährt trotzdem.</p>
       </div>
 
-      <div class="block">
-        <h3><span class="idx">03</span>Wie dreht ein Roboter ohne Lenkrad?</h3>
-        <p class="lead">Der Maqueen hat keine Lenkung. Er dreht, indem die beiden Räder <em>unterschiedlich schnell</em> laufen. Läuft ein Rad vorwärts und das andere rückwärts, dreht er sich auf der Stelle.</p>
-        <div class="mcstack">
-          <div class="mccap">Drehung auf der Stelle nach rechts</div>
-          <div class="mcb b-mq">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
-          <div class="mcb b-mq">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
-          <div class="mcb b-basic">pausiere (ms) <b>400</b></div>
-          <div class="mcb b-mq">stop <b>beide Räder</b></div>
+      <div class="quiz" data-quiz="q3" data-answer="a">
+        <div class="qh">Kontrollfrage</div>
+        <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
+        <div class="opts">
+          <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
+          <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
+          <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
         </div>
-        <p class="testline"><b>Testen:</b> Hängt die Blöcke unter eure Geradeaus-Blöcke. Herunterladen &rarr; dreht sich der aufgebockte Roboter nach rechts?</p>
-        <div class="note aha">
-          <span class="nt">Team-Challenge</span>
-          <p>Bringt euren Roboter dazu, ein <b>Quadrat</b> zu fahren und wieder am Start zu landen.</p>
-          <p><b>Tipp 1:</b> Nehmt <b>wenn Knopf A geklickt</b> statt <b>beim Start</b> (kennt ihr aus Station 2). Dann fährt der Roboter erst los, wenn er auf dem Boden steht und ihr drückt.<br>
-          <b>Tipp 2:</b> Eine Seite vom Quadrat = die Blöcke von <b>Geradeaus</b> + die Blöcke von <b>Drehung</b>. Das braucht ihr 4-mal. Rechtsklick auf einen Block &rarr; <b>Duplizieren</b> spart Arbeit.<br>
-          <b>Tipp 3:</b> 400&nbsp;ms reichen nicht für eine ganze Ecke. Probiert Zahlen zwischen 500 und 800 &ndash; probieren, messen, korrigieren. Genau so arbeiten Ingenieure.</p>
-          <details class="hint">
-            <summary>Ihr kommt nicht weiter? Gerüst aufklappen</summary>
-            <div class="mcstack">
-              <div class="mccap">Quadrat mit Schleife &ndash; die ??? findet ihr heraus</div>
-              <div class="mcb b-basic">beim Start</div>
-              <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-              <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-              <div class="mcb b-loop i1"><b>4</b> -mal wiederholen</div>
-              <div class="mcb b-mq i2">steuere <b>beide Räder</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
-              <div class="mcb b-basic i2">pausiere (ms) <b>1000</b></div>
-              <div class="mcb b-mq i2">steuere <b>linkes Rad</b> <b>vorwärts</b>, Geschwindigkeit <b>100</b></div>
-              <div class="mcb b-mq i2">steuere <b>rechtes Rad</b> <b>rückwärts</b>, Geschwindigkeit <b>100</b></div>
-              <div class="mcb b-basic i2">pausiere (ms) <b>???</b></div>
-              <div class="mcb b-mq i2">stop <b>beide Räder</b></div>
-            </div>
-            <p>Die Schleife <b>-mal wiederholen</b> liegt in MakeCode bei den grünen <b>Schleifen</b>.</p>
-          </details>
-          <button class="btn sec" type="button" data-bonus="quadrat">Geschafft, zeig&apos;s dem Betreuer</button>
-        </div>
+        <p class="qfb" hidden></p>
       </div>
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Fährt einen Bogen statt geradeaus?</b> Normal. Die Motoren sind nie exakt gleich. Dreht die Geschwindigkeit des schnelleren Rads um 5&ndash;10 runter.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen später zählt das wirklich.</p>
+        <p><b>Er verlässt die Linie in Kurven?</b> Bei <b>Speed</b> eine kleinere Zahl.<br><b>Er findet die Linie nicht?</b> Neu kalibrieren: alle fünf Sensoren auf die schwarze Linie, einschalten, Taste <b>Calc-Key</b> etwa 2 Sekunden halten, bis es blinkt.</p>
       </div>
     </div>
     <div class="stfoot">
       <button class="btn sec" data-next="2">&larr; Zurück</button>
-      <span class="pts">Abzeichen: Fahrlehrer</span>
+      <span class="pts">Abzeichen: Spurhalter</span>
       <span class="spacer"></span>
-      <button class="btn" data-next="4">Weiter zu den Augen &rarr;</button>
+      <button class="btn" data-next="4">Weiter zu den Reflexen &rarr;</button>
     </div>
   </section>

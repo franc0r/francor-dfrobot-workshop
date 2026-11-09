@@ -63,16 +63,17 @@ function check(cond, msg) {
 
   // Struktur
   const n = await page.$$eval('.station:not(.page)', s => s.length);
-  check(n === 7, 'sieben Stationen (gefunden: ' + n + ')');
+  check(n === 6, 'sechs Stationen (gefunden: ' + n + ')');
   const mins = await page.$$eval('.station:not(.page) .eyebrow span:nth-child(2)', s => s.map(x => parseInt(x.textContent, 10)));
   const sum = mins.reduce((a, b) => a + b, 0);
   check(sum === 105, 'Stationsminuten summieren auf 105 (' + mins.join('+') + ' = ' + sum + ')');
+  check(JSON.stringify(mins) === '[5,15,15,20,10,40]', 'Minuten 5/15/15/20/10/40 (' + mins.join('/') + ')');
   const railMins = await page.$$eval('.stepbtn:not(.page) .min', s => s.map(x => parseInt(x.textContent, 10)));
   check(JSON.stringify(railMins) === JSON.stringify(mins), 'Rail-Minuten = Eyebrow-Minuten');
 
   // Stückliste: Seite oben in der Leiste, keine Station
   check(await page.$eval('#rail .stepbtn:first-of-type', e => e.classList.contains('page') && e.textContent.includes('Stückliste')), 'Stückliste: erster Knopf in der Leiste');
-  check(await page.$$eval('.stepbtn .min', s => s.filter(x => /\d/.test(x.textContent)).length) === 7, 'Stückliste: zählt nicht zu den Stationsminuten');
+  check(await page.$$eval('.stepbtn .min', s => s.filter(x => /\d/.test(x.textContent)).length) === 6, 'Stückliste: zählt nicht zu den Stationsminuten');
   await page.click('.stepbtn[data-go="teile"]');
   check(await page.$eval('.page[data-st="teile"]', e => !e.hidden) && await page.$eval('.station[data-st="0"]', e => e.hidden), 'Stückliste: öffnet und blendet die Stationen aus');
   check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Stückliste: startet den Timer nicht');
@@ -103,10 +104,6 @@ function check(cond, msg) {
   // Klammer-Blöcke: "dauerhaft" in Station 1 umschließt seine vier Blöcke
   const loopKids = await page.$$eval('.station[data-st="1"] .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim() + ':' + c.querySelectorAll(':scope > .mcbody > .mcb').length));
   check(loopKids.includes('beim Start:1') && loopKids.includes('dauerhaft:4'), 'Station 1: Klammer-Blöcke (' + loopKids.join(', ') + ')');
-  const ifElse = await page.$$eval('.station[data-st="5"] .mcc[data-c="b-logic"] > .mcbody', l => l.length).catch(() => 0);
-  check(ifElse === 4, 'Station 5: zwei wenn/sonst-Blöcke mit je zwei Fächern (' + ifElse + ')');
-  check(!(await page.$eval('.station[data-st="5"] .eyebrow', e => e.textContent)).includes('Bonus'), 'Station 5 ist keine Bonus-Station mehr');
-  check(await page.$$eval('.station[data-st="5"] .mcb.b-var', l => l.length === 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(220, 20, 60)')), 'Station 5: Variablen-Blöcke in Rot wie in MakeCode');
 
   // Station 3: Einsetz-Animation
   await page.click('.stepbtn[data-go="3"]');
@@ -116,16 +113,21 @@ function check(cond, msg) {
   check(anim !== 'none', 'Station 3: micro:bit gleitet per CSS-Animation (' + anim + ')');
   check(/Lämpchen nach vorn/.test(await page.$eval('#mqinsert', e => e.textContent).catch(() => '')), 'Station 3: Figur sagt "Lämpchen nach vorn"');
 
-  // Station 6: Streckenskizze und Grand-Prix-Blöcke
-  await page.click('.stepbtn[data-go="6"]');
-  check((await page.$eval('#gpmap', e => e.getBoundingClientRect().height).catch(() => 0)) > 120, 'Station 6: Streckenskizze wird gezeichnet');
-  check(JSON.stringify(await page.$$eval('#gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 6: Skizze nummeriert 1–4');
-  const gpText = await page.$eval('#gpmap', e => e.textContent).catch(() => '');
-  check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 6: Start, Ziel und Pro-Ziel beschriftet');
-  check(await page.$$eval('.station[data-st="6"] .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 6: Grand-Prix-Blöcke in Graphit');
-  check(!/\p{Extended_Pictographic}/u.test(await page.$eval('.station[data-st="6"]', e => e.textContent)), 'Station 6: kein Emoji');
+  // Station 3: zusammengelegt aus Fahrschule und Augen (09.11.2026)
+  const st3 = await page.$eval('.station[data-st="3"]', e => e.textContent);
+  check(/Line patrolling ON/.test(st3) && /RGB Car Lights/.test(st3) && !/steuere/.test(st3) && !/wiederholen/.test(st3), 'Station 3: Linie und Ampel, keine Motorblöcke');
+  check((await page.$('#mqinsert')) !== null && (await page.$('.station[data-st="3"] table.fix')) !== null, 'Station 3: Einsetz-Figur und Sensortabelle');
 
-  // Station 6 im Dunkelmodus auf Handybreite
+  // Station 5: Streckenskizze und Grand-Prix-Blöcke
+  await page.click('.stepbtn[data-go="5"]');
+  check((await page.$eval('#gpmap', e => e.getBoundingClientRect().height).catch(() => 0)) > 120, 'Station 5: Streckenskizze wird gezeichnet');
+  check(JSON.stringify(await page.$$eval('#gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 5: Skizze nummeriert 1–4');
+  const gpText = await page.$eval('#gpmap', e => e.textContent).catch(() => '');
+  check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 5: Start, Ziel und Pro-Ziel beschriftet');
+  check(await page.$$eval('.station[data-st="5"] .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 5: Grand-Prix-Blöcke in Graphit');
+  check(!/\p{Extended_Pictographic}/u.test(await page.$eval('.station[data-st="5"]', e => e.textContent)), 'Station 5: kein Emoji');
+
+  // Station 5 im Dunkelmodus auf Handybreite
   const ctx2 = await browser.newContext({ offline: true, colorScheme: 'dark', viewport: { width: 360, height: 800 } });
   const p2 = await ctx2.newPage();
   p2.on('pageerror', e => errors.push(String(e)));
@@ -133,9 +135,9 @@ function check(cond, msg) {
   await p2.waitForTimeout(300);
   check(await p2.evaluate(() => { const b = document.querySelector('#safety .sbox').getBoundingClientRect(); return b.left >= 0 && b.right <= window.innerWidth; }), 'Sicherheit: Fenster passt auf 360 px (dunkel)');
   await p2.click('#safetyok');
-  await p2.click('.stepbtn[data-go="6"]');
-  check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 6: Matte bleibt im Dunkelmodus weiß');
-  check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
+  await p2.click('.stepbtn[data-go="5"]');
+  check(await p2.$eval('#gpmap .gp-mat', e => getComputedStyle(e).fill).catch(() => '') === 'rgb(255, 255, 255)', 'Station 5: Matte bleibt im Dunkelmodus weiß');
+  check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 5: kein waagerechter Scroll bei 360 px');
   await ctx2.close();
 
   // Station 2 und 3: keine eigenen Simulatoren mehr (Martin, 09.11.2026)
@@ -157,6 +159,12 @@ function check(cond, msg) {
   const hbn = hb.replace(/ /g, ' ');
   check(['Zählfahrt', 'Minute 15', 'geblitzt', '10 cm', '30 cm'].every(w => hbn.includes(w)), 'Handbuch: Abschnitt Grand Prix vollständig');
   await page.keyboard.press('Escape');
+
+  // alter Fortschritt aus der Siebener-Fassung
+  await page.evaluate(() => localStorage.setItem('mgp-v1', JSON.stringify({done:[0,1,2,3,4,5,6], quiz:{}, bonus:{}, cur:6, safe:true})));
+  await page.reload(); await page.waitForTimeout(300);
+  check(await page.$$eval('.station:not(.page)', s => s.some(e => !e.hidden)), 'alter Fortschritt (cur 6): eine Station ist sichtbar');
+  check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length) <= 6, 'alter Fortschritt: höchstens sechs Abzeichen');
 
   // Reset
   await page.click('#resetbtn');

@@ -5,12 +5,11 @@
 var KEY = "mgp-v1";
 var STATIONS = [
   {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"13 Min", badge:"Ersteinschalter"},
+  {n:"Erster Kontakt", m:"15 Min", badge:"Ersteinschalter"},
   {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"14 Min", badge:"Fahrlehrer"},
-  {n:"Augen", m:"18 Min", badge:"Spurhalter"},
+  {n:"Fahrschule", m:"20 Min", badge:"Spurhalter"},
   {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"30 Min", badge:"Champion"}
+  {n:"Grand Prix", m:"40 Min", badge:"Champion"}
 ];
 var S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false};
 
@@ -19,6 +18,9 @@ function load(){
     var raw = localStorage.getItem(KEY);
     if(raw){ var o = JSON.parse(raw); if(o && typeof o==="object"){ for(var k in S){ if(o[k]!==undefined) S[k]=o[k]; } } }
   }catch(e){}
+  /* Fortschritt aus einer Fassung mit mehr Stationen (bis 09.11.2026 waren es sieben) */
+  if(typeof S.cur === "number" && S.cur >= STATIONS.length) S.cur = 0;
+  if(Array.isArray(S.done)) S.done = S.done.filter(function(i){ return i < STATIONS.length; });
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 
