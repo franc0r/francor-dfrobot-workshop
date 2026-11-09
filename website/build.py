@@ -126,16 +126,39 @@ def makecode_links(html):
     return html
 
 
+# Textbudget je Station (Spec 2026-11-09-parcours-first, Abschnitt Textbudget; Station 5 auf
+# 850 angehoben, weil das Grand-Prix-Programm vollständig auf der Seite steht). Gezählt wird
+# stumpf: Tags raus, alles Übrige an Leerzeichen getrennt – auch Blocktexte, Knöpfe, Tabellen.
+# Ein `&nbsp;`-Paar wie „5&nbsp;cm“ zählt dabei als ein Wort.
+TEXTBUDGET = [200, 350, 550, 500, 300, 850]
+
+
+def wortzahl(body: str) -> int:
+    return len(re.sub(r'<[^>]*>', ' ', body).split())
+
+
+_gezaehlt = False   # Wortzahlen nur einmal ausgeben, nicht je Ziel
+
+
 def stations():
+    global _gezaehlt
     d = os.path.join(SRC, "stations")
     files = sorted(f for f in os.listdir(d) if f.endswith(".html"))
+    if len(files) != len(TEXTBUDGET):
+        raise SystemExit("%d Stationen, aber %d Textbudgets" % (len(files), len(TEXTBUDGET)))
     out = []
     for i, f in enumerate(files):
         body = read("stations/" + f)
         m = re.search(r'data-st="(\d)"', body)
         if not m or int(m.group(1)) != i:
             raise SystemExit("Station %s: data-st passt nicht zur Reihenfolge (erwartet %d)" % (f, i))
+        n = wortzahl(body)
+        if n > TEXTBUDGET[i]:
+            raise SystemExit("Station %s: %d Wörter, Budget %d" % (f, n, TEXTBUDGET[i]))
+        if not _gezaehlt:
+            print("Station %d: %d/%d Wörter" % (i, n, TEXTBUDGET[i]))
         out.append("  <!-- ============ STATION %d ============ -->\n%s\n" % (i, body))
+    _gezaehlt = True
     return "".join(out)
 
 
