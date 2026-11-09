@@ -2,31 +2,25 @@
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 2</span><span>15 Minuten</span><span>Der micro:bit allein</span></div>
       <h2>25 Lämpchen und ein Gleichgewichtssinn</h2>
-      <p class="goal">Bevor Räder ins Spiel kommen: Der micro:bit ist schon für sich ein vollständiger Computer. Auf vier mal fünf Zentimetern sitzen 25 LEDs, zwei Knöpfe, ein Lautsprecher, ein Mikrofon, Funk &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
+      <p class="goal">Der micro:bit ist für sich schon ein Computer: 25 LEDs, zwei Knöpfe, Lautsprecher &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
     </div>
     <div class="st-body">
 
       <div class="note fresh">
         <span class="nt">Zuerst: neues Projekt</span>
-        <p>Startet für diese Station ein neues Projekt. Sonst blinkt euer Herz aus Station 1 weiter und überschreibt alles, was ihr jetzt baut.</p>
+        <p>Neues Projekt, sonst blinkt euer Herz aus Station 1 über alles drüber.</p>
         <a class="btn" href="makecode:neu" target="_blank" rel="noopener">Neues Projekt starten &rarr;</a>
       </div>
 
       <div class="block">
         <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
-        <p class="lead">Der Bildschirm des micro:bit sind 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
-        <p class="lead">Probiert es im Simulator in MakeCode, links neben den Blöcken. <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild. Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.</p>
+        <p class="lead">Der Bildschirm sind 25 rote LEDs. Im Block <kbd>zeige LEDs</kbd> (in <b>Grundlagen</b>) klickt ihr die Punkte an. Zieht ihn in <kbd>beim Start</kbd> und malt euer Bild &ndash; der Simulator in MakeCode zeigt es sofort.</p>
         <p class="testline"><b>Testen:</b> Herunterladen &rarr; steht euer Bild auf dem micro:bit?</p>
-        <div class="note">
-          <span class="nt">Warum das clever ist</span>
-          <p>25 Lämpchen, jedes an oder aus &ndash; das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>.</p>
-        </div>
       </div>
 
       <div class="block">
         <h3><span class="idx">02</span>Auf Knopfdruck reagieren</h3>
-        <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse. Im MakeCode-Simulator könnt ihr A und B anklicken.</p>
-        <p class="lead"><kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>.</p>
+        <p class="lead">Neu: ein Block, der <em>wartet</em>, bis etwas passiert &ndash; ein Ereignis. <kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>. Im MakeCode-Simulator könnt ihr A und B anklicken.</p>
         <div class="mcstack">
           <div class="mccap">Zwei Ereignisse nebeneinander</div>
           <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
@@ -34,18 +28,16 @@
           <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
           <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
         </div>
-        <p class="lead">Beide Blöcke liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide Aufträge und führt den passenden aus, sobald der Knopf kommt.</p>
-        <div class="note">
+                <div class="note">
           <span class="nt">Frei hinlegen</span>
-          <p>Ereignis-Blöcke wie <kbd>wenn Knopf A geklickt</kbd> legt ihr <b>frei</b> ins Programmierfenster &ndash; nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>. Sie warten selbst auf ihren Moment.</p>
+          <p>Ereignis-Blöcke liegen <b>frei</b> im Programmierfenster, nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>.</p>
         </div>
         <p class="testline"><b>Testen:</b> Herunterladen &rarr; Knopf A drücken, dann Knopf B.</p>
       </div>
 
       <div class="block">
         <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
-        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. Die Blöcke dafür liegen in <b>Eingabe</b>. Der MakeCode-Simulator kippt, wenn ihr mit der Maus über die Platine fahrt, und zeigt einen Knopf <b>SHAKE</b>, sobald <kbd>wenn geschüttelt</kbd> im Programm ist.</p>
-        <p class="lead">In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein. Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b>, ganz unten &ndash; ein Stück nach unten scrollen.</p>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor wie im Handy. Er liefert fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. In <b>Eingabe</b> gibt es dafür nur <kbd>wenn geschüttelt</kbd>: hereinziehen und im Menü umstellen, ein Block je Ereignis. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b> ganz unten. Der MakeCode-Simulator kippt mit der Maus und zeigt einen Knopf <b>SHAKE</b>.</p>
         <div class="mcstack">
           <div class="mccap">Drei Ereignisse &ndash; baut sie auf eurem micro:bit</div>
           <div class="mcb b-input">wenn <b>Logo nach oben</b></div>
@@ -74,7 +66,7 @@
         <p class="lead">Ladet das herunter und kippt den micro:bit in der Hand &ndash; die Zahl läuft mit. <kbd>zeige Zahl</kbd> liegt in <b>Grundlagen</b>, <kbd>Beschleunigung</kbd> in <b>Eingabe</b>.</p>
         <div class="note aha">
           <span class="nt">Der wichtigste Satz des Workshops</span>
-          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Logo nach oben&ldquo; steht nirgends im Sensor &ndash; der micro:bit vergleicht die Zahl mit einer Grenze. Die haben hier seine Erfinder festgelegt: 200. Beim Roboter legt ihr die Grenze gleich selbst fest, wenn er Schwarz von Weiß unterscheiden soll.</p>
+          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. Der micro:bit vergleicht die Zahl mit einer Grenze, hier 200. Beim Roboter legt ihr die Grenze selbst fest.</p>
         </div>
       </div>
 
@@ -91,20 +83,19 @@
 
       <div class="note aha">
         <span class="nt">Team-Challenge</span>
-        <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf zeigt der micro:bit eine zufällige Zahl. Lasst ihn dreimal würfeln.</p>
+        <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf eine zufällige Zahl.</p>
         <div class="mcstack" style="margin:10px 0">
           <div class="mcb b-input">wenn <b>geschüttelt</b></div>
           <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-math">wähle eine zufällige Zahl von <b>1</b> bis <b>6</b></span></div>
         </div>
-        <p>Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b> &ndash; stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.</p>
+        <p>Der lila Block liegt unter <b>Mathematik</b>. Stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch eine Null.</p>
         <p class="testline"><b>Testen:</b> Herunterladen &rarr; dreimal schütteln. Kommen verschiedene Zahlen?</p>
-        <p>Wer danach noch Zeit hat: Lasst vor der Zahl kurz ein Herz erscheinen &ndash; eine kleine Trommelwirbel-Pause.</p>
         <button class="btn sec" type="button" data-bonus="wuerfel3x">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Kein Pfeil beim Kippen?</b> Deutlich kippen, fast senkrecht &ndash; erst ab 200 meldet der micro:bit das Ereignis.<br><b>Nichts passiert beim Schütteln?</b> Kräftig ruckartig schütteln, nicht sanft wedeln &ndash; der Sensor braucht eine echte Beschleunigung.<br><b>Würfelzahl kaum zu lesen?</b> Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.</p>
+        <p><b>Kein Pfeil beim Kippen?</b> Deutlich kippen, fast senkrecht.<br><b>Nichts beim Schütteln?</b> Kräftig und ruckartig, nicht sanft wedeln.</p>
       </div>
     </div>
     <div class="stfoot">

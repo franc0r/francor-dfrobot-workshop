@@ -655,23 +655,23 @@ body.safety-on{overflow:hidden}
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 0</span><span>5 Minuten</span><span>Boxenstopp</span></div>
       <h2>Was macht einen Roboter zum Roboter?</h2>
-      <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter trifft eigene Entscheidungen. In den nächsten 120 Minuten baust du genau das: ein Fahrzeug, das die Welt wahrnimmt und selbst reagiert.</p>
+      <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter entscheidet selbst &ndash; und genau so einen baust du heute.</p>
     </div>
     <div class="st-body">
       <div class="block">
         <h3><span class="idx">01</span>Der Dreisatz jedes Roboters</h3>
-        <p class="lead">Jeder Roboter auf der Welt &ndash; vom Staubsauger bis zum Marsrover &ndash; macht immer dieselben drei Dinge, tausendmal pro Minute:</p>
+        <p class="lead">Jeder Roboter macht immer dieselben drei Dinge:</p>
         <div class="mcstack flat">
           <div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>
           <div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>dein Programm</b></div>
           <div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div>
         </div>
-        <p class="lead">Und dann wieder von vorn. Diese Schleife heißt <em>Regelkreis</em> &ndash; sie ist der ganze Trick.</p>
+        <p class="lead">Und dann von vorn. Diese Schleife heißt <em>Regelkreis</em>.</p>
       </div>
 
       <div class="block">
         <h3><span class="idx">02</span>Dein Fahrzeug im Detail</h3>
-        <p class="lead">Von oben gesehen. Die Farben sind dieselben wie oben: Wahrnehmen, Entscheiden, Handeln.</p>
+        <p class="lead">Von oben.</p>
         <figure class="mqfig" id="mqmap">
           <svg viewBox="0 0 420 310" role="img" aria-labelledby="mqmap-t">
             <title id="mqmap-t">Der Maqueen von oben, Vorderseite oben</title>
@@ -755,14 +755,14 @@ body.safety-on{overflow:hidden}
             <text class="lbl2" x="22" y="291">gestrichelt = unter der Platte</text>
           </svg>
           <ol class="mqlegend">
-            <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unter dem Fahrzeug &ndash; sie unterscheiden Schwarz von Weiß.<em>Wahrnehmen</em></span></li>
-            <li class="r-input"><span class="n">2</span><span><b>8&times;8&#8209;Laserscanner</b> misst den Abstand nach vorn: 2&nbsp;cm bis 4&nbsp;m, 64 Messpunkte.<em>Wahrnehmen</em></span></li>
-            <li class="r-input"><span class="n">3</span><span><b>2 Lichtsensoren</b> messen die Helligkeit links und rechts.<em>Wahrnehmen</em></span></li>
-            <li class="r-logic"><span class="n">4</span><span><b>micro:bit&nbsp;V2</b> steckt hochkant im Schlitz. Der Computer &ndash; er führt dein Programm aus.<em>Entscheiden</em></span></li>
-            <li class="r-mq"><span class="n">5</span><span><b>2 Motoren</b> aus Metall treiben die Räder an, jedes einzeln steuerbar.<em>Handeln</em></span></li>
-            <li class="r-mq"><span class="n">6</span><span><b>6 RGB&#8209;Lämpchen</b>, 2 vorn und 4 unten &ndash; Licht in jeder Farbe.<em>Handeln</em></span></li>
+            <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unten: Schwarz oder Weiß?<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">2</span><span><b>Laserscanner</b>: Abstand nach vorn, 2&nbsp;cm bis 4&nbsp;m.<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">3</span><span><b>2 Lichtsensoren</b>: Helligkeit links und rechts.<em>Wahrnehmen</em></span></li>
+            <li class="r-logic"><span class="n">4</span><span><b>micro:bit&nbsp;V2</b> im Schlitz: der Computer, er führt dein Programm aus.<em>Entscheiden</em></span></li>
+            <li class="r-mq"><span class="n">5</span><span><b>2 Motoren</b>, jedes Rad einzeln.<em>Handeln</em></span></li>
+            <li class="r-mq"><span class="n">6</span><span><b>6 RGB&#8209;Lämpchen</b>, 2 vorn, 4 unten.<em>Handeln</em></span></li>
             <li class="r-mq"><span class="n">7</span><span><b>Summer</b> für Töne.<em>Handeln</em></span></li>
-            <li class="r-pow"><span class="n">8</span><span><b>2 Schalter</b>: einer am Akkubrett, einer an der Bodenplatte. Beide müssen an sein.<em>Strom</em></span></li>
+            <li class="r-pow"><span class="n">8</span><span><b>2 Schalter</b>: Akkubrett und Bodenplatte, beide an.<em>Strom</em></span></li>
           </ol>
         </figure>
       </div>
@@ -774,7 +774,6 @@ body.safety-on{overflow:hidden}
           <button class="opt" data-k="a"><span class="k">A</span> Der Liniensensor unter dem Fahrzeug</button>
           <button class="opt" data-k="b"><span class="k">B</span> Der Laserscanner vorne</button>
           <button class="opt" data-k="c"><span class="k">C</span> Der Summer</button>
-          <button class="opt" data-k="d"><span class="k">D</span> Der Lichtsensor oben</button>
         </div>
         <p class="qfb" hidden></p>
       </div>
@@ -790,25 +789,25 @@ body.safety-on{overflow:hidden}
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 1</span><span>15 Minuten</span><span>Erster Kontakt</span></div>
       <h2>Dein erstes Programm auf echter Hardware</h2>
-      <p class="goal">In den nächsten Minuten wandert Code, den du selbst geschrieben hast, über ein Kabel in einen echten Computer &ndash; und der macht dann genau das, was du gesagt hast. Nicht mehr und nicht weniger.</p>
+      <p class="goal">Dein Code wandert über ein Kabel in einen echten Computer &ndash; und der macht genau das, was du gesagt hast.</p>
     </div>
     <div class="st-body">
       <div class="block">
         <h3><span class="idx">01</span>MakeCode öffnen</h3>
         <ol class="steps">
           <li><span>Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.<br><a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten &rarr;</a></span></li>
-          <li><span>Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau. Ein Block wird mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster gezogen &ndash; er rastet dort ein wie ein Puzzleteil.</span></li>
-          <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus.</span></li>
+          <li><span>Links die Block-Kategorien, in der Mitte euer Programm, rechts der Simulator. Blöcke zieht ihr mit gedrückter Maustaste in die Mitte &ndash; sie rasten ein wie Puzzleteile.</span></li>
+          <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> immer wieder, ohne Ende.</span></li>
         </ol>
         <div class="note">
           <span class="nt">So bedient ihr MakeCode</span>
-          <p><b>Block holen:</b> aus der Kategorie ziehen &ndash; oder oben ins Suchfeld den Namen tippen.<br><b>Block löschen:</b> anklicken und <kbd>Entf</kbd> drücken &ndash; oder zurück nach links ziehen.<br><b>Zahl ändern:</b> auf die Zahl klicken und eintippen, zum Beispiel 300.</p>
+          <p><b>Block holen:</b> aus der Kategorie ziehen oder oben ins Suchfeld tippen.<br><b>Block löschen:</b> anklicken, <kbd>Entf</kbd>.<br><b>Zahl ändern:</b> anklicken, eintippen.</p>
         </div>
       </div>
 
       <div class="block">
         <h3><span class="idx">02</span>Das Programm: Lebenszeichen</h3>
-        <p class="lead">Baut zwei Blockgruppen &ndash; eine für <b>einmal</b>, eine für <b>immer wieder</b>. Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.</p>
+        <p class="lead">Zwei Blockgruppen: eine für <b>einmal</b>, eine für <b>immer wieder</b>. Alles liegt in <b>Grundlagen</b>.</p>
         <div class="mcstack">
           <div class="mccap">Einmal, direkt beim Einschalten</div>
           <div class="mcb b-basic">beim Start</div>
@@ -824,22 +823,22 @@ body.safety-on{overflow:hidden}
         </div>
         <div class="note aha">
           <span class="nt">Genau das ist der Unterschied</span>
-          <p><kbd>beim Start</kbd> zeigt &bdquo;Hallo&ldquo; nur einmal, direkt nach dem Einschalten &ndash; danach ist es weg. <kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Ein blinkendes Herz ist der Herzschlag eures micro:bit &ndash; das eigentliche Lebenszeichen. Genau dieses Muster &ndash; etwas läuft immer wieder, ohne Ende &ndash; braucht euer Roboter gleich für jeden Sensor.</p>
+          <p><kbd>beim Start</kbd> zeigt &bdquo;Hallo&ldquo; einmal, dann ist es weg. <kbd>dauerhaft</kbd> lässt das Herz blinken, solange Strom da ist. Dieses &bdquo;immer wieder&ldquo; braucht euer Roboter später für jeden Sensor.</p>
         </div>
       </div>
 
       <div class="block">
         <h3><span class="idx">03</span>Auf den micro:bit übertragen</h3>
         <ol class="steps">
-          <li><span>micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel &ndash; den Roboter braucht ihr jetzt noch nicht.</span></li>
+          <li><span>micro:bit per USB-Kabel an den Laptop. Den Roboter braucht ihr noch nicht.</span></li>
           <li><span>In MakeCode auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät &rarr; <b>micro:bit koppeln</b> &rarr; auswählen &rarr; verbinden.</span></li>
-          <li><span>Auf dem micro:bit blinkt eine gelbe LED &ndash; das ist der Code, der hinüberfließt. Wenn sie aufhört, läuft euer Programm.</span></li>
+          <li><span>Hinten blinkt eine gelbe LED: Der Code fließt hinüber. Hört sie auf, läuft euer Programm.</span></li>
         </ol>
       </div>
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Kein Download möglich?</b> Sehr oft liegt es am Kabel: viele USB-Kabel können nur laden, keine Daten übertragen. Anderes Kabel probieren.<br><b>Der Browser fragt nicht nach dem Gerät?</b> Es muss Chrome oder Edge sein. Notfalls die heruntergeladene <kbd>.hex</kbd>-Datei einfach auf das Laufwerk <kbd>MICROBIT</kbd> ziehen &ndash; das geht immer.</p>
+        <p><b>Kein Download möglich?</b> Meist das Kabel: Viele können nur laden. Anderes Kabel probieren.<br><b>Der Browser fragt nicht nach dem Gerät?</b> Es muss Chrome oder Edge sein. Notfalls die <kbd>.hex</kbd>-Datei auf das Laufwerk <kbd>MICROBIT</kbd> ziehen &ndash; das geht immer.</p>
       </div>
 
       <div class="quiz" data-quiz="q1" data-answer="b">
@@ -865,31 +864,25 @@ body.safety-on{overflow:hidden}
     <div class="st-head">
       <div class="eyebrow"><span class="tag">Station 2</span><span>15 Minuten</span><span>Der micro:bit allein</span></div>
       <h2>25 Lämpchen und ein Gleichgewichtssinn</h2>
-      <p class="goal">Bevor Räder ins Spiel kommen: Der micro:bit ist schon für sich ein vollständiger Computer. Auf vier mal fünf Zentimetern sitzen 25 LEDs, zwei Knöpfe, ein Lautsprecher, ein Mikrofon, Funk &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
+      <p class="goal">Der micro:bit ist für sich schon ein Computer: 25 LEDs, zwei Knöpfe, Lautsprecher &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
     </div>
     <div class="st-body">
 
       <div class="note fresh">
         <span class="nt">Zuerst: neues Projekt</span>
-        <p>Startet für diese Station ein neues Projekt. Sonst blinkt euer Herz aus Station 1 weiter und überschreibt alles, was ihr jetzt baut.</p>
+        <p>Neues Projekt, sonst blinkt euer Herz aus Station 1 über alles drüber.</p>
         <a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten &rarr;</a>
       </div>
 
       <div class="block">
         <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
-        <p class="lead">Der Bildschirm des micro:bit sind 25 rote LEDs in fünf Reihen. Jedes Bild, jeder Buchstabe, jede Zahl entsteht daraus. Im Block <kbd>zeige LEDs</kbd> klickt ihr die Punkte einfach an.</p>
-        <p class="lead">Probiert es im Simulator in MakeCode, links neben den Blöcken. <kbd>zeige LEDs</kbd> liegt in <b>Grundlagen</b>. Zieht ihn in <kbd>beim Start</kbd> und klickt euer Bild. Findet ihr ihn nicht, tippt oben ins Suchfeld <kbd>zeige LEDs</kbd>.</p>
+        <p class="lead">Der Bildschirm sind 25 rote LEDs. Im Block <kbd>zeige LEDs</kbd> (in <b>Grundlagen</b>) klickt ihr die Punkte an. Zieht ihn in <kbd>beim Start</kbd> und malt euer Bild &ndash; der Simulator in MakeCode zeigt es sofort.</p>
         <p class="testline"><b>Testen:</b> Herunterladen &rarr; steht euer Bild auf dem micro:bit?</p>
-        <div class="note">
-          <span class="nt">Warum das clever ist</span>
-          <p>25 Lämpchen, jedes an oder aus &ndash; das sind über 33 Millionen mögliche Bilder. Aus zwei Zuständen wird alles gebaut, was ein Computer kann. Genau das meint das Wort <em>digital</em>.</p>
-        </div>
       </div>
 
       <div class="block">
         <h3><span class="idx">02</span>Auf Knopfdruck reagieren</h3>
-        <p class="lead">Bis jetzt läuft euer Programm einfach von oben nach unten durch. Jetzt kommt etwas Neues: ein Block, der <em>wartet</em>, bis etwas passiert. Solche Blöcke heißen Ereignisse. Im MakeCode-Simulator könnt ihr A und B anklicken.</p>
-        <p class="lead"><kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>.</p>
+        <p class="lead">Neu: ein Block, der <em>wartet</em>, bis etwas passiert &ndash; ein Ereignis. <kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>. Im MakeCode-Simulator könnt ihr A und B anklicken.</p>
         <div class="mcstack">
           <div class="mccap">Zwei Ereignisse nebeneinander</div>
           <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
@@ -897,18 +890,16 @@ body.safety-on{overflow:hidden}
           <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
           <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
         </div>
-        <p class="lead">Beide Blöcke liegen gleichzeitig im Programm und stören sich nicht. Der micro:bit merkt sich beide Aufträge und führt den passenden aus, sobald der Knopf kommt.</p>
-        <div class="note">
+                <div class="note">
           <span class="nt">Frei hinlegen</span>
-          <p>Ereignis-Blöcke wie <kbd>wenn Knopf A geklickt</kbd> legt ihr <b>frei</b> ins Programmierfenster &ndash; nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>. Sie warten selbst auf ihren Moment.</p>
+          <p>Ereignis-Blöcke liegen <b>frei</b> im Programmierfenster, nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>.</p>
         </div>
         <p class="testline"><b>Testen:</b> Herunterladen &rarr; Knopf A drücken, dann Knopf B.</p>
       </div>
 
       <div class="block">
         <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
-        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor &ndash; derselbe Bauteiltyp, der euer Handy das Bild drehen lässt. Er merkt, wie ihr den micro:bit haltet. Daraus macht der micro:bit fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. Die Blöcke dafür liegen in <b>Eingabe</b>. Der MakeCode-Simulator kippt, wenn ihr mit der Maus über die Platine fahrt, und zeigt einen Knopf <b>SHAKE</b>, sobald <kbd>wenn geschüttelt</kbd> im Programm ist.</p>
-        <p class="lead">In <b>Eingabe</b> gibt es nur den Block <kbd>wenn geschüttelt</kbd>. Zieht ihn herein und stellt im Auswahlmenü <b>Logo nach oben</b> ein. Für jedes Ereignis braucht ihr einen eigenen Block. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b>, ganz unten &ndash; ein Stück nach unten scrollen.</p>
+        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor wie im Handy. Er liefert fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. In <b>Eingabe</b> gibt es dafür nur <kbd>wenn geschüttelt</kbd>: hereinziehen und im Menü umstellen, ein Block je Ereignis. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b> ganz unten. Der MakeCode-Simulator kippt mit der Maus und zeigt einen Knopf <b>SHAKE</b>.</p>
         <div class="mcstack">
           <div class="mccap">Drei Ereignisse &ndash; baut sie auf eurem micro:bit</div>
           <div class="mcb b-input">wenn <b>Logo nach oben</b></div>
@@ -937,7 +928,7 @@ body.safety-on{overflow:hidden}
         <p class="lead">Ladet das herunter und kippt den micro:bit in der Hand &ndash; die Zahl läuft mit. <kbd>zeige Zahl</kbd> liegt in <b>Grundlagen</b>, <kbd>Beschleunigung</kbd> in <b>Eingabe</b>.</p>
         <div class="note aha">
           <span class="nt">Der wichtigste Satz des Workshops</span>
-          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. &bdquo;Logo nach oben&ldquo; steht nirgends im Sensor &ndash; der micro:bit vergleicht die Zahl mit einer Grenze. Die haben hier seine Erfinder festgelegt: 200. Beim Roboter legt ihr die Grenze gleich selbst fest, wenn er Schwarz von Weiß unterscheiden soll.</p>
+          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. Der micro:bit vergleicht die Zahl mit einer Grenze, hier 200. Beim Roboter legt ihr die Grenze selbst fest.</p>
         </div>
       </div>
 
@@ -954,20 +945,19 @@ body.safety-on{overflow:hidden}
 
       <div class="note aha">
         <span class="nt">Team-Challenge</span>
-        <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf zeigt der micro:bit eine zufällige Zahl. Lasst ihn dreimal würfeln.</p>
+        <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf eine zufällige Zahl.</p>
         <div class="mcstack" style="margin:10px 0">
           <div class="mcb b-input">wenn <b>geschüttelt</b></div>
           <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-math">wähle eine zufällige Zahl von <b>1</b> bis <b>6</b></span></div>
         </div>
-        <p>Den lila Block findet ihr unter <b>Mathematik</b>. Er beginnt bei <b>0</b> &ndash; stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch mal eine Null.</p>
+        <p>Der lila Block liegt unter <b>Mathematik</b>. Stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch eine Null.</p>
         <p class="testline"><b>Testen:</b> Herunterladen &rarr; dreimal schütteln. Kommen verschiedene Zahlen?</p>
-        <p>Wer danach noch Zeit hat: Lasst vor der Zahl kurz ein Herz erscheinen &ndash; eine kleine Trommelwirbel-Pause.</p>
         <button class="btn sec" type="button" data-bonus="wuerfel3x">Geschafft, zeig&apos;s dem Betreuer</button>
       </div>
 
       <div class="note warn">
         <span class="nt">Wenn es klemmt</span>
-        <p><b>Kein Pfeil beim Kippen?</b> Deutlich kippen, fast senkrecht &ndash; erst ab 200 meldet der micro:bit das Ereignis.<br><b>Nichts passiert beim Schütteln?</b> Kräftig ruckartig schütteln, nicht sanft wedeln &ndash; der Sensor braucht eine echte Beschleunigung.<br><b>Würfelzahl kaum zu lesen?</b> Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6, das passt auf einen Blick.</p>
+        <p><b>Kein Pfeil beim Kippen?</b> Deutlich kippen, fast senkrecht.<br><b>Nichts beim Schütteln?</b> Kräftig und ruckartig, nicht sanft wedeln.</p>
       </div>
     </div>
     <div class="stfoot">
