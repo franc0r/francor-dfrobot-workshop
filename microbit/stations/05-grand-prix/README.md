@@ -86,7 +86,7 @@ Pro-Ziel erkennt sie am Laser-Stopp, nicht an einer Nummer (Block H, Punkt 5).
 ## Wo die Zählnummern stehen
 
 Verschiebt der Trockenlauf eine Nummer, müssen **alle** diese Stellen zusammen geändert werden.
-Die Strecke ist viermal gezeichnet — Spec-Skizze, Station 6, Druckblatt Seite 1 und Seite 2 —,
+Die Strecke ist viermal gezeichnet — Spec-Skizze, Station 5, Druckblatt Seite 1 und Seite 2 —,
 und jede Zeichnung trägt die Nummern 1–4 an denselben Koordinaten.
 
 1. `docs/superpowers/specs/2026-11-04-grand-prix-parcours-skizze.html` — die maßgebliche

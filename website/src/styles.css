@@ -205,6 +205,19 @@ input.tv{width:7ch; padding:0 3px; border:1px solid var(--accent); border-radius
 .find{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
 .find .fl{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
 ul.plain{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; max-width:74ch; color:var(--ink-2)}
+/* buttons – Grundregeln für alle Knöpfe und Knopf-Links (Rückkehr 09.11.2026: waren mit dem
+   Simulator-Block gelöscht worden) */
+.btn{
+  border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink);
+  border-radius:8px; padding:8px 15px; font-weight:600; font-size:.92rem;
+}
+.btn:hover{filter:brightness(1.06)}
+a.btn{display:inline-block; text-decoration:none}
+.steps a.btn{margin-top:8px}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.sec{background:var(--surface); color:var(--ink-2); border-color:var(--line)}
+.btn.sec:hover{border-color:var(--accent); color:var(--accent); filter:none}
+
 ul.plain .btn{margin-left:8px; padding:4px 10px; font-size:.85rem; vertical-align:middle}
 
 /* numbered steps */
@@ -360,7 +373,7 @@ kbd{
 .mqfig .cellf{fill:#D9DEE2; stroke:#9AA3A9; stroke-width:1}
 .mqfig .cellnub{fill:#9AA3A9}
 
-/* Grand-Prix-Strecke (Station 6). 1 Einheit = 1 cm. Matte, Band, Kisten und Schrift auf der
+/* Grand-Prix-Strecke (Station 5). 1 Einheit = 1 cm. Matte, Band, Kisten und Schrift auf der
    Matte haben feste Farben: Die Matte ist auch im Dunkelmodus weiß, dunkle Schrift bleibt lesbar. */
 .gpfig{display:grid; grid-template-columns:minmax(0,360px) minmax(0,1fr); gap:18px 26px; align-items:start; margin:0; max-width:900px}
 @media (max-width:760px){ .gpfig{grid-template-columns:minmax(0,1fr)} }

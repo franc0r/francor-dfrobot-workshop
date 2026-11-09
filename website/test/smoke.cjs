@@ -163,6 +163,11 @@ function check(cond, msg) {
   await page.click('.station[data-st="0"] [data-next="1"]');
   check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 1), 'Station 0 abgeschlossen → Abzeichen');
 
+  // Knopf-Optik: die .btn-Grundregeln dürfen nicht mit einem CSS-Block verschwinden (Review 09.11.2026)
+  check(await page.$eval('.station[data-st="0"] .btn', e => getComputedStyle(e).borderRadius !== '0px'), 'Knöpfe tragen die .btn-Optik (kein Browser-Standard)');
+  check(await page.$eval('.station[data-st="1"] a.btn', e => getComputedStyle(e).textDecorationLine === 'none' && getComputedStyle(e).display === 'inline-block'), 'MakeCode-Link sieht aus wie ein Knopf');
+  check(/Speed 2/.test(await page.$eval('.station[data-st="5"] .mccap', e => e.textContent)), 'Station 5: Bildunterschrift nennt Speed 2 als Änderung gegenüber Linie');
+
   // Betreuer-Handbuch
   await page.click('#coachbtn');
   await page.waitForTimeout(350);
@@ -173,6 +178,7 @@ function check(cond, msg) {
   // Handbuch nach Parcours first (09.11.2026): sechs Stationen, Teststreifen statt Simulator
   check(['0:00–0:05', '0:05–0:20', '0:20–0:35', '0:35–0:55', '0:55–1:05', '1:05–1:45', '1:45–2:00'].every(w => hbn.includes(w)), 'Handbuch: Zeitplan mit sechs Stationen und Puffer');
   check(hbn.includes('Teststreifen') && !hbn.includes('Simulator') && !hbn.includes('Quadrat'), 'Handbuch: Teststreifen drin, Simulator und Quadrat raus');
+  check(!hbn.includes('pausiert'), 'Handbuch: keine Variable pausiert mehr (Pausenknopf ist gestrichen)');
   await page.keyboard.press('Escape');
 
   // alter Fortschritt aus der Siebener-Fassung
