@@ -124,7 +124,7 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     drehbuch/NN-*.js  ein Drehbuch pro Station (DREHBUCH[N]), Gespräch mit Franco
     karten/NN-*.html  Karten je Station (Blöcke, Simulatoren, Quiz), versteckt in #karten
-    figur.html        die Figur (Inline-SVG aus dem Logo, Visier, Augen)
+    figur.html        die Figur (Inline-SVG aus dem Logo, Visier, Augen, Strich-Mund; Mundform je Zustand per CSS d:path())
     maskottchen.js    Figur, Gespräch, Frage-Feld, LLM, Vorlesen; build.py setzt es in app.js
                       an der Marke /* @@EINHAENGEN@@ */ ein, mit den Drehbüchern davor
     assets/           Bilder; build.py bettet sie als data:-URI ein

@@ -77,6 +77,7 @@ function check(cond, msg) {
   check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf', 'Figur: Leerlauf nach dem Laden');
   check(await page.$eval('#figur .lid', e => getComputedStyle(e).animationName) === 'figur-blinzeln', 'Figur: blinzelt');
   check(await page.$eval('#figurname', e => e.textContent) === 'Franco', 'Figur: Name steht dran');
+  check(await page.$eval('#figur .mund', e => getComputedStyle(e).stroke === getComputedStyle(document.body).color), 'Figur: Mund hat die Textfarbe');
   await page.mouse.move(1200, 900);
   check(await page.$eval('#figur .pupille', e => /translate\(\s*[1-9]/.test(e.getAttribute('transform') || '')), 'Figur: Pupillen folgen der Maus');
   const ctxR = await browser.newContext({ reducedMotion: 'reduce', offline: true, viewport: { width: 1280, height: 1000 } });
@@ -118,6 +119,7 @@ function check(cond, msg) {
     check(await p2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'Station 6: kein waagerechter Scroll bei 360 px');
     const fig = await p2.$eval('.figur', e => { const r = e.getBoundingClientRect(); return { w: r.width, h: r.height, vis: getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'none' }; });
     check(fig.vis && fig.w > 0 && fig.h > 0 && fig.w <= 80, 'Station 6: Figur sichtbar und höchstens 80 px breit bei 360 px (' + Math.round(fig.w) + ' px)');
+    check(await p2.$eval('#figur .mund', e => getComputedStyle(e).stroke) === 'rgb(230, 237, 239)', 'Figur: Mund ist im Dunkelmodus hell');
     await ctx2.close();
   }
 
@@ -190,6 +192,7 @@ function check(cond, msg) {
     // Gespräch Station 0
     check(await page.$eval('#chat .blase', e => !!e), 'Gespräch: erste Blase da');
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'reden', 'Figur: redet beim Abspielen');
+    check(await page.$eval('#figur .mund', e => getComputedStyle(e).animationName) === 'figur-mund', 'Figur: Mund bewegt sich beim Reden');
     await page.waitForTimeout(4000);
     check(await page.$eval('#figur', e => e.dataset.zustand) === 'leerlauf', 'Figur: nach dem Schritt Leerlauf');
     const n0 = await page.$$eval('#chat .blase', l => l.length);

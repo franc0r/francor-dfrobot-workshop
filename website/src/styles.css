@@ -699,12 +699,19 @@ body.safety-on{overflow:hidden}
 /* Zustände wirken auf .augen: .lid gehört dem Blinzeln, .pupille dem Blick (transform-Attribut) */
 .figur[data-zustand="gruebeln"] .augen{transform:scaleY(.6)}
 .figur[data-zustand="sorge"] .augen{transform:translateY(-2px)}
+/* Mund: Strich in Textfarbe (hell/dunkel), Form je Zustand; beim Reden öffnet und schließt er sich */
+.figur .mund{fill:var(--ink); stroke:var(--ink); stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; transition:d .3s}
+.figur[data-zustand="reden"] .mund{animation:figur-mund .36s linear infinite}
+.figur[data-zustand="jubel"] .mund{d:path("M50 57 Q62 72 74 57 Q62 64 50 57")}
+.figur[data-zustand="gruebeln"] .mund{d:path("M55 60 Q62 61 69 60 Q62 61 55 60")}
+.figur[data-zustand="sorge"] .mund{d:path("M56 59 Q62 55 68 59 Q62 62 56 59")}
 @keyframes figur-wippen{0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)}}
 @keyframes figur-reden{0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.03)}}
 @keyframes figur-huepfen{0%{transform:translateY(0)} 40%{transform:translateY(-14px)} 100%{transform:translateY(0)}}
 @keyframes figur-blinzeln{0%,94%,100%{transform:scaleY(1)} 97%{transform:scaleY(.08)}}
+@keyframes figur-mund{0%,50%,100%{d:path("M52 58 Q62 66 72 58 Q62 66 52 58")} 25%{d:path("M53 57 Q62 76 71 57 Q62 64 53 57")} 75%{d:path("M53 58 Q62 71 71 58 Q62 65 53 58")}}
 @media (prefers-reduced-motion: reduce){
-  /* nur das Blinzeln bleibt, der Körper steht still */
+  /* nur Blinzeln und Mund bleiben, der Körper steht still */
   .figur svg{animation:none !important}
   .figur .lid{animation-duration:4.5s !important}
 }
