@@ -654,6 +654,21 @@ function schluesselAnzeigen(){
   });
   function frisch(){ zaehlerAnzeigen(); schluesselAnzeigen(); ttsLesen(); }
   if(cb) cb.addEventListener("click", frisch);
+  // Schlüssel-Fenster: Knopf „Schlüssel“ in der Kopfzeile; Escape, Klick daneben
+  // und „Schließen“ machen es wieder zu. Gespeichert wird wie bisher in mgp-key.
+  var kd = document.getElementById("keydlg"), kb = document.getElementById("keybtn"), kok = document.getElementById("keydlgok");
+  function keydlgZeigen(v){
+    if(!kd) return;
+    kd.hidden = !v;
+    if(v){ schluesselAnzeigen(); if(inp){ inp.value = ""; inp.focus({preventScroll:true}); } }
+  }
+  if(kb) kb.addEventListener("click", function(){ keydlgZeigen(true); });
+  if(kok) kok.addEventListener("click", function(){ keydlgZeigen(false); });
+  if(kd){
+    kd.addEventListener("click", function(e){ if(e.target === kd) keydlgZeigen(false); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !kd.hidden) keydlgZeigen(false); });
+    if(inp) inp.addEventListener("keydown", function(e){ if(e.key === "Enter" && sv) sv.click(); });
+  }
   if(sv) sv.addEventListener("click", function(){
     var v = inp.value.replace(/^\s+|\s+$/g, "");
     if(!v) return;

@@ -102,7 +102,8 @@ bleibt unberührt; ob der Zweig gemergt wird, entscheidet Martin nach dem Trocke
 - **Anfrage**: immer `[system, user]`; die letzten vier Blasen gehen als Mitschrift
   („Franco: … / Team: …“) in die user-Nachricht. Anthropic-Modelle verlangen, dass nach
   `system` zuerst `user` kommt und die Rollen wechseln.
-- **Betreuer**: Schlüssel trägt man im Handbuch, Abschnitt „Maskottchen“, einmal pro
+- **Betreuer**: Schlüssel trägt man über den Knopf „Schlüssel“ in der Kopfzeile ein
+  (`schluessel.html`, Fenster `#keydlg`; Martin, 09.11.2026), einmal pro
   Arbeitsplatz ein; er liegt nur im Browser, nie in der Datei. „Neues Team“ löscht nur
   `mgp-v1` und lässt Schlüssel, Zähler und Vorlese-Schalter stehen.
 - **Blocktexte ändern = Drehbuch + Karten + Handbuch zusammen** (dazu wie bisher
@@ -137,6 +138,7 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
     sicherheit.html   Sicherheitsfenster beim Teamstart (nach „Neues Team“, Knopf „Sicherheit“)
+    schluessel.html   Fenster für den OpenRouter-Schlüssel (Knopf „Schlüssel“ in der Kopfzeile)
     app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, Block-Optik (nestStack)
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
   test/drehbuch.cjs   Schemaprüfung der Drehbücher (ohne Browser)

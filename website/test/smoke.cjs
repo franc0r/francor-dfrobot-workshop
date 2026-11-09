@@ -456,9 +456,22 @@ function check(cond, msg) {
     check(JSON.parse(await page.evaluate(() => localStorage.getItem('mgp-llm'))).anfragen === 1, 'Zähler: eine Anfrage');
     await page.click('#coachbtn');
     check(await page.$eval('#llmzaehler', e => /1 Anfrage/.test(e.textContent)), 'Handbuch: Zähler sichtbar');
-    check(await page.$eval('#orkeystate', e => /gesetzt/.test(e.textContent)), 'Handbuch: Schlüssel gesetzt angezeigt');
-    check(await page.$eval('#orkey', e => e.type === 'password' && e.value === ''), 'Handbuch: Schlüsselfeld ist ein Passwortfeld und leer');
     await page.keyboard.press('Escape');
+    // Schlüssel-Fenster über den Knopf in der Kopfzeile
+    check(await page.$eval('#keydlg', e => e.hidden), 'Schlüssel: Fenster ist zu, bis man den Knopf drückt');
+    await page.click('#keybtn');
+    check(await page.$eval('#keydlg', e => !e.hidden), 'Schlüssel: Knopf „Schlüssel“ öffnet das Fenster');
+    check(await page.$eval('#orkeystate', e => /gesetzt/.test(e.textContent)), 'Schlüssel: „Schlüssel gesetzt“ angezeigt');
+    check(await page.$eval('#orkey', e => e.type === 'password' && e.value === ''), 'Schlüssel: Passwortfeld, leer');
+    await page.fill('#orkey', ' sk-or-neu '); await page.press('#orkey', 'Enter');
+    check(await page.evaluate(() => localStorage.getItem('mgp-key')) === 'sk-or-neu' && await page.$eval('#orkey', e => e.value === ''), 'Schlüssel: Enter speichert getrimmt und leert das Feld');
+    await page.click('#orkeydel');
+    check(await page.evaluate(() => localStorage.getItem('mgp-key')) === null && await page.$eval('#orkeystate', e => /kein Schlüssel/.test(e.textContent)), 'Schlüssel: Löschen entfernt ihn');
+    await page.evaluate(() => localStorage.setItem('mgp-key', 'test'));
+    await page.keyboard.press('Escape');
+    check(await page.$eval('#keydlg', e => e.hidden), 'Schlüssel: Escape schließt das Fenster');
+    await page.click('#keybtn'); await page.click('#keydlgok');
+    check(await page.$eval('#keydlg', e => e.hidden), 'Schlüssel: „Schließen“ schließt das Fenster');
     check(!html.includes('sk-or-'), 'kein Schlüssel in der Datei');
     // Serverfehler: Rückfallantwort, Zähler bleibt
     await page.unroute('https://openrouter.ai/**');

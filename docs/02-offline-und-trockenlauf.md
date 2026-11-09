@@ -152,7 +152,7 @@ Schon am Gerät bestätigt (nicht mehr prüfen): `Line patrolling ON/OFF`,
 Nur auf dem Zweig `worktree-maskottchen` (siehe CLAUDE.md, Abschnitt „Maskottchen-Zweig“).
 Beim Trockenlauf mit echtem OpenRouter-Schlüssel und dem Messe-Netz (oder einem Hotspot):
 
-- [ ] Schlüssel im Handbuch, Abschnitt „Maskottchen“, eintragen, Zähler nullen.
+- [ ] Schlüssel über den Knopf „Schlüssel“ in der Kopfzeile eintragen, Zähler im Handbuch nullen.
 - [ ] Station 3 bis zum Schritt „Er fährt!“ spielen, „Geht nicht“ drücken,
       einen Chip und eine eigene Frage probieren. Antwort kurz, Du-Anrede, Blocknamen richtig?
 - [ ] Antwortzeit mit der Uhr messen (Figur grübelt, bis die Blase kommt). Grenze im Code:

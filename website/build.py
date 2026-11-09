@@ -251,7 +251,7 @@ def assemble(target):
             '<div id="karten" hidden>\n' + karten_html() + "</div>\n\n"
             + read("stueckliste.html") + "\n"
             "\n  </main>\n</div>\n\n"
-            '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n"
+            '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n" + read("schluessel.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
     body = makecode_links(inline_assets(body))
     if "assets/" in body:

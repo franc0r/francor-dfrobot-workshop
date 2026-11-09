@@ -501,6 +501,11 @@ body.safety-on{overflow:hidden}
 .sfoot{font-size:.92rem; color:var(--ink-2); background:var(--surface-2); border-radius:8px; padding:9px 12px; margin-bottom:16px}
 .sok{background:var(--accent); color:var(--accent-ink); border:0; border-radius:9px; padding:11px 20px; font-weight:600; font-size:1rem}
 .sok:hover{filter:brightness(1.07)}
+.kbox{max-width:520px}
+.krow{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px}
+.krow input{flex:1 1 200px; min-width:0; font-size:16px; padding:9px 10px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); color:var(--ink)}
+.kstate{margin:10px 0 0; font-size:.94rem}
+.khint{font-size:.9rem; color:var(--ink-2); margin:12px 0 16px; line-height:1.5}
 @media (max-width:640px){ .sbig{grid-template-columns:minmax(0,1fr)} .scard{display:flex; align-items:center; gap:12px; text-align:left} .scard svg{margin:0; flex:none; width:44px; height:44px} .sbox{padding:20px 18px} }
 .drawer .dhead{
   position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--line);
