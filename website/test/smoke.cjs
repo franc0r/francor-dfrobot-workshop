@@ -170,6 +170,9 @@ function check(cond, msg) {
   const hb = await page.$eval('#coach', e => e.textContent);
   const hbn = hb.replace(/ /g, ' ');
   check(['Zählfahrt', 'Minute 15', 'geblitzt', '10 cm', '30 cm'].every(w => hbn.includes(w)), 'Handbuch: Abschnitt Grand Prix vollständig');
+  // Handbuch nach Parcours first (09.11.2026): sechs Stationen, Teststreifen statt Simulator
+  check(['0:00–0:05', '0:05–0:20', '0:20–0:35', '0:35–0:55', '0:55–1:05', '1:05–1:45', '1:45–2:00'].every(w => hbn.includes(w)), 'Handbuch: Zeitplan mit sechs Stationen und Puffer');
+  check(hbn.includes('Teststreifen') && !hbn.includes('Simulator') && !hbn.includes('Quadrat'), 'Handbuch: Teststreifen drin, Simulator und Quadrat raus');
   await page.keyboard.press('Escape');
 
   // alter Fortschritt aus der Siebener-Fassung
