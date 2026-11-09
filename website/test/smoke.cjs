@@ -118,6 +118,12 @@ function check(cond, msg) {
   check(/Line patrolling ON/.test(st3) && /RGB Car Lights/.test(st3) && !/steuere/.test(st3) && !/wiederholen/.test(st3), 'Station 3: Linie und Ampel, keine Motorblöcke');
   check((await page.$('#mqinsert')) !== null && (await page.$('.station[data-st="3"] table.fix')) !== null, 'Station 3: Einsetz-Figur und Sensortabelle');
 
+  // Station 4: Reflexe = nur der Laser-Stopp im Projekt Linie (09.11.2026)
+  const st4 = await page.$eval('.station[data-st="4"]', e => e.textContent);
+  check(/Line patrolling OFF/.test(st4) && !/ansonsten/.test(st4) && !/steuere/.test(st4) && !/pausiert/.test(st4), 'Station 4: Laser-Stopp ohne Motorblöcke, ohne ansonsten, ohne Variable');
+  check(await page.$$eval('.station[data-st="4"] .mcc[data-c="b-logic"]', l => l.length) === 1, 'Station 4: genau ein wenn-Block');
+  check((await page.$$('.station[data-st="4"] .mcb.b-var')).length === 0, 'Station 4: keine Variablen-Blöcke');
+
   // Station 5: Streckenskizze und Grand-Prix-Blöcke
   await page.click('.stepbtn[data-go="5"]');
   check((await page.$eval('#gpmap', e => e.getBoundingClientRect().height).catch(() => 0)) > 120, 'Station 5: Streckenskizze wird gezeichnet');
