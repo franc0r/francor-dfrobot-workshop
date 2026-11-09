@@ -124,6 +124,12 @@ function check(cond, msg) {
   check(await page.$$eval('.station[data-st="4"] .mcc[data-c="b-logic"]', l => l.length) === 1, 'Station 4: genau ein wenn-Block');
   check((await page.$$('.station[data-st="4"] .mcb.b-var')).length === 0, 'Station 4: keine Variablen-Blöcke');
 
+  // Station 5: Grand Prix baut auf Station 3 und 4 auf (09.11.2026)
+  const st5 = await page.$eval('.station[data-st="5"]', e => e.textContent);
+  check(!/Schritt 0/.test(st5) && !/Rot-Blau/.test(st5), 'Station 5: kein Schritt 0, kein Blinken mehr');
+  check(/Station 3 und 4/.test(st5) && !/Station 6/.test(st5), 'Station 5: verweist auf Station 4, nicht mehr auf 6');
+  check(await page.$$eval('.station[data-st="5"] .mcb.b-var', l => l.length >= 1 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(220, 20, 60)')), 'Station 5: Variablen-Block im Profi-Teil in Rot');
+
   // Station 5: Streckenskizze und Grand-Prix-Blöcke
   await page.click('.stepbtn[data-go="5"]');
   check((await page.$eval('#gpmap', e => e.getBoundingClientRect().height).catch(() => 0)) > 120, 'Station 5: Streckenskizze wird gezeichnet');
