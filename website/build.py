@@ -156,7 +156,7 @@ def karten_html():
 # Auf diesem Zweig zählt je Station, was das Team im Gespräch liest: die Nachrichten des
 # Drehbuchs (auch die hinter den Zeig-Knöpfen) plus die Karten-Datei. Chips, Fertig-Knöpfe,
 # IDs und Kartenverweise zählen nicht. Ein Gespräch spricht in ganzen Sätzen, deshalb gilt
-# hier das Budget von master mal GESPRAECHSFAKTOR (Entscheidung 09.11.2026, bis Martin sie kippt).
+# hier das Budget von master mal GESPRAECHSFAKTOR (Martin, 09.11.2026).
 TEXTBUDGET = [200, 350, 550, 500, 300, 850]
 GESPRAECHSFAKTOR = 1.5
 

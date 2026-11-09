@@ -204,8 +204,7 @@ Textbudget je Station (`TEXTBUDGET` in `build.py`, Wörter nach dem Tag-Entferne
 gezählt): 200 / 350 / 550 / 500 / 300 / 850. Auf diesem Zweig zählen die Nachrichten des
 Drehbuchs (auch hinter den Zeig-Knöpfen) plus die Karten der Station, nicht Chips und
 Fertig-Knöpfe; weil ein Gespräch in ganzen Sätzen spricht, gilt das Budget mal
-`GESPRAECHSFAKTOR` 1,5 (Entscheidung beim Nachziehen von master, 09.11.2026, bis Martin sie
-kippt). Der Build bricht ab, wenn eine Station darüber
+`GESPRAECHSFAKTOR` 1,5 (Martin, 09.11.2026). Der Build bricht ab, wenn eine Station darüber
 liegt — dann kürzen, nicht das Budget heben (Martin, 09.11.2026: „Zuviel Text“).
 
 Entlastung vom 15.09.2026 (siehe Cowork-Projekt „Anfänger Robotik Workshop",
