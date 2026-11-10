@@ -1,24 +1,5 @@
-  <section class="station" data-st="0">
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 0</span><span>5 Minuten</span><span>Boxenstopp</span></div>
-      <h2>Was macht einen Roboter zum Roboter?</h2>
-      <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter entscheidet selbst &ndash; und genau so einen baust du heute.</p>
-    </div>
-    <div class="st-body">
-      <div class="block">
-        <h3><span class="idx">01</span>Der Dreisatz jedes Roboters</h3>
-        <p class="lead">Jeder Roboter macht immer dieselben drei Dinge:</p>
-        <div class="mcstack flat">
-          <div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>
-          <div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>dein Programm</b></div>
-          <div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div>
-        </div>
-        <p class="lead">Und dann von vorn. Diese Schleife heißt <em>Regelkreis</em>.</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Dein Fahrzeug im Detail</h3>
-        <p class="lead">Von oben.</p>
+<div class="karten" data-st="0">
+  <div class="karte" data-karte="k0-mqmap">
         <figure class="mqfig" id="mqmap">
           <svg viewBox="0 0 420 310" role="img" aria-labelledby="mqmap-t">
             <title id="mqmap-t">Der Maqueen von oben, Vorderseite oben</title>
@@ -102,18 +83,18 @@
             <text class="lbl2" x="22" y="291">gestrichelt = unter der Platte</text>
           </svg>
           <ol class="mqlegend">
-            <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unten: Schwarz oder Weiß?<em>Wahrnehmen</em></span></li>
-            <li class="r-input"><span class="n">2</span><span><b>Laserscanner</b>: Abstand nach vorn, 2&nbsp;cm bis 4&nbsp;m.<em>Wahrnehmen</em></span></li>
-            <li class="r-input"><span class="n">3</span><span><b>2 Lichtsensoren</b>: Helligkeit links und rechts.<em>Wahrnehmen</em></span></li>
-            <li class="r-logic"><span class="n">4</span><span><b>micro:bit&nbsp;V2</b> im Schlitz: der Computer, er führt dein Programm aus.<em>Entscheiden</em></span></li>
-            <li class="r-mq"><span class="n">5</span><span><b>2 Motoren</b>, jedes Rad einzeln.<em>Handeln</em></span></li>
-            <li class="r-mq"><span class="n">6</span><span><b>6 RGB&#8209;Lämpchen</b>, 2 vorn, 4 unten.<em>Handeln</em></span></li>
+            <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unter dem Fahrzeug &ndash; sie unterscheiden Schwarz von Weiß.<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">2</span><span><b>8&times;8&#8209;Laserscanner</b> misst den Abstand nach vorn: 2&nbsp;cm bis 4&nbsp;m, 64 Messpunkte.<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">3</span><span><b>2 Lichtsensoren</b> messen die Helligkeit links und rechts.<em>Wahrnehmen</em></span></li>
+            <li class="r-logic"><span class="n">4</span><span><b>micro:bit&nbsp;V2</b> steckt hochkant im Schlitz. Der Computer &ndash; er führt dein Programm aus.<em>Entscheiden</em></span></li>
+            <li class="r-mq"><span class="n">5</span><span><b>2 Motoren</b> aus Metall treiben die Räder an, jedes einzeln steuerbar.<em>Handeln</em></span></li>
+            <li class="r-mq"><span class="n">6</span><span><b>6 RGB&#8209;Lämpchen</b>, 2 vorn und 4 unten &ndash; Licht in jeder Farbe.<em>Handeln</em></span></li>
             <li class="r-mq"><span class="n">7</span><span><b>Summer</b> für Töne.<em>Handeln</em></span></li>
-            <li class="r-pow"><span class="n">8</span><span><b>2 Schalter</b>: Akkubrett und Bodenplatte, beide an.<em>Strom</em></span></li>
+            <li class="r-pow"><span class="n">8</span><span><b>2 Schalter</b>: einer am Akkubrett, einer an der Bodenplatte. Beide müssen an sein.<em>Strom</em></span></li>
           </ol>
         </figure>
-      </div>
-
+  </div>
+  <div class="karte" data-karte="k0-quiz">
       <div class="quiz" data-quiz="q0" data-answer="c">
         <div class="qh">Aufwärm-Frage</div>
         <p class="q">Welches Bauteil am Maqueen ist <em>kein</em> Sensor?</p>
@@ -121,13 +102,15 @@
           <button class="opt" data-k="a"><span class="k">A</span> Der Liniensensor unter dem Fahrzeug</button>
           <button class="opt" data-k="b"><span class="k">B</span> Der Laserscanner vorne</button>
           <button class="opt" data-k="c"><span class="k">C</span> Der Summer</button>
+          <button class="opt" data-k="d"><span class="k">D</span> Der Lichtsensor oben</button>
         </div>
         <p class="qfb" hidden></p>
       </div>
-    </div>
-    <div class="stfoot">
-      <span class="pts">Abzeichen: Rookie</span>
-      <span class="spacer"></span>
-      <button class="btn" data-next="1">Los geht's &rarr;</button>
-    </div>
-  </section>
+  </div>
+  <div class="karte" data-karte="k0-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Die Übersicht ist zu klein?</b> Schaut euch die nummerierte Liste neben der Zeichnung an. Dort steht jedes Bauteil noch einmal.<br><b>Ihr wisst nicht, was Sensor und was Aktor ist?</b> Ein Sensor nimmt etwas auf (Licht, Abstand). Ein Aktor tut etwas (drehen, leuchten, piepen).</p>
+    </details>
+  </div>
+</div>

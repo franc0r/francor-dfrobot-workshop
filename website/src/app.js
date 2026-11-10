@@ -5,13 +5,14 @@
 var KEY = "mgp-v1";
 var STATIONS = [
   {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"15 Min", badge:"Ersteinschalter"},
-  {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"20 Min", badge:"Spurhalter"},
-  {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"40 Min", badge:"Champion"}
+  {n:"Erster Kontakt", m:"11 Min", badge:"Ersteinschalter"},
+  {n:"micro:bit allein", m:"11 Min", badge:"Pixelkünstler"},
+  {n:"Fahrschule", m:"15 Min", badge:"Spurhalter"},
+  {n:"Reflexe", m:"8 Min", badge:"Bremsassistent"},
+  {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
-var S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false};
+var DREHBUCH = [];   // füllt build.py aus drehbuch/NN-*.js (vor maskottchen.js)
+var S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
 
 function load(){
   try{
@@ -83,10 +84,16 @@ function paintRail(){
     else btns[i].querySelector(".num").textContent = idx;
   }
 }
+/* Eine Zahl ist eine Station: Franco führt sie als Gespräch (gesprZeige in
+   maskottchen.js). „teile“ ist die Stückliste – eine Seite ohne Gespräch. */
 function go(i){
   S.cur = i; save();
   var secs = document.querySelectorAll(".station");
   for(var k=0;k<secs.length;k++){ secs[k].hidden = secs[k].dataset.st !== String(i); }
+  var seite = i === "teile";
+  document.getElementById("gespraech").hidden = seite;
+  document.getElementById("figur").hidden = seite;
+  if(!seite) gesprZeige(Number(i));
   paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
 }
@@ -100,23 +107,11 @@ function complete(i){
 document.addEventListener("click", function(e){
   var g = e.target.closest ? e.target.closest("main [data-go]") : null;
   if(g){ go(g.dataset.go === "teile" ? "teile" : Number(g.dataset.go)); return; }
-  var b = e.target.closest ? e.target.closest("[data-next]") : null;
-  if(!b) return;
-  var v = b.dataset.next;
-  var cur = Number(b.closest(".station").dataset.st);
-  if(v === "done"){
-    complete(cur);
-    document.getElementById("finaltitle").textContent = "Workshop geschafft!";
-    paintProgress();
-    return;
-  }
-  var t = Number(v);
-  if(t > cur) complete(cur);
-  go(t);
-  if(t > 0) timerAutoStart();
 });
 
-/* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
+/* ================= bonus (Team-Challenges, selbst abgehakt) =================
+   In den Karten gibt es derzeit keine [data-bonus]-Knöpfe; die Zugaben laufen über
+   bonus:true im Drehbuch. Der Code bleibt für Karten, die einen Haken brauchen. */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
   var id = btn.dataset.bonus, label = btn.innerHTML;
   btn.paintBonus = function(){
@@ -161,7 +156,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
 });
 
 /* ================= timer ================= */
-var TOTAL = 120*60, left = TOTAL, running = false, tick = null, tStarted = false;
+var TOTAL = 90*60, left = TOTAL, running = false, tick = null, tStarted = false;
 var tval = document.getElementById("tval"), tbtn = document.getElementById("tbtn"), tbox = document.getElementById("timer");
 function fmt(s){ var m = Math.floor(s/60), r = s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
 function paintT(){ tval.textContent = fmt(Math.max(0,left)); }
@@ -178,7 +173,7 @@ tbtn.addEventListener("click", function(){ setRunning(!running); });
    nie lief. Eine bewusste Pause bleibt also Pause; Neuladen startet nichts. */
 function timerAutoStart(){ if(!tStarted) setRunning(true); }
 /* Zeit ändern: Klick auf die Anzeige, dann „75“ (Minuten) oder „42:30“ eintippen.
-   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 120:00. */
+   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 90:00. */
 var tedit = document.getElementById("tedit");
 function editT(on){ tval.hidden = on; tedit.hidden = !on; if(on){ tedit.value = fmt(Math.max(0,left)); tedit.focus(); tedit.select(); } }
 function commitT(){
@@ -218,7 +213,7 @@ function openSafety(v){
   document.body.classList.toggle("safety-on", v);
   if(v){ openCoach(false); safety.scrollTop = 0; safetyok.focus({preventScroll:true}); }
 }
-safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); });
+safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); gesprSicherheitZu(); });
 document.getElementById("safetybtn").addEventListener("click", function(){ openSafety(true); });
 safety.addEventListener("keydown", function(e){
   if(e.key === "Escape") e.stopPropagation();
@@ -226,7 +221,7 @@ safety.addEventListener("keydown", function(e){
 });
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false};
+  S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
   save();
   document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
@@ -236,8 +231,10 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   });
   document.getElementById("finaltitle").textContent = "Ziel erreicht";
   left = TOTAL; setRunning(false); tStarted = false; paintT();
-  paintBadges(); paintProgress(); go(0);
-  openSafety(true);
+  gesprZuruecksetzen();
+  paintBadges(); paintProgress();
+  openSafety(true);   // vor go(0): Franco begrüßt erst, wenn das Fenster zu ist
+  go(0);
 });
 
 /* ================= Block-Optik: Symbole und Klammern ================= */
@@ -297,13 +294,15 @@ function ledIcon(name){
   for(var i=0;i<25;i++){ h += '<span' + (pat.charAt(i)==="1" ? ' class="on"' : '') + '></span>'; }
   return h + '</i></b>';
 }
+/* @@EINHAENGEN@@ */
+
 /* ================= boot ================= */
 load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
-document.querySelectorAll(".station .mcstack").forEach(nestStack);
+document.querySelectorAll("#karten .mcstack").forEach(nestStack);
 buildRail();
 paintBadges(); paintProgress(); paintRail();
+if(!S.safe) openSafety(true);   // vor go(): Franco begrüßt erst, wenn das Fenster zu ist
 go(S.cur === "teile" ? "teile" : (Number(S.cur) || 0));
-if(!S.safe) openSafety(true);
 
 })();

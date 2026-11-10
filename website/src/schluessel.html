@@ -1,0 +1,16 @@
+<!-- Fenster „LLM Setup“: Knopf „LLM Setup“ in der Kopfzeile. Nur für Betreuer, einmal pro
+     Arbeitsplatz. Der Schlüssel liegt in localStorage (mgp-key), nie in der Datei. -->
+<div class="safety keydlg" id="keydlg" role="dialog" aria-modal="true" aria-labelledby="keydlg-t" hidden>
+  <div class="sbox kbox">
+    <h2 id="keydlg-t">LLM Setup</h2>
+    <p class="ssub">OpenRouter-Schlüssel für die Antworten von <span class="figurname-ref">Franco</span> auf „Geht nicht“. Einmal pro Arbeitsplatz, nur für Betreuer.</p>
+    <div class="krow">
+      <input id="orkey" type="password" autocomplete="off" placeholder="Schlüssel einfügen" aria-label="OpenRouter-Schlüssel">
+      <button type="button" class="btn" id="orkeysave">Speichern</button>
+      <button type="button" class="btn sec" id="orkeydel">Löschen</button>
+    </div>
+    <p class="kstate"><b id="orkeystate">kein Schlüssel</b></p>
+    <p class="khint">Der Schlüssel bleibt nur in diesem Browser und überlebt „Neues Team“. Nehmt einen eigenen Schlüssel mit kleinem Guthaben-Limit, nur auf den Messe-Rechnern, und löscht ihn bei OpenRouter nach der Messe. Kosten und Zähler stehen im Handbuch, Abschnitt „Maskottchen“.</p>
+    <button class="sok" id="keydlgok" type="button">Schließen</button>
+  </div>
+</div>

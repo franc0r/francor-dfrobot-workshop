@@ -1,6 +1,6 @@
 # Maqueen Grand Prix — Robotik-Workshop
 
-Interaktive Workshop-Seite für einen 120-Minuten-Robotik-Workshop auf einer Messe.
+Interaktive Workshop-Seite für einen 90-Minuten-Robotik-Workshop auf einer Messe.
 Zielgruppe: Schüler ab Klasse 7. Hardware: BBC micro:bit V2 + DFRobot Maqueen Plus V3.
 Programmiert wird ausschließlich mit Blöcken in MakeCode.
 
@@ -29,6 +29,9 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    Die Station muss auch ohne das Tutorial gehen: Die Anleitung bleibt auf der Seite.
    `#pub:`-Teilen-Links nicht verwenden. Eingebettetes MakeCode (iframe) bleibt verboten,
    es startet offline nicht (getestet 29.10.2026).
+   Auf dem Zweig `worktree-maskottchen` ist der `fetch` an OpenRouter (`LLM_URL` in
+   `maskottchen.js`) die eine erlaubte Anfrage nach außen, siehe „Maskottchen-Zweig“ —
+   nicht „wegreparieren“.
 2. **Eine Datei.** Die Offline-Ausgabe ist eine einzelne HTML-Datei, die per Doppelklick
    aus dem Dateisystem läuft (`file://`). Keine Build-Abhängigkeit zur Laufzeit.
    Bilder gehören deshalb nach `website/src/assets/` und werden im Quelltext als
@@ -46,18 +49,70 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
    Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
    nicht in die Stationen.
-5. **120 Minuten = 105 Stationsminuten + 15 Puffer** (Martin, 03./04.11.2026). Eyebrow-Minuten
-   der Stationen, das `STATIONS`-Array in `website/src/app.js` und der Zeitplan im Handbuch
+5. **90 Minuten = 80 Stationsminuten + 10 Puffer** (Martin, 10.11.2026: „das war auf jeden Fall
+   in der Zeit machbar“; vom 03.11. bis 10.11.2026 galten 120 = 105 + 15). Die Minuten
+   der Drehbücher (`min` in `website/src/drehbuch/NN-name.js`), das `STATIONS`-Array in `website/src/app.js` und der Zeitplan im Handbuch
    müssen übereinstimmen. Der Puffer hat keine eigene Station; er steht als letzte Zeile im
-   Zeitplan (1:45–2:00; Martin, 05.11.2026). `build.py` prüft
-   die ersten beiden und dass die Stationen zusammen genau 105 Minuten ergeben
+   Zeitplan (1:20–1:30). `build.py` prüft
+   die ersten beiden und dass die Stationen zusammen genau 80 Minuten ergeben
    (`STATIONSMINUTEN`, `PUFFER`).
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
    `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Grand-Prix-Blöcke
    (Bibliothek `custom.ts`), die Kreuzungsblöcke (`At Crossroads …`, Station 5) und
    `PID Distance Control` (wartet nicht, siehe Block H, Punkt 15); die Laserblöcke aus
-   Station 4 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer alle Stationen und das
+   Station 4 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer alle Drehbücher, Karten und das
    Handbuch gemeinsam anfassen.
+
+## Maskottchen-Zweig (worktree-maskottchen)
+
+Experiment (Entwurf `docs/superpowers/specs/2026-11-06-maskottchen-design.md`): Statt der
+Stationsseiten führt das Logo als Figur „Franco“ im Gespräch durch den Workshop. `master`
+bleibt unberührt; ob der Zweig gemergt wird, entscheidet Martin nach dem Trockenlauf.
+
+- **Regel 1 ist hier aufgehoben, aber nur für den LLM-Aufruf** (Martin, 06.11.2026): „Geht
+  nicht“ fragt per `fetch` bei OpenRouter (`LLM_URL`). Sonst gilt Regel 1 weiter, auch die
+  Prüfung auf externe Verweise. Die Seite läuft ohne Netz und ohne Schlüssel vollständig;
+  „Geht nicht“ zeigt dann die Checkliste „Wenn es klemmt“ und schickt zum Betreuer. Der
+  Smoketest prüft das mit abgeschaltetem Netz.
+- **Drehbuch** (`website/src/drehbuch/NN-name.js`, eins je Station; ausführlich im Kopf von
+  `website/src/maskottchen.js`):
+  `DREHBUCH[N] = { name, min, badge, titel, schritte:[ { id, nachrichten:[…], chips:[…], fertig } ] }`.
+  `nachrichten` sind HTML-Strings (eine Blase je Eintrag) oder `{karte:"k3-bloecke"}`;
+  `{karte:"makecode:neu"}` / `{karte:"makecode:vorlage"}` erzeugen die MakeCode-Knöpfe.
+  `chips` sind 3–4 Vorschlagsfragen für „Geht nicht“; `fertig` ist der Text des Weiter-Knopfs.
+  Optional: `bonus:true` (Zugabe, „Machen wir!“ / „Überspringen“, danach „Extra: …“),
+  `titel` (Name des Extras), `zeig:{ "Knopftext":[…] }` (Nachrichten auf Klick).
+  `name`, `min`, `badge` müssen zu `STATIONS` in `app.js` passen.
+- **Karten** (`website/src/karten/NN-name.html`): alles, was mehr als eine Blase ist (Blöcke,
+  Quiz, Figuren, Checklisten), als `<div class="karte" data-karte="…">`.
+  `build.py` legt sie versteckt in `#karten`; `karte()` hängt den Knoten beim Zeigen ins
+  Gespräch um (nie geklont, die IDs bleiben einmalig).
+- **Konstanten** in `maskottchen.js`: `MASKOTTCHEN_NAME`, `TIPP_MS`, `STUPS_MS`, `LLM_URL`,
+  `LLM_MODELL`, `LLM_MAX_TOKENS`, `LLM_TIMEOUT_MS`, `LLM_KONTEXT_ZEICHEN`,
+  `LLM_CENT_PRO_MTOKEN`. **Speicher** (`localStorage`): `mgp-v1` (Fortschritt und Gespräch,
+  `S.schritt`, `S.chat`, `S.skip`), `mgp-key` (OpenRouter-Schlüssel), `mgp-llm` (Zähler),
+  `mgp-tts` (Vorlesen, Standard aus).
+- **Zähler**: Jede erfolgreiche Anfrage zählt Anfragen und Token in `mgp-llm`; das Handbuch
+  zeigt sie in `#llmzaehler` grob als Cent (Schätzung über `LLM_CENT_PRO_MTOKEN`), mit
+  Knopf „Zähler nullen“. Fehler zählen nicht. Die echten Kosten stehen bei OpenRouter.
+- **Kontingent**: `S.fragen` zählt die Fragen je Team; ab `LLM_FRAGEN_MAX` (30) fragt „Geht
+  nicht“ das LLM nicht mehr, sondern zeigt „Mein Frage-Kontingent … ab jetzt hilft der
+  Betreuer.“ und die Checkliste. „Neues Team“ setzt es mit `S` zurück. Das Handbuch rät zu
+  einem eigenen Schlüssel mit kleinem Guthaben-Limit, nur in der Offline-Datei, nach der
+  Messe löschen.
+- **Anfrage**: immer `[system, user]`; die letzten vier Blasen gehen als Mitschrift
+  („Franco: … / Team: …“) in die user-Nachricht. Anthropic-Modelle verlangen, dass nach
+  `system` zuerst `user` kommt und die Rollen wechseln.
+- **Betreuer**: Schlüssel trägt man über den Knopf „LLM Setup“ in der Kopfzeile ein
+  (`schluessel.html`, Fenster `#keydlg`; Martin, 09.11.2026), einmal pro
+  Arbeitsplatz ein; er liegt nur im Browser, nie in der Datei. „Neues Team“ löscht nur
+  `mgp-v1` und lässt Schlüssel, Zähler und Vorlese-Schalter stehen.
+- **Blocktexte ändern = Drehbuch + Karten + Handbuch zusammen** (dazu wie bisher
+  `microbit/stations/`). Das ersetzt hier die Regel „Stationen und Handbuch gemeinsam“.
+- **Testhaken**, nur unter `file://` (nicht auf GitHub Pages): `window.__karte(st, id)` holt
+  eine Karte ins Gespräch, `window.__drehbuchMin` liefert die Minuten der Drehbücher.
+  `test/drehbuch.cjs` prüft das Schema der sechs Drehbücher ohne Browser.
+
 
 ## Aufbau
 
@@ -68,19 +123,26 @@ die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
 website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
   src/
     styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Maqueen-Figuren
-    topbar.html       Kopfzeile: 120-Min-Timer, Betreuer, Neues Team
+    topbar.html       Kopfzeile: 90-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
-    stations/NN-*.html  eine Datei pro Station, data-st muss zur Nummer passen
+    drehbuch/NN-*.js  ein Drehbuch pro Station (DREHBUCH[N]), Gespräch mit Franco
+    karten/NN-*.html  Karten je Station (Blöcke, Quiz, Figuren), versteckt in #karten
+    figur.html        die Figur (Inline-SVG aus dem Logo, Visier, Augen, Strich-Mund; Mundform je Zustand per CSS d:path())
+    maskottchen.js    Figur, Gespräch, Frage-Feld, LLM, Vorlesen; build.py setzt es in app.js
+                      an der Marke /* @@EINHAENGEN@@ */ ein, mit den Drehbüchern davor
     stueckliste.html  Seite „Stückliste“ (data-st="teile"): oberster Knopf in der Leiste, keine
-                      Station – ohne Minuten, Timer, Abzeichen. Für alle, die fragen, wo es den
+                      Station – ohne Minuten, Timer, Abzeichen, ohne Gespräch (Figur und
+                      #gespraech sind dort ausgeblendet). Für alle, die fragen, wo es den
                       Roboter gibt: micro:bit V2, Maqueen Plus V3 (18650 oder AA), Batterien,
                       Suchbegriffe, Händlerlisten der Hersteller. Bewusst kein Shop-Link (Martin,
                       08.11.2026); Regel 1 verbietet ihn ohnehin
     assets/           Bilder; build.py bettet sie als data:-URI ein
     handbuch.html     Betreuer-Handbuch (Drawer): Zeitplan, Material, Offline, Pi, Störungen
     sicherheit.html   Sicherheitsfenster beim Teamstart (nach „Neues Team“, Knopf „Sicherheit“)
+    schluessel.html   Fenster „LLM Setup“ für den OpenRouter-Schlüssel (Knopf in der Kopfzeile)
     app.js            Fortschritt/Abzeichen (localStorage), Quiz, Timer, Block-Optik (nestStack)
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
+  test/drehbuch.cjs   Schemaprüfung der Drehbücher (ohne Browser)
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
 microbit/             was auf den Roboter kommt — wird nicht gebaut
@@ -101,11 +163,14 @@ docs/                 Konzept, Offline-Recherche, Review-Notizen
 ```
 
 Die Ordner unter `microbit/stations/` tragen dieselbe Nummer und denselben Namen wie
-die Dateien unter `website/src/stations/`: `03-fahrschule/` gehört zu `03-fahrschule.html`.
-Ändert sich ein Blocktext, werden beide zusammen angefasst — zusammen mit dem Handbuch.
+die Dateien unter `website/src/drehbuch/` und `website/src/karten/`: `03-fahrschule/` gehört zu
+`03-fahrschule.js` und `03-fahrschule.html`. Ändert sich ein Blocktext, werden alle zusammen
+angefasst — zusammen mit dem Handbuch. `website/src/stations/` gibt es nicht mehr;
+`build.py` bricht ab, wenn der Ordner wieder auftaucht.
 
-Arbeitsablauf: `cd website && python3 build.py && npm test`. Erst wenn beides grün ist,
-die Offline-Datei auf die Arbeitsplätze kopieren.
+Arbeitsablauf: `cd website && python3 build.py && npm test` (`npm test` = erst
+`test/drehbuch.cjs`, dann `test/smoke.cjs`; keine Umgebungsvariablen). Erst wenn beides grün
+ist, die Offline-Datei auf die Arbeitsplätze kopieren.
 
 `.github/workflows/pages.yml` macht dasselbe bei jedem Push auf `master` und
 veröffentlicht das Ziel `pages` auf GitHub Pages
@@ -115,17 +180,20 @@ Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fas
 nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
 ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
-## Die Stationen (Stand 09.11.2026)
+## Die Stationen (Stand 10.11.2026)
 
 | Nr | Datei | Min | Kern | Abzeichen |
 |---|---|---|---|---|
 | 0 | 00-boxenstopp | 5 | Regelkreis, Bauteile am Maqueen | Rookie |
-| 1 | 01-erster-kontakt | 15 | MakeCode, Herz blinkt (`beim Start`/`dauerhaft`), flashen | Ersteinschalter |
-| 2 | 02-microbit-allein | 15 | LEDs, Knöpfe, Neigung, Schütteln, Würfel; Sensor = Zahl | Pixelkünstler |
-| 3 | 03-fahrschule | 20 | Vorlage, einstecken, Schalter, Haken; dann Linie: Knopf A → Startampel + `Line patrolling ON`, Knopf B → `OFF`, `Speed`; Projekt heißt „Linie“ | Spurhalter |
-| 4 | 04-reflexe | 10 | Im Projekt Linie: Laser-Stopp in `dauerhaft`, `wenn Entfernung Vorne < 200 dann Line patrolling OFF` und rotes Licht | Bremsassistent |
-| 5 | 05-grand-prix | 40 | Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit; Profi: Pro-Ziel mit Variable und PID | Champion |
-| – | Puffer | 15 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
+| 1 | 01-erster-kontakt | 11 | MakeCode, Herz blinkt (`beim Start`/`dauerhaft`), flashen | Ersteinschalter |
+| 2 | 02-microbit-allein | 11 | LEDs, Knöpfe, Neigung, Schütteln, Würfel; Sensor = Zahl | Pixelkünstler |
+| 3 | 03-fahrschule | 15 | Vorlage, einstecken, Schalter, Haken; dann Linie: Knopf A → Startampel + `Line patrolling ON`, Knopf B → `OFF`, `Speed`; Projekt heißt „Linie“ | Spurhalter |
+| 4 | 04-reflexe | 8 | Im Projekt Linie: Laser-Stopp in `dauerhaft`, `wenn Entfernung Vorne < 200 dann Line patrolling OFF` und rotes Licht | Bremsassistent |
+| 5 | 05-grand-prix | 30 | Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit; Profi: Pro-Ziel mit Variable und PID | Champion |
+| – | Puffer | 10 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
+
+„Datei“ meint auf diesem Zweig das Drehbuch `website/src/drehbuch/NN-name.js` mit den Karten
+`website/src/karten/NN-name.html` und die Musterlösung `microbit/stations/NN-name/`.
 
 Roter Faden: Station 1 führt „einmal" (beim Start) vs. „ohne Ende" (dauerhaft) hands-on ein;
 Station 2 setzt „Ereignis“ und „ein Sensor liefert Zahlen, die Grenze ist 200“ — auf dem Gerät
@@ -136,7 +204,10 @@ Station 4 setzt die erste eigene Grenze (200 mm); Station 5 baut alles zusammen.
 arbeiten die Teams durchgehend an einem Projekt („Linie“).
 
 Textbudget je Station (`TEXTBUDGET` in `build.py`, Wörter nach dem Tag-Entfernen, stumpf
-gezählt): 200 / 350 / 550 / 500 / 300 / 850. Der Build bricht ab, wenn eine Station darüber
+gezählt): 200 / 350 / 550 / 500 / 300 / 850. Auf diesem Zweig zählen die Nachrichten des
+Drehbuchs (auch hinter den Zeig-Knöpfen) plus die Karten der Station, nicht Chips und
+Fertig-Knöpfe; weil ein Gespräch in ganzen Sätzen spricht, gilt das Budget mal
+`GESPRAECHSFAKTOR` 1,5 (Martin, 09.11.2026). Der Build bricht ab, wenn eine Station darüber
 liegt — dann kürzen, nicht das Budget heben (Martin, 09.11.2026: „Zuviel Text“).
 
 Entlastung vom 15.09.2026 (siehe Cowork-Projekt „Anfänger Robotik Workshop",
@@ -153,7 +224,7 @@ zeigen nur, was das Grand-Prix-Programm braucht — kein Motorblock, keine Schle
 außer im Profi-Teil. Die micro:bit-Stationen ohne Roboter behalten Neigung, Schütteln und Würfel
 (Martin, 09.11.2026). Fahrschule und Augen sind eine Station (3), Reflexe ist Station 4 mit nur
 dem Laser-Stopp (Staubsauger-Challenge und Pausenknopf gestrichen), der Grand Prix ist Station 5
-mit 40 Minuten. Die beiden eigenen Simulatoren der Seite sind gestrichen (Martin: der
+mit damals 40 Minuten (seit 10.11.2026 30, Workshop 90 Minuten). Die beiden eigenen Simulatoren der Seite sind gestrichen (Martin: der
 micro:bit-Simulator war verwirrend); Station 2 nutzt den Simulator in MakeCode.
 
 Grand Prix vom 03.–05.11.2026 (Sitzung mit Martin; Entwurf in
@@ -206,12 +277,20 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 Die Seite hat seit 09.11.2026 keine eigenen Simulatoren mehr (Parcours- und micro:bit-Simulator
 gestrichen, siehe „Parcours first“). Was in `app.js` bleibt: Fortschritt, Quiz, Timer, Block-Optik.
 
-- **Block-Optik**: In den Stationen stehen die `.mcb`-Blöcke flach untereinander, eingerückt
-  mit `i1`/`i2`. `nestStack()` in `app.js` baut daraus beim Laden die Klammer-Form wie in
-  MakeCode (Kopf, Arm, Fuß); ein `sonst` direkt nach seinem `wenn` wird dessen Mittelsteg.
+- **Block-Optik**: In den Karten und Blasen stehen die `.mcb`-Blöcke flach untereinander,
+  eingerückt mit `i1`/`i2`. `nestStack()` in `app.js` baut daraus die Klammer-Form wie in
+  MakeCode (Kopf, Arm, Fuß) — beim Laden einmal über alle Stapel in `#karten`, für Blöcke in
+  einer Blase in `blase()` (`maskottchen.js`); ein `sonst` direkt nach seinem `wenn` wird dessen Mittelsteg.
   Die Einrückung ist also die Struktur — sie muss stimmen. `.mcstack.flat` bleibt flach
   (die Regelkreis-Treppe in Station 0). Symbole wie das Herz sind 5×5-Bildchen aus `PAT`
   (`<b data-led="heart">`), kein Emoji.
+- **MakeCode-Film** (Station 1, Karte `k1-film`, `.mcfilm` in `styles.css`): ein nachgezeichnetes
+  MakeCode-Fenster als Inline-SVG (Vorschau links, Kategorien in der Mitte, Programm rechts). Der
+  Zeiger klickt Grundlagen, die Blockliste geht auf, `zeige Symbol` wird nach `beim Start` gezogen,
+  rastet ein, die Vorschau zeigt das Herz. Reine CSS-Keyframes auf einer 8-s-Schleife, kein Video
+  (Regel 1 und 2: kein Bild von außen, Datei bleibt klein). Der Grundzustand jedes Teils ist das
+  Endbild; bei reduzierter Bewegung steht es. Der Smoketest prüft das Endbild. Aufbau und Farben
+  des Fensters sind aus dem Gedächtnis gezeichnet, am Gerät noch nicht verglichen (Trockenlauf).
 - Fortschritt liegt in `localStorage` unter `mgp-v1`. „Neues Team" löscht ihn — das ist der
   Knopf zwischen zwei Messe-Slots. `load()` stutzt Stände aus einer Fassung mit mehr Stationen
   zurecht (bis 09.11.2026 waren es sieben).
@@ -262,6 +341,12 @@ gestrichen, siehe „Parcours first“). Was in `app.js` bleibt: Fortschritt, Qu
 - Danach: Parcours-Bauplan mit dem gemessenen Radius gegenprüfen (Klebeplan steht in
   `tools/grand-prix-druck.html`, Seite 2), Stand-Paket zum Drucken
   (Handzettel mit QR-Code auf die Offline-Datei, Tischaufsteller)
+- Maskottchen-Zweig: Name der Figur (Platzhalter „Franco“, `MASKOTTCHEN_NAME`; setzt beim
+  Start Namensschild, `aria-label` der Figur, die `.figurname-ref` im Handbuch und den
+  System-Prompt. Fest geschrieben steht der Name nur noch in CLAUDE.md, der Spec und den
+  Testerwartungen in `smoke.cjs`) und die
+  Entscheidung, ob der Zweig nach dem Trockenlauf gemergt wird. Was dabei zu prüfen ist,
+  steht in `docs/02-offline-und-trockenlauf.md`, Abschnitt „Maskottchen“.
 - Fotos vom echten Gerät neben die beiden SVG-Figuren, falls die Zeichnung am Tisch nicht
   reicht (erst nach dem Trockenlauf möglich). Eine USB-Animation für Station 1 ist
   verworfen: Kabel einstecken kennt jeder, das echte Problem (reine Ladekabel) zeigt kein Bild.

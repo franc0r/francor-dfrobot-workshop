@@ -5,15 +5,15 @@
   </div>
   <div class="dbody">
     <section>
-      <h3>Zeitplan · 120-Minuten-Slot</h3>
+      <h3>Zeitplan · 90-Minuten-Slot</h3>
       <table class="plan">
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
-        <tr><td>0:05–0:20</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
-        <tr><td>0:20–0:35</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: &bdquo;Logo nach oben&ldquo; ist nur eine Zahl jenseits der Grenze 200. Beides brauchen sie später beim Roboter wieder.</td></tr>
-        <tr><td>0:35–0:55</td><td><b>Fahrschule.</b> Vorlage öffnen (Erweiterung ist schon drin), micro:bit einstecken, beide Schalter an, Haken abwarten. Dann die Linie auf Knopf A mit Startampel, Knopf B als Not-Aus; getestet wird auf dem Teststreifen am Boden. Der Wow-Moment des Workshops – Zeit lassen, applaudieren. Kalibrieren nur bei Bedarf, die Roboter sind beim Aufbau schon kalibriert.</td></tr>
-        <tr><td>0:55–1:05</td><td><b>Reflexe.</b> Laser-Stopp im Projekt Linie: <em>wenn</em> Abstand unter 200&nbsp;mm, dann <em>Line patrolling OFF</em> und rotes Licht. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
-        <tr><td>1:05–1:45</td><td><b>Grand Prix.</b> 40 Minuten: Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
-        <tr><td>1:45–2:00</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
+        <tr><td>0:05–0:16</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
+        <tr><td>0:16–0:27</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: &bdquo;Logo nach oben&ldquo; ist nur eine Zahl jenseits der Grenze 200. Beides brauchen sie später beim Roboter wieder.</td></tr>
+        <tr><td>0:27–0:42</td><td><b>Fahrschule.</b> Vorlage öffnen (Erweiterung ist schon drin), micro:bit einstecken, beide Schalter an, Haken abwarten. Dann die Linie auf Knopf A mit Startampel, Knopf B als Not-Aus; getestet wird auf dem Teststreifen am Boden. Der Wow-Moment des Workshops – Zeit lassen, applaudieren. Kalibrieren nur bei Bedarf, die Roboter sind beim Aufbau schon kalibriert.</td></tr>
+        <tr><td>0:42–0:50</td><td><b>Reflexe.</b> Laser-Stopp im Projekt Linie: <em>wenn</em> Abstand unter 200&nbsp;mm, dann <em>Line patrolling OFF</em> und rotes Licht. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
+        <tr><td>0:50–1:20</td><td><b>Grand Prix.</b> 30 Minuten: Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+        <tr><td>1:20–1:30</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
       </table>
     </section>
 
@@ -51,6 +51,7 @@
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
         <li>Grand-Prix-Strecke aufkleben und die <b>Zählfahrt</b> machen (Abschnitt &bdquo;Grand Prix aufbauen und betreuen&ldquo;)</li>
+        <li>Auf jedem Platz den <b>Schlüssel über den Knopf &bdquo;LLM Setup&ldquo; in der Kopfzeile</b> eintragen und einmal &bdquo;Geht nicht&ldquo; probieren: Kommt eine echte Antwort von <span class="figurname-ref">Franco</span> und zeigt der Zähler &bdquo;1 Anfrage&ldquo;, stimmen Schlüssel und Netz. Danach den Zähler nullen</li>
       </ul>
     </section>
 
@@ -62,7 +63,7 @@
 
     <section>
       <h3>Grand Prix aufbauen und betreuen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Station 5 dauert 40 Minuten. Die Teams lesen die Skizze, stellen die Kreuzungsregeln ein und fahren auf Zeit. Es ist <b>kein Wettbewerb</b>: Am Ziel gibt es Gummibärchen für alle, die Zeit stoppt ihr nur zum Vergleichen.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Station 5 dauert 30 Minuten. Die Teams lesen die Skizze, stellen die Kreuzungsregeln ein und fahren auf Zeit. Es ist <b>kein Wettbewerb</b>: Am Ziel gibt es Gummibärchen für alle, die Zeit stoppt ihr nur zum Vergleichen.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Aufbau</h3>
       <ul class="check">
@@ -97,7 +98,7 @@
       </ul>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Minute-15-Regel</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Restzeit im Timer etwa 30:00) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/05-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Restzeit im Timer etwa 25:00) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/05-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Der Reset-Fallstrick (gewollt)</h3>
       <p style="font-size:.94rem; color:var(--ink-2)"><em>Line patrolling OFF</em> löscht in der Firmware alle Kreuzungsregeln. Nach <em>ON</em> gelten wieder die Standardregeln. Wer im Profi-Teil nach dem Sprung über die Lücke nur <em>ON</em> schaltet, hat seine Regeln verloren. <b>Woran ihr es erkennt:</b> Der Roboter ignoriert nach einem Halt seine Regeln. <b>Die Frage, die weiterhilft:</b> &bdquo;Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?&ldquo;</p>
@@ -121,6 +122,8 @@
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
         <li>MakeCode im Chromium über „Installieren“ als App ablegen – der Cache ist dann stabiler gegen Aufräumaktionen des Browsers</li>
+        <li>MakeCode einmal mit Netz öffnen, auch über den Knopf <b>Neues Projekt starten</b> (Station 1) – damit liegt der Editor selbst im Cache</li>
+        <li>Den <b>Schlüssel über den Knopf &bdquo;LLM Setup&ldquo; in der Kopfzeile</b> eintragen und in irgendeiner Station einmal &bdquo;Geht nicht&ldquo; probieren. Ohne Netz kommt später nur die Rückfallantwort – das ist in Ordnung, aber hier soll einmal die echte Antwort kommen</li>
       </ul>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Und dann der eigentliche Test</h3>
@@ -138,7 +141,19 @@
 
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:14px"><b>Wenn doch etwas fehlt:</b> Ein Handy-Hotspot reicht, um einem einzelnen Gerät den Cache nachzuladen – rechne mit einigen zehn Megabyte, nicht mit Sekunden. Bei Raspberry-Pi-Arbeitsplätzen ist der schnellere Weg oft, die SD-Karte eines fertig vorbereiteten Geräts zu klonen und zu tauschen.</p>
 
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Und <span class="figurname-ref">Franco</span>?</b> Das Gespräch mit allen Stationen und Karten steckt in der Datei und läuft ohne Netz. Nur die Antworten auf &bdquo;Geht nicht&ldquo; kommen über das Internet; ohne Netz zeigt <span class="figurname-ref">Franco</span> dort die Checkliste der Station und schickt das Team zu euch (Abschnitt &bdquo;Maskottchen&ldquo;, Schlüssel über den Knopf in der Kopfzeile).</p>
+
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Und die letzte Rückfallebene, wenn MakeCode gar nicht lädt: <b>Station 0 dieser Seite</b> (braucht nur die lokale Datei) plus der Vorführroboter plus die fertigen <kbd>.hex</kbd>-Dateien aus <kbd>microbit/stations/</kbd>, per Laufwerk <kbd>MICROBIT</kbd> aufgespielt. So fährt jedes Team trotzdem die Strecke.</p>
+    </section>
+
+    <section>
+      <h3>Maskottchen</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)"><b>Ohne Netz oder ohne Schlüssel</b> läuft der Workshop genauso. Drückt ein Team „Geht nicht“, antwortet <span class="figurname-ref">Franco</span> dann mit der Checkliste „Wenn es klemmt“ der Station und bittet, euch zu winken. Das Frage-Feld sendet nur, wenn ein Schlüssel eingetragen ist und das Netz da ist; bei jedem Fehler (kein Netz, Zeitüberschreitung nach 15 s, Serverfehler) kommt dieselbe Rückfallantwort.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Schlüssel eintragen</b> (OpenRouter, einmal pro Arbeitsplatz): Knopf <b>„LLM Setup“</b> oben in der Kopfzeile. Er liegt nur in diesem Browser, nie in der Datei, und bleibt auch nach „Neues Team“ erhalten. Legt bei OpenRouter für die Messe einen <b>eigenen Schlüssel mit kleinem Guthaben-Limit</b> an (ein paar Dollar). Tragt ihn nur in die Offline-Datei auf den Messe-Rechnern ein, nie auf der öffentlichen Pages-Seite, und löscht ihn bei OpenRouter nach der Messe.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Kosten.</b> Jede Frage schickt höchstens etwa 2000 Token mit und bekommt höchstens 200 zurück. Der Zähler rechnet grob mit 1 Dollar je Million Token hinein und 5 Dollar heraus; die echten Kosten stehen bei OpenRouter. Jedes Team hat höchstens 30 Fragen; danach antwortet <span class="figurname-ref">Franco</span> nur noch mit der Checkliste und schickt zu euch. „Neues Team“ setzt das zurück.</p>
+      <p style="font-size:.94rem; margin-top:6px"><span id="llmzaehler">0 Anfragen · ca. 0 Cent</span> <button type="button" class="btn sec" id="llmreset" style="margin-left:8px">Zähler nullen</button></p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Vorlesen.</b> Auf Wunsch liest die Browser-Stimme die Blasen vor. Standard ist aus, die Messe ist laut. Der Schalter gilt nur für diesen Arbeitsplatz und bleibt bei „Neues Team“ stehen. Chromium nimmt die Stimmen des Systems; ohne deutsche Stimme bleibt es still. Auf Raspberry Pi OS deshalb <kbd>sudo apt install espeak-ng speech-dispatcher</kbd> und Chromium neu starten, unter Windows und macOS ist meist schon eine deutsche Stimme da.</p>
+      <label style="font-size:.94rem; display:flex; gap:8px; align-items:center; margin-top:6px"><input type="checkbox" id="ttsbox"> Vorlesen</label>
     </section>
 
     <section>

@@ -458,6 +458,46 @@ kbd{
 @keyframes sw-knob{0%,50%{transform:translateX(0)} 62%,88%{transform:translateX(18px)} 100%{transform:translateX(0)}}
 @keyframes sw-track{0%,50%{fill:var(--line)} 62%,88%{fill:var(--teal)} 100%{fill:var(--line)}}
 
+/* MakeCode-Film (Station 1, Karte k1-film): nachgezeichnetes MakeCode-Fenster. Alle Teile laufen auf
+   einer 8-s-Zeitachse: Zeiger klickt Grundlagen (14 %), Blockliste geht auf (19 %), Block wird
+   gegriffen (30 %) und nach beim Start gezogen (52 %), rastet ein, die Vorschau zeigt das Herz (60 %).
+   Der Grundzustand jedes Teils ist das Endbild – bei reduzierter Bewegung steht genau das. */
+.mcfilm{margin:0; max-width:560px}
+.mcfilm svg{width:100%; height:auto; display:block; font-family:var(--sans); border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.mcf-txt{font-size:10px; fill:#333}
+.mcf-bt{font-size:10.5px; font-weight:600; fill:#fff}
+.mcf-val{font-size:9px; font-weight:600; fill:#1A2226; text-anchor:middle; dominant-baseline:central}
+.mcf-blk{fill:#1E90FF}
+.mcf-pill{fill:#fff}
+.mcf-led{fill:#3A2222}
+.mcf-led.on{fill:#FF3D2E; animation:mcf-led 8s linear infinite}
+.mcf-cur{transform:translate(440px,150px); animation:mcf-cur 8s ease-in-out infinite}
+.mcf-ring{opacity:0; animation:mcf-ring 8s linear infinite}
+.mcf-hl{opacity:0; animation:mcf-hl 8s linear infinite}
+.mcf-fly{opacity:0; animation:mcf-fly 8s ease-out infinite}
+.mcf-drag{transform:translate(386px,84px); animation:mcf-drag 8s ease-in-out infinite}
+.mcf-snap{opacity:0; animation:mcf-snap 8s linear infinite}
+@keyframes mcf-cur{
+  0%{transform:translate(300px,230px)}
+  14%,20%{transform:translate(136px,66px)}
+  30%,34%{transform:translate(240px,108px)}
+  52%,56%{transform:translate(414px,96px)}
+  62%,92%{transform:translate(440px,150px)}
+  100%{transform:translate(300px,230px)}
+}
+@keyframes mcf-ring{0%,13%{opacity:0} 14%{opacity:1} 18%,29%{opacity:0} 30%{opacity:1} 34%,100%{opacity:0}}
+@keyframes mcf-hl{0%,14%{opacity:0} 15%,40%{opacity:.18} 44%,100%{opacity:0}}
+@keyframes mcf-fly{0%,15%{opacity:0; transform:translateX(-12px)} 19%,36%{opacity:1; transform:translateX(0)} 40%,100%{opacity:0; transform:translateX(0)}}
+@keyframes mcf-drag{
+  0%,33%{opacity:0; transform:translate(212px,96px)}
+  34%{opacity:1; transform:translate(212px,96px)}
+  51%{opacity:1; transform:translate(389px,83px)}
+  54%,94%{opacity:1; transform:translate(386px,84px)}
+  100%{opacity:0; transform:translate(386px,84px)}
+}
+@keyframes mcf-snap{0%,53%{opacity:0} 55%,58%{opacity:1} 64%,100%{opacity:0}}
+@keyframes mcf-led{0%,56%{fill:#3A2222} 60%,94%{fill:#FF3D2E} 100%{fill:#3A2222}}
+
 /* quiz */
 .quiz{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:var(--surface-2)}
 .quiz .qh{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:7px}
@@ -514,6 +554,11 @@ body.safety-on{overflow:hidden}
 .sfoot{font-size:.92rem; color:var(--ink-2); background:var(--surface-2); border-radius:8px; padding:9px 12px; margin-bottom:16px}
 .sok{background:var(--accent); color:var(--accent-ink); border:0; border-radius:9px; padding:11px 20px; font-weight:600; font-size:1rem}
 .sok:hover{filter:brightness(1.07)}
+.kbox{max-width:520px}
+.krow{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px}
+.krow input{flex:1 1 200px; min-width:0; font-size:16px; padding:9px 10px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); color:var(--ink)}
+.kstate{margin:10px 0 0; font-size:.94rem}
+.khint{font-size:.9rem; color:var(--ink-2); margin:12px 0 16px; line-height:1.5}
 @media (max-width:640px){ .sbig{grid-template-columns:minmax(0,1fr)} .scard{display:flex; align-items:center; gap:12px; text-align:left} .scard svg{margin:0; flex:none; width:44px; height:44px} .sbox{padding:20px 18px} }
 .drawer .dhead{
   position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--line);
@@ -553,7 +598,100 @@ body.safety-on{overflow:hidden}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
   .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
+  .mcfilm *,.mcfilm .mcf-led.on{animation:none}
 }
+
+/* ===== Figur ===== */
+.shell main{display:grid; grid-template-columns:180px minmax(0,1fr); gap:20px; align-items:start}
+.shell main > :not(.figur){grid-column:2}
+.figur{grid-column:1; grid-row:1 / span 20; position:sticky; top:90px; text-align:center}
+.figur svg{display:block; width:100%; height:auto; overflow:visible; transform-origin:50% 100%}
+.figurname{margin-top:6px; font-weight:600; font-size:14px; color:var(--accent)}
+.figur .augen, .figur .lid{transform-box:fill-box; transform-origin:center}
+.figur .lid{animation:figur-blinzeln 4.5s infinite}
+.figur[data-zustand="leerlauf"] svg{animation:figur-wippen 3.2s ease-in-out infinite}
+.figur[data-zustand="reden"] svg{animation:figur-reden .35s ease-in-out infinite}
+.figur[data-zustand="jubel"] svg{animation:figur-huepfen .6s ease-out 1}
+.figur[data-zustand="gruebeln"] svg{transform:rotate(-4deg)}
+/* Zustände wirken auf .augen: .lid gehört dem Blinzeln, .pupille dem Blick (transform-Attribut) */
+.figur[data-zustand="gruebeln"] .augen{transform:scaleY(.6)}
+.figur[data-zustand="sorge"] .augen{transform:translateY(-2px)}
+/* Mund: Strich in Textfarbe (hell/dunkel), Form je Zustand; beim Reden öffnet und schließt er sich */
+.figur .mund{fill:var(--ink); stroke:var(--ink); stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; transition:d .3s}
+.figur[data-zustand="reden"] .mund{animation:figur-mund .36s linear infinite}
+.figur[data-zustand="jubel"] .mund{d:path("M50 57 Q62 72 74 57 Q62 64 50 57")}
+.figur[data-zustand="gruebeln"] .mund{d:path("M55 60 Q62 61 69 60 Q62 61 55 60")}
+.figur[data-zustand="sorge"] .mund{d:path("M56 59 Q62 55 68 59 Q62 62 56 59")}
+@keyframes figur-wippen{0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)}}
+@keyframes figur-reden{0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.03)}}
+@keyframes figur-huepfen{0%{transform:translateY(0)} 40%{transform:translateY(-14px)} 100%{transform:translateY(0)}}
+@keyframes figur-blinzeln{0%,94%,100%{transform:scaleY(1)} 97%{transform:scaleY(.08)}}
+@keyframes figur-mund{0%,50%,100%{d:path("M52 58 Q62 66 72 58 Q62 66 52 58")} 25%{d:path("M53 57 Q62 76 71 57 Q62 64 53 57")} 75%{d:path("M53 58 Q62 71 71 58 Q62 65 53 58")}}
+@media (prefers-reduced-motion: reduce){
+  /* nur Blinzeln und Mund bleiben, der Körper steht still */
+  .figur svg{animation:none !important}
+  .figur .lid{animation-duration:4.5s !important}
+}
+@media (max-width:760px){
+  /* eine Spalte: Figur in eigener Zeile links oben, der Inhalt hat die volle Breite */
+  .shell main{grid-template-columns:minmax(0,1fr); gap:12px}
+  .shell main > :not(.figur){grid-column:1}
+  .figur{grid-column:1; grid-row:auto; position:static; width:72px; text-align:left}
+}
+
+/* ===== Gespräch ===== */
+.gespraech{display:flex; flex-direction:column; gap:14px; margin-bottom:28px}
+.chat{display:flex; flex-direction:column; gap:10px}
+.blase{
+  align-self:flex-start; max-width:min(640px, 100%);
+  background:var(--surface); color:var(--ink); border:1px solid var(--line);
+  border-radius:16px 16px 16px 4px; box-shadow:var(--shadow);
+  padding:11px 16px; font-size:17px; line-height:1.5; overflow-wrap:anywhere;
+}
+.blase.me{
+  align-self:flex-end; background:#C8352D; border-color:#E9483F; color:#fff;   /* #C8352D: weiße Schrift erreicht WCAG AA */
+  border-radius:16px 16px 4px 16px; font-weight:500;
+}
+.blase .mcstack{margin:6px 0 2px}
+.blase.karte{max-width:100%; padding:14px}
+/* lange Blöcke (Laser, wenn … < 200) brechen in der Karte um statt rechts abgeschnitten zu werden */
+.blase.karte .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px; max-width:100%; overflow-wrap:normal}
+.blase.karte .mcb b{white-space:nowrap}
+.blase.karte .mcc{max-width:100%}
+.blase.karte:empty{display:none}   /* Karte, deren Inhalt noch fehlt */
+.blase.karte a.btn{font-size:17px; padding:10px 18px}
+.antworten{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
+.antworten button{
+  border:2px solid #E9483F; background:var(--surface); color:var(--ink);
+  border-radius:999px; padding:8px 18px; font-size:16px; font-weight:600; line-height:1.3;
+}
+.antworten button:hover{background:var(--accent-soft)}
+/* der Knopf, der weiterführt, ist gefüllt */
+.antworten button[data-fertig], .antworten button[data-go], .antworten button[data-abschluss], .antworten button[data-machen]{
+  background:#C8352D; color:#fff;
+}
+.antworten button[data-fertig]:hover, .antworten button[data-go]:hover,
+.antworten button[data-abschluss]:hover, .antworten button[data-machen]:hover{background:#C8352D; filter:brightness(1.08)}
+.antworten button.extra{border-style:dashed; font-size:14px; font-weight:500; color:var(--ink-2); padding:5px 14px}
+@media (max-width:760px){
+  .blase{font-size:16px; padding:10px 14px}
+  .antworten{justify-content:flex-start}
+}
+
+/* ===== Frage ===== */
+.frage{display:flex; flex-direction:column; gap:10px; width:100%}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chips button{
+  border:1px solid var(--line); background:var(--surface); color:var(--ink);
+  border-radius:999px; padding:7px 14px; font-size:15px; line-height:1.3;
+}
+.chips button:hover{background:var(--accent-soft)}
+.frage-zeile{display:flex; flex-wrap:wrap; gap:8px}
+.frage-zeile input{
+  flex:1 1 220px; min-width:0; font-size:16px; padding:9px 12px;
+  border:2px solid var(--line); border-radius:12px; background:var(--surface); color:var(--ink);
+}
+.frage-zeile input:focus{outline:none; border-color:#E9483F}
 </style>
 </head>
 <body>
@@ -573,9 +711,10 @@ body.safety-on{overflow:hidden}
     </div>
   </div>
   <div class="tbgroup">
-    <div class="timer" id="timer"><button class="tv" id="tval" type="button" title="Zeit ändern – z. B. 75 oder 42:30 eintippen">120:00</button><input class="tv" id="tedit" type="text" inputmode="numeric" aria-label="Restzeit in Minuten oder Minuten:Sekunden" hidden><button id="tbtn" type="button">Start</button></div>
+    <div class="timer" id="timer"><button class="tv" id="tval" type="button" title="Zeit ändern – z. B. 75 oder 42:30 eintippen">90:00</button><input class="tv" id="tedit" type="text" inputmode="numeric" aria-label="Restzeit in Minuten oder Minuten:Sekunden" hidden><button id="tbtn" type="button">Start</button></div>
     <button class="ghost" id="safetybtn" type="button">Sicherheit</button>
     <button class="ghost" id="coachbtn" type="button">Für Betreuer</button>
+    <button class="ghost" id="keybtn" type="button" title="OpenRouter-Schlüssel für Franco eintragen (Betreuer)">LLM Setup</button>
     <button class="ghost" id="resetbtn" type="button">Neues Team</button>
   </div>
 </header>
@@ -592,99 +731,23 @@ body.safety-on{overflow:hidden}
   </nav>
 
   <main id="stage">
-
-  <!-- ============ STÜCKLISTE (keine Station, zum Mitnehmen) ============ -->
-  <section class="station page" data-st="teile" hidden>
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Für zu Hause</span><span>Stückliste</span><span>keine Station</span></div>
-      <h2>So einen Roboter selbst haben</h2>
-      <p class="goal">Viele haben beim Workshop gefragt, wo es den Roboter gibt. Hier steht, was du brauchst und wie du es im Internet findest. Einen Shop nennen wir absichtlich nicht &ndash; es gibt viele, und Preise und Links veralten schnell.</p>
-    </div>
-    <div class="st-body">
-      <div class="block">
-        <h3><span class="idx">01</span>Drei Dinge, dann fährt er</h3>
-        <p class="lead">Der Roboter aus dem Workshop besteht aus zwei Teilen, die man getrennt kauft, plus Batterien. Alles andere &ndash; das Programm, die Blöcke, diese Seite &ndash; ist kostenlos.</p>
-        <div class="parts">
-
-          <div class="part">
-            <div class="pt-head"><span class="pt-n">1</span><h4>BBC micro:bit V2</h4><span class="pt-role">das Gehirn</span></div>
-            <p>Der kleine Computer, der in den Schlitz des Roboters gesteckt wird. Auf ihm läuft dein Programm. Nimm die <b>Version&nbsp;2 (V2)</b>: Nur sie hat den Lautsprecher und das Mikrofon, die wir im Workshop benutzt haben. Die alte V1 wird kaum noch verkauft.</p>
-            <p>Es gibt ihn <b>einzeln</b> (nur die Platine) oder als <b>&bdquo;Go&ldquo;-Set</b> mit kurzem USB-Kabel, Batteriehalter und zwei AAA-Batterien. Den Batteriehalter brauchst du am Roboter nicht &ndash; dort versorgt der Roboter den micro:bit. Das Kabel brauchst du aber: Zum Übertragen des Programms muss es ein <b>Micro-USB-Datenkabel</b> sein. Reine Ladekabel sehen gleich aus und funktionieren nicht.</p>
-            <div class="find"><span class="fl">Suche nach</span><kbd>micro:bit V2</kbd><kbd>micro:bit V2 Go</kbd></div>
-            <p class="small">Die Herstellerseite der micro:bit-Stiftung (microbit.org) hat unter &bdquo;Kaufen&ldquo; eine Händlerliste nach Ländern. In Deutschland führen ihn Elektronik-Versender, Schulbedarf-Händler und die großen Marktplätze.</p>
-          </div>
-
-          <div class="part">
-            <div class="pt-head"><span class="pt-n">2</span><h4>Maqueen Plus V3</h4><span class="pt-role">das Fahrzeug</span></div>
-            <p>Der Roboter von <b>DFRobot</b>: Platine mit zwei Motoren und Rädern, fünf Liniensensoren unten, Lichtern, Summer, dem Akkubrett &ndash; und dem <b>Laserscanner</b> (Matrix-Laser) vorn, der liegt mit im Karton. Nicht dabei sind der micro:bit und die Batterien.</p>
-            <p>Es gibt zwei Ausführungen, die Technik ist dieselbe, nur die Stromversorgung unterscheidet sich: <b>&bdquo;18650&ldquo;</b> (ein Lithium-Akku, wird im Roboter per USB-C geladen) und <b>&bdquo;AA&ldquo;</b> (vier Mignon-Batterien, kein Laden im Roboter). Für zu Hause ist AA die einfachere Wahl: Batterien oder Akkus hat jeder, und es gibt nichts falsch zu kaufen.</p>
-            <div class="find"><span class="fl">Suche nach</span><kbd>Maqueen Plus V3</kbd><kbd>DFRobot MBT0050</kbd></div>
-            <p class="small">Vorsicht beim Suchen: &bdquo;Maqueen&ldquo; allein findet auch die kleineren Geschwister (Maqueen Lite) und den Vorgänger <b>Plus V2</b> ohne Laserscanner. Den V3 erkennst du am Laser-Würfel vorn und am &bdquo;V3&ldquo; im Namen. Die Herstellerseite (dfrobot.com) listet unter &bdquo;Distributors&ldquo; Händler in Europa.</p>
-          </div>
-
-          <div class="part">
-            <div class="pt-head"><span class="pt-n">3</span><h4>Batterien</h4><span class="pt-role">die Energie</span></div>
-            <p><b>Ausführung AA:</b> 4&nbsp;×&nbsp;AA (Mignon) &ndash; entweder normale 1,5-V-Batterien oder <b>NiMH-Akkus</b> (1,2&nbsp;V) mit eigenem Ladegerät. Keine AAA, die sind kleiner und passen nicht. Der Roboter lädt nichts selbst; normale Batterien nie in ein Ladegerät stecken. Wer oft fährt, ist mit Akkus günstiger dran.</p>
-            <p><b>Ausführung 18650:</b> 1&nbsp;×&nbsp;Lithium-Akku Größe 18650, 3,7&nbsp;V, laut Hersteller <b>mit Schutzschaltung</b> und mit erhöhtem Pluspol (&bdquo;Button Top&ldquo;, etwa 67&nbsp;mm lang) &ndash; flache Zellen (65&nbsp;mm) haben keinen Kontakt. Geladen wird im Roboter über USB-C mit einem gewöhnlichen 5-V-Netzteil, etwa vier Stunden. Keine anderen Akkutypen einsetzen. Eine 18650-Zelle ist so eine wie in Powerbanks: nicht kurzschließen, nicht in Kinderhände.</p>
-            <div class="find"><span class="fl">Suche nach</span><kbd>AA NiMH Akku Ladegerät Set</kbd><kbd>18650 Akku geschützt Button Top</kbd></div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Was es ungefähr kostet</h3>
-        <p class="lead">Grober Richtwert, Stand Herbst 2026: der micro:bit um die 20 bis 30 Euro, der Roboter um die 90 bis 110 Euro, dazu Batterien. Alles zusammen also gut 120 Euro. Der Roboter ist der größte Posten &ndash; der micro:bit allein ist auch ohne Roboter ein tolles Spielzeug (Station&nbsp;1 und 2 gehen damit komplett).</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">03</span>So findest du es im Internet</h3>
-        <ol class="steps">
-          <li><span>Suchbegriffe genau so eintippen, wie sie oben in den Kästchen stehen. Dann landest du bei den richtigen Produkten und nicht bei den Geschwistern.</span></li>
-          <li><span>Die Herstellerseiten (microbit.org, dfrobot.com) verkaufen nicht selbst nach Deutschland, haben aber Händlerlisten. Von dort aus Preise vergleichen.</span></li>
-          <li><span>Auf das Land des Händlers achten. Bei Versand von außerhalb der EU kommen Zoll und Einfuhrsteuer dazu &ndash; das macht ein scheinbar günstiges Angebot teurer.</span></li>
-          <li><span>Gebraucht ist beim micro:bit kein Problem, er ist robust. Nur darauf achten, dass es eine <b>V2</b> ist (goldenes Logo oben, das man berühren kann).</span></li>
-        </ol>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">04</span>Was du sonst noch brauchst</h3>
-        <ul class="plain">
-
-          <li><span>Einen Computer mit <b>Chrome oder Edge</b>. Der Programm-Editor MakeCode läuft kostenlos im Browser, nichts installieren. <a class="btn sec" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">MakeCode öffnen</a></span></li>
-          <li><span>Für eine Strecke: <b>schwarzes Isolierband</b> (19&nbsp;mm) auf hellem Boden, weißem Karton oder einer Papierrolle. Kurven aus kurzen Stücken, keine spitzen Ecken.</span></li>
-          <li><span>Diese Seite. Alle sechs Stationen funktionieren zu Hause genauso &ndash; von Station&nbsp;1 bis zum Grand Prix.</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="stfoot">
-      <span class="pts">Keine Station &ndash; zum Mitnehmen</span>
-      <span class="spacer"></span>
-      <button class="btn" data-go="0">Zum Workshop &rarr;</button>
-    </div>
-  </section>
-  <!-- ============ STATION 0 ============ -->
-  <section class="station" data-st="0">
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 0</span><span>5 Minuten</span><span>Boxenstopp</span></div>
-      <h2>Was macht einen Roboter zum Roboter?</h2>
-      <p class="goal">Ein ferngesteuertes Auto ist kein Roboter. Ein Roboter entscheidet selbst &ndash; und genau so einen baust du heute.</p>
-    </div>
-    <div class="st-body">
-      <div class="block">
-        <h3><span class="idx">01</span>Der Dreisatz jedes Roboters</h3>
-        <p class="lead">Jeder Roboter macht immer dieselben drei Dinge:</p>
-        <div class="mcstack flat">
-          <div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>
-          <div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>dein Programm</b></div>
-          <div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div>
-        </div>
-        <p class="lead">Und dann von vorn. Diese Schleife heißt <em>Regelkreis</em>.</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Dein Fahrzeug im Detail</h3>
-        <p class="lead">Von oben.</p>
+<div class="figur" id="figur" data-zustand="leerlauf">
+  <svg viewBox="0 0 105 120" role="img" aria-label="das FRANCOR-Maskottchen">
+    <image href="data:image/png;base64,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" x="0" y="0" width="105" height="120"/>
+    <rect x="36" y="26" width="52" height="18" rx="9" fill="#1a1a1a"/>
+    <g class="augen">
+      <g class="lid"><ellipse class="pupille" cx="50" cy="35" rx="5" ry="5.5" fill="#7df9ff"/></g>
+      <g class="lid"><ellipse class="pupille" cx="73" cy="35" rx="5" ry="5.5" fill="#7df9ff"/></g>
+    </g>
+    <!-- Mund: ein Strich, Form je Zustand über die CSS-Eigenschaft d (Mockup „Frank“, 07.11.2026) -->
+    <path class="mund" d="M52 58 Q62 66 72 58 Q62 66 52 58"/>
+  </svg>
+  <div class="figurname" id="figurname"></div>
+</div>
+<section class="gespraech" id="gespraech"><div class="chat" id="chat"></div><div class="antworten" id="antworten"></div></section>
+<div id="karten" hidden>
+<div class="karten" data-st="0">
+  <div class="karte" data-karte="k0-mqmap">
         <figure class="mqfig" id="mqmap">
           <svg viewBox="0 0 420 310" role="img" aria-labelledby="mqmap-t">
             <title id="mqmap-t">Der Maqueen von oben, Vorderseite oben</title>
@@ -768,18 +831,18 @@ body.safety-on{overflow:hidden}
             <text class="lbl2" x="22" y="291">gestrichelt = unter der Platte</text>
           </svg>
           <ol class="mqlegend">
-            <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unten: Schwarz oder Weiß?<em>Wahrnehmen</em></span></li>
-            <li class="r-input"><span class="n">2</span><span><b>Laserscanner</b>: Abstand nach vorn, 2&nbsp;cm bis 4&nbsp;m.<em>Wahrnehmen</em></span></li>
-            <li class="r-input"><span class="n">3</span><span><b>2 Lichtsensoren</b>: Helligkeit links und rechts.<em>Wahrnehmen</em></span></li>
-            <li class="r-logic"><span class="n">4</span><span><b>micro:bit&nbsp;V2</b> im Schlitz: der Computer, er führt dein Programm aus.<em>Entscheiden</em></span></li>
-            <li class="r-mq"><span class="n">5</span><span><b>2 Motoren</b>, jedes Rad einzeln.<em>Handeln</em></span></li>
-            <li class="r-mq"><span class="n">6</span><span><b>6 RGB&#8209;Lämpchen</b>, 2 vorn, 4 unten.<em>Handeln</em></span></li>
+            <li class="r-input"><span class="n">1</span><span><b>5 Liniensensoren</b> unter dem Fahrzeug &ndash; sie unterscheiden Schwarz von Weiß.<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">2</span><span><b>8&times;8&#8209;Laserscanner</b> misst den Abstand nach vorn: 2&nbsp;cm bis 4&nbsp;m, 64 Messpunkte.<em>Wahrnehmen</em></span></li>
+            <li class="r-input"><span class="n">3</span><span><b>2 Lichtsensoren</b> messen die Helligkeit links und rechts.<em>Wahrnehmen</em></span></li>
+            <li class="r-logic"><span class="n">4</span><span><b>micro:bit&nbsp;V2</b> steckt hochkant im Schlitz. Der Computer &ndash; er führt dein Programm aus.<em>Entscheiden</em></span></li>
+            <li class="r-mq"><span class="n">5</span><span><b>2 Motoren</b> aus Metall treiben die Räder an, jedes einzeln steuerbar.<em>Handeln</em></span></li>
+            <li class="r-mq"><span class="n">6</span><span><b>6 RGB&#8209;Lämpchen</b>, 2 vorn und 4 unten &ndash; Licht in jeder Farbe.<em>Handeln</em></span></li>
             <li class="r-mq"><span class="n">7</span><span><b>Summer</b> für Töne.<em>Handeln</em></span></li>
-            <li class="r-pow"><span class="n">8</span><span><b>2 Schalter</b>: Akkubrett und Bodenplatte, beide an.<em>Strom</em></span></li>
+            <li class="r-pow"><span class="n">8</span><span><b>2 Schalter</b>: einer am Akkubrett, einer an der Bodenplatte. Beide müssen an sein.<em>Strom</em></span></li>
           </ol>
         </figure>
-      </div>
-
+  </div>
+  <div class="karte" data-karte="k0-quiz">
       <div class="quiz" data-quiz="q0" data-answer="c">
         <div class="qh">Aufwärm-Frage</div>
         <p class="q">Welches Bauteil am Maqueen ist <em>kein</em> Sensor?</p>
@@ -787,216 +850,201 @@ body.safety-on{overflow:hidden}
           <button class="opt" data-k="a"><span class="k">A</span> Der Liniensensor unter dem Fahrzeug</button>
           <button class="opt" data-k="b"><span class="k">B</span> Der Laserscanner vorne</button>
           <button class="opt" data-k="c"><span class="k">C</span> Der Summer</button>
+          <button class="opt" data-k="d"><span class="k">D</span> Der Lichtsensor oben</button>
         </div>
         <p class="qfb" hidden></p>
       </div>
+  </div>
+  <div class="karte" data-karte="k0-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Die Übersicht ist zu klein?</b> Schaut euch die nummerierte Liste neben der Zeichnung an. Dort steht jedes Bauteil noch einmal.<br><b>Ihr wisst nicht, was Sensor und was Aktor ist?</b> Ein Sensor nimmt etwas auf (Licht, Abstand). Ein Aktor tut etwas (drehen, leuchten, piepen).</p>
+    </details>
+  </div>
+</div>
+<div class="karten" data-st="1">
+  <div class="karte" data-karte="k1-film">
+    <figure class="mcfilm">
+      <svg viewBox="0 0 520 300" role="img" aria-labelledby="mcf-t">
+        <title id="mcf-t">MakeCode: Grundlagen anklicken, zeige Symbol in beim Start ziehen</title>
+        <defs>
+          <pattern id="mcf-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r=".9" fill="#CFCFCF"/></pattern>
+          <symbol id="mcf-zs"><rect class="mcf-blk" width="118" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">zeige Symbol</text><g transform="translate(92 3)"><rect width="19" height="19" rx="2" fill="#1A1A1A"/><rect x="2.0" y="2.0" width="2.4" height="2.4" fill="#444"/><rect x="5.0" y="2.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="2.0" width="2.4" height="2.4" fill="#444"/><rect x="11.0" y="2.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="2.0" width="2.4" height="2.4" fill="#444"/><rect x="2.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="5.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="2.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="5.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="2.0" y="11.0" width="2.4" height="2.4" fill="#444"/><rect x="5.0" y="11.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="11.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="11.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="11.0" width="2.4" height="2.4" fill="#444"/><rect x="2.0" y="14.0" width="2.4" height="2.4" fill="#444"/><rect x="5.0" y="14.0" width="2.4" height="2.4" fill="#444"/><rect x="8.0" y="14.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="14.0" width="2.4" height="2.4" fill="#444"/><rect x="14.0" y="14.0" width="2.4" height="2.4" fill="#444"/></g></symbol>
+        </defs>
+        <!-- Programmierfenster -->
+        <rect x="200" y="26" width="320" height="274" fill="#fff"/>
+        <rect x="200" y="26" width="320" height="274" fill="url(#mcf-dots)"/>
+        <!-- beim Start, dauerhaft -->
+        <g class="mcf-blk"><path d="M370 56Q395 40 420 56Z"/><rect x="370" y="56" width="130" height="24" rx="3"/><rect x="370" y="80" width="16" height="34"/><rect x="370" y="114" width="130" height="12" rx="3"/></g>
+        <text class="mcf-bt" x="380" y="72">beim Start</text>
+        <g class="mcf-blk"><path d="M370 170Q395 154 420 170Z"/><rect x="370" y="170" width="130" height="24" rx="3"/><rect x="370" y="194" width="16" height="34"/><rect x="370" y="228" width="130" height="12" rx="3"/></g>
+        <text class="mcf-bt" x="380" y="186">dauerhaft</text>
+        <!-- Kopfzeile -->
+        <rect width="520" height="26" fill="#333"/>
+        <rect x="432" y="5" width="80" height="16" rx="3" fill="#555"/><text class="mcf-bt" x="441" y="16.5" style="font-size:9.5px">Herunterladen</text>
+        <!-- Vorschau -->
+        <rect y="26" width="110" height="274" fill="#ECEEF0"/>
+        <rect x="48" y="38" width="14" height="8" fill="#9AA0A4"/>
+        <rect x="12" y="44" width="86" height="100" rx="6" fill="#1E2F37"/>
+        <rect x="16" y="86" width="12" height="12" rx="2" fill="#0E171B" stroke="#4A5A63"/><text class="mcf-bt" x="19" y="95.5" style="font-size:8px">A</text>
+        <rect x="82" y="86" width="12" height="12" rx="2" fill="#0E171B" stroke="#4A5A63"/><text class="mcf-bt" x="85" y="95.5" style="font-size:8px">B</text>
+        <rect class="mcf-led" x="35" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="55" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="75" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="35" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="75" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="35" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="75" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="35" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="75" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="35" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="45" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="65" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="75" y="100" width="6" height="6" rx="1"/>
+        <!-- Kategorien -->
+        <rect x="110" y="26" width="90" height="274" fill="#fff"/><line x1="200" y1="26" x2="200" y2="300" stroke="#DDD"/>
+        <rect x="116" y="34" width="78" height="14" rx="7" fill="#F0F0F0" stroke="#CCC"/><circle cx="125" cy="41" r="3" fill="none" stroke="#999" stroke-width="1.2"/><line x1="127.5" y1="43.5" x2="130" y2="46" stroke="#999" stroke-width="1.2"/>
+        <rect class="mcf-hl" x="112" y="56" width="88" height="20" fill="#1E90FF"/>
+        <circle cx="122" cy="66" r="4" fill="#1E90FF"/><text class="mcf-txt" x="132" y="69">Grundlagen</text>
+        <circle cx="122" cy="88" r="4" fill="#D400D4"/><text class="mcf-txt" x="132" y="91">Eingabe</text>
+        <circle cx="122" cy="110" r="4" fill="#E63022"/><text class="mcf-txt" x="132" y="113">Musik</text>
+        <circle cx="122" cy="132" r="4" fill="#5C2D91"/><text class="mcf-txt" x="132" y="135">LED</text>
+        <circle cx="122" cy="154" r="4" fill="#E3008C"/><text class="mcf-txt" x="132" y="157">Funk</text>
+        <circle cx="122" cy="176" r="4" fill="#00AA00"/><text class="mcf-txt" x="132" y="179">Schleifen</text>
+        <circle cx="122" cy="198" r="4" fill="#00A4A6"/><text class="mcf-txt" x="132" y="201">Logik</text>
+        <circle cx="122" cy="220" r="4" fill="#DC143C"/><text class="mcf-txt" x="132" y="223">Variablen</text>
+        <circle cx="122" cy="242" r="4" fill="#9400D3"/><text class="mcf-txt" x="132" y="245">Mathematik</text>
+        <!-- Blockliste (Flyout) -->
+        <g class="mcf-fly">
+          <rect x="200" y="26" width="150" height="274" fill="#F7F7F7" opacity=".97"/><line x1="350" y1="26" x2="350" y2="300" stroke="#DDD"/>
+          <g transform="translate(212 60)"><rect class="mcf-blk" width="100" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">zeige Zahl</text><rect class="mcf-pill" x="74" y="5" width="20" height="14" rx="7"/><text class="mcf-val" x="84" y="12">0</text></g>
+          <use href="#mcf-zs" x="212" y="96"/>
+          <g transform="translate(212 132)"><rect class="mcf-blk" width="128" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">zeige Text</text><rect class="mcf-pill" x="78" y="5" width="44" height="14" rx="7"/><text class="mcf-val" x="100" y="12">„Hallo!“</text></g>
+          <g transform="translate(212 168)"><rect class="mcf-blk" width="114" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">pausiere (ms)</text><rect class="mcf-pill" x="80" y="5" width="28" height="14" rx="7"/><text class="mcf-val" x="94" y="12">100</text></g>
+        </g>
+        <!-- gezogener Block, Einrasten -->
+        <rect class="mcf-snap" x="384" y="82" width="122" height="28" rx="5" fill="none" stroke="#FFD500" stroke-width="2.5"/>
+        <g class="mcf-drag"><use href="#mcf-zs"/></g>
+        <!-- Mauszeiger -->
+        <g class="mcf-cur"><circle class="mcf-ring" cx="1" cy="1" r="9" fill="none" stroke="#1E90FF" stroke-width="2"/><path d="M0 0L0 15L4 11.5L7.3 18L9.6 17L6.4 10.6L11.5 10.5Z" fill="#fff" stroke="#111" stroke-width="1.1" stroke-linejoin="round"/></g>
+      </svg>
+    </figure>
+  </div>
+  <div class="karte" data-karte="k1-start">
+    <div class="mcstack">
+      <div class="mccap">Einmal, direkt beim Einschalten</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-basic i1">zeige Text <b>&quot;Hallo&quot;</b></div>
     </div>
-    <div class="stfoot">
-      <span class="pts">Abzeichen: Rookie</span>
-      <span class="spacer"></span>
-      <button class="btn" data-next="1">Los geht's &rarr;</button>
+  </div>
+  <div class="karte" data-karte="k1-herz">
+    <div class="mcstack">
+      <div class="mccap">Immer wieder, ohne Ende</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="heart" role="img" aria-label="Herz"></b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
+      <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
     </div>
-  </section>
-  <!-- ============ STATION 1 ============ -->
-  <section class="station" data-st="1" hidden>
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 1</span><span>15 Minuten</span><span>Erster Kontakt</span></div>
-      <h2>Dein erstes Programm auf echter Hardware</h2>
-      <p class="goal">Dein Code wandert über ein Kabel in einen echten Computer &ndash; und der macht genau das, was du gesagt hast.</p>
+  </div>
+  <div class="karte" data-karte="k1-quiz">
+    <div class="quiz" data-quiz="q1" data-answer="b">
+      <div class="qh">Kontrollfrage</div>
+      <p class="q">Ihr zieht das USB-Kabel ab. Was passiert mit eurem Programm?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> Es ist weg, der micro:bit ist wieder leer</button>
+        <button class="opt" data-k="b"><span class="k">B</span> Es bleibt drauf und läuft, sobald Strom da ist</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Es läuft nur, solange der Laptop verbunden ist</button>
+      </div>
+      <p class="qfb" hidden></p>
     </div>
-    <div class="st-body">
-      <div class="block">
-        <h3><span class="idx">01</span>MakeCode öffnen</h3>
-        <ol class="steps">
-          <li><span>Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.<br><a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten &rarr;</a></span></li>
-          <li><span>Links die Block-Kategorien, in der Mitte euer Programm, rechts der Simulator. Blöcke zieht ihr mit gedrückter Maustaste in die Mitte &ndash; sie rasten ein wie Puzzleteile.</span></li>
-          <li><span>Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> immer wieder, ohne Ende.</span></li>
-        </ol>
-        <div class="note">
-          <span class="nt">So bedient ihr MakeCode</span>
-          <p><b>Block holen:</b> aus der Kategorie ziehen oder oben ins Suchfeld tippen.<br><b>Block löschen:</b> anklicken, <kbd>Entf</kbd>.<br><b>Zahl ändern:</b> anklicken, eintippen.</p>
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Das Programm: Lebenszeichen</h3>
-        <p class="lead">Zwei Blockgruppen: eine für <b>einmal</b>, eine für <b>immer wieder</b>. Alles liegt in <b>Grundlagen</b>.</p>
-        <div class="mcstack">
-          <div class="mccap">Einmal, direkt beim Einschalten</div>
-          <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-basic i1">zeige Text <b>&quot;Hallo&quot;</b></div>
-        </div>
-        <div class="mcstack" style="margin-top:10px">
-          <div class="mccap">Immer wieder, ohne Ende</div>
-          <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="heart" role="img" aria-label="Herz"></b></div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
-          <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>300</b></div>
-        </div>
-        <div class="note aha">
-          <span class="nt">Genau das ist der Unterschied</span>
-          <p><kbd>beim Start</kbd> zeigt &bdquo;Hallo&ldquo; einmal, dann ist es weg. <kbd>dauerhaft</kbd> lässt das Herz blinken, solange Strom da ist. Dieses &bdquo;immer wieder&ldquo; braucht euer Roboter später für jeden Sensor.</p>
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">03</span>Auf den micro:bit übertragen</h3>
-        <ol class="steps">
-          <li><span>micro:bit per USB-Kabel an den Laptop. Den Roboter braucht ihr noch nicht.</span></li>
-          <li><span>In MakeCode auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät &rarr; <b>micro:bit koppeln</b> &rarr; auswählen &rarr; verbinden.</span></li>
-          <li><span>Hinten blinkt eine gelbe LED: Der Code fließt hinüber. Hört sie auf, läuft euer Programm.</span></li>
-        </ol>
-      </div>
-
-      <div class="note warn">
-        <span class="nt">Wenn es klemmt</span>
-        <p><b>Kein Download möglich?</b> Meist das Kabel: Viele können nur laden. Anderes Kabel probieren.<br><b>Der Browser fragt nicht nach dem Gerät?</b> Es muss Chrome oder Edge sein. Notfalls die <kbd>.hex</kbd>-Datei auf das Laufwerk <kbd>MICROBIT</kbd> ziehen &ndash; das geht immer.</p>
-      </div>
-
-      <div class="quiz" data-quiz="q1" data-answer="b">
-        <div class="qh">Kontrollfrage</div>
-        <p class="q">Du ziehst das USB-Kabel ab. Was passiert mit deinem Programm?</p>
-        <div class="opts">
-          <button class="opt" data-k="a"><span class="k">A</span> Es ist weg, der micro:bit ist wieder leer</button>
-          <button class="opt" data-k="b"><span class="k">B</span> Es bleibt drauf und läuft, sobald Strom da ist</button>
-          <button class="opt" data-k="c"><span class="k">C</span> Es läuft nur, solange der Laptop verbunden ist</button>
-        </div>
-        <p class="qfb" hidden></p>
-      </div>
+  </div>
+  <div class="karte" data-karte="k1-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Kein Download möglich?</b> Sehr oft liegt es am Kabel: viele USB-Kabel können nur laden, keine Daten übertragen. Anderes Kabel probieren.<br><b>Der Browser fragt nicht nach dem Gerät?</b> Es muss Chrome oder Edge sein. Notfalls die heruntergeladene <kbd>.hex</kbd>-Datei einfach auf das Laufwerk <kbd>MICROBIT</kbd> ziehen &ndash; das geht immer.</p>
+    </details>
+  </div>
+</div>
+<div class="karten" data-st="2">
+  <div class="karte" data-karte="k2-knoepfe">
+    <div class="mcstack">
+      <div class="mccap">Zwei Ereignisse nebeneinander</div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="heart" role="img" aria-label="Herz"></b></div>
+      <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+      <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
     </div>
-    <div class="stfoot">
-      <button class="btn sec" data-next="0">&larr; Zurück</button>
-      <span class="pts">Abzeichen: Ersteinschalter</span>
-      <span class="spacer"></span>
-      <button class="btn" data-next="2">Herz leuchtet &rarr;</button>
+  </div>
+  <div class="karte" data-karte="k2-neigen">
+    <div class="mcstack">
+      <div class="mccap">Drei Ereignisse &ndash; baut sie auf eurem micro:bit</div>
+      <div class="mcb b-input">wenn <b>Logo nach oben</b></div>
+      <div class="mcb b-basic i1">zeige Pfeil <b>Norden</b></div>
+      <div class="mcb b-input">wenn <b>Logo nach unten</b></div>
+      <div class="mcb b-basic i1">zeige Pfeil <b>Süden</b></div>
+      <div class="mcb b-input">wenn <b>geschüttelt</b></div>
+      <div class="mcb b-music i1">spiele Ton <b>Mittleres C</b> für <b>1 Schlag</b> <b>bis zum Ende</b></div>
+      <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="skull" role="img" aria-label="Totenkopf"></b></div>
     </div>
-  </section>
-  <!-- ============ STATION 2 ============ -->
-  <section class="station" data-st="2" hidden>
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 2</span><span>15 Minuten</span><span>Der micro:bit allein</span></div>
-      <h2>25 Lämpchen und ein Gleichgewichtssinn</h2>
-      <p class="goal">Der micro:bit ist für sich schon ein Computer: 25 LEDs, zwei Knöpfe, Lautsprecher &ndash; und ein Sensor, der merkt, wie ihr ihn bewegt.</p>
+  </div>
+  <div class="karte" data-karte="k2-tabelle">
+    <div class="tablewrap">
+      <table class="fix">
+        <tr><th>Was ihr tut</th><th>Wert von y</th><th>Was der micro:bit meldet</th></tr>
+        <tr><td>flach hinlegen</td><td>ungefähr 0</td><td>nichts &ndash; die Anzeige bleibt</td></tr>
+        <tr><td>Logo nach oben kippen</td><td>unter &minus;200, bis &minus;1023</td><td>&bdquo;Logo nach oben&ldquo;</td></tr>
+        <tr><td>Logo nach unten kippen</td><td>über 200, bis +1023</td><td>&bdquo;Logo nach unten&ldquo;</td></tr>
+      </table>
     </div>
-    <div class="st-body">
-
-      <div class="note fresh">
-        <span class="nt">Zuerst: neues Projekt</span>
-        <p>Neues Projekt, sonst blinkt euer Herz aus Station 1 über alles drüber.</p>
-        <a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten &rarr;</a>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">01</span>Ein Bild aus 25 Punkten</h3>
-        <p class="lead">Der Bildschirm sind 25 rote LEDs. Im Block <kbd>zeige LEDs</kbd> (in <b>Grundlagen</b>) klickt ihr die Punkte an. Zieht ihn in <kbd>beim Start</kbd> und malt euer Bild &ndash; der Simulator in MakeCode zeigt es sofort.</p>
-        <p class="testline"><b>Testen:</b> Herunterladen &rarr; steht euer Bild auf dem micro:bit?</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Auf Knopfdruck reagieren</h3>
-        <p class="lead">Neu: ein Block, der <em>wartet</em>, bis etwas passiert &ndash; ein Ereignis. <kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>. Im MakeCode-Simulator könnt ihr A und B anklicken.</p>
-        <div class="mcstack">
-          <div class="mccap">Zwei Ereignisse nebeneinander</div>
-          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-          <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="heart" role="img" aria-label="Herz"></b></div>
-          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-          <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
-        </div>
-                <div class="note">
-          <span class="nt">Frei hinlegen</span>
-          <p>Ereignis-Blöcke liegen <b>frei</b> im Programmierfenster, nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>.</p>
-        </div>
-        <p class="testline"><b>Testen:</b> Herunterladen &rarr; Knopf A drücken, dann Knopf B.</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">03</span>Der Sensor, der Bewegung spürt</h3>
-        <p class="lead">Im micro:bit sitzt ein Beschleunigungssensor wie im Handy. Er liefert fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>. In <b>Eingabe</b> gibt es dafür nur <kbd>wenn geschüttelt</kbd>: hereinziehen und im Menü umstellen, ein Block je Ereignis. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b> ganz unten. Der MakeCode-Simulator kippt mit der Maus und zeigt einen Knopf <b>SHAKE</b>.</p>
-        <div class="mcstack">
-          <div class="mccap">Drei Ereignisse &ndash; baut sie auf eurem micro:bit</div>
-          <div class="mcb b-input">wenn <b>Logo nach oben</b></div>
-          <div class="mcb b-basic i1">zeige Pfeil <b>Norden</b></div>
-          <div class="mcb b-input">wenn <b>Logo nach unten</b></div>
-          <div class="mcb b-basic i1">zeige Pfeil <b>Süden</b></div>
-          <div class="mcb b-input">wenn <b>geschüttelt</b></div>
-          <div class="mcb b-music i1">spiele Ton <b>Mittleres C</b> für <b>1 Schlag</b> <b>bis zum Ende</b></div>
-          <div class="mcb b-basic i1">zeige Symbol <b class="ledico" data-led="skull" role="img" aria-label="Totenkopf"></b></div>
-        </div>
-        <p class="testline"><b>Testen:</b> Herunterladen &rarr; micro:bit nach vorn und hinten kippen, dann schütteln.</p>
-        <p class="lead">Und woher weiß der micro:bit, dass das Logo oben ist? Der Sensor liefert eine Zahl:</p>
-        <div class="tablewrap">
-          <table class="fix">
-            <tr><th>Was ihr tut</th><th>Wert von y</th><th>Was der micro:bit meldet</th></tr>
-            <tr><td>flach hinlegen</td><td>ungefähr 0</td><td>nichts &ndash; die Anzeige bleibt</td></tr>
-            <tr><td>Logo nach oben kippen</td><td>unter &minus;200, bis &minus;1023</td><td>&bdquo;Logo nach oben&ldquo;</td></tr>
-            <tr><td>Logo nach unten kippen</td><td>über 200, bis +1023</td><td>&bdquo;Logo nach unten&ldquo;</td></tr>
-          </table>
-        </div>
-        <div class="mcstack">
-          <div class="mccap">Extra: Die Zahl selbst sehen</div>
-          <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-input">Beschleunigung (mg) <b>y</b></span></div>
-        </div>
-        <p class="lead">Ladet das herunter und kippt den micro:bit in der Hand &ndash; die Zahl läuft mit. <kbd>zeige Zahl</kbd> liegt in <b>Grundlagen</b>, <kbd>Beschleunigung</kbd> in <b>Eingabe</b>.</p>
-        <div class="note aha">
-          <span class="nt">Der wichtigste Satz des Workshops</span>
-          <p>Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. Der micro:bit vergleicht die Zahl mit einer Grenze, hier 200. Beim Roboter legt ihr die Grenze selbst fest.</p>
-        </div>
-      </div>
-
-      <div class="quiz" data-quiz="q2" data-answer="b">
-        <div class="qh">Kontrollfrage</div>
-        <p class="q">Euer Würfel zeigt bei jedem Schütteln dieselbe Zahl. Was ist am wahrscheinlichsten passiert?</p>
-        <div class="opts">
-          <button class="opt" data-k="a"><span class="k">A</span> Ihr schüttelt nicht kräftig genug</button>
-          <button class="opt" data-k="b"><span class="k">B</span> Im Block <kbd>zeige Zahl</kbd> steht eine feste Zahl statt dem Block <kbd>wähle eine zufällige Zahl</kbd></button>
-          <button class="opt" data-k="c"><span class="k">C</span> Der micro:bit braucht Internet, um zu würfeln</button>
-        </div>
-        <p class="qfb" hidden></p>
-      </div>
-
-      <div class="note aha">
-        <span class="nt">Team-Challenge</span>
-        <p>Macht aus dem Schütteln einen <b>Würfel</b>: Statt Ton und Totenkopf eine zufällige Zahl.</p>
-        <div class="mcstack" style="margin:10px 0">
-          <div class="mcb b-input">wenn <b>geschüttelt</b></div>
-          <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-math">wähle eine zufällige Zahl von <b>1</b> bis <b>6</b></span></div>
-        </div>
-        <p>Der lila Block liegt unter <b>Mathematik</b>. Stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch eine Null.</p>
-        <p class="testline"><b>Testen:</b> Herunterladen &rarr; dreimal schütteln. Kommen verschiedene Zahlen?</p>
-        <button class="btn sec" type="button" data-bonus="wuerfel3x">Geschafft, zeig&apos;s dem Betreuer</button>
-      </div>
-
-      <div class="note warn">
-        <span class="nt">Wenn es klemmt</span>
-        <p><b>Kein Pfeil beim Kippen?</b> Deutlich kippen, fast senkrecht.<br><b>Nichts beim Schütteln?</b> Kräftig und ruckartig, nicht sanft wedeln.</p>
-      </div>
+  </div>
+  <div class="karte" data-karte="k2-zahl">
+    <div class="mcstack">
+      <div class="mccap">Extra: Die Zahl selbst sehen</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-input">Beschleunigung (mg) <b>y</b></span></div>
     </div>
-    <div class="stfoot">
-      <button class="btn sec" data-next="1">&larr; Zurück</button>
-      <span class="pts">Abzeichen: Pixelkünstler</span>
-      <span class="spacer"></span>
-      <button class="btn" data-next="3">Jetzt kommt der Roboter &rarr;</button>
-    </div>
-  </section>
-  <!-- ============ STATION 3 ============ -->
-  <section class="station" data-st="3" hidden>
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 3</span><span>20 Minuten</span><span>Fahrschule</span></div>
-      <h2>Der Roboter fährt die Linie</h2>
-      <p class="goal">Du sagst dem Roboter nicht, wo er langfahren soll &ndash; du sagst ihm, worauf er achten soll.</p>
-    </div>
-    <div class="st-body">
-      <div class="note fresh">
-        <span class="nt">Zuerst: das Roboter-Projekt</span>
-        <p>Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken (Kategorie <b>Maqueen Plus V2</b>). Nennt es unten neben <b>Herunterladen</b> <b>Linie</b> &ndash; ihr arbeitet bis zum Grand Prix darin.</p>
-        <a class="btn" href="https://makecode.microbit.org/#project:XQAAEABdDgAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5/+9xHypaF/ZZV4oQORn+5ZPrl1q2yB+i6GRpLWA+VvSLWbMQ7mv1m1fLVYoQiBzbSX4OsInXtkV5fxSejMfTLnLVxRWryrHZBMQnWnkPIBCnr+wHSUcoWuZ5rvjgHxb7bRGBJwLA++sTdMXhoVoNth+lzT7FD6gHFjW8ZbAtEaYH82TuUw8aUbPNzQkyD4/tWS9Nj8qECF6zP0AJVJ2UcbHJABunRooqxGdCUlBdYIdXIqiP5//wGViKzT6011SawurThtPFG645/WCo4414Ki5a/KUsE3G8MSQyCfYm9bk/e7hNjMCRpv8dR3y/Af0SUhUYMSuHHhJBMY7bnW+KQjM0gvVLcYqXOJoksTlPPmmdI2ximDxBHVNv96JGxSSHsW3tE+hvKXu0GZgqxWuQZGg1wLuxCgdxSqWXWjLSnzVZXtWgYqQEnl5eWIBXriXXNUM+Y/1oMFkoM5zaihh7EG5zIXCt+RgnbGYWazAjgMdmVVwyAvVPjC8lS1OLadIOSXuK9rCq4yfAh11g1ry79Wrku31PQemFzpDxiuDviaqi/yl0EDeA7jeWPT/Z+AqFR8Qv8sC1OI0QUzei+PPRBa3GMIrJmyyejH+s/ZvR0aTp2jkaU8epWpjn9WE7EpR4Wkebhouv2uwUKiGPZUEE7OsMEaIT36GSqpYn5AyfTbv4MD0jZa5pTH+a6Tzv2GkhROXO6xj0Mjo4jbpFcSgaYi8rKEjwarVWCFI8bjQqDYIAxNUDBL1AR7cu1gaO0t4DjCBbM7ku+qIsGTPfUYV4+0FZcVEWjOLBMm4T5KZopyWrYkmI/mqAoae3duHkmX0f2zVsxerCwmPyt57xgR1bLiQpgbk7/RJlW4g1MVHrTQl8ciBfm6hrifgLTHkhHnPbjmgO3iB6FVQqN5vh2avB/6qB5LUdcjOOL7GDOOmDwXzW//S1JWZEe1mrVqOy4TZAIK7rmFqx1kL2MHZyzFsOos290n9U/Z9U+B3QVLzL6YGselVvs3msa6ABYy/EW+SAGEBq2UFEZTbkleBh8k1zfCx+w07B/afu+W/ePMKZ98MirV1fiLV/LxV1rsXMv9LantrNZM+wWxOk488S6KWY2y3/alV7OMGmRfFQgcmsEnCeQDTadBjRAr+z4YUcFub7yCGSCH/JKhpz2eb8kYo2y0SrO4wUBHfJf89P9CReEOJ7ZzGln1bm3q6HfyO4Egtx8Neim6gR8/mlzEoLTCuH086UjP6U0baPXGG11KrRW6EVSGHYSZ1OMUdBePJGO0M3XWGPy7M1utyGYXuzHnWorf0jmr6IcBvWOnvjmS/XyeU1LagdfYkOCRW3TUOyLAKFHDZIustDOvB3ugNy5DVrH3Jz6L56fJfCPBR9kfyZlLB0VqHzTrALJeR3B4jlKl38t4/yGwaIKZmbqMMvajdfgCECs2bofa+rkW83gl0bNnA8/82MUZ7ciPHrb5kExwr4SWtu+U4ZvCeNLkhxmhQ6WtUUDSIp9T+23J2P6TU8PBRPwX79cRuxfbghhxfKwf+0+/VG" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
+  </div>
+  <div class="karte" data-karte="k2-quiz">
+    <div class="quiz" data-quiz="q2" data-answer="b">
+      <div class="qh">Kontrollfrage</div>
+      <p class="q">Euer Würfel zeigt bei jedem Schütteln dieselbe Zahl. Was ist am wahrscheinlichsten passiert?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> Ihr schüttelt nicht kräftig genug</button>
+        <button class="opt" data-k="b"><span class="k">B</span> <span>Im Block <kbd>zeige Zahl</kbd> steht eine feste Zahl statt dem Block <kbd>wähle eine zufällige Zahl</kbd></span></button>
+        <button class="opt" data-k="c"><span class="k">C</span> Der micro:bit braucht Internet, um zu würfeln</button>
       </div>
-
-      <div class="block">
-        <h3><span class="idx">01</span>Roboter anschließen</h3>
-        <p class="lead">micro:bit in den Schlitz, <b>Lämpchen nach vorn</b>. Dann <b>beide</b> Schalter auf ON.</p>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
+  <div class="karte" data-karte="k2-wuerfel">
+    <div class="mcstack">
+      <div class="mccap">Der Würfel</div>
+      <div class="mcb b-input">wenn <b>geschüttelt</b></div>
+      <div class="mcb b-basic i1">zeige Zahl <span class="mcr b-math">wähle eine zufällige Zahl von <b>1</b> bis <b>6</b></span></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k2-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Kein Pfeil beim Kippen?</b> Deutlich kippen, fast senkrecht.<br><b>Nichts beim Schütteln?</b> Kräftig und ruckartig, nicht sanft wedeln.<br><b>Würfelzahl kaum zu lesen?</b> Zahlen über 9 laufen als Laufschrift durch, 1 bis 6 passt auf einen Blick.</p>
+    </details>
+  </div>
+</div>
+<div class="karten" data-st="3">
+  <div class="karte" data-karte="k3-mqinsert">
         <figure class="mqfig" id="mqinsert">
           <svg viewBox="0 0 420 326" role="img" aria-labelledby="mqins-t">
             <title id="mqins-t">Der micro:bit gleitet von oben in den Schlitz, die Lämpchen zeigen nach vorn</title>
@@ -1064,158 +1112,107 @@ body.safety-on{overflow:hidden}
           </svg>
           <figcaption><b>Lämpchen nach vorn</b>, USB-Anschluss nach oben. Dann beide Schalter auf ON &ndash; von vorn gesehen beide <b>links</b>: 1 am Akkubrett hinter der Batterie, 2 am Rand der Bodenplatte vor dem Rad.</figcaption>
         </figure>
-        <div class="note warn">
-          <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
-          <p>Steht in der Vorlage oben in <kbd>beim Start</kbd> &ndash; nicht löschen. Blinkt ein <b>X</b>, antwortet der Roboter nicht: Schalter und Sitz prüfen. <b>Haken</b> heißt verbunden.</p>
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Wie ein Liniensensor „sieht"</h3>
-        <p class="lead">Unten sitzen fünf Lichtmesser. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert eine Zahl:</p>
-        <div class="tablewrap">
-          <table class="fix">
-            <tr><th>Untergrund</th><th>ungefährer Messwert</th><th>heißt für den Roboter</th></tr>
-            <tr><td>Weißes Papier</td><td>≈ 3800</td><td>„hier ist keine Linie"</td></tr>
-            <tr><td>Schwarzes Klebeband</td><td>≈ 2700</td><td>„hier ist meine Spur"</td></tr>
-          </table>
-        </div>
-        <div class="note">
-          <span class="nt">Kalibrieren &ndash; schon erledigt</span>
-          <p>Was hier „schwarz" heißt, hat euer Roboter beim Aufbau gelernt. Findet er die Linie nicht: siehe <b>Wenn es klemmt</b>.</p>
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">03</span>Knopf A: Ampel, dann fährt er</h3>
-        <p class="lead">Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Maqueen-Kategorie unter <b>&hellip; mehr</b>, Gruppe <b>V3</b>: <b>Line patrolling</b> heißt „Linie abfahren", <b>Speed</b> Stufe, <b>RGB Car Lights</b> sind die Lichter.</p>
-        <div class="mcstack">
-          <div class="mccap">Startampel und Linie &ndash; startet erst auf Knopfdruck</div>
-          <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
-          <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
-          <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
-          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-          <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
-        </div>
-        <p class="lead">Warum nicht in <kbd>beim Start</kbd>? Sonst fährt er los, während ihr ihn noch hinstellt. Knopf B ist euer Not-Aus.</p>
-        <ol class="steps">
-          <li><span>Herunterladen, USB-Kabel abziehen.</span></li>
-          <li><span>Roboter auf den Teststreifen am Boden, Mitte über der Linie, einschalten.</span></li>
-          <li><span><b>Knopf A</b>: Ampel, dann fährt er. <b>Knopf B</b> hält ihn an.</span></li>
-        </ol>
-        <p class="testline"><b>Testen:</b> Fährt er der Linie nach? Legt den Streifen anders hin.</p>
-      </div>
-
-      <div class="quiz" data-quiz="q3" data-answer="a">
-        <div class="qh">Kontrollfrage</div>
-        <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
-        <div class="opts">
-          <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
-          <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
-          <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
-        </div>
-        <p class="qfb" hidden></p>
-      </div>
-
-      <div class="note warn">
-        <span class="nt">Wenn es klemmt</span>
-        <p><b>Verlässt die Linie in Kurven?</b> <b>Speed</b> kleiner.<br><b>Findet die Linie nicht?</b> Neu kalibrieren: alle fünf Sensoren auf Schwarz, einschalten, <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt.</p>
-      </div>
+  </div>
+  <div class="karte" data-karte="k3-tabelle">
+    <div class="tablewrap">
+      <table class="fix">
+        <tr><th>Untergrund</th><th>ungefährer Messwert</th><th>heißt für den Roboter</th></tr>
+        <tr><td>Weißes Papier</td><td>≈ 3800</td><td>„hier ist keine Linie“</td></tr>
+        <tr><td>Schwarzes Klebeband</td><td>≈ 2700</td><td>„hier ist meine Spur“</td></tr>
+      </table>
     </div>
-    <div class="stfoot">
-      <button class="btn sec" data-next="2">&larr; Zurück</button>
-      <span class="pts">Abzeichen: Spurhalter</span>
-      <span class="spacer"></span>
-      <button class="btn" data-next="4">Weiter zu den Reflexen &rarr;</button>
+  </div>
+  <div class="karte" data-karte="k3-bloecke">
+    <div class="mcstack">
+      <div class="mccap">Startampel und Linie &ndash; startet erst auf Knopfdruck</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
+      <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
+      <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+      <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+      <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
     </div>
-  </section>
-  <!-- ============ STATION 4 ============ -->
-  <section class="station" data-st="4" hidden>
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 4</span><span>10 Minuten</span><span>Reflexe</span></div>
-      <h2>Wenn etwas im Weg ist: anhalten</h2>
-      <p class="goal">Der Roboter prüft viele Male pro Sekunde, ob der Weg frei ist, und entscheidet selbst.</p>
+  </div>
+  <div class="karte" data-karte="k3-quiz">
+    <div class="quiz" data-quiz="q3" data-answer="a">
+      <div class="qh">Kontrollfrage</div>
+      <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
+        <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
+      </div>
+      <p class="qfb" hidden></p>
     </div>
-    <div class="st-body">
-      <div class="note fresh">
-        <span class="nt">Weiter im Projekt Linie</span>
-        <p>Kein neues Projekt. In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen.</p>
-        <a class="btn sec" href="https://makecode.microbit.org/#project:XQAAEABdDgAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5/+9xHypaF/ZZV4oQORn+5ZPrl1q2yB+i6GRpLWA+VvSLWbMQ7mv1m1fLVYoQiBzbSX4OsInXtkV5fxSejMfTLnLVxRWryrHZBMQnWnkPIBCnr+wHSUcoWuZ5rvjgHxb7bRGBJwLA++sTdMXhoVoNth+lzT7FD6gHFjW8ZbAtEaYH82TuUw8aUbPNzQkyD4/tWS9Nj8qECF6zP0AJVJ2UcbHJABunRooqxGdCUlBdYIdXIqiP5//wGViKzT6011SawurThtPFG645/WCo4414Ki5a/KUsE3G8MSQyCfYm9bk/e7hNjMCRpv8dR3y/Af0SUhUYMSuHHhJBMY7bnW+KQjM0gvVLcYqXOJoksTlPPmmdI2ximDxBHVNv96JGxSSHsW3tE+hvKXu0GZgqxWuQZGg1wLuxCgdxSqWXWjLSnzVZXtWgYqQEnl5eWIBXriXXNUM+Y/1oMFkoM5zaihh7EG5zIXCt+RgnbGYWazAjgMdmVVwyAvVPjC8lS1OLadIOSXuK9rCq4yfAh11g1ry79Wrku31PQemFzpDxiuDviaqi/yl0EDeA7jeWPT/Z+AqFR8Qv8sC1OI0QUzei+PPRBa3GMIrJmyyejH+s/ZvR0aTp2jkaU8epWpjn9WE7EpR4Wkebhouv2uwUKiGPZUEE7OsMEaIT36GSqpYn5AyfTbv4MD0jZa5pTH+a6Tzv2GkhROXO6xj0Mjo4jbpFcSgaYi8rKEjwarVWCFI8bjQqDYIAxNUDBL1AR7cu1gaO0t4DjCBbM7ku+qIsGTPfUYV4+0FZcVEWjOLBMm4T5KZopyWrYkmI/mqAoae3duHkmX0f2zVsxerCwmPyt57xgR1bLiQpgbk7/RJlW4g1MVHrTQl8ciBfm6hrifgLTHkhHnPbjmgO3iB6FVQqN5vh2avB/6qB5LUdcjOOL7GDOOmDwXzW//S1JWZEe1mrVqOy4TZAIK7rmFqx1kL2MHZyzFsOos290n9U/Z9U+B3QVLzL6YGselVvs3msa6ABYy/EW+SAGEBq2UFEZTbkleBh8k1zfCx+w07B/afu+W/ePMKZ98MirV1fiLV/LxV1rsXMv9LantrNZM+wWxOk488S6KWY2y3/alV7OMGmRfFQgcmsEnCeQDTadBjRAr+z4YUcFub7yCGSCH/JKhpz2eb8kYo2y0SrO4wUBHfJf89P9CReEOJ7ZzGln1bm3q6HfyO4Egtx8Neim6gR8/mlzEoLTCuH086UjP6U0baPXGG11KrRW6EVSGHYSZ1OMUdBePJGO0M3XWGPy7M1utyGYXuzHnWorf0jmr6IcBvWOnvjmS/XyeU1LagdfYkOCRW3TUOyLAKFHDZIustDOvB3ugNy5DVrH3Jz6L56fJfCPBR9kfyZlLB0VqHzTrALJeR3B4jlKl38t4/yGwaIKZmbqMMvajdfgCECs2bofa+rkW83gl0bNnA8/82MUZ7ciPHrb5kExwr4SWtu+U4ZvCeNLkhxmhQ6WtUUDSIp9T+23J2P6TU8PBRPwX79cRuxfbghhxfKwf+0+/VG" target="_blank" rel="noopener">Kein Linie dabei? Neues Roboter-Projekt starten &rarr;</a>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">01</span>Der Laserscanner vorne</h3>
-        <p class="lead">Vorne sitzt ein kleines Lidar mit 8&times;8 = <b>64 Laserstrahlen</b>. Es misst den Abstand in Millimetern. Seine lila Blöcke liegen in der Kategorie <b>Matrix LiDAR Entfernung</b>: einmal einschalten in <kbd>beim Start</kbd>, in <kbd>dauerhaft</kbd> erst Messwerte abholen, dann den Abstand nach vorn abfragen.</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Die Bedingung</h3>
-        <p class="lead">Ist etwas näher als 20&nbsp;cm, schaltet der Roboter die Linienverfolgung aus und leuchtet rot.</p>
-        <div class="mcstack">
-          <div class="mccap">Laser-Stopp &ndash; kommt zu eurem Programm aus Station 3 dazu</div>
-          <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-          <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
-          <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
-          <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
-          <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
-          <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
-        </div>
-        <div class="note">
-          <span class="nt">Erst die Form, dann der Inhalt</span>
-          <ol class="steps">
-            <li><span>Aus <b>Logik</b> den Block <kbd>wenn wahr dann</kbd> in <kbd>dauerhaft</kbd> ziehen.</span></li>
-            <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.</span></li>
-            <li><span>Den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen, <b>Links</b> auf <b>Vorne</b> umstellen, rechts <b>200</b> eintippen.</span></li>
-          </ol>
-        </div>
-        <p class="testline"><b>Testen:</b> Roboter fährt die Linie, Hand davorhalten: Er bleibt stehen und leuchtet rot. Knopf A startet neu.</p>
-      </div>
-
-      <div class="quiz" data-quiz="q4" data-answer="c">
-        <div class="qh">Denkfrage</div>
-        <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
-        <div class="opts">
-          <button class="opt" data-k="a"><span class="k">A</span> Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</button>
-          <button class="opt" data-k="b"><span class="k">B</span> Weil der Laser sonst zu heiß wird</button>
-          <button class="opt" data-k="c"><span class="k">C</span> Weil einmal messen nichts nützt &ndash; das Hindernis kommt ja erst später</button>
-        </div>
-        <p class="qfb" hidden></p>
-      </div>
+  </div>
+  <div class="karte" data-karte="k3-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Verlässt die Linie in Kurven?</b> <b>Speed</b> kleiner.<br><b>Findet die Linie nicht?</b> Neu kalibrieren: alle fünf Sensoren auf Schwarz, einschalten, <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen zählt das wirklich.</p>
+    </details>
+  </div>
+</div>
+<div class="karten" data-st="4">
+  <div class="karte" data-karte="k4-laser">
+    <div class="mcstack">
+      <div class="mccap">Laser einschalten und Messwerte abholen</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
     </div>
-    <div class="stfoot">
-      <button class="btn sec" data-next="3">&larr; Zurück</button>
-      <span class="pts">Abzeichen: Bremsassistent</span>
-      <span class="spacer"></span>
-      <button class="btn" data-next="5">Ab zum Rennen &rarr;</button>
+  </div>
+  <div class="karte" data-karte="k4-bedingung">
+    <div class="mcstack">
+      <div class="mccap">Laser-Stopp &ndash; kommt zu eurem Programm aus Station 3 dazu</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
+      <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
     </div>
-  </section>
-  <!-- ============ STATION 5 ============ -->
-  <section class="station" data-st="5" hidden>
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 5</span><span>40 Minuten</span><span>Finale</span></div>
-      <h2>Grand Prix</h2>
-      <p class="goal">Lest die Strecke, stellt euren Roboter darauf ein, bringt ihn ins Ziel. Gummibärchen gibt es für alle, die Zeit ist nur zum Vergleichen.</p>
-    </div>
-    <div class="st-body">
-      <div class="note fresh">
-        <span class="nt">Weiter im Projekt Linie</span>
-        <p>Öffnet euer Projekt <b>Linie</b> aus Station 3 und 4: in MakeCode auf das Haus, dann <b>Meine Projekte</b>. Ampel, Not-Aus (Knopf B) und Laser-Stopp habt ihr schon. Neu kommen die Kreuzungsregeln in <kbd>wenn Knopf A geklickt</kbd>, <b>vor</b> die Ampel.</p>
-        <p>Kein &bdquo;Linie&ldquo; dabei? Neues Roboter-Projekt starten und das Programm unten ganz nachbauen.</p>
-        <a class="btn sec" href="https://makecode.microbit.org/#project:XQAAEABdDgAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5/+9xHypaF/ZZV4oQORn+5ZPrl1q2yB+i6GRpLWA+VvSLWbMQ7mv1m1fLVYoQiBzbSX4OsInXtkV5fxSejMfTLnLVxRWryrHZBMQnWnkPIBCnr+wHSUcoWuZ5rvjgHxb7bRGBJwLA++sTdMXhoVoNth+lzT7FD6gHFjW8ZbAtEaYH82TuUw8aUbPNzQkyD4/tWS9Nj8qECF6zP0AJVJ2UcbHJABunRooqxGdCUlBdYIdXIqiP5//wGViKzT6011SawurThtPFG645/WCo4414Ki5a/KUsE3G8MSQyCfYm9bk/e7hNjMCRpv8dR3y/Af0SUhUYMSuHHhJBMY7bnW+KQjM0gvVLcYqXOJoksTlPPmmdI2ximDxBHVNv96JGxSSHsW3tE+hvKXu0GZgqxWuQZGg1wLuxCgdxSqWXWjLSnzVZXtWgYqQEnl5eWIBXriXXNUM+Y/1oMFkoM5zaihh7EG5zIXCt+RgnbGYWazAjgMdmVVwyAvVPjC8lS1OLadIOSXuK9rCq4yfAh11g1ry79Wrku31PQemFzpDxiuDviaqi/yl0EDeA7jeWPT/Z+AqFR8Qv8sC1OI0QUzei+PPRBa3GMIrJmyyejH+s/ZvR0aTp2jkaU8epWpjn9WE7EpR4Wkebhouv2uwUKiGPZUEE7OsMEaIT36GSqpYn5AyfTbv4MD0jZa5pTH+a6Tzv2GkhROXO6xj0Mjo4jbpFcSgaYi8rKEjwarVWCFI8bjQqDYIAxNUDBL1AR7cu1gaO0t4DjCBbM7ku+qIsGTPfUYV4+0FZcVEWjOLBMm4T5KZopyWrYkmI/mqAoae3duHkmX0f2zVsxerCwmPyt57xgR1bLiQpgbk7/RJlW4g1MVHrTQl8ciBfm6hrifgLTHkhHnPbjmgO3iB6FVQqN5vh2avB/6qB5LUdcjOOL7GDOOmDwXzW//S1JWZEe1mrVqOy4TZAIK7rmFqx1kL2MHZyzFsOos290n9U/Z9U+B3QVLzL6YGselVvs3msa6ABYy/EW+SAGEBq2UFEZTbkleBh8k1zfCx+w07B/afu+W/ePMKZ98MirV1fiLV/LxV1rsXMv9LantrNZM+wWxOk488S6KWY2y3/alV7OMGmRfFQgcmsEnCeQDTadBjRAr+z4YUcFub7yCGSCH/JKhpz2eb8kYo2y0SrO4wUBHfJf89P9CReEOJ7ZzGln1bm3q6HfyO4Egtx8Neim6gR8/mlzEoLTCuH086UjP6U0baPXGG11KrRW6EVSGHYSZ1OMUdBePJGO0M3XWGPy7M1utyGYXuzHnWorf0jmr6IcBvWOnvjmS/XyeU1LagdfYkOCRW3TUOyLAKFHDZIustDOvB3ugNy5DVrH3Jz6L56fJfCPBR9kfyZlLB0VqHzTrALJeR3B4jlKl38t4/yGwaIKZmbqMMvajdfgCECs2bofa+rkW83gl0bNnA8/82MUZ7ciPHrb5kExwr4SWtu+U4ZvCeNLkhxmhQ6WtUUDSIp9T+23J2P6TU8PBRPwX79cRuxfbghhxfKwf+0+/VG" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
+  </div>
+  <div class="karte" data-karte="k4-bauen">
+    <ol class="steps">
+      <li><span>Aus <b>Logik</b> den Block <kbd>wenn wahr dann</kbd> in <kbd>dauerhaft</kbd> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>wahr</b></span> dann</div></div></span></li>
+      <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>0</b> <b>&lt;</b> <b>0</b></span> dann</div></div></span></li>
+      <li><span>Den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen, <b>Links</b> auf <b>Vorne</b> umstellen, rechts <b>200</b> eintippen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
+    </ol>
+  </div>
+  <div class="karte" data-karte="k4-quiz">
+    <div class="quiz" data-quiz="q4" data-answer="c">
+      <div class="qh">Denkfrage</div>
+      <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> <span>Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</span></button>
+        <button class="opt" data-k="b"><span class="k">B</span> Weil der Laser sonst zu heiß wird</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Weil einmal messen nichts nützt &ndash; das Hindernis kommt ja erst später</button>
       </div>
-
-      <div class="block">
-        <h3><span class="idx">01</span>Strecke lesen</h3>
-        <p class="lead">Erst planen, dann fahren: Überlegt an jeder Nummer, was der Roboter dort tun soll.</p>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
+  <div class="karte" data-karte="k4-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Er bremst nie?</b> Steht <b>Hindernisvermeidungsdaten abrufen</b> in <kbd>dauerhaft</kbd> ganz oben? Ohne neue Messwerte bleibt der Vergleich immer gleich. Steht der Abstandsblock auf <b>Vorne</b>?<br><b>Er fährt nach dem Stopp nicht mehr los?</b> Richtig so: <b>Line patrolling OFF</b> bleibt aus, bis ihr Knopf A drückt.<br><b>Komische Werte?</b> Der Scanner misst nur von 20&nbsp;mm bis 4000&nbsp;mm. Sitzt das Kabel fest?</p>
+    </details>
+  </div>
+</div>
+<div class="karten" data-st="5">
+  <div class="karte" data-karte="k5-gpmap">
         <figure class="gpfig">
           <svg id="gpmap" viewBox="-3 -3 106 206" role="img" aria-labelledby="gpmap-t">
             <title id="gpmap-t">Die Strecke von oben: Start unten links, Kreuzungen 1 bis 4, Ziel und Pro-Ziel</title>
@@ -1285,130 +1282,165 @@ body.safety-on{overflow:hidden}
             </div>
           </figcaption>
         </figure>
-        <p class="lead">Vier Arten von Kreuzungen, die Blöcke sind auf Englisch:</p>
-        <ul class="gptypes">
-          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Crossroads</b> Kreuzung: links, rechts, geradeaus</span></li>
-          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H15"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Left Turn and Straight Intersection</b> Abzweig links oder geradeaus</span></li>
-          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M15 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Right Turn and Straight Intersection</b> Abzweig rechts oder geradeaus</span></li>
-          <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V15 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>T-junction</b> T: nur links oder rechts</span></li>
-        </ul>
-        <p class="lead">Das Dreieck ist der Roboter, er kommt von unten. Für jede Art wählt ihr: <b>Straight</b> (geradeaus), <b>Left</b>, <b>Right</b> oder <b>Stop</b>.</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Euer Programm</h3>
-        <p class="lead">Die Kreuzungsregeln stehen in <kbd>wenn Knopf A geklickt</kbd> vor der Ampel, so startet jeder Druck auf A sauber. Die <b>???</b> findet ihr mit der Skizze heraus.</p>
-        <ol class="steps">
-          <li><span><b>Kreuzungen einstellen.</b> Alle vier Regeln setzen, auch die, die nicht vorkommen. Maqueen-Kategorie, <b>&hellip; mehr</b>, Gruppe <b>V3</b>.</span></li>
-          <li><span><b>An Kreuzung <span class="gpnum">1</span> umstellen.</b> Die grauen Blöcke liegen in <b>Grand Prix</b>; <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> läuft einmal, wenn er dort ankommt.</span></li>
-          <li><span><b>Siegesmelodie am Ziel.</b> <kbd>spiele Melodie</kbd> liegt bei <b>Musik</b>.</span></li>
-        </ol>
-        <div class="mcstack">
-          <div class="mccap">Grand Prix &ndash; neu: graue Blöcke, Kreuzungsblöcke, Speed 2. Der Rest steht schon in Linie</div>
-          <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-          <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
-          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-          <div class="mcb b-gp i1">setze Kreuzungszähler zurück</div>
-          <div class="mcb b-mq i1">At Crossroads <b>???</b></div>
-          <div class="mcb b-mq i1">At Left Turn and Straight Intersection <b>Straight</b></div>
-          <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
-          <div class="mcb b-mq i1">At T-junction <b>???</b></div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
-          <div class="mcb b-mq i1">Line Following Settings Speed <b>2</b></div>
-          <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
-          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-          <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
-          <div class="mcb b-gp">wenn Kreuzung Nummer <b>1</b> erreicht</div>
-          <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
-          <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
-          <div class="mcb b-music i1">spiele <span class="mcr b-music">Melodie <b>Entertainer</b></span> <b>im Hintergrund</b></div>
-          <div class="mcb b-basic">dauerhaft</div>
-          <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
-          <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
-          <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
-          <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
-        </div>
-        <p class="lead">Einen Abzweig nach links gibt es nicht. Der Block steht trotzdem da: Vermisst sich der Roboter, fährt er geradeaus weiter.</p>
-        <p class="testline"><b>Testen:</b> Erster Lauf! USB-Kabel ab, Roboter auf den Start, Knopf A. Kommt er ins Ziel mit Melodie?</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">03</span>Ausbauen</h3>
-        <ol class="steps">
-          <li><span><b>Tempo-Zone.</b> Ab dem Schild &bdquo;1&ldquo; fährt er langsam bis ins Ziel und zeigt dabei eine 1.
-            <div class="mcstack">
-              <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
-              <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
-              <div class="mcb b-basic i1">zeige Zahl <b>1</b></div>
-            </div></span></li>
-        </ol>
-        <p class="testline"><b>Testen:</b> Nach jeder Änderung herunterladen und fahren, eine nach der anderen.</p>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">04</span>Für Profis: das Pro-Ziel</h3>
-        <p class="lead">Alles klappt? Hinter dem Ziel liegt ein zweites, dazwischen eine Lücke ohne Linie.</p>
-        <div class="note aha">
-          <span class="nt">Der Plan</span>
-          <ol class="steps">
-            <li><span>Am Ziel <span class="gpnum">4</span> etwa eine halbe Sekunde warten, bis er steht.</span></li>
-            <li><span>Mit dem Laser prüfen, ob der Weg frei ist.</span></li>
-            <li><span><b>Line patrolling OFF</b>, dann mit <b>PID Distance Control</b> 20&nbsp;cm über die Lücke springen.</span></li>
-            <li><span><b>2 Sekunden warten</b>: Der Sprung-Block wartet nicht selbst.</span></li>
-            <li><span><b>Line patrolling ON</b>, bis zur Kiste am Pro-Ziel.</span></li>
-            <li><span>Die Siegesmelodie spielt erst am <b>Pro-Ziel</b>.</span></li>
-          </ol>
-          <div class="mcstack">
-            <div class="mccap">Der Sprung</div>
-            <div class="mcb b-mq">PID Distance Control <b>CW</b> distance <b>20</b> cm <b>Allow interruption</b></div>
-          </div>
-                    <p><b>Blinker:</b> vor dem Abbiegen das Licht auf der richtigen Seite, wie beim Auto.</p>
-          <details class="hint">
-            <summary>Er macht nach dem Sprung, was er will?</summary>
-            <p>Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?</p>
-          </details>
-          <details class="hint">
-            <summary>Die Melodie kommt schon am Ziel 4?</summary>
-            <p>Woher weiß euer Programm, dass er schon gesprungen ist? Aus einer <b>Variablen</b>: ein Merkzettel, auf den ein Teil des Programms schreibt und ein anderer liest. Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable&hellip;</kbd>, Name <b>gesprungen</b>.</p>
-            <div class="mcstack">
-              <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-              <div class="mcb b-var i1">setze <span class="mcr b-var">gesprungen</span> auf <span class="mcr b-logic"><b>falsch</b></span></div>
-            </div>
-            <p>Nach dem Sprung setzt ihr <b>gesprungen</b> auf <b>wahr</b>. Die Melodie spielt nur, wenn <b>gesprungen</b> wahr ist.</p>
-          </details>
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">05</span>Das Rennen</h3>
-        <ol class="steps">
-          <li><span>Start immer mit <b>Knopf A</b>, erst mit <b>Speed 1 oder 2</b>. Schneller erst nach einem sauberen Lauf.</span></li>
-          <li><span>An einer <b>Kiste</b> ist der Lauf vorbei: zurück an den Start, noch einmal.</span></li>
-          <li><span>In der Tempo-Zone muss eine <b>1</b> auf dem Display stehen, sonst seid ihr <b>geblitzt</b>: plus 3 Sekunden.</span></li>
-        </ol>
-      </div>
-
-      <div class="note">
-        <span class="nt">Zu Hause weitermachen</span>
-        <p>So einen Roboter selbst haben? Was du brauchst, steht in der <b>Stückliste</b> oben in der Leiste. <button class="btn sec" data-go="teile" style="margin-top:10px">Stückliste öffnen</button></p>
-      </div>
-
+  </div>
+  <div class="karte" data-karte="k5-typen">
+    <ul class="gptypes">
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Crossroads</b> Kreuzung: links, rechts, geradeaus</span></li>
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H15"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Left Turn and Straight Intersection</b> Abzweig links oder geradeaus</span></li>
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M15 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Right Turn and Straight Intersection</b> Abzweig rechts oder geradeaus</span></li>
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V15 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>T-junction</b> T: nur links oder rechts</span></li>
+    </ul>
+  </div>
+  <div class="karte" data-karte="k5-kreuzungen">
+    <div class="mcstack">
+      <div class="mccap">Grand Prix &ndash; neu: graue Blöcke, Kreuzungsblöcke, Speed 2. Der Rest steht schon in Linie</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-gp i1">setze Kreuzungszähler zurück</div>
+      <div class="mcb b-mq i1">At Crossroads <b>???</b></div>
+      <div class="mcb b-mq i1">At Left Turn and Straight Intersection <b>Straight</b></div>
+      <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
+      <div class="mcb b-mq i1">At T-junction <b>???</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
+      <div class="mcb b-mq i1">Line Following Settings Speed <b>2</b></div>
+      <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+      <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+      <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
+      <div class="mcb b-gp">wenn Kreuzung Nummer <b>1</b> erreicht</div>
+      <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
+      <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-melodie">
+    <div class="mcstack">
+      <div class="mccap">Siegesmelodie am Ziel</div>
+      <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
+      <div class="mcb b-music i1">spiele <span class="mcr b-music">Melodie <b>Entertainer</b></span> <b>im Hintergrund</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-tempo">
+    <div class="mcstack">
+      <div class="mccap">Tempo-Zone</div>
+      <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
+      <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
+      <div class="mcb b-basic i1">zeige Zahl <b>1</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-plan">
+    <ol class="steps">
+      <li><span>Am Ziel <span class="gpnum">4</span> etwa eine halbe Sekunde warten, bis er steht.</span></li>
+      <li><span>Mit dem Laser prüfen, ob der Weg frei ist.</span></li>
+      <li><span><b>Line patrolling OFF</b>, dann mit <b>PID Distance Control</b> 20&nbsp;cm über die Lücke springen.</span></li>
+      <li><span><b>2 Sekunden warten</b>: Der Sprung-Block wartet nicht selbst.</span></li>
+      <li><span><b>Line patrolling ON</b>, bis zur Kiste am Pro-Ziel.</span></li>
+      <li><span>Die Siegesmelodie spielt erst am <b>Pro-Ziel</b>.</span></li>
+    </ol>
+    <div class="mcstack">
+      <div class="mccap">Der Sprung</div>
+      <div class="mcb b-mq">PID Distance Control <b>CW</b> distance <b>20</b> cm <b>Allow interruption</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-variable">
+    <div class="mcstack">
+      <div class="mccap">Merkzettel: gesprungen</div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-var i1">setze <span class="mcr b-var">gesprungen</span> auf <span class="mcr b-logic"><b>falsch</b></span></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k5-final">
       <div class="trophy">
         <div class="big" id="finaltitle">Ziel erreicht</div>
         <div class="who" id="finalwho">0 von 6 Abzeichen</div>
         <div class="pillrow" id="finalbadges" style="justify-content:center; margin-top:16px"></div>
       </div>
+  </div>
+  <div class="karte" data-karte="k5-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Er biegt falsch ab?</b> Rechts und links aus Sicht des Roboters zählen. Gelten eure Regeln vor <b>Line patrolling ON</b>?<br><b>Er verlässt die Linie in Kurven?</b> Speed 1 oder 2.<br><b>Er macht nach dem Sprung, was er will?</b> Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?</p>
+    </details>
+  </div>
+</div>
+</div>
+
+  <!-- ============ STÜCKLISTE (keine Station, zum Mitnehmen) ============ -->
+  <section class="station page" data-st="teile" hidden>
+    <div class="st-head">
+      <div class="eyebrow"><span class="tag">Für zu Hause</span><span>Stückliste</span><span>keine Station</span></div>
+      <h2>So einen Roboter selbst haben</h2>
+      <p class="goal">Viele haben beim Workshop gefragt, wo es den Roboter gibt. Hier steht, was du brauchst und wie du es im Internet findest. Einen Shop nennen wir absichtlich nicht &ndash; es gibt viele, und Preise und Links veralten schnell.</p>
+    </div>
+    <div class="st-body">
+      <div class="block">
+        <h3><span class="idx">01</span>Drei Dinge, dann fährt er</h3>
+        <p class="lead">Der Roboter aus dem Workshop besteht aus zwei Teilen, die man getrennt kauft, plus Batterien. Alles andere &ndash; das Programm, die Blöcke, diese Seite &ndash; ist kostenlos.</p>
+        <div class="parts">
+
+          <div class="part">
+            <div class="pt-head"><span class="pt-n">1</span><h4>BBC micro:bit V2</h4><span class="pt-role">das Gehirn</span></div>
+            <p>Der kleine Computer, der in den Schlitz des Roboters gesteckt wird. Auf ihm läuft dein Programm. Nimm die <b>Version&nbsp;2 (V2)</b>: Nur sie hat den Lautsprecher und das Mikrofon, die wir im Workshop benutzt haben. Die alte V1 wird kaum noch verkauft.</p>
+            <p>Es gibt ihn <b>einzeln</b> (nur die Platine) oder als <b>&bdquo;Go&ldquo;-Set</b> mit kurzem USB-Kabel, Batteriehalter und zwei AAA-Batterien. Den Batteriehalter brauchst du am Roboter nicht &ndash; dort versorgt der Roboter den micro:bit. Das Kabel brauchst du aber: Zum Übertragen des Programms muss es ein <b>Micro-USB-Datenkabel</b> sein. Reine Ladekabel sehen gleich aus und funktionieren nicht.</p>
+            <div class="find"><span class="fl">Suche nach</span><kbd>micro:bit V2</kbd><kbd>micro:bit V2 Go</kbd></div>
+            <p class="small">Die Herstellerseite der micro:bit-Stiftung (microbit.org) hat unter &bdquo;Kaufen&ldquo; eine Händlerliste nach Ländern. In Deutschland führen ihn Elektronik-Versender, Schulbedarf-Händler und die großen Marktplätze.</p>
+          </div>
+
+          <div class="part">
+            <div class="pt-head"><span class="pt-n">2</span><h4>Maqueen Plus V3</h4><span class="pt-role">das Fahrzeug</span></div>
+            <p>Der Roboter von <b>DFRobot</b>: Platine mit zwei Motoren und Rädern, fünf Liniensensoren unten, Lichtern, Summer, dem Akkubrett &ndash; und dem <b>Laserscanner</b> (Matrix-Laser) vorn, der liegt mit im Karton. Nicht dabei sind der micro:bit und die Batterien.</p>
+            <p>Es gibt zwei Ausführungen, die Technik ist dieselbe, nur die Stromversorgung unterscheidet sich: <b>&bdquo;18650&ldquo;</b> (ein Lithium-Akku, wird im Roboter per USB-C geladen) und <b>&bdquo;AA&ldquo;</b> (vier Mignon-Batterien, kein Laden im Roboter). Für zu Hause ist AA die einfachere Wahl: Batterien oder Akkus hat jeder, und es gibt nichts falsch zu kaufen.</p>
+            <div class="find"><span class="fl">Suche nach</span><kbd>Maqueen Plus V3</kbd><kbd>DFRobot MBT0050</kbd></div>
+            <p class="small">Vorsicht beim Suchen: &bdquo;Maqueen&ldquo; allein findet auch die kleineren Geschwister (Maqueen Lite) und den Vorgänger <b>Plus V2</b> ohne Laserscanner. Den V3 erkennst du am Laser-Würfel vorn und am &bdquo;V3&ldquo; im Namen. Die Herstellerseite (dfrobot.com) listet unter &bdquo;Distributors&ldquo; Händler in Europa.</p>
+          </div>
+
+          <div class="part">
+            <div class="pt-head"><span class="pt-n">3</span><h4>Batterien</h4><span class="pt-role">die Energie</span></div>
+            <p><b>Ausführung AA:</b> 4&nbsp;×&nbsp;AA (Mignon) &ndash; entweder normale 1,5-V-Batterien oder <b>NiMH-Akkus</b> (1,2&nbsp;V) mit eigenem Ladegerät. Keine AAA, die sind kleiner und passen nicht. Der Roboter lädt nichts selbst; normale Batterien nie in ein Ladegerät stecken. Wer oft fährt, ist mit Akkus günstiger dran.</p>
+            <p><b>Ausführung 18650:</b> 1&nbsp;×&nbsp;Lithium-Akku Größe 18650, 3,7&nbsp;V, laut Hersteller <b>mit Schutzschaltung</b> und mit erhöhtem Pluspol (&bdquo;Button Top&ldquo;, etwa 67&nbsp;mm lang) &ndash; flache Zellen (65&nbsp;mm) haben keinen Kontakt. Geladen wird im Roboter über USB-C mit einem gewöhnlichen 5-V-Netzteil, etwa vier Stunden. Keine anderen Akkutypen einsetzen. Eine 18650-Zelle ist so eine wie in Powerbanks: nicht kurzschließen, nicht in Kinderhände.</p>
+            <div class="find"><span class="fl">Suche nach</span><kbd>AA NiMH Akku Ladegerät Set</kbd><kbd>18650 Akku geschützt Button Top</kbd></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">02</span>Was es ungefähr kostet</h3>
+        <p class="lead">Grober Richtwert, Stand Herbst 2026: der micro:bit um die 20 bis 30 Euro, der Roboter um die 90 bis 110 Euro, dazu Batterien. Alles zusammen also gut 120 Euro. Der Roboter ist der größte Posten &ndash; der micro:bit allein ist auch ohne Roboter ein tolles Spielzeug (Station&nbsp;1 und 2 gehen damit komplett).</p>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">03</span>So findest du es im Internet</h3>
+        <ol class="steps">
+          <li><span>Suchbegriffe genau so eintippen, wie sie oben in den Kästchen stehen. Dann landest du bei den richtigen Produkten und nicht bei den Geschwistern.</span></li>
+          <li><span>Die Herstellerseiten (microbit.org, dfrobot.com) verkaufen nicht selbst nach Deutschland, haben aber Händlerlisten. Von dort aus Preise vergleichen.</span></li>
+          <li><span>Auf das Land des Händlers achten. Bei Versand von außerhalb der EU kommen Zoll und Einfuhrsteuer dazu &ndash; das macht ein scheinbar günstiges Angebot teurer.</span></li>
+          <li><span>Gebraucht ist beim micro:bit kein Problem, er ist robust. Nur darauf achten, dass es eine <b>V2</b> ist (goldenes Logo oben, das man berühren kann).</span></li>
+        </ol>
+      </div>
+
+      <div class="block">
+        <h3><span class="idx">04</span>Was du sonst noch brauchst</h3>
+        <ul class="plain">
+
+          <li><span>Einen Computer mit <b>Chrome oder Edge</b>. Der Programm-Editor MakeCode läuft kostenlos im Browser, nichts installieren. <a class="btn sec" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">MakeCode öffnen</a></span></li>
+          <li><span>Für eine Strecke: <b>schwarzes Isolierband</b> (19&nbsp;mm) auf hellem Boden, weißem Karton oder einer Papierrolle. Kurven aus kurzen Stücken, keine spitzen Ecken.</span></li>
+          <li><span>Diese Seite. Alle sechs Stationen funktionieren zu Hause genauso &ndash; von Station&nbsp;1 bis zum Grand Prix.</span></li>
+        </ul>
+      </div>
     </div>
     <div class="stfoot">
-      <button class="btn sec" data-next="4">&larr; Zurück</button>
-      <span class="pts">Abzeichen: Champion</span>
+      <span class="pts">Keine Station &ndash; zum Mitnehmen</span>
       <span class="spacer"></span>
-      <button class="btn" data-next="done">Workshop abschließen ✓</button>
+      <button class="btn" data-go="0">Zum Workshop &rarr;</button>
     </div>
   </section>
 
@@ -1423,15 +1455,15 @@ body.safety-on{overflow:hidden}
   </div>
   <div class="dbody">
     <section>
-      <h3>Zeitplan · 120-Minuten-Slot</h3>
+      <h3>Zeitplan · 90-Minuten-Slot</h3>
       <table class="plan">
         <tr><td>0:00–0:05</td><td><b>Boxenstopp.</b> Begrüßung, Regelkreis erklären. Ein fertig programmierter Roboter fährt daneben schon die Linie – das ist der Köder.</td></tr>
-        <tr><td>0:05–0:20</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
-        <tr><td>0:20–0:35</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: &bdquo;Logo nach oben&ldquo; ist nur eine Zahl jenseits der Grenze 200. Beides brauchen sie später beim Roboter wieder.</td></tr>
-        <tr><td>0:35–0:55</td><td><b>Fahrschule.</b> Vorlage öffnen (Erweiterung ist schon drin), micro:bit einstecken, beide Schalter an, Haken abwarten. Dann die Linie auf Knopf A mit Startampel, Knopf B als Not-Aus; getestet wird auf dem Teststreifen am Boden. Der Wow-Moment des Workshops – Zeit lassen, applaudieren. Kalibrieren nur bei Bedarf, die Roboter sind beim Aufbau schon kalibriert.</td></tr>
-        <tr><td>0:55–1:05</td><td><b>Reflexe.</b> Laser-Stopp im Projekt Linie: <em>wenn</em> Abstand unter 200&nbsp;mm, dann <em>Line patrolling OFF</em> und rotes Licht. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
-        <tr><td>1:05–1:45</td><td><b>Grand Prix.</b> 40 Minuten: Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
-        <tr><td>1:45–2:00</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
+        <tr><td>0:05–0:16</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
+        <tr><td>0:16–0:27</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: &bdquo;Logo nach oben&ldquo; ist nur eine Zahl jenseits der Grenze 200. Beides brauchen sie später beim Roboter wieder.</td></tr>
+        <tr><td>0:27–0:42</td><td><b>Fahrschule.</b> Vorlage öffnen (Erweiterung ist schon drin), micro:bit einstecken, beide Schalter an, Haken abwarten. Dann die Linie auf Knopf A mit Startampel, Knopf B als Not-Aus; getestet wird auf dem Teststreifen am Boden. Der Wow-Moment des Workshops – Zeit lassen, applaudieren. Kalibrieren nur bei Bedarf, die Roboter sind beim Aufbau schon kalibriert.</td></tr>
+        <tr><td>0:42–0:50</td><td><b>Reflexe.</b> Laser-Stopp im Projekt Linie: <em>wenn</em> Abstand unter 200&nbsp;mm, dann <em>Line patrolling OFF</em> und rotes Licht. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
+        <tr><td>0:50–1:20</td><td><b>Grand Prix.</b> 30 Minuten: Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
+        <tr><td>1:20–1:30</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
       </table>
     </section>
 
@@ -1469,6 +1501,7 @@ body.safety-on{overflow:hidden}
         <li>Auf <b>jedem</b> Arbeitsplatz einmal ein Testprogramm flashen und den Browser das Gerät koppeln lassen – auf dem Pi ist das der Punkt, der erfahrungsgemäß hakt</li>
         <li>Browser-Version prüfen (mindestens 126) und auf jedem Gerät den Download-Ordner im Dateimanager offen lassen</li>
         <li>Grand-Prix-Strecke aufkleben und die <b>Zählfahrt</b> machen (Abschnitt &bdquo;Grand Prix aufbauen und betreuen&ldquo;)</li>
+        <li>Auf jedem Platz den <b>Schlüssel über den Knopf &bdquo;LLM Setup&ldquo; in der Kopfzeile</b> eintragen und einmal &bdquo;Geht nicht&ldquo; probieren: Kommt eine echte Antwort von <span class="figurname-ref">Franco</span> und zeigt der Zähler &bdquo;1 Anfrage&ldquo;, stimmen Schlüssel und Netz. Danach den Zähler nullen</li>
       </ul>
     </section>
 
@@ -1480,7 +1513,7 @@ body.safety-on{overflow:hidden}
 
     <section>
       <h3>Grand Prix aufbauen und betreuen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Station 5 dauert 40 Minuten. Die Teams lesen die Skizze, stellen die Kreuzungsregeln ein und fahren auf Zeit. Es ist <b>kein Wettbewerb</b>: Am Ziel gibt es Gummibärchen für alle, die Zeit stoppt ihr nur zum Vergleichen.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Station 5 dauert 30 Minuten. Die Teams lesen die Skizze, stellen die Kreuzungsregeln ein und fahren auf Zeit. Es ist <b>kein Wettbewerb</b>: Am Ziel gibt es Gummibärchen für alle, die Zeit stoppt ihr nur zum Vergleichen.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Aufbau</h3>
       <ul class="check">
@@ -1515,7 +1548,7 @@ body.safety-on{overflow:hidden}
       </ul>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Minute-15-Regel</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Restzeit im Timer etwa 30:00) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/05-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Hat ein Team bis Minute 15 der Station (Restzeit im Timer etwa 25:00) noch keinen ersten Lauf, helft ihr mit der Musterlösung (<kbd>microbit/stations/05-grand-prix/</kbd>) bei den Schritten 1–3: Kreuzungen einstellen, an 1 umstellen, Siegesmelodie. Ziel ist, dass jedes Team am Ziel seine Melodie hört.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Der Reset-Fallstrick (gewollt)</h3>
       <p style="font-size:.94rem; color:var(--ink-2)"><em>Line patrolling OFF</em> löscht in der Firmware alle Kreuzungsregeln. Nach <em>ON</em> gelten wieder die Standardregeln. Wer im Profi-Teil nach dem Sprung über die Lücke nur <em>ON</em> schaltet, hat seine Regeln verloren. <b>Woran ihr es erkennt:</b> Der Roboter ignoriert nach einem Halt seine Regeln. <b>Die Frage, die weiterhilft:</b> &bdquo;Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?&ldquo;</p>
@@ -1539,6 +1572,8 @@ body.safety-on{overflow:hidden}
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
         <li>MakeCode im Chromium über „Installieren“ als App ablegen – der Cache ist dann stabiler gegen Aufräumaktionen des Browsers</li>
+        <li>MakeCode einmal mit Netz öffnen, auch über den Knopf <b>Neues Projekt starten</b> (Station 1) – damit liegt der Editor selbst im Cache</li>
+        <li>Den <b>Schlüssel über den Knopf &bdquo;LLM Setup&ldquo; in der Kopfzeile</b> eintragen und in irgendeiner Station einmal &bdquo;Geht nicht&ldquo; probieren. Ohne Netz kommt später nur die Rückfallantwort – das ist in Ordnung, aber hier soll einmal die echte Antwort kommen</li>
       </ul>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Und dann der eigentliche Test</h3>
@@ -1556,7 +1591,19 @@ body.safety-on{overflow:hidden}
 
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:14px"><b>Wenn doch etwas fehlt:</b> Ein Handy-Hotspot reicht, um einem einzelnen Gerät den Cache nachzuladen – rechne mit einigen zehn Megabyte, nicht mit Sekunden. Bei Raspberry-Pi-Arbeitsplätzen ist der schnellere Weg oft, die SD-Karte eines fertig vorbereiteten Geräts zu klonen und zu tauschen.</p>
 
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Und <span class="figurname-ref">Franco</span>?</b> Das Gespräch mit allen Stationen und Karten steckt in der Datei und läuft ohne Netz. Nur die Antworten auf &bdquo;Geht nicht&ldquo; kommen über das Internet; ohne Netz zeigt <span class="figurname-ref">Franco</span> dort die Checkliste der Station und schickt das Team zu euch (Abschnitt &bdquo;Maskottchen&ldquo;, Schlüssel über den Knopf in der Kopfzeile).</p>
+
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Und die letzte Rückfallebene, wenn MakeCode gar nicht lädt: <b>Station 0 dieser Seite</b> (braucht nur die lokale Datei) plus der Vorführroboter plus die fertigen <kbd>.hex</kbd>-Dateien aus <kbd>microbit/stations/</kbd>, per Laufwerk <kbd>MICROBIT</kbd> aufgespielt. So fährt jedes Team trotzdem die Strecke.</p>
+    </section>
+
+    <section>
+      <h3>Maskottchen</h3>
+      <p style="font-size:.94rem; color:var(--ink-2)"><b>Ohne Netz oder ohne Schlüssel</b> läuft der Workshop genauso. Drückt ein Team „Geht nicht“, antwortet <span class="figurname-ref">Franco</span> dann mit der Checkliste „Wenn es klemmt“ der Station und bittet, euch zu winken. Das Frage-Feld sendet nur, wenn ein Schlüssel eingetragen ist und das Netz da ist; bei jedem Fehler (kein Netz, Zeitüberschreitung nach 15 s, Serverfehler) kommt dieselbe Rückfallantwort.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Schlüssel eintragen</b> (OpenRouter, einmal pro Arbeitsplatz): Knopf <b>„LLM Setup“</b> oben in der Kopfzeile. Er liegt nur in diesem Browser, nie in der Datei, und bleibt auch nach „Neues Team“ erhalten. Legt bei OpenRouter für die Messe einen <b>eigenen Schlüssel mit kleinem Guthaben-Limit</b> an (ein paar Dollar). Tragt ihn nur in die Offline-Datei auf den Messe-Rechnern ein, nie auf der öffentlichen Pages-Seite, und löscht ihn bei OpenRouter nach der Messe.</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Kosten.</b> Jede Frage schickt höchstens etwa 2000 Token mit und bekommt höchstens 200 zurück. Der Zähler rechnet grob mit 1 Dollar je Million Token hinein und 5 Dollar heraus; die echten Kosten stehen bei OpenRouter. Jedes Team hat höchstens 30 Fragen; danach antwortet <span class="figurname-ref">Franco</span> nur noch mit der Checkliste und schickt zu euch. „Neues Team“ setzt das zurück.</p>
+      <p style="font-size:.94rem; margin-top:6px"><span id="llmzaehler">0 Anfragen · ca. 0 Cent</span> <button type="button" class="btn sec" id="llmreset" style="margin-left:8px">Zähler nullen</button></p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px"><b>Vorlesen.</b> Auf Wunsch liest die Browser-Stimme die Blasen vor. Standard ist aus, die Messe ist laut. Der Schalter gilt nur für diesen Arbeitsplatz und bleibt bei „Neues Team“ stehen. Chromium nimmt die Stimmen des Systems; ohne deutsche Stimme bleibt es still. Auf Raspberry Pi OS deshalb <kbd>sudo apt install espeak-ng speech-dispatcher</kbd> und Chromium neu starten, unter Windows und macOS ist meist schon eine deutsche Stimme da.</p>
+      <label style="font-size:.94rem; display:flex; gap:8px; align-items:center; margin-top:6px"><input type="checkbox" id="ttsbox"> Vorlesen</label>
     </section>
 
     <section>
@@ -1685,6 +1732,23 @@ body.safety-on{overflow:hidden}
   </div>
 </div>
 
+<!-- Fenster „LLM Setup“: Knopf „LLM Setup“ in der Kopfzeile. Nur für Betreuer, einmal pro
+     Arbeitsplatz. Der Schlüssel liegt in localStorage (mgp-key), nie in der Datei. -->
+<div class="safety keydlg" id="keydlg" role="dialog" aria-modal="true" aria-labelledby="keydlg-t" hidden>
+  <div class="sbox kbox">
+    <h2 id="keydlg-t">LLM Setup</h2>
+    <p class="ssub">OpenRouter-Schlüssel für die Antworten von <span class="figurname-ref">Franco</span> auf „Geht nicht“. Einmal pro Arbeitsplatz, nur für Betreuer.</p>
+    <div class="krow">
+      <input id="orkey" type="password" autocomplete="off" placeholder="Schlüssel einfügen" aria-label="OpenRouter-Schlüssel">
+      <button type="button" class="btn" id="orkeysave">Speichern</button>
+      <button type="button" class="btn sec" id="orkeydel">Löschen</button>
+    </div>
+    <p class="kstate"><b id="orkeystate">kein Schlüssel</b></p>
+    <p class="khint">Der Schlüssel bleibt nur in diesem Browser und überlebt „Neues Team“. Nehmt einen eigenen Schlüssel mit kleinem Guthaben-Limit, nur auf den Messe-Rechnern, und löscht ihn bei OpenRouter nach der Messe. Kosten und Zähler stehen im Handbuch, Abschnitt „Maskottchen“.</p>
+    <button class="sok" id="keydlgok" type="button">Schließen</button>
+  </div>
+</div>
+
 <script>
 (function(){
 "use strict";
@@ -1693,13 +1757,14 @@ body.safety-on{overflow:hidden}
 var KEY = "mgp-v1";
 var STATIONS = [
   {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"15 Min", badge:"Ersteinschalter"},
-  {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"20 Min", badge:"Spurhalter"},
-  {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"40 Min", badge:"Champion"}
+  {n:"Erster Kontakt", m:"11 Min", badge:"Ersteinschalter"},
+  {n:"micro:bit allein", m:"11 Min", badge:"Pixelkünstler"},
+  {n:"Fahrschule", m:"15 Min", badge:"Spurhalter"},
+  {n:"Reflexe", m:"8 Min", badge:"Bremsassistent"},
+  {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
-var S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false};
+var DREHBUCH = [];   // füllt build.py aus drehbuch/NN-*.js (vor maskottchen.js)
+var S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
 
 function load(){
   try{
@@ -1771,10 +1836,16 @@ function paintRail(){
     else btns[i].querySelector(".num").textContent = idx;
   }
 }
+/* Eine Zahl ist eine Station: Franco führt sie als Gespräch (gesprZeige in
+   maskottchen.js). „teile“ ist die Stückliste – eine Seite ohne Gespräch. */
 function go(i){
   S.cur = i; save();
   var secs = document.querySelectorAll(".station");
   for(var k=0;k<secs.length;k++){ secs[k].hidden = secs[k].dataset.st !== String(i); }
+  var seite = i === "teile";
+  document.getElementById("gespraech").hidden = seite;
+  document.getElementById("figur").hidden = seite;
+  if(!seite) gesprZeige(Number(i));
   paintRail(); paintProgress();
   window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
 }
@@ -1788,23 +1859,11 @@ function complete(i){
 document.addEventListener("click", function(e){
   var g = e.target.closest ? e.target.closest("main [data-go]") : null;
   if(g){ go(g.dataset.go === "teile" ? "teile" : Number(g.dataset.go)); return; }
-  var b = e.target.closest ? e.target.closest("[data-next]") : null;
-  if(!b) return;
-  var v = b.dataset.next;
-  var cur = Number(b.closest(".station").dataset.st);
-  if(v === "done"){
-    complete(cur);
-    document.getElementById("finaltitle").textContent = "Workshop geschafft!";
-    paintProgress();
-    return;
-  }
-  var t = Number(v);
-  if(t > cur) complete(cur);
-  go(t);
-  if(t > 0) timerAutoStart();
 });
 
-/* ================= bonus (Team-Challenges, selbst abgehakt) ================= */
+/* ================= bonus (Team-Challenges, selbst abgehakt) =================
+   In den Karten gibt es derzeit keine [data-bonus]-Knöpfe; die Zugaben laufen über
+   bonus:true im Drehbuch. Der Code bleibt für Karten, die einen Haken brauchen. */
 document.querySelectorAll("[data-bonus]").forEach(function(btn){
   var id = btn.dataset.bonus, label = btn.innerHTML;
   btn.paintBonus = function(){
@@ -1849,7 +1908,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
 });
 
 /* ================= timer ================= */
-var TOTAL = 120*60, left = TOTAL, running = false, tick = null, tStarted = false;
+var TOTAL = 90*60, left = TOTAL, running = false, tick = null, tStarted = false;
 var tval = document.getElementById("tval"), tbtn = document.getElementById("tbtn"), tbox = document.getElementById("timer");
 function fmt(s){ var m = Math.floor(s/60), r = s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
 function paintT(){ tval.textContent = fmt(Math.max(0,left)); }
@@ -1866,7 +1925,7 @@ tbtn.addEventListener("click", function(){ setRunning(!running); });
    nie lief. Eine bewusste Pause bleibt also Pause; Neuladen startet nichts. */
 function timerAutoStart(){ if(!tStarted) setRunning(true); }
 /* Zeit ändern: Klick auf die Anzeige, dann „75“ (Minuten) oder „42:30“ eintippen.
-   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 120:00. */
+   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 90:00. */
 var tedit = document.getElementById("tedit");
 function editT(on){ tval.hidden = on; tedit.hidden = !on; if(on){ tedit.value = fmt(Math.max(0,left)); tedit.focus(); tedit.select(); } }
 function commitT(){
@@ -1906,7 +1965,7 @@ function openSafety(v){
   document.body.classList.toggle("safety-on", v);
   if(v){ openCoach(false); safety.scrollTop = 0; safetyok.focus({preventScroll:true}); }
 }
-safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); });
+safetyok.addEventListener("click", function(){ S.safe = true; save(); openSafety(false); gesprSicherheitZu(); });
 document.getElementById("safetybtn").addEventListener("click", function(){ openSafety(true); });
 safety.addEventListener("keydown", function(e){
   if(e.key === "Escape") e.stopPropagation();
@@ -1914,7 +1973,7 @@ safety.addEventListener("keydown", function(e){
 });
 /* ================= reset ================= */
 document.getElementById("resetbtn").addEventListener("click", function(){
-  S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false};
+  S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
   save();
   document.querySelectorAll("[data-bonus]").forEach(function(b){ b.paintBonus(); });
   document.querySelectorAll(".quiz").forEach(function(q){
@@ -1924,8 +1983,10 @@ document.getElementById("resetbtn").addEventListener("click", function(){
   });
   document.getElementById("finaltitle").textContent = "Ziel erreicht";
   left = TOTAL; setRunning(false); tStarted = false; paintT();
-  paintBadges(); paintProgress(); go(0);
-  openSafety(true);
+  gesprZuruecksetzen();
+  paintBadges(); paintProgress();
+  openSafety(true);   // vor go(0): Franco begrüßt erst, wenn das Fenster zu ist
+  go(0);
 });
 
 /* ================= Block-Optik: Symbole und Klammern ================= */
@@ -1985,14 +2046,1146 @@ function ledIcon(name){
   for(var i=0;i<25;i++){ h += '<span' + (pat.charAt(i)==="1" ? ' class="on"' : '') + '></span>'; }
   return h + '</i></b>';
 }
+/* ---- Drehbuch 00-boxenstopp.js ---- */
+/* Drehbuch Station 0: Boxenstopp. Quelle: src/stations/00-boxenstopp.html.
+   Schema siehe maskottchen.js (Abschnitt Gespräch). */
+DREHBUCH[0] = {name:"Boxenstopp", min:5, badge:"Rookie", titel:"Boxenstopp", schritte:[
+  { id:"regelkreis",
+    nachrichten:[
+      "Hallo! Ich begleite euch heute durch den Workshop.",
+      "Am Ende fährt euer Roboter ganz allein, ohne Fernsteuerung.",
+      "Ein echter Roboter macht immer dieselben drei Dinge:",
+      '<div class="mcstack flat"><div class="mcb b-input">1 &nbsp;WAHRNEHMEN <b>Sensoren</b></div>' +
+        '<div class="mcb b-logic i1">2 &nbsp;ENTSCHEIDEN <b>euer Programm</b></div>' +
+        '<div class="mcb b-mq i2">3 &nbsp;HANDELN <b>Motoren, Licht, Ton</b></div></div>',
+      "Und dann wieder von vorn, tausendmal pro Minute. Diese Schleife heißt <em>Regelkreis</em>."
+    ],
+    chips:[ "Was ist ein Sensor?", "Was heißt Regelkreis?", "Ist ein Staubsauger-Roboter auch so?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"fahrzeug",
+    nachrichten:[
+      "Euer Maqueen von oben, die Farben passen zum Regelkreis:",
+      {karte:"k0-mqmap"},
+      "Findet ihr die beiden Schalter am echten Roboter? Die braucht ihr später."
+    ],
+    chips:[ "Was macht der Summer?", "Wo ist der Schalter?", "Wo steckt der micro:bit?" ],
+    fertig:"Gefunden ✓" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Kurze Aufwärm-Frage, bevor es losgeht. Nicht schummeln!",
+      {karte:"k0-quiz"}
+    ],
+    chips:[ "Was ist ein Sensor?", "Was macht der Summer?", "Ist der Laserscanner ein Sensor?" ],
+    fertig:"Beantwortet ✓" },
+
+  { id:"los",
+    nachrichten:[
+      "Ihr wisst jetzt, wie ein Roboter tickt. Gleich schreibt ihr euer erstes Programm, bereit?"
+    ],
+    chips:[ "Was machen wir als Nächstes?", "Wie lange dauert der Workshop?", "Brauchen wir Vorwissen?" ],
+    fertig:"Los geht's ✓" }
+]};
+/* ---- Drehbuch 01-erster-kontakt.js ---- */
+/* Drehbuch Station 1: Erster Kontakt. Quelle: src/stations/01-erster-kontakt.html (master).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). */
+DREHBUCH[1] = {name:"Erster Kontakt", min:11, badge:"Ersteinschalter", titel:"Erster Kontakt", schritte:[
+  { id:"oeffnen",
+    nachrichten:[
+      "Jetzt wird es ernst: Gleich wandert Code, den ihr selbst baut, über ein Kabel in einen echten Computer. Der macht genau das, was ihr sagt, nicht mehr und nicht weniger.",
+      "Ihr wollt endlich an den Laptop?",
+      "Ja, ihr dürft. Jetzt.",
+      "Klickt auf den Knopf. MakeCode geht in einem neuen Tab auf, mit einem leeren Projekt.",
+      {karte:"makecode:neu"}
+    ],
+    chips:[ "Der Knopf macht nichts", "Müssen wir uns anmelden?", "Der neue Tab bleibt leer" ],
+    fertig:"MakeCode ist offen ✓" },
+
+  { id:"umschauen",
+    nachrichten:[
+      "Links die Vorschau, in der Mitte die Block-Kategorien, rechts euer Programm.",
+      {karte:"k1-film"},
+      "Genau so holt ihr jeden Block: Kategorie anklicken, Block greifen, mit gedrückter Maustaste rüberziehen. Er rastet ein wie ein Puzzleteil.",
+      "Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus."
+    ],
+    zeig:{ "So bedient ihr MakeCode":[
+      "<b>Block holen:</b> aus der Kategorie ziehen. Oder oben ins Suchfeld den Namen tippen.",
+      "<b>Block löschen:</b> anklicken und <kbd>Entf</kbd> drücken. Oder einfach zurück nach links ziehen.",
+      "<b>Zahl ändern:</b> auf die Zahl klicken und eintippen, zum Beispiel 300."
+    ]},
+    chips:[ "Wo sind die Blöcke?", "Wie lösche ich einen Block?", "Der Block rastet nicht ein", "Was ist die Vorschau rechts?" ],
+    fertig:"Alles gefunden ✓" },
+
+  { id:"lebenszeichen",
+    nachrichten:[
+      "Euer erstes Programm ist ein Lebenszeichen. Ihr baut zwei Blockgruppen: eine für <b>einmal</b>, eine für <b>immer wieder</b>.",
+      "Alles, was ihr braucht, liegt in der Kategorie <b>Grundlagen</b>.",
+      {karte:"k1-start"},
+      {karte:"k1-herz"},
+      "<kbd>beim Start</kbd> zeigt „Hallo“ nur einmal, direkt nach dem Einschalten. Danach ist es weg.",
+      "<kbd>dauerhaft</kbd> lässt das Herz blinken, solange der micro:bit Strom hat. Das ist sein Herzschlag, das eigentliche Lebenszeichen."
+    ],
+    chips:[ "Wo finde ich zeige Symbol?", "Wie stelle ich 300 ein?", "Was heißt ms?", "Wo ist Bildschirminhalt löschen?" ],
+    fertig:"Gebaut ✓" },
+
+  { id:"anstecken",
+    nachrichten:[
+      "Und jetzt rüber damit auf den echten micro:bit.",
+      "Steckt den micro:bit mit dem USB-Kabel an den Laptop. Strom kommt übers Kabel, den Roboter braucht ihr noch nicht."
+    ],
+    chips:[ "Wo ist die USB-Buchse am micro:bit?", "Welches Kabel nehmen wir?", "Am micro:bit leuchtet nichts" ],
+    fertig:"Steckt ✓" },
+
+  { id:"uebertragen",
+    nachrichten:[
+      "In MakeCode klickt ihr auf <b>Herunterladen</b>. Beim ersten Mal fragt der Browser nach dem Gerät: <b>micro:bit koppeln</b>, auswählen, verbinden.",
+      "Auf dem micro:bit blinkt eine gelbe LED. Das ist euer Code, der hinüberfließt.",
+      "Hört sie auf, läuft euer Programm. Erst „Hallo“, dann blinkt das Herz?",
+      "Klappt das Herunterladen nicht, liegt es sehr oft am Kabel. Viele USB-Kabel können nur laden, aber keine Daten übertragen."
+    ],
+    zeig:{ "Es klappt trotzdem nicht":[
+      "Fragt der Browser gar nicht nach dem Gerät? Es muss Chrome oder Edge sein.",
+      "Notfalls geht es immer so: Die heruntergeladene <kbd>.hex</kbd>-Datei auf das Laufwerk <kbd>MICROBIT</kbd> ziehen.",
+      {karte:"k1-klemmt"}
+    ]},
+    chips:[ "Der Browser findet den micro:bit nicht", "Wo ist Herunterladen?", "Die gelbe LED blinkt nicht", "Das Herz blinkt nicht" ],
+    fertig:"Herz leuchtet ✓" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Merkt euch das Muster: Etwas läuft immer wieder, ohne Ende. Genau das braucht euer Roboter gleich für jeden Sensor.",
+      "Eine Frage noch, dann gehört das Abzeichen euch.",
+      {karte:"k1-quiz"}
+    ],
+    chips:[ "Was ist ein Flash-Speicher?", "Bleibt das Programm für immer drauf?", "Wie kriege ich das Programm wieder runter?" ],
+    fertig:"Beantwortet ✓" }
+]};
+/* ---- Drehbuch 02-microbit-allein.js ---- */
+/* Drehbuch Station 2: micro:bit allein. Quelle: master, Station 02 (Parcours first, 09.11.2026).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). Kein eigener Simulator mehr: Die Teams
+   probieren im Simulator von MakeCode, die Zahl des Sensors sehen sie im Extra „zeige Zahl“. */
+DREHBUCH[2] = {name:"micro:bit allein", min:11, badge:"Pixelkünstler", titel:"Der micro:bit allein", schritte:[
+  { id:"projekt",
+    nachrichten:[
+      "Der micro:bit ist für sich schon ein Computer: 25 LEDs, zwei Knöpfe, Lautsprecher. Und ein Sensor, der merkt, wie ihr ihn bewegt.",
+      "Zuerst ein neues Projekt. Sonst blinkt euer Herz aus Station 1 über alles drüber.",
+      {karte:"makecode:neu"}
+    ],
+    chips:[ "Ist unser Herz dann weg?", "Wo ist der Knopf für ein neues Projekt?", "Müssen wir das alte speichern?" ],
+    fertig:"Neues Projekt offen ✓" },
+
+  { id:"bild",
+    nachrichten:[
+      "Der Bildschirm sind 25 rote LEDs. Im Block <kbd>zeige LEDs</kbd> aus <b>Grundlagen</b> klickt ihr die Punkte an.",
+      "Zieht ihn in <kbd>beim Start</kbd> und malt euer Bild. Der Simulator rechts in MakeCode zeigt es sofort.",
+      "Testen: Herunterladen. Steht euer Bild auf dem micro:bit?"
+    ],
+    chips:[ "Wo ist zeige LEDs?", "Wie mache ich einen Punkt wieder aus?", "Das Bild kommt nicht auf den micro:bit" ],
+    fertig:"Bild steht ✓" },
+
+  { id:"knoepfe",
+    nachrichten:[
+      "Neu: ein Block, der <em>wartet</em>, bis etwas passiert. So ein Block heißt Ereignis.",
+      "<kbd>wenn Knopf A geklickt</kbd> liegt in <b>Eingabe</b>, <kbd>zeige Symbol</kbd> und <kbd>Bildschirminhalt löschen</kbd> in <b>Grundlagen</b>.",
+      {karte:"k2-knoepfe"},
+      "Ereignis-Blöcke liegen <b>frei</b> im Programmierfenster, nicht in <kbd>beim Start</kbd> oder <kbd>dauerhaft</kbd>. Im Simulator könnt ihr A und B anklicken.",
+      "Testen: Herunterladen, Knopf A drücken, dann Knopf B."
+    ],
+    chips:[ "Welcher Knopf ist A?", "Muss das in dauerhaft rein?", "Das Herz geht nicht mehr weg", "Im Simulator passiert nichts" ],
+    fertig:"Knöpfe gehen ✓" },
+
+  { id:"neigen",
+    nachrichten:[
+      "Im micro:bit sitzt ein Beschleunigungssensor wie im Handy. Er liefert fertige Ereignisse wie <kbd>Logo nach oben</kbd> oder <kbd>geschüttelt</kbd>.",
+      "In <b>Eingabe</b> gibt es dafür nur <kbd>wenn geschüttelt</kbd>: hereinziehen und im Menü umstellen, ein Block je Ereignis. <kbd>zeige Pfeil</kbd> liegt in <b>Grundlagen</b> ganz unten.",
+      {karte:"k2-neigen"},
+      "Der Simulator kippt mit der Maus und hat einen Knopf <b>SHAKE</b>.",
+      "Testen: Herunterladen, nach vorn und hinten kippen, dann schütteln."
+    ],
+    zeig:{ "Es klappt nicht":[
+      "Kein Pfeil? Deutlich kippen, fast senkrecht.",
+      "Nichts beim Schütteln? Kräftig und ruckartig, nicht sanft wedeln.",
+      {karte:"k2-klemmt"}
+    ]},
+    chips:[ "Wo ist zeige Pfeil?", "Wo stelle ich Logo nach oben ein?", "Beim Kippen kommt kein Pfeil", "Der Totenkopf kommt nicht" ],
+    fertig:"Pfeile und Totenkopf ✓" },
+
+  { id:"grenze",
+    nachrichten:[
+      "Und woher weiß der micro:bit, dass das Logo oben ist? Der Sensor liefert eine Zahl:",
+      {karte:"k2-tabelle"},
+      "Der wichtigste Satz des Workshops: Ein Sensor liefert keine Wörter, sondern <b>Zahlen</b>. Der micro:bit vergleicht die Zahl mit einer Grenze, hier 200.",
+      "Beim Roboter legt ihr die Grenze selbst fest."
+    ],
+    zeig:{ "Die Zahl selbst sehen":[
+      "Baut das in ein neues <kbd>dauerhaft</kbd> und ladet es herunter. Kippt den micro:bit in der Hand, die Zahl läuft mit.",
+      {karte:"k2-zahl"},
+      "<kbd>zeige Zahl</kbd> liegt in <b>Grundlagen</b>, <kbd>Beschleunigung</kbd> in <b>Eingabe</b>."
+    ]},
+    chips:[ "Warum gerade 200?", "Was passiert zwischen -200 und 200?", "Wo ist Beschleunigung?", "Kann ich die Grenze ändern?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Kontrollfrage. Stellt euch vor, ihr habt schon einen Würfel gebaut:",
+      {karte:"k2-quiz"}
+    ],
+    chips:[ "Was heißt zufällig?", "Wo ist wähle eine zufällige Zahl?", "Warum zeigt er immer dieselbe Zahl?" ],
+    fertig:"Beantwortet ✓" },
+
+  { id:"wuerfel", bonus:true, titel:"Würfel",
+    nachrichten:[
+      "Team-Challenge: Macht aus dem Schütteln einen <b>Würfel</b>. Statt Ton und Totenkopf eine zufällige Zahl.",
+      {karte:"k2-wuerfel"},
+      "Der lila Block liegt unter <b>Mathematik</b>. Stellt die erste Zahl auf <b>1</b>, sonst würfelt er auch eine Null.",
+      "Testen: dreimal schütteln, kommen verschiedene Zahlen? Dann zeigt es eurem Betreuer."
+    ],
+    zeig:{ "Es klappt nicht":[
+      "Zahlen über 9 laufen als Laufschrift durch. Für den Würfel reicht 1 bis 6.",
+      {karte:"k2-klemmt"}
+    ]},
+    chips:[ "Wo ist Mathematik?", "Er zeigt immer dieselbe Zahl", "Die Zahl läuft als Schrift durch" ],
+    fertig:"Würfel läuft ✓" }
+]};
+/* ---- Drehbuch 03-fahrschule.js ---- */
+/* Drehbuch Station 3: Fahrschule. Quelle: master, Station 03 (Parcours first, 09.11.2026:
+   Einsetzen, Vorlage, Liniensensor, Knopf A = Ampel + Line patrolling ON, Knopf B = OFF).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). Kein Motorblock, keine Schleife:
+   Hier wird nur geübt, was der Grand Prix braucht. */
+DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter fährt die Linie", schritte:[
+  { id:"vorlage",
+    nachrichten:[
+      "Jetzt bekommt euer micro:bit Räder. Du sagst dem Roboter nicht, wo er langfahren soll, sondern worauf er achten soll.",
+      "Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken, Kategorie <b>Maqueen Plus V2</b>.",
+      {karte:"makecode:vorlage"},
+      "Nennt es unten neben <b>Herunterladen</b> <b>Linie</b>. Ihr arbeitet bis zum Grand Prix darin."
+    ],
+    zeig:{ "Warum eine Vorlage?":[
+      "MakeCode kennt den Maqueen erst, wenn seine Block-Sammlung geladen ist. In der Vorlage steckt sie schon drin.",
+      "Bitte heute nichts nachladen: Das braucht Internet, und das ist auf der Messe langsam."
+    ]},
+    chips:[ "Wo ist die Kategorie Maqueen Plus V2?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
+    fertig:"Projekt Linie ist offen ✓" },
+
+  { id:"einsetzen",
+    nachrichten:[
+      "micro:bit in den Schlitz, <b>Lämpchen nach vorn</b>. Dann <b>beide</b> Schalter auf ON.",
+      {karte:"k3-mqinsert"},
+      "<kbd>initialisiere Maqueen Plus V2</kbd> steht in der Vorlage oben in <kbd>beim Start</kbd>: nicht löschen.",
+      "Blinkt ein <b>X</b>, antwortet der Roboter nicht: Schalter und Sitz prüfen. <b>Haken</b> heißt verbunden."
+    ],
+    chips:[ "Wie herum kommt der micro:bit rein?", "Wo sind die Schalter?", "Der micro:bit zeigt nur ein X", "Der Roboter leuchtet nicht" ],
+    fertig:"Steckt, beide Schalter an ✓" },
+
+  { id:"sensor",
+    nachrichten:[
+      "Unten sitzen fünf Lichtmesser. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert eine Zahl:",
+      {karte:"k3-tabelle"},
+      "Was hier „schwarz“ heißt, hat euer Roboter beim Aufbau gelernt. Das nennt man kalibrieren, der Betreuer hat es schon gemacht."
+    ],
+    zeig:{ "Wie kalibriere ich neu?":[
+      "Alle fünf Sensoren auf Schwarz stellen, einschalten. Dann die Taste <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt."
+    ]},
+    chips:[ "Warum ist Schwarz die kleinere Zahl?", "Wo sitzen die Sensoren?", "Was heißt kalibrieren?", "Wo ist die Calc-Key?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"bloecke",
+    nachrichten:[
+      "Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
+      "Sie sind auf Englisch: <b>Line patrolling</b> heißt „Linie abfahren“, <b>Speed</b> Stufe, <b>RGB Car Lights</b> sind die Lichter.",
+      {karte:"k3-bloecke"},
+      "Nicht in <kbd>beim Start</kbd>: Sonst fährt er los, während ihr ihn noch hinstellt. Knopf B ist euer Not-Aus."
+    ],
+    chips:[ "Wo ist … mehr?", "Wo ist die Gruppe V3?", "Wo ist RGB Car Lights?", "Wo ist pausiere?" ],
+    fertig:"Gebaut ✓" },
+
+  { id:"fahren",
+    nachrichten:[
+      "Herunterladen, USB-Kabel abziehen. Roboter auf den Teststreifen am Boden, Mitte über der Linie, einschalten.",
+      "<b>Knopf A</b>: Ampel, dann fährt er. <b>Knopf B</b> hält ihn an.",
+      "Testen: Fährt er der Linie nach? Legt den Streifen anders hin."
+    ],
+    zeig:{ "Es klappt nicht":[
+      "Zeigt der micro:bit nur ein blinkendes <b>X</b>? Dann antwortet der Roboter nicht: beide Schalter und den Sitz im Schlitz prüfen.",
+      {karte:"k3-klemmt"}
+    ]},
+    chips:[ "Der micro:bit zeigt nur ein X", "Er fährt von der Linie runter", "Er fährt gar nicht los", "Die Ampel leuchtet nicht" ],
+    fertig:"Er fährt!" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Eine Kontrollfrage noch, dann gehört das Abzeichen euch.",
+      {karte:"k3-quiz"}
+    ],
+    chips:[ "Welche Zahl heißt Schwarz?", "Wie viele Sensoren hat er?", "Was ist eine Kreuzung?" ],
+    fertig:"Beantwortet ✓" }
+]};
+/* ---- Drehbuch 04-reflexe.js ---- */
+/* Drehbuch Station 4: Reflexe. Quelle: master, Station 04 (Parcours first, 09.11.2026: nur der
+   Laser-Stopp im Projekt Linie; Pausenknopf und Staubsauger sind gestrichen).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). */
+DREHBUCH[4] = {name:"Reflexe", min:8, badge:"Bremsassistent", titel:"Wenn etwas im Weg ist: anhalten", schritte:[
+  { id:"projekt",
+    nachrichten:[
+      "Der Roboter prüft viele Male pro Sekunde, ob der Weg frei ist, und entscheidet selbst.",
+      "Kein neues Projekt: In MakeCode oben auf das Haus klicken, unter <b>Meine Projekte</b> das Projekt <b>Linie</b> öffnen."
+    ],
+    zeig:{ "Kein Linie dabei?":[
+      "Dann startet ein neues Roboter-Projekt und baut die Blöcke aus Station 3 noch einmal nach.",
+      {karte:"makecode:vorlage"}
+    ]},
+    chips:[ "Wo ist das Haus?", "Wir finden das Projekt Linie nicht", "Wo ist Meine Projekte?" ],
+    fertig:"Linie ist offen ✓" },
+
+  { id:"laser",
+    nachrichten:[
+      "Vorne sitzt ein kleines Lidar mit 8 mal 8 = <b>64 Laserstrahlen</b>. Es misst den Abstand in Millimetern.",
+      "Seine lila Blöcke liegen in der Kategorie <b>Matrix LiDAR Entfernung</b>: einmal einschalten in <kbd>beim Start</kbd>, in <kbd>dauerhaft</kbd> erst Messwerte abholen, dann den Abstand nach vorn abfragen.",
+      {karte:"k4-laser"}
+    ],
+    chips:[ "Wo ist Matrix LiDAR Entfernung?", "Was heißt 0x33?", "Wie weit sieht der Laser?", "Was ist ein Lidar?" ],
+    fertig:"Laser ist an ✓" },
+
+  { id:"bedingung",
+    nachrichten:[
+      "Ist etwas näher als 20 cm, schaltet der Roboter die Linienverfolgung aus und leuchtet rot.",
+      {karte:"k4-bedingung"},
+      "Erst die Form, dann der Inhalt: Der Vergleich ist das Loch, in das der Sensor passt.",
+      {karte:"k4-bauen"},
+      "Testen: Roboter fährt die Linie, Hand davorhalten. Er bleibt stehen und leuchtet rot, Knopf A startet neu."
+    ],
+    zeig:{ "Es klappt nicht":[ {karte:"k4-klemmt"} ] },
+    chips:[ "Wo ist wenn dann?", "Der Laser-Block passt nicht ins Loch", "Warum 200 und nicht 20?", "Er bremst nie" ],
+    fertig:"Er bremst ✓" },
+
+  { id:"quiz",
+    nachrichten:[
+      "Denkfrage, bevor es zum Rennen geht:",
+      {karte:"k4-quiz"}
+    ],
+    chips:[ "Was macht dauerhaft nochmal?", "Was passiert in beim Start?", "Reicht nicht einmal messen?" ],
+    fertig:"Beantwortet ✓" }
+]};
+/* ---- Drehbuch 05-grand-prix.js ---- */
+/* Drehbuch Station 5: Grand Prix. Quelle: master, Station 05 (Parcours first, 09.11.2026) und
+   microbit/stations/05-grand-prix/README.md (Zählnummern 1–4, gelten bis zum Trockenlauf).
+   Schema siehe maskottchen.js (Abschnitt Gespräch). Nach dem letzten Schritt bietet die
+   Maschine „Workshop abschließen ✓“ an. Ampel und Laser-Stopp stehen schon im Projekt Linie. */
+DREHBUCH[5] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand Prix", schritte:[
+  { id:"strecke",
+    nachrichten:[
+      "Das Finale! Lest die Strecke, stellt euren Roboter darauf ein, bringt ihn ins Ziel.",
+      "Gummibärchen gibt es für alle, die Zeit ist nur zum Vergleichen.",
+      "Erst planen, dann fahren: Überlegt an jeder Nummer, was der Roboter dort tun soll.",
+      {karte:"k5-gpmap"}
+    ],
+    chips:[ "Was bedeuten die roten Nummern?", "Wo ist rechts für den Roboter?", "Was ist die Tempo-Zone?", "Wie groß ist ein Kästchen?" ],
+    fertig:"Strecke gelesen ✓" },
+
+  { id:"arten",
+    nachrichten:[
+      "Vier Arten von Kreuzungen, die Blöcke sind auf Englisch:",
+      {karte:"k5-typen"},
+      "Das Dreieck ist der Roboter, er kommt von unten. Für jede Art wählt ihr: <b>Straight</b> (geradeaus), <b>Left</b>, <b>Right</b> oder <b>Stop</b>."
+    ],
+    chips:[ "Was ist der Unterschied zwischen Crossroads und T-junction?", "Was heißt Intersection?", "Welche Art ist Nummer 1?" ],
+    fertig:"Verstanden ✓" },
+
+  { id:"projekt",
+    nachrichten:[
+      "Öffnet euer Projekt <b>Linie</b> aus Station 3 und 4: in MakeCode auf das Haus, dann <b>Meine Projekte</b>.",
+      "Ampel, Not-Aus (Knopf B) und Laser-Stopp habt ihr schon. Neu kommen die Kreuzungsregeln in <kbd>wenn Knopf A geklickt</kbd>, <b>vor</b> die Ampel."
+    ],
+    zeig:{ "Kein Linie dabei?":[
+      "Neues Roboter-Projekt starten und das Programm aus dem nächsten Schritt ganz nachbauen.",
+      {karte:"makecode:vorlage"}
+    ]},
+    chips:[ "Wo ist das Haus?", "Wir finden das Projekt Linie nicht", "Wo ist Meine Projekte?" ],
+    fertig:"Linie ist offen ✓" },
+
+  { id:"kreuzungen",
+    nachrichten:[
+      "<b>Kreuzungen einstellen:</b> alle vier Regeln, auch die, die nicht vorkommen. Sie liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
+      "<b>An Kreuzung <span class=\"gpnum\">1</span> umstellen:</b> Die grauen Blöcke liegen in <b>Grand Prix</b>. <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> läuft einmal, wenn er dort ankommt.",
+      {karte:"k5-kreuzungen"},
+      "Die <b>???</b> findet ihr mit der Skizze heraus."
+    ],
+    zeig:{ "Warum auch links?":[
+      "Einen Abzweig nach links gibt es nicht. Der Block steht trotzdem da: Vermisst sich der Roboter, fährt er geradeaus weiter."
+    ]},
+    chips:[ "Wo ist die Kategorie Grand Prix?", "Wo ist die Gruppe V3?", "Was gehört bei Kreuzung 1 hin?", "Wo kommen die Blöcke hin?" ],
+    fertig:"Regeln stehen ✓" },
+
+  { id:"melodie",
+    nachrichten:[
+      "<b>Siegesmelodie am Ziel:</b> <kbd>spiele Melodie</kbd> liegt bei <b>Musik</b>. Welche Nummer hat das Ziel?",
+      {karte:"k5-melodie"},
+      "Erster Lauf: USB-Kabel ab, Roboter auf den Start, Knopf A. Kommt er ins Ziel mit Melodie?"
+    ],
+    zeig:{ "Es klappt nicht":[ {karte:"k5-klemmt"} ] },
+    chips:[ "Wo ist die Kategorie Musik?", "Er biegt falsch ab", "Die Melodie kommt nicht", "Welche Nummer hat das Ziel?" ],
+    fertig:"Er spielt am Ziel ✓" },
+
+  { id:"tempo",
+    nachrichten:[
+      "<b>Tempo-Zone.</b> Ab dem Schild „1“ fährt er langsam bis ins Ziel und zeigt dabei eine 1.",
+      {karte:"k5-tempo"},
+      "Testen: Nach jeder Änderung herunterladen und fahren, eine nach der anderen."
+    ],
+    chips:[ "Welche Nummer hat das Schild?", "Wo ist zeige Zahl?", "Er wird nicht langsamer" ],
+    fertig:"Er fährt langsam ✓" },
+
+  { id:"lauf",
+    nachrichten:[
+      "Das Rennen: Start immer mit <b>Knopf A</b>, erst mit <b>Speed 1 oder 2</b>. Schneller erst nach einem sauberen Lauf.",
+      "An einer <b>Kiste</b> ist der Lauf vorbei: zurück an den Start, noch einmal.",
+      "In der Tempo-Zone muss eine <b>1</b> auf dem Display stehen, sonst seid ihr <b>geblitzt</b>: plus 3 Sekunden."
+    ],
+    zeig:{ "Es klappt nicht":[ {karte:"k5-klemmt"} ], "Wer gewinnt?":[
+      "Die Zeit wird gestoppt, damit ihr vergleichen könnt. Gummibärchen bekommen <b>alle</b>."
+    ]},
+    chips:[ "Er verlässt die Linie in Kurven", "Er fährt in die Kiste", "Wir sind geblitzt worden", "Dürfen wir schneller fahren?" ],
+    fertig:"Wir sind durch!" },
+
+  { id:"profi", bonus:true, titel:"Pro-Ziel",
+    nachrichten:[
+      "Für Profis: Hinter dem Ziel liegt ein zweites, dazwischen eine Lücke ohne Linie. Der Plan:",
+      {karte:"k5-plan"},
+      "<b>Blinker:</b> vor dem Abbiegen das Licht auf der richtigen Seite, wie beim Auto."
+    ],
+    zeig:{
+      "Er macht nach dem Sprung, was er will?":[
+        "Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?"
+      ],
+      "Die Melodie kommt schon am Ziel 4?":[
+        "Woher weiß euer Programm, dass er schon gesprungen ist? Aus einer <b>Variablen</b>: ein Merkzettel, auf den ein Teil des Programms schreibt und ein anderer liest.",
+        "Bei <b>Variablen</b> auf <kbd>Erstelle eine Variable…</kbd>, Name <b>gesprungen</b>.",
+        {karte:"k5-variable"},
+        "Nach dem Sprung setzt ihr <b>gesprungen</b> auf <b>wahr</b>. Die Melodie spielt nur, wenn <b>gesprungen</b> wahr ist."
+      ]
+    },
+    chips:[ "Wo ist PID Distance Control?", "Er springt nicht über die Lücke", "Wie prüfe ich, ob der Weg frei ist?" ],
+    fertig:"Pro-Ziel geschafft ✓" },
+
+  { id:"abschluss",
+    nachrichten:[
+      "Ihr seid im Ziel! Holt euch eure Gummibärchen, die gibt es für alle.",
+      "So einen Roboter selbst haben? Was du brauchst, steht in der <b>Stückliste</b> oben in der Leiste.",
+      "<button class=\"btn sec\" type=\"button\" data-go=\"teile\">Stückliste öffnen</button>",
+      {karte:"k5-final"}
+    ],
+    chips:[ "Wo gibt es die Gummibärchen?", "Was kostet so ein Roboter?", "Dürfen wir noch einmal fahren?" ],
+    fertig:"Geschafft ✓" }
+]};
+/* Maskottchen: Figur, Gespräch, Frage-Feld und LLM-Anbindung. */
+
+/* ---------- Figur ---------- */
+var MASKOTTCHEN_NAME = "Franco";
+
+var figur = (function(){
+  var el = document.getElementById("figur");
+  var nameEl = document.getElementById("figurname");
+  var pupillen = el ? el.querySelectorAll(".pupille") : [];
+  var jubelTimer = null;
+  var MAX = 3.2;                    // größter Blickausschlag in SVG-Einheiten
+  if(nameEl) nameEl.textContent = MASKOTTCHEN_NAME;
+  var svgEl = el ? el.querySelector("svg") : null;
+  if(svgEl) svgEl.setAttribute("aria-label", MASKOTTCHEN_NAME + ", das FRANCOR-Maskottchen");
+  // Handbuch: Stellen, die den Namen nennen
+  var refs = document.querySelectorAll(".figurname-ref");
+  for(var r = 0; r < refs.length; r++) refs[r].textContent = MASKOTTCHEN_NAME;
+
+  function zustand(name){
+    if(!el) return;
+    clearTimeout(jubelTimer);
+    el.setAttribute("data-zustand", name);
+    // Jubel ist ein Hüpfer, danach wieder Ruhe
+    if(name === "jubel") jubelTimer = setTimeout(function(){ el.setAttribute("data-zustand", "leerlauf"); }, 900);
+  }
+
+  function schauen(clientX, clientY){
+    if(!el) return;
+    var r = el.querySelector("svg").getBoundingClientRect();
+    var dx = clientX - (r.left + r.width / 2);
+    var dy = clientY - (r.top + r.height / 2);
+    var len = Math.sqrt(dx * dx + dy * dy);
+    if(len > MAX){ dx = dx / len * MAX; dy = dy / len * MAX; }
+    var t = "translate(" + dx.toFixed(2) + " " + dy.toFixed(2) + ")";
+    for(var i = 0; i < pupillen.length; i++) pupillen[i].setAttribute("transform", t);
+  }
+
+  function zuElement(ziel){
+    if(!ziel) return;
+    var r = ziel.getBoundingClientRect();
+    schauen(r.left + r.width / 2, r.top + r.height / 2);
+  }
+
+  document.addEventListener("mousemove", function(e){ schauen(e.clientX, e.clientY); }, {passive:true});
+  document.addEventListener("touchstart", function(e){
+    var t = e.touches && e.touches[0];
+    if(t) schauen(t.clientX, t.clientY);
+  }, {passive:true});
+
+  return { zustand: zustand, schauen: schauen, zuElement: zuElement };
+})();
+
+/* ---------- Gespräch ----------
+   Jede Station ist ein Drehbuch in src/drehbuch/NN-name.js:
+     DREHBUCH[N] = { name, min, badge, titel, schritte:[ {
+       id:"projekt",            eindeutig je Station
+       bonus:false,             true = Zugabe: erst „Machen wir!“ / „Überspringen“
+       titel:"Würfel",          nur bei Bonus, optional: Text für „Extra: …“ (sonst die id)
+       nachrichten:[ "Text mit <b>HTML</b>", {karte:"k4-bloecke"} ],
+       zeig:{ "Zeig mir wo":[ "…", {karte:"makecode:vorlage"} ] },   optional
+       chips:[ "…", "…", "…" ],   3–4 Vorschlagsfragen für „Geht nicht“
+       fertig:"Hab ich ✓" } ] }
+   Gespeichert in S:
+     S.schritt[st]  Index des aktuellen Schritts; = Anzahl Schritte heißt: Station fertig
+     S.chat[st]     Verlauf: {r:"bot", h:html} · {r:"me", h:text} · {r:"karte", k:id}
+                    („me“ kann ja:"id" tragen: Bonus-Schritt id ist angenommen)
+     S.skip["st:id"] = 1   Bonus übersprungen; bleibt als „Extra: …“ erreichbar
+     S.fragen       Fragen dieses Teams an „Geht nicht“; ab LLM_FRAGEN_MAX kein LLM mehr
+   Die Figur spricht von selbst nur beim Schrittwechsel, danach nur auf Klick.
+   Einzige Ausnahme ist der Stups nach STUPS_MS ohne Klick, einmal je Schritt. */
+var TIPP_MS = 700;               // Abstand zwischen zwei Blasen (Tipp-Effekt)
+var STUPS_MS = 180000;           // drei Minuten ohne Klick im Gespräch
+var STUPS_TEXT = "Alles gut bei euch? Ich bin hier, wenn ihr mich braucht.";
+var gespraechEl = document.getElementById("gespraech");
+var chatEl = document.getElementById("chat");
+var antEl = document.getElementById("antworten");
+var gesprStation = null;         // Station, die gerade im Gespräch steht
+var spielTimer = null;           // nächste Blase beim Abspielen
+var stupsTimer = null, stupsFuer = null;
+var stupsGemacht = {};           // "st:i" → 1, nur im Speicher
+var wartetAufSicherheit = null;  // Station, deren erster Schritt nach dem Sicherheitsfenster startet
+var umweg = null;                // {st, i}: ein Extra-Schritt läuft, danach weiter beim alten Stand
+
+/* MakeCode-Knöpfe. build.py ersetzt genau diese href-Texte durch die echten Links. */
+var MAKECODE_KNOEPFE = {
+  neu: '<a class="btn" href="https://makecode.microbit.org/#newproject" target="_blank" rel="noopener">Neues Projekt starten</a>',
+  vorlage: '<a class="btn" href="https://makecode.microbit.org/#project:XQAAEABdDgAAAAAAAAA9goAXHC4MqgeNHgoIMpsTCTurzyZquKQOb1TCv3qwnSSNmLVmmhapbG3BWmcDeQqP5gMANDGe7PpMCuXMIbOLzxLSLaDuph+pQMwN+KxgnsQnsI4UNlIzbrFbEqJ5eQGS8mdaMHuxD+eu3jzK9h7oeVUGqU8XQbTj1BHtWnZkyQ3viyg+IQH2DxZLVcwVqdP6yVyfpfITtVCUAV3Xkt6zMCcs/zZQNf8rjviYNCHrqn2RpLYBwV1mvuY89Iyi+SBvN9iBcvj81nQ1MAKG2gA/8JcU51r0bP1clBqbQ2Tox8LA4J81oRvzCpV9q/tya6fpuNGUO2gaYcR5/+9xHypaF/ZZV4oQORn+5ZPrl1q2yB+i6GRpLWA+VvSLWbMQ7mv1m1fLVYoQiBzbSX4OsInXtkV5fxSejMfTLnLVxRWryrHZBMQnWnkPIBCnr+wHSUcoWuZ5rvjgHxb7bRGBJwLA++sTdMXhoVoNth+lzT7FD6gHFjW8ZbAtEaYH82TuUw8aUbPNzQkyD4/tWS9Nj8qECF6zP0AJVJ2UcbHJABunRooqxGdCUlBdYIdXIqiP5//wGViKzT6011SawurThtPFG645/WCo4414Ki5a/KUsE3G8MSQyCfYm9bk/e7hNjMCRpv8dR3y/Af0SUhUYMSuHHhJBMY7bnW+KQjM0gvVLcYqXOJoksTlPPmmdI2ximDxBHVNv96JGxSSHsW3tE+hvKXu0GZgqxWuQZGg1wLuxCgdxSqWXWjLSnzVZXtWgYqQEnl5eWIBXriXXNUM+Y/1oMFkoM5zaihh7EG5zIXCt+RgnbGYWazAjgMdmVVwyAvVPjC8lS1OLadIOSXuK9rCq4yfAh11g1ry79Wrku31PQemFzpDxiuDviaqi/yl0EDeA7jeWPT/Z+AqFR8Qv8sC1OI0QUzei+PPRBa3GMIrJmyyejH+s/ZvR0aTp2jkaU8epWpjn9WE7EpR4Wkebhouv2uwUKiGPZUEE7OsMEaIT36GSqpYn5AyfTbv4MD0jZa5pTH+a6Tzv2GkhROXO6xj0Mjo4jbpFcSgaYi8rKEjwarVWCFI8bjQqDYIAxNUDBL1AR7cu1gaO0t4DjCBbM7ku+qIsGTPfUYV4+0FZcVEWjOLBMm4T5KZopyWrYkmI/mqAoae3duHkmX0f2zVsxerCwmPyt57xgR1bLiQpgbk7/RJlW4g1MVHrTQl8ciBfm6hrifgLTHkhHnPbjmgO3iB6FVQqN5vh2avB/6qB5LUdcjOOL7GDOOmDwXzW//S1JWZEe1mrVqOy4TZAIK7rmFqx1kL2MHZyzFsOos290n9U/Z9U+B3QVLzL6YGselVvs3msa6ABYy/EW+SAGEBq2UFEZTbkleBh8k1zfCx+w07B/afu+W/ePMKZ98MirV1fiLV/LxV1rsXMv9LantrNZM+wWxOk488S6KWY2y3/alV7OMGmRfFQgcmsEnCeQDTadBjRAr+z4YUcFub7yCGSCH/JKhpz2eb8kYo2y0SrO4wUBHfJf89P9CReEOJ7ZzGln1bm3q6HfyO4Egtx8Neim6gR8/mlzEoLTCuH086UjP6U0baPXGG11KrRW6EVSGHYSZ1OMUdBePJGO0M3XWGPy7M1utyGYXuzHnWorf0jmr6IcBvWOnvjmS/XyeU1LagdfYkOCRW3TUOyLAKFHDZIustDOvB3ugNy5DVrH3Jz6L56fJfCPBR9kfyZlLB0VqHzTrALJeR3B4jlKl38t4/yGwaIKZmbqMMvajdfgCECs2bofa+rkW83gl0bNnA8/82MUZ7ciPHrb5kExwr4SWtu+U4ZvCeNLkhxmhQ6WtUUDSIp9T+23J2P6TU8PBRPwX79cRuxfbghhxfKwf+0+/VG" target="_blank" rel="noopener">Neues Roboter-Projekt starten</a>'
+};
+
+function tippMs(){ return reduced() ? 0 : TIPP_MS; }
+function sichtbar(el){
+  try{ el.scrollIntoView({block:"nearest", behavior: reduced() ? "auto" : "smooth"}); }catch(e){}
+}
+
+/* ---------- Vorlesen (Web Speech API, Standard aus, Schalter mgp-tts im Handbuch) ---------- */
+function ttsAn(){
+  try{ return localStorage.getItem("mgp-tts") === "1" && !!window.speechSynthesis && !!window.SpeechSynthesisUtterance; }catch(e){ return false; }
+}
+/* Satzgrenzen: Lookbehind nur, wo der Browser es kann */
+var TTS_SATZ = null;
+try{ TTS_SATZ = new RegExp("(?<=[.!?])\\s+"); }catch(e){ TTS_SATZ = /\s+/; }
+/* html → Klartext (ohne Tags, ohne Blockbilder), in Sätzen der Reihe nach einreihen */
+function vorlesen(html){
+  if(!ttsAn()) return;
+  try{
+    var t = document.createElement("div");
+    t.innerHTML = String(html).replace(/<br\s*\/?>/gi, " ");
+    var bl = t.querySelectorAll(".mcstack, svg, script, style");
+    for(var b = 0; b < bl.length; b++) bl[b].parentNode.removeChild(bl[b]);
+    var text = (t.textContent || "").replace(/\s+/g, " ").replace(/^ | $/g, "");
+    if(!text) return;
+    var stimme = null, vs = window.speechSynthesis.getVoices() || [];
+    for(var v = 0; v < vs.length; v++) if(/^de/i.test(vs[v].lang || "")){ stimme = vs[v]; break; }
+    var saetze = text.split(TTS_SATZ);
+    for(var i = 0; i < saetze.length; i++){
+      if(!saetze[i]) continue;
+      var u = new window.SpeechSynthesisUtterance(saetze[i]);
+      u.lang = "de-DE";
+      if(stimme) u.voice = stimme;
+      window.speechSynthesis.speak(u);
+    }
+  }catch(e){}
+}
+/* neuer Schritt: Altes nicht mehr nachsprechen */
+function vorlesenStopp(){
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+}
+
+/* Eine Blase anhängen. Bot-Blasen sind HTML aus dem Drehbuch (vertrauenswürdig),
+   eigene Antworten („me“) sind Text. sprich: frisch gesprochene Blase, wird vorgelesen
+   (nie beim Wiederzeigen des Verlaufs). */
+function blase(st, html, me, sprich){
+  var el = document.createElement("div");
+  el.className = "blase" + (me ? " me" : "");
+  el.setAttribute("data-st", st);
+  chatEl.appendChild(el);
+  if(me){ el.textContent = html; return el; }
+  el.innerHTML = html;
+  var leds = el.querySelectorAll("[data-led]");
+  for(var k = 0; k < leds.length; k++) leds[k].outerHTML = ledIcon(leds[k].getAttribute("data-led"));
+  // erst im Dokument, damit nestStack die Blockfarbe lesen kann
+  var stapel = el.querySelectorAll(".mcstack");
+  for(var m = 0; m < stapel.length; m++) nestStack(stapel[m]);
+  if(sprich) vorlesen(html);
+  return el;
+}
+
+/* Eine Karte anhängen: MakeCode-Knöpfe werden erzeugt, alle anderen Karten
+   kommen aus dem versteckten Vorrat #karten (src/karten/*.html). Der Knoten wird
+   umgehängt, nie geklont: Quiz und Figuren sind einmalig (IDs, Handler aus app.js).
+   Unbekannte IDs ergeben einen leeren Rahmen. */
+function karte(st, id){
+  var el = document.createElement("div");
+  el.className = "blase karte";
+  el.setAttribute("data-k", id);
+  chatEl.appendChild(el);
+  var teil = id.split(":");
+  if(teil[0] === "makecode"){
+    if(MAKECODE_KNOEPFE[teil[1]]) el.innerHTML = MAKECODE_KNOEPFE[teil[1]];
+    return el;
+  }
+  var k = document.querySelector('[data-karte="' + id + '"]');
+  if(k){
+    var alt = k.parentNode;
+    el.appendChild(k);
+    // Lag die Karte schon in einer älteren Blase, bleibt von der kein leerer Rahmen übrig
+    if(alt && alt !== el && alt.classList && alt.classList.contains("blase") && !alt.firstChild && alt.parentNode) alt.parentNode.removeChild(alt);
+  }
+  return el;
+}
+/* Vor jedem Neuaufbau des Verlaufs: Karten zurück in den Vorrat, sonst gehen sie
+   mit dem Löschen des Gesprächs verloren. */
+function kartenZurueck(){
+  var vorrat = document.getElementById("karten");
+  var l = chatEl.querySelectorAll("[data-karte]");
+  for(var i = 0; i < l.length; i++) vorrat.appendChild(l[i]);
+}
+
+function zeigeEintrag(st, e, sprich){
+  return e.r === "karte" ? karte(st, e.k) : blase(st, e.h, e.r === "me", sprich);
+}
+function logPush(st, eintrag){
+  if(!S.chat[st]) S.chat[st] = [];
+  S.chat[st].push(eintrag);
+  save();
+}
+/* eigene Antwort: in den Verlauf und gleich als Blase zeigen */
+function sage(st, text, ja){
+  var e = {r:"me", h:text};
+  if(ja) e.ja = ja;
+  logPush(st, e);
+  sichtbar(blase(st, text, true));
+}
+
+function stopSpiel(){ clearTimeout(spielTimer); spielTimer = null; }
+function aktSchritt(st){ return umweg && umweg.st === st ? umweg.i : S.schritt[st]; }
+function istUmweg(st, i){ return !!(umweg && umweg.st === st && umweg.i === i); }
+/* Bonus angenommen? Steht als ja:id an einer eigenen Antwort im Verlauf. */
+function entschieden(st, s){
+  var log = S.chat[st] || [];
+  for(var k = 0; k < log.length; k++) if(log[k].ja === s.id) return true;
+  return false;
+}
+
+/* Nachrichten nacheinander zeigen. Sie stehen sofort vollständig im Verlauf,
+   damit ein Neuladen mitten im Tippen nichts verliert und nichts doppelt zeigt. */
+function spielNachrichten(st, liste, danach){
+  stopSpiel();
+  vorlesenStopp();
+  clearTimeout(stupsTimer); stupsFuer = null;
+  antEl.innerHTML = "";
+  if(!S.chat[st]) S.chat[st] = [];
+  var eintraege = [];
+  for(var k = 0; k < liste.length; k++){
+    var n = liste[k];
+    var e = typeof n === "string" ? {r:"bot", h:n} : {r:"karte", k:n.karte};
+    eintraege.push(e);
+    S.chat[st].push(e);
+  }
+  save();
+  figur.zustand("reden");
+  var j = 0;
+  function naechste(){
+    if(j < eintraege.length){
+      var e = eintraege[j++], el = zeigeEintrag(st, e, true);
+      sichtbar(el);
+      if(e.r === "karte") figur.zuElement(el);
+      if(tippMs()){ spielTimer = setTimeout(naechste, tippMs()); return; }
+      naechste();
+      return;
+    }
+    spielTimer = null;
+    figur.zustand("leerlauf");
+    danach();
+  }
+  naechste();
+}
+
+/* Schritt i: Die Figur spricht ihn von vorn bis zu den Antwortknöpfen. */
+function spielSchritt(st, i){
+  var s = DREHBUCH[st].schritte[i];
+  if(!istUmweg(st, i)) S.schritt[st] = i;   // gespeichert in spielNachrichten
+  var liste = s.nachrichten.slice();
+  if(s.bonus && !entschieden(st, s)) liste.push("Lust auf Extra? Sonst geht's weiter.");
+  spielNachrichten(st, liste, function(){ antworten(st, i); });
+}
+
+function knopf(attr, wert, text, klasse){
+  var b = document.createElement("button");
+  b.type = "button";
+  if(klasse) b.className = klasse;
+  b.setAttribute(attr, wert);
+  b.textContent = text;
+  antEl.appendChild(b);
+  return b;
+}
+
+/* Antwortknöpfe zu Schritt i. i = Anzahl Schritte heißt: Station fertig. */
+function antworten(st, i){
+  var d = DREHBUCH[st];
+  antEl.innerHTML = "";
+  if(i >= d.schritte.length){
+    if(st < STATIONS.length - 1) knopf("data-go", String(st + 1), "Weiter zu Station " + (st + 1) + " →");
+    else knopf("data-abschluss", "", "Workshop abschließen ✓");
+  } else {
+    var s = d.schritte[i];
+    if(s.bonus && !entschieden(st, s) && !istUmweg(st, i)){
+      knopf("data-machen", "", "Machen wir!");
+      knopf("data-skip", "", "Überspringen", "sec");
+    } else {
+      knopf("data-fertig", "", s.fertig);
+      for(var key in (s.zeig || {})) knopf("data-zeig", key, key, "sec");
+      knopf("data-frage", "", "Geht nicht", "sec");
+    }
+  }
+  // übersprungene Zugaben bleiben erreichbar
+  for(var j = 0; j < d.schritte.length; j++){
+    var x = d.schritte[j];
+    if(S.skip[st + ":" + x.id] && !istUmweg(st, j)) knopf("data-extra", x.id, "Extra: " + (x.titel || x.id), "extra");
+  }
+  stupsStart(st, i);
+}
+
+/* Nach „fertig“ oder „Überspringen“: nächster Schritt oder Abzeichen. */
+function weiterNach(st, i){
+  var d = DREHBUCH[st];
+  if(i + 1 < d.schritte.length){ spielSchritt(st, i + 1); return; }
+  S.schritt[st] = d.schritte.length;
+  complete(st);   // wirkt nur einmal je Station
+  spielNachrichten(st, ["Das Abzeichen <b>" + d.badge + "</b> gehört euch!"], function(){
+    figur.zustand("jubel");
+    antworten(st, d.schritte.length);
+  });
+}
+
+function fertig(st){
+  var i = aktSchritt(st), s = DREHBUCH[st].schritte[i];
+  sage(st, s.fertig);
+  if(s.bonus){ S.bonus[s.id] = 1; save(); }
+  if(istUmweg(st, i)){
+    // Extra erledigt: zurück zum alten Stand, ohne etwas neu abzuspielen
+    umweg = null;
+    delete S.skip[st + ":" + s.id];
+    save();
+    figur.zustand("jubel");
+    antworten(st, S.schritt[st]);
+    return;
+  }
+  weiterNach(st, i);
+}
+
+function ueberspringen(st){
+  var i = S.schritt[st], s = DREHBUCH[st].schritte[i];
+  sage(st, "Überspringen");
+  S.skip[st + ":" + s.id] = 1;
+  weiterNach(st, i);   // speichert
+}
+
+function machen(st){
+  var i = S.schritt[st], s = DREHBUCH[st].schritte[i];
+  sage(st, "Machen wir!", s.id);
+  antworten(st, i);
+}
+
+/* Übersprungene Zugabe nachholen. S.skip bleibt stehen, bis sie erledigt ist,
+   damit ein Neuladen mittendrin sie nicht verliert. */
+function extra(st, id){
+  var d = DREHBUCH[st];
+  for(var j = 0; j < d.schritte.length; j++){
+    if(d.schritte[j].id !== id) continue;
+    umweg = {st:st, i:j};
+    sage(st, "Extra: " + (d.schritte[j].titel || id), id);
+    spielSchritt(st, j);
+    return;
+  }
+}
+
+function zeigMir(st, key){
+  var i = aktSchritt(st), s = DREHBUCH[st].schritte[i];
+  if(!s.zeig || !s.zeig[key]) return;
+  sage(st, key);
+  spielNachrichten(st, s.zeig[key], function(){ antworten(st, i); });
+}
+
+/* Station ins Gespräch holen: Verlauf sofort, dann die Knöpfe des aktuellen
+   Schritts. Nur beim allerersten Besuch spricht die Figur Schritt 0. */
+function gesprZeige(st){
+  stopSpiel();
+  vorlesenStopp();
+  clearTimeout(stupsTimer); stupsFuer = null;
+  if(umweg && umweg.st !== st) umweg = null;
+  gesprStation = st;
+  wartetAufSicherheit = null;
+  kartenZurueck();
+  chatEl.innerHTML = "";
+  antEl.innerHTML = "";
+  figur.zustand("leerlauf");
+  var d = DREHBUCH[st];
+  var log = S.chat[st] || [];
+  for(var k = 0; k < log.length; k++) zeigeEintrag(st, log[k]);
+  if(!d || !d.schritte || !d.schritte.length){
+    blase(st, "Diese Station schreibe ich gerade noch.");
+    return;
+  }
+  if(S.schritt[st] === undefined){
+    // unter dem Sicherheitsfenster hört keiner zu: erst danach begrüßen
+    if(document.body.classList.contains("safety-on")){ wartetAufSicherheit = st; return; }
+    spielSchritt(st, 0);
+    return;
+  }
+  antworten(st, umweg ? umweg.i : Math.min(S.schritt[st], d.schritte.length));
+}
+
+/* vom Sicherheitsfenster gerufen, sobald es zu ist */
+function gesprSicherheitZu(){
+  var st = wartetAufSicherheit;
+  wartetAufSicherheit = null;
+  if(st !== null && st === gesprStation && S.schritt[st] === undefined) spielSchritt(st, 0);
+}
+
+/* „Neues Team“: alles Flüchtige vergessen (S selbst setzt app.js zurück) */
+function gesprZuruecksetzen(){
+  stopSpiel(); clearTimeout(stupsTimer); vorlesenStopp();
+  stupsGemacht = {}; stupsFuer = null; umweg = null; wartetAufSicherheit = null;
+}
+
+/* ---------- Stups ---------- */
+function stupsStart(st, i){
+  clearTimeout(stupsTimer);
+  stupsFuer = null;
+  if(i >= DREHBUCH[st].schritte.length || stupsGemacht[st + ":" + i]) return;
+  stupsFuer = {st:st, i:i};
+  stupsTimer = setTimeout(function(){
+    stupsFuer = null;
+    if(gesprStation !== st || spielTimer) return;
+    stupsGemacht[st + ":" + i] = 1;
+    // nur im Bild, nicht im Verlauf: Der Stups gehört nicht zum Gespräch
+    sichtbar(blase(st, STUPS_TEXT));
+  }, STUPS_MS);
+}
+
+/* ---------- Antworten (Klicks) ---------- */
+gespraechEl.addEventListener("click", function(){
+  // jeder Klick im Gespräch schiebt den Stups auf
+  if(stupsFuer) stupsStart(stupsFuer.st, stupsFuer.i);
+});
+
+antEl.addEventListener("click", function(e){
+  var b = e.target.closest ? e.target.closest("button") : null;
+  if(!b || gesprStation === null) return;
+  var st = gesprStation;
+  if(b.hasAttribute("data-fertig")) fertig(st);
+  else if(b.hasAttribute("data-zeig")) zeigMir(st, b.getAttribute("data-zeig"));
+  else if(b.hasAttribute("data-machen")) machen(st);
+  else if(b.hasAttribute("data-skip")) ueberspringen(st);
+  else if(b.hasAttribute("data-extra")) extra(st, b.getAttribute("data-extra"));
+  else if(b.hasAttribute("data-go")){ go(Number(b.getAttribute("data-go"))); timerAutoStart(); }
+  else if(b.hasAttribute("data-abschluss")){
+    var ft = document.getElementById("finaltitle");
+    if(ft) ft.textContent = "Workshop geschafft!";
+    paintProgress();
+    figur.zustand("jubel");
+  }
+  else if(b.hasAttribute("data-frage") || b.hasAttribute("data-nochfrage")) frageOeffnen(st);
+});
+
+/* ---------- Frage-Feld ---------- */
+var RUECKFALL_TEXT = "Hm, da komm ich gerade nicht ran. Schaut mal hier rein, und wenn das nichts bringt: Wink den Betreuer her.";
+var KONTINGENT_TEXT = "Mein Frage-Kontingent für dieses Team ist aufgebraucht — ab jetzt hilft der Betreuer.";
+var LLM_FRAGEN_MAX = 30;         // Fragen je Team; danach nur noch Checkliste und Betreuer (bremst einen geleakten Schlüssel)
+
+/* „Geht nicht“: Eingabefeld mit Vorschlagsfragen (Chips) des aktuellen Schritts */
+function frageOeffnen(st){
+  var i = aktSchritt(st), d = DREHBUCH[st];
+  if(!d || i >= d.schritte.length) return;
+  var chips = d.schritte[i].chips || [];
+  clearTimeout(stupsTimer); stupsFuer = null;
+  figur.zustand("sorge");
+  antEl.innerHTML = "";
+  var f = document.createElement("form");
+  f.className = "frage"; f.id = "frage";
+  var html = "";
+  if(chips.length){
+    html += '<div class="chips">';
+    for(var k = 0; k < chips.length; k++) html += '<button type="button" class="chip">' + chips[k].replace(/&/g, "&amp;").replace(/</g, "&lt;") + '</button>';
+    html += '</div>';
+  }
+  html += '<div class="frage-zeile"><input id="frageeingabe" type="text" maxlength="200" autocomplete="off" placeholder="Oder schreib selbst, was nicht geht">' +
+          '<button type="submit">Fragen</button><button type="button" class="sec" data-zurueck>Doch nicht</button></div>';
+  f.innerHTML = html;
+  antEl.appendChild(f);
+  f.addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest("button") : null;
+    if(!b) return;
+    if(b.classList.contains("chip")) fragen(st, b.textContent);
+    else if(b.hasAttribute("data-zurueck")){ figur.zustand("leerlauf"); antworten(st, aktSchritt(st)); }
+  });
+  f.addEventListener("submit", function(e){
+    e.preventDefault();
+    fragen(st, document.getElementById("frageeingabe").value);
+  });
+  try{ document.getElementById("frageeingabe").focus({preventScroll:true}); }catch(x){}
+  sichtbar(f);
+}
+
+/* Frage stellen: erst die Anfrage bauen (Verlauf noch ohne die neue Frage), dann die Frage loggen */
+function fragen(st, text){
+  text = String(text || "").replace(/^\s+|\s+$/g, "");
+  if(!text) return;
+  if((+S.fragen || 0) >= LLM_FRAGEN_MAX){
+    sage(st, text);
+    rueckfall(st, KONTINGENT_TEXT);
+    return;
+  }
+  S.fragen = (+S.fragen || 0) + 1;   // gespeichert mit sage()
+  var p = llmAntwort(st, text);
+  sage(st, text);
+  antEl.innerHTML = "";
+  figur.zustand("gruebeln");
+  var gen = S;   // „Neues Team“ ersetzt S: eine späte Antwort gehört dann nicht mehr ins neue Gespräch
+  p.then(function(a){
+    zaehlerPlus(a.usage);
+    return { ok:true, text:a.text };
+  }, function(){
+    return { ok:false };
+  }).then(function(r){
+    if(S !== gen) return;
+    if(r.ok) llmFertig(st, r.text); else rueckfall(st);
+  }).catch(function(){
+    if(S === gen) rueckfall(st);
+  });
+}
+
+/* wieder die Antwortknöpfe des Schritts, dazu „Noch eine Frage“ */
+function nachFrage(st){
+  if(gesprStation !== st) return;
+  figur.zustand("leerlauf");
+  var i = aktSchritt(st);
+  antworten(st, i);
+  if(i < DREHBUCH[st].schritte.length) knopf("data-nochfrage", "", "Noch eine Frage", "sec");
+}
+/* Antworten des Modells sind Text, nie HTML */
+function llmFertig(st, text){
+  var h = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+  logPush(st, {r:"bot", h:h});
+  if(gesprStation !== st) return;
+  sichtbar(blase(st, h, false, true));
+  nachFrage(st);
+}
+/* kein Schlüssel, kein Netz, Fehler, Zeitüberschreitung, Kontingent aufgebraucht: Checkliste der Station */
+function rueckfall(st, text){
+  text = text || RUECKFALL_TEXT;
+  logPush(st, {r:"bot", h:text});
+  // dieselbe Karte nicht noch einmal ins Log, wenn sie die letzte Karte im Verlauf ist (Fragen dazwischen zählen nicht)
+  var log = S.chat[st] || [], j = log.length - 1, id = "k" + st + "-klemmt";
+  while(j >= 0 && (log[j].r === "me" || (log[j].r === "bot" && (log[j].h === RUECKFALL_TEXT || log[j].h === KONTINGENT_TEXT)))) j--;
+  var neu = !(j >= 0 && log[j].r === "karte" && log[j].k === id);
+  if(neu) logPush(st, {r:"karte", k:id});
+  if(gesprStation !== st) return;
+  blase(st, text);
+  if(neu) sichtbar(karte(st, id));
+  nachFrage(st);
+}
+
+/* ---------- LLM (OpenRouter) ---------- */
+var LLM_URL = "https://openrouter.ai/api/v1/chat/completions";
+var LLM_MODELL = "anthropic/claude-haiku-4.5";
+var LLM_MAX_TOKENS = 200;
+var LLM_TIMEOUT_MS = 15000;
+var LLM_CENT_PRO_MTOKEN = {ein: 100, aus: 500};   // Schätzung, nur für die Anzeige
+var LLM_KONTEXT_ZEICHEN = 6000;                   // ≈ 2000 Token bei etwa 3 Zeichen je Token (Deutsch)
+var LLM_VERLAUF = 4;                              // so viele Verlaufseinträge gehen mit (als Mitschrift in der Frage)
+
+function ohneHtml(h){
+  return String(h).replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s+/g, " ").replace(/^ | $/g, "");
+}
+function kuerze(t, n){ return t.length > n ? t.slice(0, n - 1) + "…" : t; }
+function schrittText(s){
+  var t = [];
+  for(var k = 0; k < s.nachrichten.length; k++) if(typeof s.nachrichten[k] === "string") t.push(ohneHtml(s.nachrichten[k]));
+  return t.join(" ");
+}
+
+/* System-Prompt: feste Regeln, Drehbuch der Station in Kurzform, aktueller Schritt.
+   Zusammen bleibt es unter LLM_KONTEXT_ZEICHEN, 2000 Zeichen bleiben für die Mitschrift (4 × 400 plus Namen) und die Frage (400) frei. */
+function systemPrompt(st){
+  var d = DREHBUCH[st], i = aktSchritt(st);
+  var p = "Du bist " + MASKOTTCHEN_NAME + ", das Maskottchen des Robotik-Workshops von FRANCOR e. V. " +
+    "Du sprichst Deutsch, Du-Form, kurze Sätze, Klasse 7, frech und freundlich. " +
+    "Du kennst nur diesen Workshop: micro:bit V2, Maqueen Plus V3, MakeCode mit Blöcken. " +
+    "Blocknamen nimmst du wörtlich aus dem Drehbuch, nie erfunden. Höchstens drei Sätze. Du schreibst nie Textcode. " +
+    "Bei Hardware-Gefahr (Kabel, Akku, Hitze) und bei allem, was nicht zum Workshop gehört, verweist du freundlich auf die Betreuenden.";
+  if(!d || !d.schritte) return p;
+  var aktuell = i < d.schritte.length ? d.schritte[i] : null;
+  var ende = aktuell ? "\n\nAktueller Schritt (" + (aktuell.titel || aktuell.id) + "): " + kuerze(schrittText(aktuell), 600) : "";
+  var platz = LLM_KONTEXT_ZEICHEN - 2000 - p.length - ende.length - 120;
+  var kurz = "";
+  for(var k = 0; k < d.schritte.length; k++){
+    var z = (k + 1) + ". " + (d.schritte[k].titel || d.schritte[k].id) + ": " + kuerze(schrittText(d.schritte[k]), 300) + "\n";
+    if(kurz.length + z.length > platz) break;
+    kurz += z;
+  }
+  return p + "\n\nDrehbuch der Station " + st + " (" + d.name + "):\n" + kurz + ende;
+}
+
+/* letzte Textbeiträge des Verlaufs als kurze Mitschrift „Franco: … / Team: …“ (Karten übersprungen).
+   Sie steht in der einen user-Nachricht: Die Anfrage ist immer [system, user], so verlangen es
+   Anthropic-Modelle (erste Nachricht nach system ist user, Rollen wechseln sich ab).
+   Bot-Blasen sind HTML und werden entschärft, eigene Antworten („me“) sind schon Text. */
+function llmVerlauf(st){
+  var log = S.chat[st] || [], aus = [];
+  for(var k = log.length - 1; k >= 0 && aus.length < LLM_VERLAUF; k--){
+    var e = log[k];
+    if(e.r !== "bot" && e.r !== "me") continue;
+    aus.unshift((e.r === "me" ? "Team: " : MASKOTTCHEN_NAME + ": ") + kuerze(e.r === "me" ? String(e.h) : ohneHtml(e.h), 400));
+  }
+  return aus;
+}
+function llmFrage(st, text){
+  var v = llmVerlauf(st), f = kuerze(text, 400);
+  return v.length ? "Bisher im Gespräch:\n" + v.join("\n") + "\n\nFrage des Teams: " + f : f;
+}
+
+/* Promise<{text, usage}>. Jeder Fehler (kein Schlüssel, kein Netz, Status, Zeit, kaputtes JSON) wird zur Ablehnung. */
+function llmAntwort(st, text){
+  return new Promise(function(ok, nein){
+    var key = "";
+    try{ key = localStorage.getItem("mgp-key") || ""; }catch(e){}
+    if(!key){ nein(new Error("kein Schlüssel")); return; }
+    var ctl = typeof AbortController === "function" ? new AbortController() : null;
+    var uhr = setTimeout(function(){ if(ctl) ctl.abort(); nein(new Error("Zeit")); }, LLM_TIMEOUT_MS);
+    var msgs = [{role:"system", content: systemPrompt(st)}, {role:"user", content: llmFrage(st, text)}];
+    fetch(LLM_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json", "Authorization":"Bearer " + key},
+      body: JSON.stringify({model: LLM_MODELL, max_tokens: LLM_MAX_TOKENS, messages: msgs}),
+      signal: ctl ? ctl.signal : undefined
+    }).then(function(res){
+      if(!res.ok) throw new Error("Status " + res.status);
+      return res.json();
+    }).then(function(j){
+      var t = j && j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content;
+      if(typeof t !== "string" || !t.replace(/\s/g, "")) throw new Error("leer");
+      clearTimeout(uhr);
+      ok({text: t, usage: j.usage});
+    }).catch(function(err){ clearTimeout(uhr); nein(err); });
+  });
+}
+
+/* ---------- Zähler und Schlüssel (Handbuch) ---------- */
+function zaehlerLesen(){
+  var z = {anfragen:0, ein:0, aus:0};
+  try{
+    var j = JSON.parse(localStorage.getItem("mgp-llm"));
+    if(j && typeof j === "object"){ z.anfragen = +j.anfragen || 0; z.ein = +j.ein || 0; z.aus = +j.aus || 0; }
+  }catch(e){}
+  return z;
+}
+function zaehlerPlus(usage){
+  var z = zaehlerLesen();
+  z.anfragen++;
+  if(usage){ z.ein += +usage.prompt_tokens || 0; z.aus += +usage.completion_tokens || 0; }
+  try{ localStorage.setItem("mgp-llm", JSON.stringify(z)); }catch(e){}
+  zaehlerAnzeigen();
+}
+function zaehlerAnzeigen(){
+  var el = document.getElementById("llmzaehler");
+  if(!el) return;
+  var z = zaehlerLesen();
+  var cent = (z.ein * LLM_CENT_PRO_MTOKEN.ein + z.aus * LLM_CENT_PRO_MTOKEN.aus) / 1000000;
+  el.textContent = z.anfragen + (z.anfragen === 1 ? " Anfrage" : " Anfragen") + " · ca. " + (Math.round(cent * 100) / 100).toString().replace(".", ",") + " Cent";
+}
+function schluesselAnzeigen(){
+  var el = document.getElementById("orkeystate");
+  if(!el) return;
+  var k = "";
+  try{ k = localStorage.getItem("mgp-key") || ""; }catch(e){}
+  el.textContent = k ? "Schlüssel gesetzt" : "kein Schlüssel";
+}
+(function(){
+  var cb = document.getElementById("coachbtn"), sv = document.getElementById("orkeysave"),
+      rs = document.getElementById("llmreset"), del = document.getElementById("orkeydel"),
+      inp = document.getElementById("orkey");
+  var tb = document.getElementById("ttsbox");
+  function ttsLesen(){
+    if(!tb) return;
+    var an = false;
+    try{ an = localStorage.getItem("mgp-tts") === "1"; }catch(e){}
+    tb.checked = an;
+  }
+  if(tb) tb.addEventListener("change", function(){
+    try{ localStorage.setItem("mgp-tts", tb.checked ? "1" : "0"); }catch(e){}
+    if(!tb.checked) vorlesenStopp();
+  });
+  function frisch(){ zaehlerAnzeigen(); schluesselAnzeigen(); ttsLesen(); }
+  if(cb) cb.addEventListener("click", frisch);
+  // Fenster „LLM Setup“: Knopf in der Kopfzeile; Escape, Klick daneben
+  // und „Schließen“ machen es wieder zu. Gespeichert wird wie bisher in mgp-key.
+  var kd = document.getElementById("keydlg"), kb = document.getElementById("keybtn"), kok = document.getElementById("keydlgok");
+  function keydlgZeigen(v){
+    if(!kd) return;
+    kd.hidden = !v;
+    if(v){ schluesselAnzeigen(); if(inp){ inp.value = ""; inp.focus({preventScroll:true}); } }
+  }
+  if(kb) kb.addEventListener("click", function(){ keydlgZeigen(true); });
+  if(kok) kok.addEventListener("click", function(){ keydlgZeigen(false); });
+  if(kd){
+    kd.addEventListener("click", function(e){ if(e.target === kd) keydlgZeigen(false); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !kd.hidden) keydlgZeigen(false); });
+    if(inp) inp.addEventListener("keydown", function(e){ if(e.key === "Enter" && sv) sv.click(); });
+  }
+  if(sv) sv.addEventListener("click", function(){
+    var v = inp.value.replace(/^\s+|\s+$/g, "");
+    if(!v) return;
+    try{ localStorage.setItem("mgp-key", v); }catch(e){}
+    inp.value = "";
+    schluesselAnzeigen();
+  });
+  if(del) del.addEventListener("click", function(){
+    try{ localStorage.removeItem("mgp-key"); }catch(e){}
+    schluesselAnzeigen();
+  });
+  if(rs) rs.addEventListener("click", function(){
+    try{ localStorage.removeItem("mgp-llm"); }catch(e){}
+    zaehlerAnzeigen();
+  });
+  frisch();
+})();
+
+/* ---------- Testhaken (nur beim Doppelklick-Öffnen, nicht auf GitHub Pages) ----------
+   Der Smoketest holt damit Karten ins Gespräch, ohne ein Drehbuch durchzuspielen. */
+if(location.protocol === "file:"){
+  window.__karte = function(st, id){ karte(st, id); logPush(st, {r:"karte", k:id}); };
+  window.__drehbuchMin = (function(){
+    var l = [];
+    for(var i = 0; i < STATIONS.length; i++) l.push(DREHBUCH[i] ? DREHBUCH[i].min : null);
+    return l;
+  })();
+}
+
 /* ================= boot ================= */
 load();
 document.querySelectorAll("[data-led]").forEach(function(el){ el.outerHTML = ledIcon(el.dataset.led); });
-document.querySelectorAll(".station .mcstack").forEach(nestStack);
+document.querySelectorAll("#karten .mcstack").forEach(nestStack);
 buildRail();
 paintBadges(); paintProgress(); paintRail();
+if(!S.safe) openSafety(true);   // vor go(): Franco begrüßt erst, wenn das Fenster zu ist
 go(S.cur === "teile" ? "teile" : (Number(S.cur) || 0));
-if(!S.safe) openSafety(true);
 
 })();
 </script>

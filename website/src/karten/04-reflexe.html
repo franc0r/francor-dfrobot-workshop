@@ -1,0 +1,53 @@
+<div class="karten" data-st="4">
+  <div class="karte" data-karte="k4-laser">
+    <div class="mcstack">
+      <div class="mccap">Laser einschalten und Messwerte abholen</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k4-bedingung">
+    <div class="mcstack">
+      <div class="mccap">Laser-Stopp &ndash; kommt zu eurem Programm aus Station 3 dazu</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-basic">dauerhaft</div>
+      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
+      <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
+    </div>
+  </div>
+  <div class="karte" data-karte="k4-bauen">
+    <ol class="steps">
+      <li><span>Aus <b>Logik</b> den Block <kbd>wenn wahr dann</kbd> in <kbd>dauerhaft</kbd> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>wahr</b></span> dann</div></div></span></li>
+      <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>0</b> <b>&lt;</b> <b>0</b></span> dann</div></div></span></li>
+      <li><span>Den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen, <b>Links</b> auf <b>Vorne</b> umstellen, rechts <b>200</b> eintippen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
+    </ol>
+  </div>
+  <div class="karte" data-karte="k4-quiz">
+    <div class="quiz" data-quiz="q4" data-answer="c">
+      <div class="qh">Denkfrage</div>
+      <p class="q">Warum steht die Abfrage im <kbd>dauerhaft</kbd>-Block und nicht in <kbd>beim Start</kbd>?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> <span>Weil <kbd>beim Start</kbd> keine Sensoren lesen kann</span></button>
+        <button class="opt" data-k="b"><span class="k">B</span> Weil der Laser sonst zu heiß wird</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Weil einmal messen nichts nützt &ndash; das Hindernis kommt ja erst später</button>
+      </div>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
+  <div class="karte" data-karte="k4-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Er bremst nie?</b> Steht <b>Hindernisvermeidungsdaten abrufen</b> in <kbd>dauerhaft</kbd> ganz oben? Ohne neue Messwerte bleibt der Vergleich immer gleich. Steht der Abstandsblock auf <b>Vorne</b>?<br><b>Er fährt nach dem Stopp nicht mehr los?</b> Richtig so: <b>Line patrolling OFF</b> bleibt aus, bis ihr Knopf A drückt.<br><b>Komische Werte?</b> Der Scanner misst nur von 20&nbsp;mm bis 4000&nbsp;mm. Sitzt das Kabel fest?</p>
+    </details>
+  </div>
+</div>

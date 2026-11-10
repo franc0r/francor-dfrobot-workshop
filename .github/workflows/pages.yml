@@ -54,8 +54,8 @@ jobs:
       - name: Bauen
         run: python3 build.py
 
-      - name: Smoketest (Offline-Datei, Netzwerk aus)
-        run: node test/smoke.cjs
+      - name: Drehbücher und Smoketest (Offline-Datei, Netzwerk aus)
+        run: npm test
 
       - name: Seite zusammenstellen
         run: |

@@ -445,6 +445,46 @@ kbd{
 @keyframes sw-knob{0%,50%{transform:translateX(0)} 62%,88%{transform:translateX(18px)} 100%{transform:translateX(0)}}
 @keyframes sw-track{0%,50%{fill:var(--line)} 62%,88%{fill:var(--teal)} 100%{fill:var(--line)}}
 
+/* MakeCode-Film (Station 1, Karte k1-film): nachgezeichnetes MakeCode-Fenster. Alle Teile laufen auf
+   einer 8-s-Zeitachse: Zeiger klickt Grundlagen (14 %), Blockliste geht auf (19 %), Block wird
+   gegriffen (30 %) und nach beim Start gezogen (52 %), rastet ein, die Vorschau zeigt das Herz (60 %).
+   Der Grundzustand jedes Teils ist das Endbild – bei reduzierter Bewegung steht genau das. */
+.mcfilm{margin:0; max-width:560px}
+.mcfilm svg{width:100%; height:auto; display:block; font-family:var(--sans); border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.mcf-txt{font-size:10px; fill:#333}
+.mcf-bt{font-size:10.5px; font-weight:600; fill:#fff}
+.mcf-val{font-size:9px; font-weight:600; fill:#1A2226; text-anchor:middle; dominant-baseline:central}
+.mcf-blk{fill:#1E90FF}
+.mcf-pill{fill:#fff}
+.mcf-led{fill:#3A2222}
+.mcf-led.on{fill:#FF3D2E; animation:mcf-led 8s linear infinite}
+.mcf-cur{transform:translate(440px,150px); animation:mcf-cur 8s ease-in-out infinite}
+.mcf-ring{opacity:0; animation:mcf-ring 8s linear infinite}
+.mcf-hl{opacity:0; animation:mcf-hl 8s linear infinite}
+.mcf-fly{opacity:0; animation:mcf-fly 8s ease-out infinite}
+.mcf-drag{transform:translate(386px,84px); animation:mcf-drag 8s ease-in-out infinite}
+.mcf-snap{opacity:0; animation:mcf-snap 8s linear infinite}
+@keyframes mcf-cur{
+  0%{transform:translate(300px,230px)}
+  14%,20%{transform:translate(136px,66px)}
+  30%,34%{transform:translate(240px,108px)}
+  52%,56%{transform:translate(414px,96px)}
+  62%,92%{transform:translate(440px,150px)}
+  100%{transform:translate(300px,230px)}
+}
+@keyframes mcf-ring{0%,13%{opacity:0} 14%{opacity:1} 18%,29%{opacity:0} 30%{opacity:1} 34%,100%{opacity:0}}
+@keyframes mcf-hl{0%,14%{opacity:0} 15%,40%{opacity:.18} 44%,100%{opacity:0}}
+@keyframes mcf-fly{0%,15%{opacity:0; transform:translateX(-12px)} 19%,36%{opacity:1; transform:translateX(0)} 40%,100%{opacity:0; transform:translateX(0)}}
+@keyframes mcf-drag{
+  0%,33%{opacity:0; transform:translate(212px,96px)}
+  34%{opacity:1; transform:translate(212px,96px)}
+  51%{opacity:1; transform:translate(389px,83px)}
+  54%,94%{opacity:1; transform:translate(386px,84px)}
+  100%{opacity:0; transform:translate(386px,84px)}
+}
+@keyframes mcf-snap{0%,53%{opacity:0} 55%,58%{opacity:1} 64%,100%{opacity:0}}
+@keyframes mcf-led{0%,56%{fill:#3A2222} 60%,94%{fill:#FF3D2E} 100%{fill:#3A2222}}
+
 /* quiz */
 .quiz{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:var(--surface-2)}
 .quiz .qh{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:7px}
@@ -501,6 +541,11 @@ body.safety-on{overflow:hidden}
 .sfoot{font-size:.92rem; color:var(--ink-2); background:var(--surface-2); border-radius:8px; padding:9px 12px; margin-bottom:16px}
 .sok{background:var(--accent); color:var(--accent-ink); border:0; border-radius:9px; padding:11px 20px; font-weight:600; font-size:1rem}
 .sok:hover{filter:brightness(1.07)}
+.kbox{max-width:520px}
+.krow{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px}
+.krow input{flex:1 1 200px; min-width:0; font-size:16px; padding:9px 10px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); color:var(--ink)}
+.kstate{margin:10px 0 0; font-size:.94rem}
+.khint{font-size:.9rem; color:var(--ink-2); margin:12px 0 16px; line-height:1.5}
 @media (max-width:640px){ .sbig{grid-template-columns:minmax(0,1fr)} .scard{display:flex; align-items:center; gap:12px; text-align:left} .scard svg{margin:0; flex:none; width:44px; height:44px} .sbox{padding:20px 18px} }
 .drawer .dhead{
   position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--line);
@@ -540,4 +585,97 @@ body.safety-on{overflow:hidden}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
   .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
+  .mcfilm *,.mcfilm .mcf-led.on{animation:none}
 }
+
+/* ===== Figur ===== */
+.shell main{display:grid; grid-template-columns:180px minmax(0,1fr); gap:20px; align-items:start}
+.shell main > :not(.figur){grid-column:2}
+.figur{grid-column:1; grid-row:1 / span 20; position:sticky; top:90px; text-align:center}
+.figur svg{display:block; width:100%; height:auto; overflow:visible; transform-origin:50% 100%}
+.figurname{margin-top:6px; font-weight:600; font-size:14px; color:var(--accent)}
+.figur .augen, .figur .lid{transform-box:fill-box; transform-origin:center}
+.figur .lid{animation:figur-blinzeln 4.5s infinite}
+.figur[data-zustand="leerlauf"] svg{animation:figur-wippen 3.2s ease-in-out infinite}
+.figur[data-zustand="reden"] svg{animation:figur-reden .35s ease-in-out infinite}
+.figur[data-zustand="jubel"] svg{animation:figur-huepfen .6s ease-out 1}
+.figur[data-zustand="gruebeln"] svg{transform:rotate(-4deg)}
+/* Zustände wirken auf .augen: .lid gehört dem Blinzeln, .pupille dem Blick (transform-Attribut) */
+.figur[data-zustand="gruebeln"] .augen{transform:scaleY(.6)}
+.figur[data-zustand="sorge"] .augen{transform:translateY(-2px)}
+/* Mund: Strich in Textfarbe (hell/dunkel), Form je Zustand; beim Reden öffnet und schließt er sich */
+.figur .mund{fill:var(--ink); stroke:var(--ink); stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; transition:d .3s}
+.figur[data-zustand="reden"] .mund{animation:figur-mund .36s linear infinite}
+.figur[data-zustand="jubel"] .mund{d:path("M50 57 Q62 72 74 57 Q62 64 50 57")}
+.figur[data-zustand="gruebeln"] .mund{d:path("M55 60 Q62 61 69 60 Q62 61 55 60")}
+.figur[data-zustand="sorge"] .mund{d:path("M56 59 Q62 55 68 59 Q62 62 56 59")}
+@keyframes figur-wippen{0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)}}
+@keyframes figur-reden{0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.03)}}
+@keyframes figur-huepfen{0%{transform:translateY(0)} 40%{transform:translateY(-14px)} 100%{transform:translateY(0)}}
+@keyframes figur-blinzeln{0%,94%,100%{transform:scaleY(1)} 97%{transform:scaleY(.08)}}
+@keyframes figur-mund{0%,50%,100%{d:path("M52 58 Q62 66 72 58 Q62 66 52 58")} 25%{d:path("M53 57 Q62 76 71 57 Q62 64 53 57")} 75%{d:path("M53 58 Q62 71 71 58 Q62 65 53 58")}}
+@media (prefers-reduced-motion: reduce){
+  /* nur Blinzeln und Mund bleiben, der Körper steht still */
+  .figur svg{animation:none !important}
+  .figur .lid{animation-duration:4.5s !important}
+}
+@media (max-width:760px){
+  /* eine Spalte: Figur in eigener Zeile links oben, der Inhalt hat die volle Breite */
+  .shell main{grid-template-columns:minmax(0,1fr); gap:12px}
+  .shell main > :not(.figur){grid-column:1}
+  .figur{grid-column:1; grid-row:auto; position:static; width:72px; text-align:left}
+}
+
+/* ===== Gespräch ===== */
+.gespraech{display:flex; flex-direction:column; gap:14px; margin-bottom:28px}
+.chat{display:flex; flex-direction:column; gap:10px}
+.blase{
+  align-self:flex-start; max-width:min(640px, 100%);
+  background:var(--surface); color:var(--ink); border:1px solid var(--line);
+  border-radius:16px 16px 16px 4px; box-shadow:var(--shadow);
+  padding:11px 16px; font-size:17px; line-height:1.5; overflow-wrap:anywhere;
+}
+.blase.me{
+  align-self:flex-end; background:#C8352D; border-color:#E9483F; color:#fff;   /* #C8352D: weiße Schrift erreicht WCAG AA */
+  border-radius:16px 16px 4px 16px; font-weight:500;
+}
+.blase .mcstack{margin:6px 0 2px}
+.blase.karte{max-width:100%; padding:14px}
+/* lange Blöcke (Laser, wenn … < 200) brechen in der Karte um statt rechts abgeschnitten zu werden */
+.blase.karte .mcb{white-space:normal; flex-wrap:wrap; row-gap:5px; max-width:100%; overflow-wrap:normal}
+.blase.karte .mcb b{white-space:nowrap}
+.blase.karte .mcc{max-width:100%}
+.blase.karte:empty{display:none}   /* Karte, deren Inhalt noch fehlt */
+.blase.karte a.btn{font-size:17px; padding:10px 18px}
+.antworten{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
+.antworten button{
+  border:2px solid #E9483F; background:var(--surface); color:var(--ink);
+  border-radius:999px; padding:8px 18px; font-size:16px; font-weight:600; line-height:1.3;
+}
+.antworten button:hover{background:var(--accent-soft)}
+/* der Knopf, der weiterführt, ist gefüllt */
+.antworten button[data-fertig], .antworten button[data-go], .antworten button[data-abschluss], .antworten button[data-machen]{
+  background:#C8352D; color:#fff;
+}
+.antworten button[data-fertig]:hover, .antworten button[data-go]:hover,
+.antworten button[data-abschluss]:hover, .antworten button[data-machen]:hover{background:#C8352D; filter:brightness(1.08)}
+.antworten button.extra{border-style:dashed; font-size:14px; font-weight:500; color:var(--ink-2); padding:5px 14px}
+@media (max-width:760px){
+  .blase{font-size:16px; padding:10px 14px}
+  .antworten{justify-content:flex-start}
+}
+
+/* ===== Frage ===== */
+.frage{display:flex; flex-direction:column; gap:10px; width:100%}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chips button{
+  border:1px solid var(--line); background:var(--surface); color:var(--ink);
+  border-radius:999px; padding:7px 14px; font-size:15px; line-height:1.3;
+}
+.chips button:hover{background:var(--accent-soft)}
+.frage-zeile{display:flex; flex-wrap:wrap; gap:8px}
+.frage-zeile input{
+  flex:1 1 220px; min-width:0; font-size:16px; padding:9px 12px;
+  border:2px solid var(--line); border-radius:12px; background:var(--surface); color:var(--ink);
+}
+.frage-zeile input:focus{outline:none; border-color:#E9483F}

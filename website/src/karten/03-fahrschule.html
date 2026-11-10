@@ -1,19 +1,5 @@
-  <section class="station" data-st="3" hidden>
-    <div class="st-head">
-      <div class="eyebrow"><span class="tag">Station 3</span><span>20 Minuten</span><span>Fahrschule</span></div>
-      <h2>Der Roboter fährt die Linie</h2>
-      <p class="goal">Du sagst dem Roboter nicht, wo er langfahren soll &ndash; du sagst ihm, worauf er achten soll.</p>
-    </div>
-    <div class="st-body">
-      <div class="note fresh">
-        <span class="nt">Zuerst: das Roboter-Projekt</span>
-        <p>Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken (Kategorie <b>Maqueen Plus V2</b>). Nennt es unten neben <b>Herunterladen</b> <b>Linie</b> &ndash; ihr arbeitet bis zum Grand Prix darin.</p>
-        <a class="btn" href="makecode:vorlage" target="_blank" rel="noopener">Neues Roboter-Projekt starten &rarr;</a>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">01</span>Roboter anschließen</h3>
-        <p class="lead">micro:bit in den Schlitz, <b>Lämpchen nach vorn</b>. Dann <b>beide</b> Schalter auf ON.</p>
+<div class="karten" data-st="3">
+  <div class="karte" data-karte="k3-mqinsert">
         <figure class="mqfig" id="mqinsert">
           <svg viewBox="0 0 420 326" role="img" aria-labelledby="mqins-t">
             <title id="mqins-t">Der micro:bit gleitet von oben in den Schlitz, die Lämpchen zeigen nach vorn</title>
@@ -81,75 +67,49 @@
           </svg>
           <figcaption><b>Lämpchen nach vorn</b>, USB-Anschluss nach oben. Dann beide Schalter auf ON &ndash; von vorn gesehen beide <b>links</b>: 1 am Akkubrett hinter der Batterie, 2 am Rand der Bodenplatte vor dem Rad.</figcaption>
         </figure>
-        <div class="note warn">
-          <span class="nt">Immer zuerst: initialisiere Maqueen Plus V2</span>
-          <p>Steht in der Vorlage oben in <kbd>beim Start</kbd> &ndash; nicht löschen. Blinkt ein <b>X</b>, antwortet der Roboter nicht: Schalter und Sitz prüfen. <b>Haken</b> heißt verbunden.</p>
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">02</span>Wie ein Liniensensor „sieht"</h3>
-        <p class="lead">Unten sitzen fünf Lichtmesser. <b>Weiß reflektiert viel, Schwarz schluckt das Licht.</b> Der Sensor liefert eine Zahl:</p>
-        <div class="tablewrap">
-          <table class="fix">
-            <tr><th>Untergrund</th><th>ungefährer Messwert</th><th>heißt für den Roboter</th></tr>
-            <tr><td>Weißes Papier</td><td>≈ 3800</td><td>„hier ist keine Linie"</td></tr>
-            <tr><td>Schwarzes Klebeband</td><td>≈ 2700</td><td>„hier ist meine Spur"</td></tr>
-          </table>
-        </div>
-        <div class="note">
-          <span class="nt">Kalibrieren &ndash; schon erledigt</span>
-          <p>Was hier „schwarz" heißt, hat euer Roboter beim Aufbau gelernt. Findet er die Linie nicht: siehe <b>Wenn es klemmt</b>.</p>
-        </div>
-      </div>
-
-      <div class="block">
-        <h3><span class="idx">03</span>Knopf A: Ampel, dann fährt er</h3>
-        <p class="lead">Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Maqueen-Kategorie unter <b>&hellip; mehr</b>, Gruppe <b>V3</b>: <b>Line patrolling</b> heißt „Linie abfahren", <b>Speed</b> Stufe, <b>RGB Car Lights</b> sind die Lichter.</p>
-        <div class="mcstack">
-          <div class="mccap">Startampel und Linie &ndash; startet erst auf Knopfdruck</div>
-          <div class="mcb b-basic">beim Start</div>
-          <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-          <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
-          <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-          <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
-          <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
-          <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
-          <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-          <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
-        </div>
-        <p class="lead">Warum nicht in <kbd>beim Start</kbd>? Sonst fährt er los, während ihr ihn noch hinstellt. Knopf B ist euer Not-Aus.</p>
-        <ol class="steps">
-          <li><span>Herunterladen, USB-Kabel abziehen.</span></li>
-          <li><span>Roboter auf den Teststreifen am Boden, Mitte über der Linie, einschalten.</span></li>
-          <li><span><b>Knopf A</b>: Ampel, dann fährt er. <b>Knopf B</b> hält ihn an.</span></li>
-        </ol>
-        <p class="testline"><b>Testen:</b> Fährt er der Linie nach? Legt den Streifen anders hin.</p>
-      </div>
-
-      <div class="quiz" data-quiz="q3" data-answer="a">
-        <div class="qh">Kontrollfrage</div>
-        <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
-        <div class="opts">
-          <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
-          <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
-          <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
-        </div>
-        <p class="qfb" hidden></p>
-      </div>
-
-      <div class="note warn">
-        <span class="nt">Wenn es klemmt</span>
-        <p><b>Verlässt die Linie in Kurven?</b> <b>Speed</b> kleiner.<br><b>Findet die Linie nicht?</b> Neu kalibrieren: alle fünf Sensoren auf Schwarz, einschalten, <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt.</p>
-      </div>
+  </div>
+  <div class="karte" data-karte="k3-tabelle">
+    <div class="tablewrap">
+      <table class="fix">
+        <tr><th>Untergrund</th><th>ungefährer Messwert</th><th>heißt für den Roboter</th></tr>
+        <tr><td>Weißes Papier</td><td>≈ 3800</td><td>„hier ist keine Linie“</td></tr>
+        <tr><td>Schwarzes Klebeband</td><td>≈ 2700</td><td>„hier ist meine Spur“</td></tr>
+      </table>
     </div>
-    <div class="stfoot">
-      <button class="btn sec" data-next="2">&larr; Zurück</button>
-      <span class="pts">Abzeichen: Spurhalter</span>
-      <span class="spacer"></span>
-      <button class="btn" data-next="4">Weiter zu den Reflexen &rarr;</button>
+  </div>
+  <div class="karte" data-karte="k3-bloecke">
+    <div class="mcstack">
+      <div class="mccap">Startampel und Linie &ndash; startet erst auf Knopfdruck</div>
+      <div class="mcb b-basic">beim Start</div>
+      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
+      <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
+      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
+      <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
+      <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+      <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
+      <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
     </div>
-  </section>
+  </div>
+  <div class="karte" data-karte="k3-quiz">
+    <div class="quiz" data-quiz="q3" data-answer="a">
+      <div class="qh">Kontrollfrage</div>
+      <p class="q">Der mittlere Sensor meldet 2700, die äußeren melden 3800. Wo ist die Linie?</p>
+      <div class="opts">
+        <button class="opt" data-k="a"><span class="k">A</span> Genau unter der Mitte &ndash; der Roboter ist auf Kurs</button>
+        <button class="opt" data-k="b"><span class="k">B</span> Links vom Roboter, er muss nach links</button>
+        <button class="opt" data-k="c"><span class="k">C</span> Der Roboter steht auf einer Kreuzung</button>
+      </div>
+      <p class="qfb" hidden></p>
+    </div>
+  </div>
+  <div class="karte" data-karte="k3-klemmt">
+    <details class="hint">
+      <summary>Wenn es klemmt</summary>
+      <p><b>Verlässt die Linie in Kurven?</b> <b>Speed</b> kleiner.<br><b>Findet die Linie nicht?</b> Neu kalibrieren: alle fünf Sensoren auf Schwarz, einschalten, <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen zählt das wirklich.</p>
+    </details>
+  </div>
+</div>

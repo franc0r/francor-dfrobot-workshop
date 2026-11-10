@@ -92,13 +92,16 @@ und jede Zeichnung trägt die Nummern 1–4 an denselben Koordinaten.
 1. `docs/superpowers/specs/2026-11-04-grand-prix-parcours-skizze.html` — die maßgebliche
    Zeichnung aus der Sitzung (und die Zählfolge-Tabelle im Spec daneben,
    `2026-11-04-grand-prix-parcours-design.md`).
-2. `website/src/stations/05-grand-prix.html`
-   - Skizze `#gpmap`: die vier `.gp-k`-Nummern
-   - Schritt „An Kreuzung 1 umstellen“ und der Block `wenn Kreuzung Nummer 1 erreicht`
-   - die `???`-Blöcke `wenn Kreuzung Nummer ??? erreicht` (Siegesmelodie = 4, Tempo-Zone = 3)
-     — die Nummer steht nicht da, aber der Lösungsweg hängt daran
-   - Hinweis „Gut hinschauen: Für den Roboter sehen 1 und 2 gleich aus“
-   - Profi-Plan „Am Ziel 4 kurz warten“
+2. Station 5 als Gespräch: `website/src/karten/05-grand-prix.html` und
+   `website/src/drehbuch/05-grand-prix.js`
+   - Karte `k5-gpmap`, Skizze `#gpmap`: die vier `.gp-k`-Nummern und der Hinweis
+     „Gut hinschauen: Für den Roboter sehen 1 und 2 gleich aus“
+   - Schritt `kreuzungen` („An Kreuzung 1 stellt ihr um“) und Karte `k5-kreuzungen` mit dem
+     Block `wenn Kreuzung Nummer 1 erreicht`
+   - die `???`-Blöcke `wenn Kreuzung Nummer ??? erreicht` in `k5-tempo` (Tempo-Zone = 3) und
+     `k5-melodie` (Siegesmelodie = 4) — die Nummer steht nicht da, aber der Lösungsweg hängt daran
+   - Profi-Plan `k5-plan` „Am Ziel 4 kurz warten“ und im Schritt `profi` „Die Melodie kommt
+     schon am Ziel 4?“
 3. `website/src/handbuch.html`, Abschnitt „Grand Prix aufbauen und betreuen“
    - Lösungstabelle „Lösung: die Zählfolge“ und die typischen Fehler darunter („An 1 …“)
    - Aufbau: Schild „1“ links neben der Linie x = 36, auf Höhe des Querstrichs (Nummer 3),

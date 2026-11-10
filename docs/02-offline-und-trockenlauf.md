@@ -1,6 +1,6 @@
 # Offline-Betrieb und Trockenlauf
 
-**Stand:** 05.11.2026 (Block H Grand Prix und vorläufige Blocktexte ergänzt)
+**Stand:** 07.11.2026 (Abschnitt Maskottchen für den Zweig `worktree-maskottchen` ergänzt)
 
 ## Die Offline-Frage — beantwortet
 
@@ -53,7 +53,7 @@ Block H steht noch nicht im Artefakt und muss dort nachgetragen werden:
 | D | Liniensensoren und Strecke (Rohwerte, Stufe, Kurvenradius, Stopp-Block) | 15 Min |
 | E | Laserscanner — die offene Flanke | 15 Min |
 | F | micro:bit-Station gegenprüfen (Würfel, Logo oben/unten ab y = ±200) | 8 Min |
-| G | Ausdauer und Ablauf (Akku über 120 Min Workshop plus Aufbau, Aufbauzeit) | 10 Min |
+| G | Ausdauer und Ablauf (Akku über 90 Min Workshop plus Aufbau, Aufbauzeit) | 10 Min |
 | H | Grand Prix: Strecke, Kreuzungen, Bibliothek (Liste unten) | ca. 40 Min |
 
 Ergebnisse, die in `src/` zurückfließen müssen:
@@ -100,7 +100,7 @@ Aus dem Entwurf (`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.m
 8. Wie lange bleibt Register 61 (`intersectionDetecting`) an einer Kreuzung ≠ 0, und wie lange
    blockiert eine Laser-Abfrage? Ist die Abfrage länger, verpasst die Zählschleife (alle
    20 ms) Treffer, und das `dauerhaft` braucht eine Pause.
-9. Hält der Akku 120 Minuten plus Aufbau? (zusammen mit Block G)
+9. Hält der Akku 90 Minuten plus Aufbau? (zusammen mit Block G)
 10. Freiraum um die Matte: Der Laser sieht auch Füße und Taschen. Reichen die 30 cm aus dem
     Handbuch?
 11. **Schild „1“:** Am 05.11.2026 verlegt, weil es vorher (x 40–46, y 68–74 cm) im Fahrweg
@@ -146,6 +146,41 @@ Beim Trockenlauf mit MakeCode vergleichen und alle Stellen gemeinsam ändern.
 Schon am Gerät bestätigt (nicht mehr prüfen): `Line patrolling ON/OFF`,
 `Line Following Settings Speed 1–5` (08.10.2026), `spiele [Melodie …] [im Hintergrund]`
 (05.11.2026).
+
+## Maskottchen
+
+Nur auf dem Zweig `worktree-maskottchen` (siehe CLAUDE.md, Abschnitt „Maskottchen-Zweig“).
+Beim Trockenlauf mit echtem OpenRouter-Schlüssel und dem Messe-Netz (oder einem Hotspot):
+
+- [ ] Schlüssel über den Knopf „LLM Setup“ in der Kopfzeile eintragen, Zähler im Handbuch nullen.
+- [ ] Station 3 bis zum Schritt „Er fährt!“ spielen, „Geht nicht“ drücken,
+      einen Chip und eine eigene Frage probieren. Antwort kurz, Du-Anrede, Blocknamen richtig?
+- [ ] Antwortzeit mit der Uhr messen (Figur grübelt, bis die Blase kommt). Grenze im Code:
+      15 s (`LLM_TIMEOUT_MS`), danach Rückfallantwort.
+- [ ] `#llmzaehler` im Handbuch ablesen und mit den Kosten bei OpenRouter vergleichen.
+- [ ] WLAN aus, noch einmal „Geht nicht“: Rückfallantwort mit Checkliste, Zähler bleibt stehen.
+
+Messung (Antwortzeit, Cent je Frage): **noch offen**.
+
+Auf diesem Zweig geschrieben, aber noch nicht geprüft:
+
+- **MakeCode-Film** (Station 1, Karte `k1-film`): aus dem Gedächtnis gezeichnet. Am Gerät
+  vergleichen: Vorschau links, Kategorien in der Mitte, Programm rechts? Schließt die
+  Blockliste, sobald man einen Block herauszieht? Heißt der Block `zeige Symbol` und zeigt er
+  als Vorgabe das Herz? Stimmt die Reihenfolge der Kategorien (Grundlagen, Eingabe, Musik,
+  LED, Funk, Schleifen, Logik, Variablen, Mathematik)? Das Drehbuch sagt dasselbe in Worten.
+- Beschriftung im Kopplungsfenster beim ersten Flashen: Drehbuch Station 1 sagt
+  **„micro:bit koppeln“**, das Handbuch an anderer Stelle „Gerät koppeln“. Am Gerät ablesen
+  und beide Stellen angleichen.
+- **Vorlesen** (Web Speech API, Schalter im Handbuch): Die Stimmen lädt der Browser erst
+  nach und nach; die erste Blase kann ohne deutsche Stimme oder gar nicht gesprochen werden.
+  Chrome verschluckt manchmal ein `speak()` direkt nach `cancel()` (beim Schrittwechsel).
+  Auf Laptop und Raspberry Pi mit Chromium ausprobieren.
+- **Verlauf an OpenRouter**: Die Reihenfolge der Rollen im mitgeschickten Verlauf (system,
+  dann die letzten vier Blasen als user/assistant, dann die Frage) ist nur gegen den
+  gefälschten Endpunkt im Smoketest geprüft, nicht gegen den echten Anbieter. Oft folgt auf
+  system gleich assistant, und mehrere assistant stehen hintereinander (Franco spricht
+  mehrere Blasen). Lehnt der Anbieter das ab, kommt immer die Rückfallantwort.
 
 ## Quellen
 - https://makecode.microbit.org/offline (Caching, Erweiterungs-Workaround, C++-Einschränkung)

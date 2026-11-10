@@ -6,24 +6,24 @@
 - Zielgruppe: Schüler ab ca. Klasse 7
 - Hardware: **micro:bit V2 + DFRobot Maqueen Plus V3** (https://www.dfrobot.com/product-2935.html)
 - Programmierung: **nur Blöcke** (MakeCode), kein Textcode
-- Format: **feste Slots à 120 Min** (105 Min Stationen + 15 Min Puffer; Martin, 03./04.11.2026) auf einem Messestand, **2–4 Arbeitsplätze, je zwei Schüler**
+- Format: **feste Slots à 90 Min** (80 Min Stationen + 10 Min Puffer; Martin, 10.11.2026; vorher 120 = 105 + 15) auf einem Messestand, **2–4 Arbeitsplätze, je zwei Schüler**
 - Arbeitsplätze: Laptop **oder Raspberry Pi 4 mit Monitor/Tastatur/Maus** (noch nicht fix)
 - **Alles muss ohne Internet funktionieren** (siehe 02-offline-und-trockenlauf.md)
 - Leitmedium: interaktive Webseite mit geführtem Ablauf, Fortschritt, Gamification, zwei Browser-Simulatoren
 
-## Dramaturgie 120 Min
-Stand 05.11.2026 (vorher 90 Min; Zeiten wie im Handbuch).
+## Dramaturgie 90 Min
+Stand 10.11.2026 (Martin: 90 Minuten waren im Workshop machbar; vom 03.11. bis 10.11.2026
+galten 120 Minuten). Zeiten wie im Handbuch.
 
 | Zeit | Station | Kern |
 |---|---|---|
-| 0:00–0:05 | Boxenstopp | Regelkreis wahrnehmen → entscheiden → handeln |
-| 0:05–0:18 | Erster Kontakt | MakeCode, erstes Programm flashen (nur micro:bit am USB) |
-| 0:18–0:33 | micro:bit allein | LED-Matrix, Knopf-Ereignisse, Logo oben/unten + Schütteln, Würfel |
-| 0:33–0:47 | Fahrschule | Vorlage öffnen (Erweiterung schon geladen), Parcours-Simulator, Motorblöcke |
-| 0:47–1:05 | Augen | Linienverfolgung auf Knopf A = Wow-Moment |
-| 1:05–1:15 | Reflexe | Laserscanner + wenn/dann/ansonsten — **Pflicht** (Martin, 04.11.2026), der Grand Prix braucht den Laser-Stopp |
-| 1:15–1:45 | Grand Prix | Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Laser-Stopp, Lauf auf Zeit (nie streichen) |
-| 1:45–2:00 | Puffer | keine Station; dort einsetzen, wo es hakt |
+| 0:00–0:05 | Boxenstopp | Regelkreis, Bauteile am Maqueen |
+| 0:05–0:16 | Erster Kontakt | MakeCode, Herz blinkt (beim Start / dauerhaft), flashen (nur micro:bit am USB) |
+| 0:16–0:27 | micro:bit allein | LEDs, Knöpfe, Neigung, Schütteln, Würfel; Sensor = Zahl |
+| 0:27–0:42 | Fahrschule | Vorlage, einstecken, Schalter; Linie auf Knopf A mit Startampel = Wow-Moment |
+| 0:42–0:50 | Reflexe | Laser-Stopp im Projekt Linie — **Pflicht**, der Grand Prix braucht ihn |
+| 0:50–1:20 | Grand Prix | Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Melodie, Lauf auf Zeit (nie streichen) |
+| 1:20–1:30 | Puffer | keine Station; dort einsetzen, wo es hakt |
 
 **Didaktischer Faden:** Station 2 legt „Sensorwert = Zahl, die Grenze legt das Programm fest"
 — genau der Gedanke wird in Station 4 (schwarz ≈ 2700 / weiß ≈ 3800) wieder gebraucht.

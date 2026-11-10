@@ -69,7 +69,7 @@ def inline_assets(html):
     Offline-Regel verletzt, sobald die HTML-Datei allein weitergereicht wird.
     """
     def one(m):
-        rel = m.group(1)
+        rel = m.group(2)
         path = os.path.join(SRC, "assets", rel)
         if not os.path.exists(path):
             raise SystemExit("Asset fehlt: src/assets/" + rel)
@@ -77,9 +77,10 @@ def inline_assets(html):
         if not mime:
             raise SystemExit("unbekannter Asset-Typ: " + rel)
         data = base64.b64encode(io.open(path, "rb").read()).decode("ascii")
-        return 'src="data:%s;base64,%s"' % (mime, data)
+        return '%s="data:%s;base64,%s"' % (m.group(1), mime, data)
 
-    return re.sub(r'src="assets/([A-Za-z0-9._-]+)"', one, html)
+    # src= für <img>, href= für <image> im SVG
+    return re.sub(r'(src|href)="assets/([A-Za-z0-9._-]+)"', one, html)
 
 
 MAKECODE = "https://makecode.microbit.org/"
@@ -121,68 +122,111 @@ def makecode_links(html):
     b64 = base64.b64encode(io.open(VORLAGE, "rb").read()).decode("ascii")
     html = html.replace('href="makecode:neu"', 'href="%s#newproject"' % MAKECODE)
     html = html.replace('href="makecode:vorlage"', 'href="%s#project:%s"' % (MAKECODE, b64))
-    if "makecode:" in html:
+    # Drehbücher verweisen mit {karte:"makecode:neu"} / {karte:"makecode:vorlage"}
+    # auf die Knöpfe; das ist kein Link und bleibt stehen.
+    if "makecode:" in re.sub(r'karte:\s*"makecode:(?:neu|vorlage)"', "", html):
         raise SystemExit('unbekannter MakeCode-Platzhalter – nur makecode:neu und makecode:vorlage')
     return html
+
+
+def drehbuch_js():
+    """Alle src/drehbuch/NN-name.js, sortiert, hintereinander."""
+    d = os.path.join(SRC, "drehbuch")
+    out = []
+    for f in sorted(x for x in os.listdir(d) if x.endswith(".js")):
+        m = re.match(r"(\d\d)-[a-z0-9-]+\.js$", f)
+        if not m:
+            raise SystemExit("Drehbuch %s: Dateiname muss NN-name.js heißen" % f)
+        body = read("drehbuch/" + f)
+        if "DREHBUCH[%d]" % int(m.group(1)) not in body:
+            raise SystemExit("Drehbuch %s: DREHBUCH[%d] steht nicht darin" % (f, int(m.group(1))))
+        out.append("/* ---- Drehbuch %s ---- */\n%s\n" % (f, body))
+    return "".join(out)
+
+
+def karten_html():
+    """Alle src/karten/*.html, sortiert, für den versteckten Kartenvorrat."""
+    d = os.path.join(SRC, "karten")
+    return "".join(read("karten/" + f) + "\n" for f in sorted(os.listdir(d)) if f.endswith(".html"))
 
 
 # Textbudget je Station (Spec 2026-11-09-parcours-first, Abschnitt Textbudget; Station 5 auf
 # 850 angehoben, weil das Grand-Prix-Programm vollständig auf der Seite steht). Gezählt wird
 # stumpf: Tags raus, alles Übrige an Leerzeichen getrennt – auch Blocktexte, Knöpfe, Tabellen.
-# Ein `&nbsp;`-Paar wie „5&nbsp;cm“ zählt dabei als ein Wort.
+# Auf diesem Zweig zählt je Station, was das Team im Gespräch liest: die Nachrichten des
+# Drehbuchs (auch die hinter den Zeig-Knöpfen) plus die Karten-Datei. Chips, Fertig-Knöpfe,
+# IDs und Kartenverweise zählen nicht. Ein Gespräch spricht in ganzen Sätzen, deshalb gilt
+# hier das Budget von master mal GESPRAECHSFAKTOR (Martin, 09.11.2026).
 TEXTBUDGET = [200, 350, 550, 500, 300, 850]
+GESPRAECHSFAKTOR = 1.5
 
 
 def wortzahl(body: str) -> int:
     return len(re.sub(r'<[^>]*>', ' ', body).split())
 
 
+def drehbuch_text(js: str) -> str:
+    """Nur die Nachrichten eines Drehbuchs: Schlüsselwörter, Chips, Fertig-Texte und
+    Kartenverweise fallen raus, übrig bleiben die Zeichenketten, die das Team liest."""
+    js = re.sub(r'\bchips\s*:\s*\[[^\]]*\]', '', js)
+    js = re.sub(r'\b(fertig|id|titel|name|badge)\s*:\s*"(?:[^"\\]|\\.)*"', '', js)
+    js = re.sub(r'\{\s*karte\s*:\s*"[^"]*"\s*\}', '', js)
+    js = re.sub(r'"((?:[^"\\]|\\.)*)"\s*:\s*\[', '[', js)   # Knopftexte der Zeig-Blöcke
+    return " ".join(re.findall(r'"((?:[^"\\]|\\.)*)"', js))
+
+
 _gezaehlt = False   # Wortzahlen nur einmal ausgeben, nicht je Ziel
 
 
-def stations():
+def check_textbudget():
     global _gezaehlt
-    d = os.path.join(SRC, "stations")
-    files = sorted(f for f in os.listdir(d) if f.endswith(".html"))
-    if len(files) != len(TEXTBUDGET):
-        raise SystemExit("%d Stationen, aber %d Textbudgets" % (len(files), len(TEXTBUDGET)))
-    out = []
-    for i, f in enumerate(files):
-        body = read("stations/" + f)
-        m = re.search(r'data-st="(\d)"', body)
-        if not m or int(m.group(1)) != i:
-            raise SystemExit("Station %s: data-st passt nicht zur Reihenfolge (erwartet %d)" % (f, i))
-        n = wortzahl(body)
-        if n > TEXTBUDGET[i]:
-            raise SystemExit("Station %s: %d Wörter, Budget %d" % (f, n, TEXTBUDGET[i]))
+    dreh = sorted(f for f in os.listdir(os.path.join(SRC, "drehbuch")) if f.endswith(".js"))
+    karten = sorted(f for f in os.listdir(os.path.join(SRC, "karten")) if f.endswith(".html"))
+    if len(dreh) != len(TEXTBUDGET) or len(karten) != len(TEXTBUDGET):
+        raise SystemExit("%d Drehbücher, %d Kartendateien, aber %d Textbudgets"
+                         % (len(dreh), len(karten), len(TEXTBUDGET)))
+    for i, (dj, kh) in enumerate(zip(dreh, karten)):
+        if dj[:2] != "%02d" % i or kh[:2] != "%02d" % i or dj[:-3] != kh[:-5]:
+            raise SystemExit("Drehbuch %s und Karten %s passen nicht zu Station %d" % (dj, kh, i))
+        n = wortzahl(drehbuch_text(read("drehbuch/" + dj))) + wortzahl(read("karten/" + kh))
+        budget = int(TEXTBUDGET[i] * GESPRAECHSFAKTOR)
+        if n > budget:
+            raise SystemExit("Station %s: %d Wörter, Budget %d (%d × %.1f)"
+                             % (dj[:-3], n, budget, TEXTBUDGET[i], GESPRAECHSFAKTOR))
         if not _gezaehlt:
-            print("Station %d: %d/%d Wörter" % (i, n, TEXTBUDGET[i]))
-        out.append("  <!-- ============ STATION %d ============ -->\n%s\n" % (i, body))
+            print("Station %d: %d/%d Wörter" % (i, n, budget))
     _gezaehlt = True
-    return "".join(out)
 
 
-STATIONSMINUTEN = 105   # Summe der Stationen ...
-PUFFER = 15             # ... plus Puffer = 120-Minuten-Slot
+STATIONSMINUTEN = 80    # Summe der Stationen ...
+PUFFER = 10             # ... plus Puffer = 90-Minuten-Slot (Martin, 10.11.2026)
 
 
-def check_times(stations_html, app_js):
-    """Eyebrow-Minuten, Rail-Array und Handbuch-Zeitplan müssen zusammenpassen."""
-    eyebrow = [int(x) for x in re.findall(r'<span class="tag">Station \d</span><span>(\d+) Minuten</span>', stations_html)]
+def check_times(app_js, drehbuch=""):
+    """Rail-Array und Drehbuch-Minuten müssen zusammenpassen, Summe 80."""
     rail = [int(x) for x in re.findall(r'm:"(\d+) Min"', app_js)]
-    if eyebrow != rail:
-        raise SystemExit("Zeiten stimmen nicht überein: Eyebrows %s vs. STATIONS-Array %s" % (eyebrow, rail))
-    if sum(eyebrow) != STATIONSMINUTEN:
+    # Drehbücher: wo eines existiert, muss seine Minutenzahl zum STATIONS-Array passen
+    for nr, mins in re.findall(r'DREHBUCH\[(\d+)\]\s*=\s*\{(?:(?!DREHBUCH\[)[\s\S])*?\bmin:\s*(\d+)', drehbuch):
+        if int(nr) >= len(rail) or int(mins) != rail[int(nr)]:
+            raise SystemExit("Drehbuch %s: min %s passt nicht zum STATIONS-Array %s" % (nr, mins, rail))
+    if sum(rail) != STATIONSMINUTEN:
         raise SystemExit("Stationsminuten summieren auf %d, nicht %d (+ %d Puffer = %d)"
-                         % (sum(eyebrow), STATIONSMINUTEN, PUFFER, STATIONSMINUTEN + PUFFER))
-    return sum(eyebrow)
+                         % (sum(rail), STATIONSMINUTEN, PUFFER, STATIONSMINUTEN + PUFFER))
+    return sum(rail)
 
 
 def assemble(target):
     css = read("styles.css")
     app = read("app.js")
-    st = stations()
-    check_times(st, app)
+    drehbuch = drehbuch_js()
+    marke = "/* @@EINHAENGEN@@ */"
+    if app.count(marke) != 1:
+        raise SystemExit("Marke %s muss in app.js genau einmal vorkommen" % marke)
+    if os.path.exists(os.path.join(SRC, "stations")):
+        raise SystemExit("Stationen gehören jetzt in drehbuch/ und karten/")
+    check_times(app, drehbuch)
+    check_textbudget()
+    app = app.replace(marke, drehbuch + read("maskottchen.js"))
 
     if target in STANDALONE:
         if FONTS_ONLINE not in css:
@@ -201,8 +245,13 @@ def assemble(target):
 
     body = ("\n" + topbar + "\n\n"
             '<div class="shell">\n' + read("rail.html") + "\n\n"
-            '  <main id="stage">\n\n' + read("stueckliste.html") + "\n" + st + "\n  </main>\n</div>\n\n"
-            '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n"
+            '  <main id="stage">\n' + read("figur.html") + "\n"
+            '<section class="gespraech" id="gespraech"><div class="chat" id="chat"></div>'
+            '<div class="antworten" id="antworten"></div></section>\n'
+            '<div id="karten" hidden>\n' + karten_html() + "</div>\n\n"
+            + read("stueckliste.html") + "\n"
+            "\n  </main>\n</div>\n\n"
+            '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n" + read("schluessel.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
     body = makecode_links(inline_assets(body))
     if "assets/" in body:
