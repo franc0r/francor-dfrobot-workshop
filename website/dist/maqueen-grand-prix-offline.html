@@ -458,6 +458,46 @@ kbd{
 @keyframes sw-knob{0%,50%{transform:translateX(0)} 62%,88%{transform:translateX(18px)} 100%{transform:translateX(0)}}
 @keyframes sw-track{0%,50%{fill:var(--line)} 62%,88%{fill:var(--teal)} 100%{fill:var(--line)}}
 
+/* MakeCode-Film (Station 1, Karte k1-film): nachgezeichnetes MakeCode-Fenster. Alle Teile laufen auf
+   einer 8-s-Zeitachse: Zeiger klickt Grundlagen (14 %), Blockliste geht auf (19 %), Block wird
+   gegriffen (30 %) und nach beim Start gezogen (52 %), rastet ein, die Vorschau zeigt das Herz (60 %).
+   Der Grundzustand jedes Teils ist das Endbild – bei reduzierter Bewegung steht genau das. */
+.mcfilm{margin:0; max-width:560px}
+.mcfilm svg{width:100%; height:auto; display:block; font-family:var(--sans); border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.mcf-txt{font-size:10px; fill:#333}
+.mcf-bt{font-size:10.5px; font-weight:600; fill:#fff}
+.mcf-val{font-size:9px; font-weight:600; fill:#1A2226; text-anchor:middle; dominant-baseline:central}
+.mcf-blk{fill:#1E90FF}
+.mcf-pill{fill:#fff}
+.mcf-led{fill:#3A2222}
+.mcf-led.on{fill:#FF3D2E; animation:mcf-led 8s linear infinite}
+.mcf-cur{transform:translate(440px,150px); animation:mcf-cur 8s ease-in-out infinite}
+.mcf-ring{opacity:0; animation:mcf-ring 8s linear infinite}
+.mcf-hl{opacity:0; animation:mcf-hl 8s linear infinite}
+.mcf-fly{opacity:0; animation:mcf-fly 8s ease-out infinite}
+.mcf-drag{transform:translate(386px,84px); animation:mcf-drag 8s ease-in-out infinite}
+.mcf-snap{opacity:0; animation:mcf-snap 8s linear infinite}
+@keyframes mcf-cur{
+  0%{transform:translate(300px,230px)}
+  14%,20%{transform:translate(136px,66px)}
+  30%,34%{transform:translate(240px,108px)}
+  52%,56%{transform:translate(414px,96px)}
+  62%,92%{transform:translate(440px,150px)}
+  100%{transform:translate(300px,230px)}
+}
+@keyframes mcf-ring{0%,13%{opacity:0} 14%{opacity:1} 18%,29%{opacity:0} 30%{opacity:1} 34%,100%{opacity:0}}
+@keyframes mcf-hl{0%,14%{opacity:0} 15%,40%{opacity:.18} 44%,100%{opacity:0}}
+@keyframes mcf-fly{0%,15%{opacity:0; transform:translateX(-12px)} 19%,36%{opacity:1; transform:translateX(0)} 40%,100%{opacity:0; transform:translateX(0)}}
+@keyframes mcf-drag{
+  0%,33%{opacity:0; transform:translate(212px,96px)}
+  34%{opacity:1; transform:translate(212px,96px)}
+  51%{opacity:1; transform:translate(389px,83px)}
+  54%,94%{opacity:1; transform:translate(386px,84px)}
+  100%{opacity:0; transform:translate(386px,84px)}
+}
+@keyframes mcf-snap{0%,53%{opacity:0} 55%,58%{opacity:1} 64%,100%{opacity:0}}
+@keyframes mcf-led{0%,56%{fill:#3A2222} 60%,94%{fill:#FF3D2E} 100%{fill:#3A2222}}
+
 /* quiz */
 .quiz{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:var(--surface-2)}
 .quiz .qh{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:7px}
@@ -558,6 +598,7 @@ body.safety-on{overflow:hidden}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
   .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
+  .mcfilm *,.mcfilm .mcf-led.on{animation:none}
 }
 
 /* ===== Figur ===== */
@@ -822,6 +863,85 @@ body.safety-on{overflow:hidden}
   </div>
 </div>
 <div class="karten" data-st="1">
+  <div class="karte" data-karte="k1-film">
+    <figure class="mcfilm">
+      <svg viewBox="0 0 520 300" role="img" aria-labelledby="mcf-t">
+        <title id="mcf-t">MakeCode: Grundlagen anklicken, zeige Symbol in beim Start ziehen</title>
+        <defs>
+          <pattern id="mcf-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r=".9" fill="#CFCFCF"/></pattern>
+          <symbol id="mcf-zs"><rect class="mcf-blk" width="118" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">zeige Symbol</text><g transform="translate(92 3)"><rect width="19" height="19" rx="2" fill="#1A1A1A"/><rect x="2.0" y="2.0" width="2.4" height="2.4" fill="#444"/><rect x="5.0" y="2.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="2.0" width="2.4" height="2.4" fill="#444"/><rect x="11.0" y="2.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="2.0" width="2.4" height="2.4" fill="#444"/><rect x="2.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="5.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="5.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="2.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="5.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="8.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="2.0" y="11.0" width="2.4" height="2.4" fill="#444"/><rect x="5.0" y="11.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="8.0" y="11.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="11.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="14.0" y="11.0" width="2.4" height="2.4" fill="#444"/><rect x="2.0" y="14.0" width="2.4" height="2.4" fill="#444"/><rect x="5.0" y="14.0" width="2.4" height="2.4" fill="#444"/><rect x="8.0" y="14.0" width="2.4" height="2.4" fill="#FF3D2E"/><rect x="11.0" y="14.0" width="2.4" height="2.4" fill="#444"/><rect x="14.0" y="14.0" width="2.4" height="2.4" fill="#444"/></g></symbol>
+        </defs>
+        <!-- Programmierfenster -->
+        <rect x="200" y="26" width="320" height="274" fill="#fff"/>
+        <rect x="200" y="26" width="320" height="274" fill="url(#mcf-dots)"/>
+        <!-- beim Start, dauerhaft -->
+        <g class="mcf-blk"><path d="M370 56Q395 40 420 56Z"/><rect x="370" y="56" width="130" height="24" rx="3"/><rect x="370" y="80" width="16" height="34"/><rect x="370" y="114" width="130" height="12" rx="3"/></g>
+        <text class="mcf-bt" x="380" y="72">beim Start</text>
+        <g class="mcf-blk"><path d="M370 170Q395 154 420 170Z"/><rect x="370" y="170" width="130" height="24" rx="3"/><rect x="370" y="194" width="16" height="34"/><rect x="370" y="228" width="130" height="12" rx="3"/></g>
+        <text class="mcf-bt" x="380" y="186">dauerhaft</text>
+        <!-- Kopfzeile -->
+        <rect width="520" height="26" fill="#333"/>
+        <rect x="432" y="5" width="80" height="16" rx="3" fill="#555"/><text class="mcf-bt" x="441" y="16.5" style="font-size:9.5px">Herunterladen</text>
+        <!-- Vorschau -->
+        <rect y="26" width="110" height="274" fill="#ECEEF0"/>
+        <rect x="48" y="38" width="14" height="8" fill="#9AA0A4"/>
+        <rect x="12" y="44" width="86" height="100" rx="6" fill="#1E2F37"/>
+        <rect x="16" y="86" width="12" height="12" rx="2" fill="#0E171B" stroke="#4A5A63"/><text class="mcf-bt" x="19" y="95.5" style="font-size:8px">A</text>
+        <rect x="82" y="86" width="12" height="12" rx="2" fill="#0E171B" stroke="#4A5A63"/><text class="mcf-bt" x="85" y="95.5" style="font-size:8px">B</text>
+        <rect class="mcf-led" x="35" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="55" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="75" y="60" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="35" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="75" y="70" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="35" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="75" y="80" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="35" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="45" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="65" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="75" y="90" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="35" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="45" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led on" x="55" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="65" y="100" width="6" height="6" rx="1"/>
+        <rect class="mcf-led" x="75" y="100" width="6" height="6" rx="1"/>
+        <!-- Kategorien -->
+        <rect x="110" y="26" width="90" height="274" fill="#fff"/><line x1="200" y1="26" x2="200" y2="300" stroke="#DDD"/>
+        <rect x="116" y="34" width="78" height="14" rx="7" fill="#F0F0F0" stroke="#CCC"/><circle cx="125" cy="41" r="3" fill="none" stroke="#999" stroke-width="1.2"/><line x1="127.5" y1="43.5" x2="130" y2="46" stroke="#999" stroke-width="1.2"/>
+        <rect class="mcf-hl" x="112" y="56" width="88" height="20" fill="#1E90FF"/>
+        <circle cx="122" cy="66" r="4" fill="#1E90FF"/><text class="mcf-txt" x="132" y="69">Grundlagen</text>
+        <circle cx="122" cy="88" r="4" fill="#D400D4"/><text class="mcf-txt" x="132" y="91">Eingabe</text>
+        <circle cx="122" cy="110" r="4" fill="#E63022"/><text class="mcf-txt" x="132" y="113">Musik</text>
+        <circle cx="122" cy="132" r="4" fill="#5C2D91"/><text class="mcf-txt" x="132" y="135">LED</text>
+        <circle cx="122" cy="154" r="4" fill="#E3008C"/><text class="mcf-txt" x="132" y="157">Funk</text>
+        <circle cx="122" cy="176" r="4" fill="#00AA00"/><text class="mcf-txt" x="132" y="179">Schleifen</text>
+        <circle cx="122" cy="198" r="4" fill="#00A4A6"/><text class="mcf-txt" x="132" y="201">Logik</text>
+        <circle cx="122" cy="220" r="4" fill="#DC143C"/><text class="mcf-txt" x="132" y="223">Variablen</text>
+        <circle cx="122" cy="242" r="4" fill="#9400D3"/><text class="mcf-txt" x="132" y="245">Mathematik</text>
+        <!-- Blockliste (Flyout) -->
+        <g class="mcf-fly">
+          <rect x="200" y="26" width="150" height="274" fill="#F7F7F7" opacity=".97"/><line x1="350" y1="26" x2="350" y2="300" stroke="#DDD"/>
+          <g transform="translate(212 60)"><rect class="mcf-blk" width="100" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">zeige Zahl</text><rect class="mcf-pill" x="74" y="5" width="20" height="14" rx="7"/><text class="mcf-val" x="84" y="12">0</text></g>
+          <use href="#mcf-zs" x="212" y="96"/>
+          <g transform="translate(212 132)"><rect class="mcf-blk" width="128" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">zeige Text</text><rect class="mcf-pill" x="78" y="5" width="44" height="14" rx="7"/><text class="mcf-val" x="100" y="12">„Hallo!“</text></g>
+          <g transform="translate(212 168)"><rect class="mcf-blk" width="114" height="24" rx="4"/><text class="mcf-bt" x="8" y="16">pausiere (ms)</text><rect class="mcf-pill" x="80" y="5" width="28" height="14" rx="7"/><text class="mcf-val" x="94" y="12">100</text></g>
+        </g>
+        <!-- gezogener Block, Einrasten -->
+        <rect class="mcf-snap" x="384" y="82" width="122" height="28" rx="5" fill="none" stroke="#FFD500" stroke-width="2.5"/>
+        <g class="mcf-drag"><use href="#mcf-zs"/></g>
+        <!-- Mauszeiger -->
+        <g class="mcf-cur"><circle class="mcf-ring" cx="1" cy="1" r="9" fill="none" stroke="#1E90FF" stroke-width="2"/><path d="M0 0L0 15L4 11.5L7.3 18L9.6 17L6.4 10.6L11.5 10.5Z" fill="#fff" stroke="#111" stroke-width="1.1" stroke-linejoin="round"/></g>
+      </svg>
+    </figure>
+  </div>
   <div class="karte" data-karte="k1-start">
     <div class="mcstack">
       <div class="mccap">Einmal, direkt beim Einschalten</div>
@@ -1984,8 +2104,9 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:15, badge:"Ersteinschalter", titel:"Er
 
   { id:"umschauen",
     nachrichten:[
-      "Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau.",
-      "Einen Block zieht ihr mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster. Dort rastet er ein wie ein Puzzleteil.",
+      "Links die Vorschau, in der Mitte die Block-Kategorien, rechts euer Programm.",
+      {karte:"k1-film"},
+      "Genau so holt ihr jeden Block: Kategorie anklicken, Block greifen, mit gedrückter Maustaste rüberziehen. Er rastet ein wie ein Puzzleteil.",
       "Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus."
     ],
     zeig:{ "So bedient ihr MakeCode":[

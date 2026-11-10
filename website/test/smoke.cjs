@@ -125,7 +125,7 @@ function check(cond, msg) {
 
   // Karten sind im Vorrat versteckt, bis das Gespräch sie holt
   check(await page.$('#karten #mqmap') !== null, 'Karten: Vorrat trägt die Maqueen-Übersicht');
-  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-start', 'k1-herz', 'k1-quiz', 'k1-klemmt', 'k2-knoepfe', 'k2-neigen', 'k2-tabelle', 'k2-zahl', 'k2-quiz', 'k2-wuerfel', 'k2-klemmt', 'k3-mqinsert', 'k3-tabelle', 'k3-bloecke', 'k3-quiz', 'k3-klemmt', 'k4-laser', 'k4-bedingung', 'k4-bauen', 'k4-quiz', 'k4-klemmt', 'k5-gpmap', 'k5-typen', 'k5-kreuzungen', 'k5-melodie', 'k5-tempo', 'k5-plan', 'k5-variable', 'k5-final', 'k5-klemmt'])
+  for (const id of ['k0-mqmap', 'k0-quiz', 'k0-klemmt', 'k1-film', 'k1-start', 'k1-herz', 'k1-quiz', 'k1-klemmt', 'k2-knoepfe', 'k2-neigen', 'k2-tabelle', 'k2-zahl', 'k2-quiz', 'k2-wuerfel', 'k2-klemmt', 'k3-mqinsert', 'k3-tabelle', 'k3-bloecke', 'k3-quiz', 'k3-klemmt', 'k4-laser', 'k4-bedingung', 'k4-bauen', 'k4-quiz', 'k4-klemmt', 'k5-gpmap', 'k5-typen', 'k5-kreuzungen', 'k5-melodie', 'k5-tempo', 'k5-plan', 'k5-variable', 'k5-final', 'k5-klemmt'])
     check(await page.$('#karten [data-karte="' + id + '"]') !== null, 'Karten: ' + id + ' im Vorrat');
 
   // Stückliste: Seite oben in der Leiste, keine Station, kein Gespräch
@@ -214,6 +214,11 @@ function check(cond, msg) {
     let r1 = 0;
     while (!(await page.$('#chat [data-karte="k1-herz"]')) && r1++ < 5) await weiter();
     check(await page.isVisible('#chat [data-karte="k1-herz"]'), 'Station 1: Karte k1-herz sichtbar');
+    // MakeCode-Film: unter reduzierter Bewegung steht das Endbild (Block in beim Start, Herz in der Vorschau)
+    check(await page.$('#chat [data-karte="k1-film"] svg .mcf-drag') !== null, 'Station 1: MakeCode-Film im Gespräch');
+    check(await page.$eval('#chat .mcf-drag', e => getComputedStyle(e).transform) === 'matrix(1, 0, 0, 1, 386, 84)', 'Station 1: Film-Endbild – Block liegt in beim Start');
+    check(await page.$$eval('#chat .mcf-led.on', l => l.length === 16 && l.every(e => getComputedStyle(e).fill === 'rgb(255, 61, 46)')), 'Station 1: Film-Endbild – Herz in der Vorschau');
+    check(await page.$$eval('#chat .mcf-fly, #chat .mcf-hl, #chat .mcf-ring', l => l.every(e => getComputedStyle(e).opacity === '0')), 'Station 1: Film-Endbild – Blockliste und Markierungen aus');
     const loopKids = await page.$$eval('#chat .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim() + ':' + c.querySelectorAll(':scope > .mcbody > .mcb').length));
     check(loopKids.includes('beim Start:1') && loopKids.includes('dauerhaft:4'), 'Station 1: Klammer-Blöcke in der Karte (' + loopKids.join(', ') + ')');
     check(await page.$$eval('#chat .mcb .ledico[aria-label="Herz"] span.on', l => l.length === 16), 'Station 1: Herz als 5×5-Bild');

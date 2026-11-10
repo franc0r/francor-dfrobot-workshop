@@ -283,6 +283,13 @@ gestrichen, siehe „Parcours first“). Was in `app.js` bleibt: Fortschritt, Qu
   Die Einrückung ist also die Struktur — sie muss stimmen. `.mcstack.flat` bleibt flach
   (die Regelkreis-Treppe in Station 0). Symbole wie das Herz sind 5×5-Bildchen aus `PAT`
   (`<b data-led="heart">`), kein Emoji.
+- **MakeCode-Film** (Station 1, Karte `k1-film`, `.mcfilm` in `styles.css`): ein nachgezeichnetes
+  MakeCode-Fenster als Inline-SVG (Vorschau links, Kategorien in der Mitte, Programm rechts). Der
+  Zeiger klickt Grundlagen, die Blockliste geht auf, `zeige Symbol` wird nach `beim Start` gezogen,
+  rastet ein, die Vorschau zeigt das Herz. Reine CSS-Keyframes auf einer 8-s-Schleife, kein Video
+  (Regel 1 und 2: kein Bild von außen, Datei bleibt klein). Der Grundzustand jedes Teils ist das
+  Endbild; bei reduzierter Bewegung steht es. Der Smoketest prüft das Endbild. Aufbau und Farben
+  des Fensters sind aus dem Gedächtnis gezeichnet, am Gerät noch nicht verglichen (Trockenlauf).
 - Fortschritt liegt in `localStorage` unter `mgp-v1`. „Neues Team" löscht ihn — das ist der
   Knopf zwischen zwei Messe-Slots. `load()` stutzt Stände aus einer Fassung mit mehr Stationen
   zurecht (bis 09.11.2026 waren es sieben).

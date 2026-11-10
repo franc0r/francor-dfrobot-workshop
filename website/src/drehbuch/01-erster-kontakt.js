@@ -14,8 +14,9 @@ DREHBUCH[1] = {name:"Erster Kontakt", min:15, badge:"Ersteinschalter", titel:"Er
 
   { id:"umschauen",
     nachrichten:[
-      "Links stehen die Block-Kategorien, in der Mitte euer Programm, rechts eine kleine Vorschau.",
-      "Einen Block zieht ihr mit gedrückter Maustaste aus einer Kategorie ins Programmierfenster. Dort rastet er ein wie ein Puzzleteil.",
+      "Links die Vorschau, in der Mitte die Block-Kategorien, rechts euer Programm.",
+      {karte:"k1-film"},
+      "Genau so holt ihr jeden Block: Kategorie anklicken, Block greifen, mit gedrückter Maustaste rüberziehen. Er rastet ein wie ein Puzzleteil.",
       "Zwei Blöcke liegen schon da: <kbd>beim Start</kbd> läuft genau einmal, <kbd>dauerhaft</kbd> läuft immer wieder, ohne Ende. Das probiert ihr gleich selbst aus."
     ],
     zeig:{ "So bedient ihr MakeCode":[

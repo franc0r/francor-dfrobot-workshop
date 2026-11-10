@@ -445,6 +445,46 @@ kbd{
 @keyframes sw-knob{0%,50%{transform:translateX(0)} 62%,88%{transform:translateX(18px)} 100%{transform:translateX(0)}}
 @keyframes sw-track{0%,50%{fill:var(--line)} 62%,88%{fill:var(--teal)} 100%{fill:var(--line)}}
 
+/* MakeCode-Film (Station 1, Karte k1-film): nachgezeichnetes MakeCode-Fenster. Alle Teile laufen auf
+   einer 8-s-Zeitachse: Zeiger klickt Grundlagen (14 %), Blockliste geht auf (19 %), Block wird
+   gegriffen (30 %) und nach beim Start gezogen (52 %), rastet ein, die Vorschau zeigt das Herz (60 %).
+   Der Grundzustand jedes Teils ist das Endbild – bei reduzierter Bewegung steht genau das. */
+.mcfilm{margin:0; max-width:560px}
+.mcfilm svg{width:100%; height:auto; display:block; font-family:var(--sans); border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.mcf-txt{font-size:10px; fill:#333}
+.mcf-bt{font-size:10.5px; font-weight:600; fill:#fff}
+.mcf-val{font-size:9px; font-weight:600; fill:#1A2226; text-anchor:middle; dominant-baseline:central}
+.mcf-blk{fill:#1E90FF}
+.mcf-pill{fill:#fff}
+.mcf-led{fill:#3A2222}
+.mcf-led.on{fill:#FF3D2E; animation:mcf-led 8s linear infinite}
+.mcf-cur{transform:translate(440px,150px); animation:mcf-cur 8s ease-in-out infinite}
+.mcf-ring{opacity:0; animation:mcf-ring 8s linear infinite}
+.mcf-hl{opacity:0; animation:mcf-hl 8s linear infinite}
+.mcf-fly{opacity:0; animation:mcf-fly 8s ease-out infinite}
+.mcf-drag{transform:translate(386px,84px); animation:mcf-drag 8s ease-in-out infinite}
+.mcf-snap{opacity:0; animation:mcf-snap 8s linear infinite}
+@keyframes mcf-cur{
+  0%{transform:translate(300px,230px)}
+  14%,20%{transform:translate(136px,66px)}
+  30%,34%{transform:translate(240px,108px)}
+  52%,56%{transform:translate(414px,96px)}
+  62%,92%{transform:translate(440px,150px)}
+  100%{transform:translate(300px,230px)}
+}
+@keyframes mcf-ring{0%,13%{opacity:0} 14%{opacity:1} 18%,29%{opacity:0} 30%{opacity:1} 34%,100%{opacity:0}}
+@keyframes mcf-hl{0%,14%{opacity:0} 15%,40%{opacity:.18} 44%,100%{opacity:0}}
+@keyframes mcf-fly{0%,15%{opacity:0; transform:translateX(-12px)} 19%,36%{opacity:1; transform:translateX(0)} 40%,100%{opacity:0; transform:translateX(0)}}
+@keyframes mcf-drag{
+  0%,33%{opacity:0; transform:translate(212px,96px)}
+  34%{opacity:1; transform:translate(212px,96px)}
+  51%{opacity:1; transform:translate(389px,83px)}
+  54%,94%{opacity:1; transform:translate(386px,84px)}
+  100%{opacity:0; transform:translate(386px,84px)}
+}
+@keyframes mcf-snap{0%,53%{opacity:0} 55%,58%{opacity:1} 64%,100%{opacity:0}}
+@keyframes mcf-led{0%,56%{fill:#3A2222} 60%,94%{fill:#FF3D2E} 100%{fill:#3A2222}}
+
 /* quiz */
 .quiz{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:var(--surface-2)}
 .quiz .qh{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:7px}
@@ -545,6 +585,7 @@ body.safety-on{overflow:hidden}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
   .mqfig .mb-slide,.mqfig .sw-anim .knob,.mqfig .sw-anim .track{animation:none}
+  .mcfilm *,.mcfilm .mcf-led.on{animation:none}
 }
 
 /* ===== Figur ===== */

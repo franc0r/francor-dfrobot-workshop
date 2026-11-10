@@ -164,6 +164,11 @@ Messung (Antwortzeit, Cent je Frage): **noch offen**.
 
 Auf diesem Zweig geschrieben, aber noch nicht geprüft:
 
+- **MakeCode-Film** (Station 1, Karte `k1-film`): aus dem Gedächtnis gezeichnet. Am Gerät
+  vergleichen: Vorschau links, Kategorien in der Mitte, Programm rechts? Schließt die
+  Blockliste, sobald man einen Block herauszieht? Heißt der Block `zeige Symbol` und zeigt er
+  als Vorgabe das Herz? Stimmt die Reihenfolge der Kategorien (Grundlagen, Eingabe, Musik,
+  LED, Funk, Schleifen, Logik, Variablen, Mathematik)? Das Drehbuch sagt dasselbe in Worten.
 - Beschriftung im Kopplungsfenster beim ersten Flashen: Drehbuch Station 1 sagt
   **„micro:bit koppeln“**, das Handbuch an anderer Stelle „Gerät koppeln“. Am Gerät ablesen
   und beide Stellen angleichen.
