@@ -53,7 +53,7 @@ Block H steht noch nicht im Artefakt und muss dort nachgetragen werden:
 | D | Liniensensoren und Strecke (Rohwerte, Stufe, Kurvenradius, Stopp-Block) | 15 Min |
 | E | Laserscanner — die offene Flanke | 15 Min |
 | F | micro:bit-Station gegenprüfen (Würfel, Logo oben/unten ab y = ±200) | 8 Min |
-| G | Ausdauer und Ablauf (Akku über 120 Min Workshop plus Aufbau, Aufbauzeit) | 10 Min |
+| G | Ausdauer und Ablauf (Akku über 90 Min Workshop plus Aufbau, Aufbauzeit) | 10 Min |
 | H | Grand Prix: Strecke, Kreuzungen, Bibliothek (Liste unten) | ca. 40 Min |
 
 Ergebnisse, die in `src/` zurückfließen müssen:
@@ -100,7 +100,7 @@ Aus dem Entwurf (`docs/superpowers/specs/2026-11-04-grand-prix-parcours-design.m
 8. Wie lange bleibt Register 61 (`intersectionDetecting`) an einer Kreuzung ≠ 0, und wie lange
    blockiert eine Laser-Abfrage? Ist die Abfrage länger, verpasst die Zählschleife (alle
    20 ms) Treffer, und das `dauerhaft` braucht eine Pause.
-9. Hält der Akku 120 Minuten plus Aufbau? (zusammen mit Block G)
+9. Hält der Akku 90 Minuten plus Aufbau? (zusammen mit Block G)
 10. Freiraum um die Matte: Der Laser sieht auch Füße und Taschen. Reichen die 30 cm aus dem
     Handbuch?
 11. **Schild „1“:** Am 05.11.2026 verlegt, weil es vorher (x 40–46, y 68–74 cm) im Fahrweg

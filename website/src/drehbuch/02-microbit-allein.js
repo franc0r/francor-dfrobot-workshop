@@ -1,7 +1,7 @@
 /* Drehbuch Station 2: micro:bit allein. Quelle: master, Station 02 (Parcours first, 09.11.2026).
    Schema siehe maskottchen.js (Abschnitt Gespräch). Kein eigener Simulator mehr: Die Teams
    probieren im Simulator von MakeCode, die Zahl des Sensors sehen sie im Extra „zeige Zahl“. */
-DREHBUCH[2] = {name:"micro:bit allein", min:15, badge:"Pixelkünstler", titel:"Der micro:bit allein", schritte:[
+DREHBUCH[2] = {name:"micro:bit allein", min:11, badge:"Pixelkünstler", titel:"Der micro:bit allein", schritte:[
   { id:"projekt",
     nachrichten:[
       "Der micro:bit ist für sich schon ein Computer: 25 LEDs, zwei Knöpfe, Lautsprecher. Und ein Sensor, der merkt, wie ihr ihn bewegt.",

@@ -1,6 +1,6 @@
 # Maqueen Grand Prix — Robotik-Workshop
 
-Interaktive Workshop-Seite für einen 120-Minuten-Robotik-Workshop auf einer Messe.
+Interaktive Workshop-Seite für einen 90-Minuten-Robotik-Workshop auf einer Messe.
 Zielgruppe: Schüler ab Klasse 7. Hardware: BBC micro:bit V2 + DFRobot Maqueen Plus V3.
 Programmiert wird ausschließlich mit Blöcken in MakeCode.
 
@@ -49,11 +49,12 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
    Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
    nicht in die Stationen.
-5. **120 Minuten = 105 Stationsminuten + 15 Puffer** (Martin, 03./04.11.2026). Die Minuten
+5. **90 Minuten = 80 Stationsminuten + 10 Puffer** (Martin, 10.11.2026: „das war auf jeden Fall
+   in der Zeit machbar“; vom 03.11. bis 10.11.2026 galten 120 = 105 + 15). Die Minuten
    der Drehbücher (`min` in `website/src/drehbuch/NN-name.js`), das `STATIONS`-Array in `website/src/app.js` und der Zeitplan im Handbuch
    müssen übereinstimmen. Der Puffer hat keine eigene Station; er steht als letzte Zeile im
-   Zeitplan (1:45–2:00; Martin, 05.11.2026). `build.py` prüft
-   die ersten beiden und dass die Stationen zusammen genau 105 Minuten ergeben
+   Zeitplan (1:20–1:30). `build.py` prüft
+   die ersten beiden und dass die Stationen zusammen genau 80 Minuten ergeben
    (`STATIONSMINUTEN`, `PUFFER`).
 6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
    `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Grand-Prix-Blöcke
@@ -122,7 +123,7 @@ die Hardware kommen. Sie haben nichts miteinander zu tun außer dem Thema.
 website/              die Workshop-Seite, eigenständig (npm + build.py wohnen hier)
   src/
     styles.css        Design-Tokens (hell/dunkel), Layout, Block-Optik, Maqueen-Figuren
-    topbar.html       Kopfzeile: 120-Min-Timer, Betreuer, Neues Team
+    topbar.html       Kopfzeile: 90-Min-Timer, Betreuer, Neues Team
     rail.html         linke Stationsleiste (Knöpfe werden aus STATIONS in app.js erzeugt)
     drehbuch/NN-*.js  ein Drehbuch pro Station (DREHBUCH[N]), Gespräch mit Franco
     karten/NN-*.html  Karten je Station (Blöcke, Quiz, Figuren), versteckt in #karten
@@ -179,17 +180,17 @@ Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fas
 nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
 ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
-## Die Stationen (Stand 09.11.2026)
+## Die Stationen (Stand 10.11.2026)
 
 | Nr | Datei | Min | Kern | Abzeichen |
 |---|---|---|---|---|
 | 0 | 00-boxenstopp | 5 | Regelkreis, Bauteile am Maqueen | Rookie |
-| 1 | 01-erster-kontakt | 15 | MakeCode, Herz blinkt (`beim Start`/`dauerhaft`), flashen | Ersteinschalter |
-| 2 | 02-microbit-allein | 15 | LEDs, Knöpfe, Neigung, Schütteln, Würfel; Sensor = Zahl | Pixelkünstler |
-| 3 | 03-fahrschule | 20 | Vorlage, einstecken, Schalter, Haken; dann Linie: Knopf A → Startampel + `Line patrolling ON`, Knopf B → `OFF`, `Speed`; Projekt heißt „Linie“ | Spurhalter |
-| 4 | 04-reflexe | 10 | Im Projekt Linie: Laser-Stopp in `dauerhaft`, `wenn Entfernung Vorne < 200 dann Line patrolling OFF` und rotes Licht | Bremsassistent |
-| 5 | 05-grand-prix | 40 | Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit; Profi: Pro-Ziel mit Variable und PID | Champion |
-| – | Puffer | 15 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
+| 1 | 01-erster-kontakt | 11 | MakeCode, Herz blinkt (`beim Start`/`dauerhaft`), flashen | Ersteinschalter |
+| 2 | 02-microbit-allein | 11 | LEDs, Knöpfe, Neigung, Schütteln, Würfel; Sensor = Zahl | Pixelkünstler |
+| 3 | 03-fahrschule | 15 | Vorlage, einstecken, Schalter, Haken; dann Linie: Knopf A → Startampel + `Line patrolling ON`, Knopf B → `OFF`, `Speed`; Projekt heißt „Linie“ | Spurhalter |
+| 4 | 04-reflexe | 8 | Im Projekt Linie: Laser-Stopp in `dauerhaft`, `wenn Entfernung Vorne < 200 dann Line patrolling OFF` und rotes Licht | Bremsassistent |
+| 5 | 05-grand-prix | 30 | Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit; Profi: Pro-Ziel mit Variable und PID | Champion |
+| – | Puffer | 10 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
 
 „Datei“ meint auf diesem Zweig das Drehbuch `website/src/drehbuch/NN-name.js` mit den Karten
 `website/src/karten/NN-name.html` und die Musterlösung `microbit/stations/NN-name/`.
@@ -223,7 +224,7 @@ zeigen nur, was das Grand-Prix-Programm braucht — kein Motorblock, keine Schle
 außer im Profi-Teil. Die micro:bit-Stationen ohne Roboter behalten Neigung, Schütteln und Würfel
 (Martin, 09.11.2026). Fahrschule und Augen sind eine Station (3), Reflexe ist Station 4 mit nur
 dem Laser-Stopp (Staubsauger-Challenge und Pausenknopf gestrichen), der Grand Prix ist Station 5
-mit 40 Minuten. Die beiden eigenen Simulatoren der Seite sind gestrichen (Martin: der
+mit damals 40 Minuten (seit 10.11.2026 30, Workshop 90 Minuten). Die beiden eigenen Simulatoren der Seite sind gestrichen (Martin: der
 micro:bit-Simulator war verwirrend); Station 2 nutzt den Simulator in MakeCode.
 
 Grand Prix vom 03.–05.11.2026 (Sitzung mit Martin; Entwurf in

@@ -1,7 +1,7 @@
 /* Drehbuch Station 4: Reflexe. Quelle: master, Station 04 (Parcours first, 09.11.2026: nur der
    Laser-Stopp im Projekt Linie; Pausenknopf und Staubsauger sind gestrichen).
    Schema siehe maskottchen.js (Abschnitt Gespräch). */
-DREHBUCH[4] = {name:"Reflexe", min:10, badge:"Bremsassistent", titel:"Wenn etwas im Weg ist: anhalten", schritte:[
+DREHBUCH[4] = {name:"Reflexe", min:8, badge:"Bremsassistent", titel:"Wenn etwas im Weg ist: anhalten", schritte:[
   { id:"projekt",
     nachrichten:[
       "Der Roboter prüft viele Male pro Sekunde, ob der Weg frei ist, und entscheidet selbst.",

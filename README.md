@@ -1,6 +1,6 @@
 # Maqueen Grand Prix
 
-Workshop-Material für einen 120-Minuten-Robotik-Workshop (micro:bit V2 + Maqueen Plus V3,
+Workshop-Material für einen 90-Minuten-Robotik-Workshop (micro:bit V2 + Maqueen Plus V3,
 Schüler ab Klasse 7, Messe, offline). Träger ist FRANCOR e. V.
 
 ## Was liegt wo
@@ -69,7 +69,7 @@ Alles unterhalb von `website/`:
 - Text einer Station: `src/stations/NN-*.html` bearbeiten, dann `python3 build.py && npm test`.
 - Minuten einer Station: an **drei** Stellen — Eyebrow in der Stationsdatei, `STATIONS`-Array
   in `src/app.js`, Zeitplan in `src/handbuch.html`. Der Build meckert, wenn die ersten beiden
-  auseinanderlaufen oder die Summe nicht 105 ist.
+  auseinanderlaufen oder die Summe nicht 80 ist.
 - Textbudget: `build.py` zählt je Station die Wörter (Tags raus) und bricht ab, wenn
   `TEXTBUDGET` überschritten ist. Dann kürzen, nicht das Budget heben.
 - Bild einbauen: Datei nach `src/assets/`, im HTML `src="assets/datei.png"` schreiben.

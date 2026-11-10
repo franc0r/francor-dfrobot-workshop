@@ -6,7 +6,7 @@
  * Prüft, was am Messetag weh tun würde (fast alles mit abgeschaltetem Netzwerk):
  *   1. Die Datei lädt ohne Netz und ohne JS-Fehler; keine externen Verweise (Schriften,
  *      Skripte, Bilder), nur die MakeCode-Links; kein Schlüssel in der Datei.
- *   2. Struktur: keine Stationsseiten mehr; Rail-Minuten summieren auf 105 (+ 15 Puffer = 120)
+ *   2. Struktur: keine Stationsseiten mehr; Rail-Minuten summieren auf 80 (+ 10 Puffer = 90)
  *      und stimmen mit den Drehbüchern überein (Testhaken window.__drehbuchMin, nur file://).
  *      Dazu die Stückliste als Seite oben in der Leiste – ohne Minuten, Timer, Abzeichen und
  *      ohne Gespräch (Figur und #gespraech sind dort ausgeblendet).
@@ -55,7 +55,7 @@ function check(cond, msg) {
 
   await page.goto('file://' + DIST);
   await page.waitForTimeout(500);
-  check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Timer steht auf 120:00');
+  check(await page.$eval('#tval', e => e.textContent) === '90:00', 'Timer steht auf 90:00');
 
   // Sicherheitsfenster beim Teamstart
   check(await page.$eval('#safety', e => !e.hidden), 'Sicherheit: Fenster erscheint beim ersten Öffnen');
@@ -97,7 +97,7 @@ function check(cond, msg) {
   // Struktur: keine Stationsseiten mehr, die Rail trägt die Minuten, die Drehbücher stimmen damit überein
   check((await page.$$('.station:not(.page)')).length === 0, 'keine Stationsseiten mehr (alles läuft im Gespräch)');
   const railMins = await page.$$eval('.stepbtn:not(.page) .min', s => s.map(x => parseInt(x.textContent, 10)));
-  check(railMins.length === 6 && railMins.reduce((a, b) => a + b, 0) === 105, 'Rail: sechs Stationen, Minuten summieren auf 105 (' + railMins.join('+') + ')');
+  check(railMins.length === 6 && railMins.reduce((a, b) => a + b, 0) === 80, 'Rail: sechs Stationen, Minuten summieren auf 80 (' + railMins.join('+') + ')');
   const dbMin = await page.evaluate(() => window.__drehbuchMin);
   check(Array.isArray(dbMin) && dbMin.length >= 1 && dbMin.every((m, i) => m === undefined || m === null || m === railMins[i]), 'Drehbuch-Minuten = Rail-Minuten (' + JSON.stringify(dbMin) + ')');
 
@@ -133,7 +133,7 @@ function check(cond, msg) {
   check(await page.$$eval('.stepbtn .min', s => s.filter(x => /\d/.test(x.textContent)).length) === 6, 'Stückliste: zählt nicht zu den Stationsminuten');
   await page.click('.stepbtn[data-go="teile"]'); await page.waitForTimeout(100);
   check(await page.$eval('.page[data-st="teile"]', e => !e.hidden) && await page.$eval('#gespraech', e => e.hidden) && await page.$eval('#figur', e => e.hidden), 'Stückliste: öffnet, Gespräch und Figur sind ausgeblendet');
-  check(await page.$eval('#tval', e => e.textContent) === '120:00', 'Stückliste: startet den Timer nicht');
+  check(await page.$eval('#tval', e => e.textContent) === '90:00', 'Stückliste: startet den Timer nicht');
   const teile = (await page.$eval('.page[data-st="teile"]', e => e.textContent)).replace(/\u00a0/g, ' ');
   for (const w of ['micro:bit V2', 'Maqueen Plus V3', 'DFRobot', '18650', '4 × AA', 'Datenkabel', 'Button Top'])
     check(teile.includes(w), 'Stückliste: nennt "' + w + '"');
@@ -561,7 +561,7 @@ function check(cond, msg) {
   await page.click('#resetbtn');
   await page.waitForTimeout(200);
   check(await page.$eval('#badges', e => e.querySelectorAll('.badge.on').length === 0), '"Neues Team" setzt Abzeichen zurück');
-  check(await page.$eval('#tval', e => e.textContent) === '120:00', '"Neues Team" stellt 120:00');
+  check(await page.$eval('#tval', e => e.textContent) === '90:00', '"Neues Team" stellt 90:00');
   check(await page.$eval('#safety', e => !e.hidden), '"Neues Team" zeigt das Sicherheitsfenster wieder');
 
   check(errors.length === 0, 'keine JavaScript-Fehler' + (errors.length ? ': ' + errors.join(' | ') : ''));

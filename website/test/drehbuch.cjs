@@ -4,7 +4,7 @@
  *   node test/drehbuch.cjs
  *
  * Lädt STATIONS aus app.js und alle Drehbücher in einem vm-Kontext und prüft:
- * genau sechs Drehbücher 0–5, Namen/Minuten/Abzeichen passen zu STATIONS, Summe 105, Schrittform,
+ * genau sechs Drehbücher 0–5, Namen/Minuten/Abzeichen passen zu STATIONS, Summe 80, Schrittform,
  * keine Emoji, jeder Kartenverweis existiert in src/karten/*.html.
  * Länge (Spec „Ziele“/„Format“): höchstens 4 Textblasen vor den Antwortknöpfen (Karten und reine
  * Blockstapel zählen nicht, bei Bonus-Schritten zählt die Zeile „Lust auf Extra?“ mit), und keine
@@ -113,7 +113,7 @@ for (let i = 0; i < DREHBUCH.length; i++) {
     for (const n of alle) check(saetze(n) <= MAX_SAETZE, w + ': höchstens ' + MAX_SAETZE + ' Sätze je Blase (' + saetze(n) + ': ' + n.replace(/<[^>]*>/g, '').slice(0, 50) + '…)');
   }
 }
-check(summe === 105, 'Minuten summieren auf 105 (' + summe + ')');
+check(summe === 80, 'Minuten summieren auf 80 (' + summe + ')');
 
 console.log(failures ? '\n' + failures + ' Fehler' : '\nalles grün');
 process.exit(failures ? 1 : 0);

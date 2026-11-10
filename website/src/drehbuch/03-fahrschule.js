@@ -2,7 +2,7 @@
    Einsetzen, Vorlage, Liniensensor, Knopf A = Ampel + Line patrolling ON, Knopf B = OFF).
    Schema siehe maskottchen.js (Abschnitt Gespräch). Kein Motorblock, keine Schleife:
    Hier wird nur geübt, was der Grand Prix braucht. */
-DREHBUCH[3] = {name:"Fahrschule", min:20, badge:"Spurhalter", titel:"Der Roboter fährt die Linie", schritte:[
+DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter fährt die Linie", schritte:[
   { id:"vorlage",
     nachrichten:[
       "Jetzt bekommt euer micro:bit Räder. Du sagst dem Roboter nicht, wo er langfahren soll, sondern worauf er achten soll.",

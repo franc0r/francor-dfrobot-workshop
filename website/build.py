@@ -198,12 +198,12 @@ def check_textbudget():
     _gezaehlt = True
 
 
-STATIONSMINUTEN = 105   # Summe der Stationen ...
-PUFFER = 15             # ... plus Puffer = 120-Minuten-Slot
+STATIONSMINUTEN = 80    # Summe der Stationen ...
+PUFFER = 10             # ... plus Puffer = 90-Minuten-Slot (Martin, 10.11.2026)
 
 
 def check_times(app_js, drehbuch=""):
-    """Rail-Array und Drehbuch-Minuten müssen zusammenpassen, Summe 105."""
+    """Rail-Array und Drehbuch-Minuten müssen zusammenpassen, Summe 80."""
     rail = [int(x) for x in re.findall(r'm:"(\d+) Min"', app_js)]
     # Drehbücher: wo eines existiert, muss seine Minutenzahl zum STATIONS-Array passen
     for nr, mins in re.findall(r'DREHBUCH\[(\d+)\]\s*=\s*\{(?:(?!DREHBUCH\[)[\s\S])*?\bmin:\s*(\d+)', drehbuch):

@@ -2,7 +2,7 @@
    microbit/stations/05-grand-prix/README.md (Zählnummern 1–4, gelten bis zum Trockenlauf).
    Schema siehe maskottchen.js (Abschnitt Gespräch). Nach dem letzten Schritt bietet die
    Maschine „Workshop abschließen ✓“ an. Ampel und Laser-Stopp stehen schon im Projekt Linie. */
-DREHBUCH[5] = {name:"Grand Prix", min:40, badge:"Champion", titel:"Finale: Grand Prix", schritte:[
+DREHBUCH[5] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand Prix", schritte:[
   { id:"strecke",
     nachrichten:[
       "Das Finale! Lest die Strecke, stellt euren Roboter darauf ein, bringt ihn ins Ziel.",

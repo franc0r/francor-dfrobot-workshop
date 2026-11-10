@@ -5,11 +5,11 @@
 var KEY = "mgp-v1";
 var STATIONS = [
   {n:"Boxenstopp", m:"5 Min", badge:"Rookie"},
-  {n:"Erster Kontakt", m:"15 Min", badge:"Ersteinschalter"},
-  {n:"micro:bit allein", m:"15 Min", badge:"Pixelkünstler"},
-  {n:"Fahrschule", m:"20 Min", badge:"Spurhalter"},
-  {n:"Reflexe", m:"10 Min", badge:"Bremsassistent"},
-  {n:"Grand Prix", m:"40 Min", badge:"Champion"}
+  {n:"Erster Kontakt", m:"11 Min", badge:"Ersteinschalter"},
+  {n:"micro:bit allein", m:"11 Min", badge:"Pixelkünstler"},
+  {n:"Fahrschule", m:"15 Min", badge:"Spurhalter"},
+  {n:"Reflexe", m:"8 Min", badge:"Bremsassistent"},
+  {n:"Grand Prix", m:"30 Min", badge:"Champion"}
 ];
 var DREHBUCH = [];   // füllt build.py aus drehbuch/NN-*.js (vor maskottchen.js)
 var S = {done:[], quiz:{}, bonus:{}, cur:0, safe:false, schritt:{}, chat:{}, skip:{}, fragen:0};
@@ -156,7 +156,7 @@ document.querySelectorAll(".quiz").forEach(function(q){
 });
 
 /* ================= timer ================= */
-var TOTAL = 120*60, left = TOTAL, running = false, tick = null, tStarted = false;
+var TOTAL = 90*60, left = TOTAL, running = false, tick = null, tStarted = false;
 var tval = document.getElementById("tval"), tbtn = document.getElementById("tbtn"), tbox = document.getElementById("timer");
 function fmt(s){ var m = Math.floor(s/60), r = s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
 function paintT(){ tval.textContent = fmt(Math.max(0,left)); }
@@ -173,7 +173,7 @@ tbtn.addEventListener("click", function(){ setRunning(!running); });
    nie lief. Eine bewusste Pause bleibt also Pause; Neuladen startet nichts. */
 function timerAutoStart(){ if(!tStarted) setRunning(true); }
 /* Zeit ändern: Klick auf die Anzeige, dann „75“ (Minuten) oder „42:30“ eintippen.
-   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 120:00. */
+   Enter oder Wegklicken übernimmt, Escape bricht ab. „Neues Team“ stellt wieder 90:00. */
 var tedit = document.getElementById("tedit");
 function editT(on){ tval.hidden = on; tedit.hidden = !on; if(on){ tedit.value = fmt(Math.max(0,left)); tedit.focus(); tedit.select(); } }
 function commitT(){
