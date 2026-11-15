@@ -1,37 +1,36 @@
+francorMaqueen.start()
+francorLidar.start()
 input.onButtonPressed(Button.A, function () {
-    grandPrix.zuruecksetzen()
-    maqueenPlusV2.setIntersectionRunMode(maqueenPlusV2.Intersection.Straight)
-    maqueenPlusV2.setLeftOrStraightRunMode(maqueenPlusV2.LeftOrStraight.Straight)
-    maqueenPlusV2.setRightOrStraightRunMode(maqueenPlusV2.RightOrStraight.Right)
-    maqueenPlusV2.setTRordRunMode(maqueenPlusV2.Trord.Stop)
-    maqueenPlusV2.setPatrolSpeed(maqueenPlusV2.getPatrolSpeed(PatrolSpeed.Speed2))
+    francorMaqueen.resetCrossings()
+    francorMaqueen.atCrossroad(francorMaqueen.CrossroadRule.Straight)
+    francorMaqueen.atLeftOrStraight(francorMaqueen.LeftRule.Straight)
+    francorMaqueen.atRightOrStraight(francorMaqueen.RightRule.Right)
+    francorMaqueen.atTJunction(francorMaqueen.TRule.Stop)
+    francorMaqueen.patrolSpeed(2)
     basic.clearScreen()
-    maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.Red)
+    francorMaqueen.headlight(francorMaqueen.Side.Both, francorMaqueen.HeadColor.Red)
     basic.pause(1000)
-    maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.Yellow)
+    francorMaqueen.headlight(francorMaqueen.Side.Both, francorMaqueen.HeadColor.Yellow)
     basic.pause(1000)
-    maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.Green)
-    maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.ON)
+    francorMaqueen.headlight(francorMaqueen.Side.Both, francorMaqueen.HeadColor.Green)
+    francorMaqueen.patrol(francorMaqueen.OnOff.On)
 })
 input.onButtonPressed(Button.B, function () {
-    maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.OFF)
+    francorMaqueen.patrol(francorMaqueen.OnOff.Off)
 })
-grandPrix.beiKreuzung(4, function () {
+francorMaqueen.onCrossing(4, function () {
     music.play(music.builtInPlayableMelody(Melodies.Dadadadum), music.PlaybackMode.InBackground)
 })
-grandPrix.beiKreuzung(3, function () {
-    maqueenPlusV2.setPatrolSpeed(maqueenPlusV2.getPatrolSpeed(PatrolSpeed.Speed1))
+francorMaqueen.onCrossing(3, function () {
+    francorMaqueen.patrolSpeed(1)
     basic.showNumber(1)
 })
-grandPrix.beiKreuzung(1, function () {
-    maqueenPlusV2.setRightOrStraightRunMode(maqueenPlusV2.RightOrStraight.Straight)
+francorMaqueen.onCrossing(1, function () {
+    francorMaqueen.atRightOrStraight(francorMaqueen.RightRule.Straight)
 })
-maqueenPlusV2.I2CInit()
-matrixLidarDistance.initialize(matrixLidarDistance.Addr.Addr4, matrixLidarDistance.Matrix.OBS)
 basic.forever(function () {
-    matrixLidarDistance.getData()
-    if (matrixLidarDistance.getObstacleDistance(matrixLidarDistance.ObstacleSide.Front) < 200) {
-        maqueenPlusV2.patrolling(maqueenPlusV2.Patrolling.OFF)
-        maqueenPlusV2.setRgblLed(maqueenPlusV2.DirectionType.All, maqueenPlusV2.CarLightColors.Red)
+    if (francorLidar.distance(francorLidar.LidarSide.Front) < 200) {
+        francorMaqueen.patrol(francorMaqueen.OnOff.Off)
+        francorMaqueen.headlight(francorMaqueen.Side.Both, francorMaqueen.HeadColor.Red)
     }
 })

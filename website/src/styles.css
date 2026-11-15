@@ -277,7 +277,6 @@ kbd{
 .b-mq{background:#0FBC11}
 .b-lidar{background:#5B3FE8}
 .b-math{background:#9400D3}
-.b-gp{background:#3C3C3C}
 /* Wert-Block (rund), der in einem anderen Block steckt – z. B. „wähle eine zufällige Zahl“ */
 .mcr{display:inline-flex; align-items:center; gap:7px; padding:3px 6px 3px 12px; border-radius:999px; box-shadow:0 0 0 1.5px rgba(0,0,0,.32), inset 0 -2px 0 rgba(0,0,0,.18)}
 /* Der dunkle Rand setzt den Wertblock ab wie in MakeCode – nötig, wenn er dieselbe Farbe hat wie sein Block (Vergleich in „wenn“, Station 5) */
