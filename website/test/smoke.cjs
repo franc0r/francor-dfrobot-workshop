@@ -277,7 +277,7 @@ function check(cond, msg) {
     const klammern = () => page.$$eval('#chat .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim().replace(/\s+/g, ' ') + ':' + c.querySelectorAll(':scope > .mcbody > .mcb, :scope > .mcbody > .mcc').length));
     const abzeichen = () => page.$eval('#badges', e => e.querySelectorAll('.badge.on').length);
 
-    // Station 3: Vorlage „Linie“, Einsetzen, Sensorzahlen, Ampel + Line patrolling, Fahren, Quiz
+    // Station 3: Vorlage „Linie“, Einsetzen, Sensorzahlen, Ampel + Linienverfolgung, Fahren, Quiz
     await page.click('.stepbtn[data-go="3"]'); await page.waitForTimeout(100);
     check(/Linie/.test(await page.$eval('#chat', e => e.textContent)) && await page.$('#chat .blase.karte a[href^="https://makecode.microbit.org/#project:"]') !== null, 'Station 3: Knopf „Neues Roboter-Projekt starten“, Projekt heißt Linie');
     let r3 = 0, klemmt3 = false, chips3 = null;
@@ -295,9 +295,12 @@ function check(cond, msg) {
     const txt3 = await page.$eval('#chat', e => e.textContent);
     check(/3800/.test(txt3) && /2700/.test(txt3), 'Station 3: Weiß ≈ 3800, Schwarz ≈ 2700');
     const k3 = await klammern();
-    check(k3.includes('beim Start:1') && k3.includes('wenn Knopf A geklickt:7') && k3.includes('wenn Knopf B geklickt:1'), 'Station 3: Ampel + Line patrolling als Klammer (' + k3.join(', ') + ')');
+    check(k3.includes('beim Start:1') && k3.includes('wenn Knopf A geklickt:7') && k3.includes('wenn Knopf B geklickt:1'), 'Station 3: Ampel + Linienverfolgung als Klammer (' + k3.join(', ') + ')');
     check(await page.$$eval('#chat .mcb.b-mq', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(15, 188, 17)')), 'Station 3: Maqueen-Blöcke hellgrün');
     check(!/steuere|linkes Rad|beide Räder|-mal wiederholen/.test(txt3), 'Station 3: kein Motorblock, keine Schleife (Parcours first)');
+    const txt3n = txt3.replace(/\s+/g, ' ');
+    check(/starte Maqueen/.test(txt3) && /Linienverfolgung an/.test(txt3) && /Scheinwerfer beide Farbe rot/.test(txt3n) && /Linien-Tempo 1/.test(txt3n), 'Station 3: neue Blocktexte (starte Maqueen, Scheinwerfer, Linien-Tempo, Linienverfolgung)');
+    check(!/Line patrolling|RGB Car Lights|initialisiere Maqueen|Line Following|… mehr|auf Englisch/.test(txt3), 'Station 3: keine alten Blocktexte');
     check(klemmt3, 'Station 3: „Es klappt nicht“ zeigt k3-klemmt');
     check(JSON.stringify(chips3) === JSON.stringify(['Der micro:bit zeigt nur ein X', 'Er fährt von der Linie runter', 'Er fährt gar nicht los', 'Die Ampel leuchtet nicht']), 'Station 3: Chips beim Fahren (' + JSON.stringify(chips3) + ')');
     check(await page.$('#chat [data-karte="k3-quiz"] .quiz[data-quiz="q3"]') !== null, 'Station 3: Quiz als Karte');

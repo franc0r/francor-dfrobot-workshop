@@ -1126,17 +1126,17 @@ body.safety-on{overflow:hidden}
     <div class="mcstack">
       <div class="mccap">Startampel und Linie &ndash; startet erst auf Knopfdruck</div>
       <div class="mcb b-basic">beim Start</div>
-      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
+      <div class="mcb b-mq i1">starte Maqueen</div>
       <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-mq i1">Scheinwerfer <b>beide</b> Farbe <b>rot</b></div>
       <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
+      <div class="mcb b-mq i1">Scheinwerfer <b>beide</b> Farbe <b>gelb</b></div>
       <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
-      <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
-      <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+      <div class="mcb b-mq i1">Scheinwerfer <b>beide</b> Farbe <b>grün</b></div>
+      <div class="mcb b-mq i1">Linien-Tempo <b>1</b></div>
+      <div class="mcb b-mq i1">Linienverfolgung <b>an</b></div>
       <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-      <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
+      <div class="mcb b-mq i1">Linienverfolgung <b>aus</b></div>
     </div>
   </div>
   <div class="karte" data-karte="k3-quiz">
@@ -1154,7 +1154,7 @@ body.safety-on{overflow:hidden}
   <div class="karte" data-karte="k3-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
-      <p><b>Verlässt die Linie in Kurven?</b> <b>Speed</b> kleiner.<br><b>Findet die Linie nicht?</b> Neu kalibrieren: alle fünf Sensoren auf Schwarz, einschalten, <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen zählt das wirklich.</p>
+      <p><b>Verlässt die Linie in Kurven?</b> <b>Linien-Tempo</b> kleiner.<br><b>Findet die Linie nicht?</b> Neu kalibrieren: alle fünf Sensoren auf Schwarz, einschalten, <b>Calc-Key</b> 2 Sekunden halten, bis es blinkt.<br><b>Wird nach ein paar Minuten langsamer?</b> Akku. Beim Rennen zählt das wirklich.</p>
     </details>
   </div>
 </div>
@@ -1642,8 +1642,8 @@ body.safety-on{overflow:hidden}
           <tr><td>Koppeln schlägt unter Linux fehl (Pi, Ubuntu)</td><td>Meist fehlt die udev-Regel oder der Benutzer ist nicht in <kbd>plugdev</kbd> (siehe „Stationen auf Raspberry Pi und Linux“) – das ist Aufbau-Arbeit, nicht Workshop-Zeit. Während des Slots nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
           <tr><td>Laser bremst nicht vor der Hand (Station 4/5)</td><td>Steht der Abstandsblock auf <b>Vorne</b>? MakeCode bringt ihn mit <b>Links</b>. Steht beim Start <em>Matrix-Modus Hindernisvermeidung</em> und im <em>dauerhaft</em> zuerst <em>Hindernisvermeidungsdaten abrufen</em>? Mit dem Matrix-Modus hängt die Abfrage bis zu 8&nbsp;s</td></tr>
           <tr><td>MakeCode meldet &bdquo;Cannot redeclare block-scoped variable&ldquo;</td><td>Die Variable heißt wie ein eingebauter Block, meist <b>pause</b>. Umbenennen, z.&nbsp;B. in <b>gesprungen</b></td></tr>
-          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>initialisiere Maqueen Plus V2</em> in <em>beim Start</em>?</td></tr>
-          <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>initialisiere Maqueen Plus V2</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
+          <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>starte Maqueen</em> in <em>beim Start</em>?</td></tr>
+          <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>starte Maqueen</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
           <tr><td>Motoren brummen, fahren aber nicht</td><td>Akku schwach – Batterien tauschen oder laden</td></tr>
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
           <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
@@ -2251,14 +2251,14 @@ DREHBUCH[2] = {name:"micro:bit allein", min:11, badge:"Pixelkünstler", titel:"D
 ]};
 /* ---- Drehbuch 03-fahrschule.js ---- */
 /* Drehbuch Station 3: Fahrschule. Quelle: master, Station 03 (Parcours first, 09.11.2026:
-   Einsetzen, Vorlage, Liniensensor, Knopf A = Ampel + Line patrolling ON, Knopf B = OFF).
+   Einsetzen, Vorlage, Liniensensor, Knopf A = Ampel + Linienverfolgung an, Knopf B = aus).
    Schema siehe maskottchen.js (Abschnitt Gespräch). Kein Motorblock, keine Schleife:
    Hier wird nur geübt, was der Grand Prix braucht. */
 DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter fährt die Linie", schritte:[
   { id:"vorlage",
     nachrichten:[
       "Jetzt bekommt euer micro:bit Räder. Du sagst dem Roboter nicht, wo er langfahren soll, sondern worauf er achten soll.",
-      "Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken, Kategorie <b>Maqueen Plus V2</b>.",
+      "Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken, Kategorie <b>Maqueen</b>.",
       {karte:"makecode:vorlage"},
       "Nennt es unten neben <b>Herunterladen</b> <b>Linie</b>. Ihr arbeitet bis zum Grand Prix darin."
     ],
@@ -2266,14 +2266,14 @@ DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter
       "MakeCode kennt den Maqueen erst, wenn seine Block-Sammlung geladen ist. In der Vorlage steckt sie schon drin.",
       "Bitte heute nichts nachladen: Das braucht Internet, und das ist auf der Messe langsam."
     ]},
-    chips:[ "Wo ist die Kategorie Maqueen Plus V2?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
+    chips:[ "Wo ist die Kategorie Maqueen?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
     fertig:"Projekt Linie ist offen ✓" },
 
   { id:"einsetzen",
     nachrichten:[
       "micro:bit in den Schlitz, <b>Lämpchen nach vorn</b>. Dann <b>beide</b> Schalter auf ON.",
       {karte:"k3-mqinsert"},
-      "<kbd>initialisiere Maqueen Plus V2</kbd> steht in der Vorlage oben in <kbd>beim Start</kbd>: nicht löschen.",
+      "<kbd>starte Maqueen</kbd> steht in der Vorlage oben in <kbd>beim Start</kbd>: nicht löschen.",
       "Blinkt ein <b>X</b>, antwortet der Roboter nicht: Schalter und Sitz prüfen. <b>Haken</b> heißt verbunden."
     ],
     chips:[ "Wie herum kommt der micro:bit rein?", "Wo sind die Schalter?", "Der micro:bit zeigt nur ein X", "Der Roboter leuchtet nicht" ],
@@ -2293,12 +2293,12 @@ DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter
 
   { id:"bloecke",
     nachrichten:[
-      "Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
-      "Sie sind auf Englisch: <b>Line patrolling</b> heißt „Linie abfahren“, <b>Speed</b> Stufe, <b>RGB Car Lights</b> sind die Lichter.",
+      "Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Kategorie <b>Maqueen</b>, Gruppe <b>V3</b>.",
+      "Die <b>Scheinwerfer</b> sind die zwei Lichter vorn: eure Startampel.",
       {karte:"k3-bloecke"},
       "Nicht in <kbd>beim Start</kbd>: Sonst fährt er los, während ihr ihn noch hinstellt. Knopf B ist euer Not-Aus."
     ],
-    chips:[ "Wo ist … mehr?", "Wo ist die Gruppe V3?", "Wo ist RGB Car Lights?", "Wo ist pausiere?" ],
+    chips:[ "Wo ist Linien-Tempo?", "Wo ist die Gruppe V3?", "Wo ist Scheinwerfer?", "Wo ist pausiere?" ],
     fertig:"Gebaut ✓" },
 
   { id:"fahren",
