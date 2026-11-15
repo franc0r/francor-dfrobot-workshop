@@ -362,7 +362,7 @@ function check(cond, msg) {
     check(await page.$eval('#finalwho', e => e.textContent).catch(() => '') === '6 von 6 Abzeichen', 'Station 5: Pokal zählt 6 von 6');
     const soll5 = ['strecke', 'arten', 'projekt', 'kreuzungen', 'melodie', 'tempo', 'lauf', 'profi', 'abschluss'];
     check(soll5.every(id => gesehen5.has(id)), 'Station 5: Schritte ' + soll5.join(', ') + ' (gesehen: ' + [...gesehen5].join(', ') + ')');
-    // Station 5 im Verlauf: Skizze, Grand-Prix-Blöcke, Ampel + Speed 2 + Laser im Programm, Pro-Ziel als Extra, Stückliste
+    // Station 5 im Verlauf: Skizze, Kreuzungsblöcke, Ampel + Linien-Tempo 2 + Laser im Programm, Pro-Ziel als Extra, Stückliste
     check(await page.$('#chat [data-karte="k5-gpmap"] #gpmap') !== null && (await page.$eval('#gpmap', e => e.getBoundingClientRect().height)) > 120, 'Station 5: Streckenskizze im Gespräch gezeichnet');
     check(JSON.stringify(await page.$$eval('#chat #gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 5: Skizze nummeriert 1–4');
     check(await page.$$eval('#chat #gpmap .gp-k', l => l.length === 4 && l.every(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden'; })), 'Station 5: Nummern 1–4 sichtbar');

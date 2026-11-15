@@ -3,7 +3,7 @@ import json, lzma, os, struct, sys, tempfile, unittest
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 import build
 
-ERW = "github:franc0r/pxt-francor-maqueen#v0.1.4"
+ERW = build.VORLAGE_ERWEITERUNG
 
 
 def mkcd(files):
@@ -26,7 +26,7 @@ def projekt(deps=None, files=None, extra=None):
         d = deps
     f = files if files is not None else ["main.blocks", "main.ts", "README.md"]
     out = {"pxt.json": json.dumps({"name": "T", "dependencies": d, "files": f}),
-           "main.blocks": "<xml></xml>", "main.ts": "francorMaqueen.start()\n", "README.md": ""}
+           "main.blocks": '<xml><block type="francor_start"></block></xml>', "main.ts": "francorMaqueen.start()\n", "README.md": ""}
     out.update(extra or {})
     return out
 
@@ -36,7 +36,7 @@ class CheckVorlage(unittest.TestCase):
         build.check_vorlage(mkcd(projekt()))
 
     def test_falsche_version(self):
-        deps = {"core": "*", "francor-maqueen": ERW.replace("v0.1.4", "v0.1.3")}
+        deps = {"core": "*", "francor-maqueen": ERW.replace(ERW.split("#")[1], "v0.0.0")}
         with self.assertRaises(SystemExit):
             build.check_vorlage(mkcd(projekt(deps=deps)))
 
@@ -56,12 +56,35 @@ class CheckVorlage(unittest.TestCase):
         with self.assertRaises(SystemExit):
             build.check_vorlage(mkcd(projekt(deps={"core": "*", "radio": "*"})))
 
+    def test_ohne_start_in_blocks(self):
+        with self.assertRaises(SystemExit):
+            build.check_vorlage(mkcd(projekt(extra={"main.blocks": "<xml></xml>"})))
+
+    def test_ohne_start_in_ts(self):
+        with self.assertRaises(SystemExit):
+            build.check_vorlage(mkcd(projekt(extra={"main.ts": "basic.showIcon(IconNames.Heart)\n"})))
+
     def test_echte_vorlage(self):
         build.check_vorlage(build.VORLAGE)
 
 
+class HandbuchVersion(unittest.TestCase):
+    def test_version_steht_drin(self):
+        build.check_handbuch_version("<b>v0.1.4</b>", "github:franc0r/pxt-francor-maqueen#v0.1.4")
+
+    def test_version_fehlt(self):
+        with self.assertRaises(SystemExit):
+            build.check_handbuch_version("<b>v0.1.3</b>", "github:franc0r/pxt-francor-maqueen#v0.1.4")
+
+    def test_echtes_handbuch(self):
+        build.check_handbuch_version(open(os.path.join(build.SRC, "handbuch.html"), encoding="utf-8").read(),
+                                     build.VORLAGE_ERWEITERUNG)
+
+
 class AlteBlocktexte(unittest.TestCase):
     def test_alte_blocktexte(self):
+        for wort in ("Crossroads", "Intersection", "Straight", "Laser-Entfernungsmesser", "Speed"):
+            self.assertIn(wort, build.ALTE_BLOCKTEXTE)
         for wort in build.ALTE_BLOCKTEXTE:
             with self.assertRaises(SystemExit, msg=wort):
                 build.check_alte_blocktexte("<p>x " + wort + " y</p>", "offline")

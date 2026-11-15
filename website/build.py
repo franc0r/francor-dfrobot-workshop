@@ -111,6 +111,20 @@ def check_vorlage(path: str) -> None:
     if VORLAGE_ERWEITERUNG not in deps.values():
         raise SystemExit("Vorlage verweist nicht auf %s – python3 vorlage.py"
                          % VORLAGE_ERWEITERUNG)
+    if "francor_start" not in files.get("main.blocks", ""):
+        raise SystemExit("Vorlage: main.blocks enthält keinen Startblock (francor_start) – "
+                         "python3 vorlage.py")
+    if "francorMaqueen.start()" not in files.get("main.ts", ""):
+        raise SystemExit("Vorlage: main.ts enthält francorMaqueen.start() nicht – "
+                         "python3 vorlage.py")
+
+
+def check_handbuch_version(html: str, erweiterung: str) -> None:
+    """Die Version der Erweiterung (Teil nach #) muss im Handbuch stehen."""
+    version = erweiterung.split("#", 1)[1]
+    if version not in html:
+        raise SystemExit("Handbuch nennt die Version %s der Erweiterung nicht – "
+                         "src/handbuch.html anpassen" % version)
 
 
 def makecode_links(html):
@@ -207,7 +221,8 @@ def check_textbudget():
 ALTE_BLOCKTEXTE = ("Line patrolling", "Line Following", "RGB Car Lights", "initialisiere Maqueen",
                    "Hindernisvermeidung", "At Crossroads", "T-junction", "Turn and Straight",
                    "PID Distance", "Matrix LiDAR", "Maqueen Plus V2", "b-gp", "grandPrix",
-                   "maqueenPlusV2")
+                   "maqueenPlusV2", "Crossroads", "Intersection", "Straight",
+                   "Laser-Entfernungsmesser", "Speed")
 
 
 def check_alte_blocktexte(html: str, target: str) -> None:
@@ -271,6 +286,7 @@ def assemble(target):
             "\n  </main>\n</div>\n\n"
             '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n" + read("schluessel.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
+    check_handbuch_version(read("handbuch.html"), VORLAGE_ERWEITERUNG)
     body = makecode_links(inline_assets(body))
     if "assets/" in body:
         raise SystemExit('Asset nicht eingebettet – src="assets/…" mit doppelten '
