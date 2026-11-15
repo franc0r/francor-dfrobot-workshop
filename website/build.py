@@ -85,12 +85,13 @@ def inline_assets(html):
 
 MAKECODE = "https://makecode.microbit.org/"
 VORLAGE = os.path.join(HERE, "..", "microbit", "vorlage", "vorlage.mkcd")
-BIBLIOTHEK = os.path.join(HERE, "..", "microbit", "bibliothek", "custom.ts")
+VORLAGE_ERWEITERUNG = "github:franc0r/pxt-francor-maqueen#v0.1.4"
 
 
 def check_vorlage(path: str) -> None:
-    """Die Vorlage muss die Bibliothek „Grand Prix“ (custom.ts) mitbringen,
-    und zwar byte-gleich mit microbit/bibliothek/custom.ts.
+    """Die Vorlage muss auf unsere Erweiterung FRANCOR Maqueen verweisen
+    (genau VORLAGE_ERWEITERUNG), darf keine DFRobot-Erweiterung und kein
+    custom.ts mehr enthalten.
 
     Die .mkcd ist LZMA-gepackt (Kopf wie LZMA-JS ihn schreibt, also das
     alte „alone“-Format), darin JSON; dessen source ist wieder JSON mit den
@@ -100,13 +101,16 @@ def check_vorlage(path: str) -> None:
     project = json.loads(lzma.decompress(data, format=lzma.FORMAT_ALONE))
     files = json.loads(project["source"])
     pxt = json.loads(files.get("pxt.json", "{}"))
-    if ("custom.ts" not in files or "namespace grandPrix" not in files["custom.ts"]
-            or "custom.ts" not in pxt.get("files", [])):
-        raise SystemExit("Vorlage ohne Grand-Prix-Bibliothek (custom.ts) – python3 vorlage.py")
-    # Die Vorlage muss die aktuelle Bibliothek tragen, nicht einen alten Stand.
-    if files["custom.ts"].encode("utf-8") != io.open(BIBLIOTHEK, "rb").read():
-        raise SystemExit("Vorlage veraltet – python3 vorlage.py "
-                         "(custom.ts weicht von microbit/bibliothek/custom.ts ab)")
+    deps = pxt.get("dependencies", {})
+    for name, ref in deps.items():
+        if "dfrobot" in name.lower() or "dfrobot" in str(ref).lower():
+            raise SystemExit("Vorlage enthält noch eine DFRobot-Erweiterung (%s) – "
+                             "python3 vorlage.py" % name)
+    if "custom.ts" in files or "custom.ts" in pxt.get("files", []):
+        raise SystemExit("Vorlage enthält noch custom.ts – python3 vorlage.py")
+    if VORLAGE_ERWEITERUNG not in deps.values():
+        raise SystemExit("Vorlage verweist nicht auf %s – python3 vorlage.py"
+                         % VORLAGE_ERWEITERUNG)
 
 
 def makecode_links(html):

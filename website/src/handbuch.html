@@ -110,14 +110,15 @@
       <h3>Ohne Internet arbeiten</h3>
       <p style="font-size:.94rem; color:var(--ink-2)">Messe-WLAN ist unzuverlässig, und der Workshop darf nicht daran hängen. Die gute Nachricht: <b>Er muss es nicht.</b> Es braucht genau eine Internetverbindung – vorher, bei der Vorbereitung. Danach läuft alles lokal.</p>
 
-      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Zwei Dinge machen das möglich. Erstens ist der MakeCode-Editor eine Web-App, die sich beim ersten Laden vollständig im Browser ablegt – rufst du die Adresse später ohne Netz auf, startet sie aus dem Cache. Zweitens ist die DFRobot-Erweiterung in TypeScript geschrieben und wird <b>im Browser</b> übersetzt; sie braucht keinen Compiler in der Cloud. (Erweiterungen mit C++-Anteil gingen offline nicht – diese hier schon.)</p>
+      <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Zwei Dinge machen das möglich. Erstens ist der MakeCode-Editor eine Web-App, die sich beim ersten Laden vollständig im Browser ablegt – rufst du die Adresse später ohne Netz auf, startet sie aus dem Cache. Zweitens ist unsere Erweiterung <b>FRANCOR Maqueen</b> in TypeScript geschrieben und wird <b>im Browser</b> übersetzt; sie braucht keinen Compiler in der Cloud. (Erweiterungen mit C++-Anteil gingen offline nicht – diese hier schon.)</p>
 
       <p style="font-size:.94rem; color:var(--ink-2); margin-top:12px">Die eine Hürde: <b>Eine Erweiterung <em>nachzuladen</em> braucht Internet.</b> Deshalb lädst du sie einmal vorher und verteilst das fertige Projekt.</p>
 
       <h3 style="margin-top:20px; border:0; padding:0; font-size:.95rem">Vorbereitung, pro Arbeitsplatz, mit Netz</h3>
       <ul class="check">
-        <li>Diese Seite öffnen, in Station 3 auf <b>Neues Roboter-Projekt starten</b> klicken. Die Vorlage steckt im Link selbst (<kbd>microbit/vorlage/vorlage.mkcd</kbd>): Erweiterung <b>DFRobot_MaqueenPlus_V2</b>, die <b>Matrix LiDAR Entfernung</b> kommt als Abhängigkeit mit, in <em>beim Start</em> nur <em>initialisiere Maqueen Plus V2</em>. Beim ersten Öffnen lädt MakeCode die Erweiterungen in den Cache – danach öffnet der Knopf die Vorlage auch ohne Netz</li>
-        <li>Prüfen: links stehen die Kategorien <b>Maqueen Plus V2</b>, <b>Matrix LiDAR Entfernung</b> und <b>Grand Prix</b>. Fehlen sie, war der Platz beim Klick offline</li>
+        <li>Diese Seite öffnen, in Station 3 auf <b>Neues Roboter-Projekt starten</b> klicken. Die Vorlage steckt im Link selbst (<kbd>microbit/vorlage/vorlage.mkcd</kbd>): Sie verweist auf unsere Erweiterung <b>pxt-francor-maqueen</b>, Version <b>v0.1.4</b>, auf GitHub. In <em>beim Start</em> steht nur <em>starte Maqueen</em>. Beim ersten Öffnen lädt MakeCode die Erweiterung in den Cache – danach öffnet der Knopf die Vorlage auch ohne Netz</li>
+        <li>Prüfen: Links stehen die Kategorien <b>Maqueen</b> (hellgrün) und <b>LiDAR</b>, alle Blöcke auf Deutsch. Fehlen sie, war der Platz beim Klick offline</li>
+        <li><b>Neue Version der Erweiterung:</b> Vorlage und Offline-Datei neu bauen, dann jeden Platz noch einmal mit Netz über den Knopf öffnen. Auch ein Platz, der früher schon vorbereitet war, muss dafür noch einmal ran.</li>
         <li>Rückfallweg ohne Knopf: <kbd>vorlage.mkcd</kbd> per USB-Stick auf den Platz kopieren und in MakeCode <b>importieren</b></li>
         <li>Auf jedem Gerät einmal ein Programm mit Maqueen-Blöcken übersetzen und flashen – damit ist der Compiler-Teil im Cache</li>
         <li>Die <b>Offline-Ausgabe dieser Seite</b> lokal ablegen und als Lesezeichen setzen – nicht den claude.ai-Link verwenden, der braucht Netz</li>
@@ -206,7 +207,7 @@
 
     <section>
       <h3>Blocknamen vorab prüfen</h3>
-      <p style="font-size:.94rem; color:var(--ink-2)">Die Erweiterung heißt in MakeCode <b>DFRobot_MaqueenPlus_V2</b> (Suchbegriff: <kbd>dfrobot</kbd>) und deckt den V3 mit ab (so steht es im offiziellen Quick-Start-Guide zum V3). Linien- und Lichtblöcke in den Stationen sind am Gerät bestätigt. Linienverfolgung und <i>RGB Car Lights</i> liegen unter <b>… mehr</b> in der Gruppe <b>V3</b> und sind nicht übersetzt. Der <b>8×8-Laserscanner</b> braucht eine <b>zweite Erweiterung</b>: <b>Matrix LiDAR Entfernung</b> (GitHub: <kbd>DFRobot/pxt-DFRobot_matrixLidarDistanceSensor</kbd>, lila Blöcke). Die Maqueen-Erweiterung bringt sie als Abhängigkeit mit; in der Vorlage ist sie deshalb schon drin.</p>
+      <p style="font-size:.94rem; color:var(--ink-2)">Die Blöcke kommen aus unserer Erweiterung <b>FRANCOR Maqueen</b> (GitHub <kbd>franc0r/pxt-francor-maqueen</kbd>, v0.1.4): Kategorie <b>Maqueen</b> (hellgrün, Gruppen V3, Linie, Lichter, V2) und <b>LiDAR</b> für den 8×8-Laserscanner. Steht MakeCode auf Deutsch, sind alle Blöcke deutsch. Die Kreuzungsblöcke und <em>wenn Kreuzung Nummer … erreicht</em> sind am Gerät noch nicht ganz geprüft. Die Hilfe-Seiten der Blöcke (Rechtsklick → Hilfe) brauchen Internet; die Stationen verlassen sich nicht darauf.</p>
     </section>
 
     <section>
