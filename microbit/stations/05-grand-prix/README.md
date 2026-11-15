@@ -13,10 +13,12 @@ Hier liegen:
   umschalten, alles ersetzen, zurück auf **Blöcke**. Beide Dateien entsprechen den Stationsprogrammen
   aus `geraetetest/08-stationen.ts` der Erweiterung (v0.1.4).
 
+Vorhanden: `loesung.hex` und `loesung-profi.hex` (Profi): aus `loesung.js` bzw. `loesung-profi.js` mit pxt-francor-maqueen v0.1.4 gebaut, am Gerät ungeprüft. Nur für micro:bit V2.
+
 Nach dem Trockenlauf kommen dazu:
 
-- `loesung.hex` und `bloecke.png` (normal)
-- `loesung-profi.hex` und `bloecke-profi.png` (Profi)
+- `bloecke.png` (normal)
+- `bloecke-profi.png` (Profi)
 
 Erst danach, weil der Trockenlauf die Zählnummern und die Höchststufe noch verschieben kann
 (siehe `docs/02-offline-und-trockenlauf.md`, Block H).
@@ -111,7 +113,7 @@ und jede Zeichnung trägt die Nummern 1–4 an denselben Koordinaten.
    - Seite 1 (Teamskizze): die vier Nummern in der Skizze, der Hinweis „Gut hinschauen: 1 und 2“
      und die Eintragetabelle 1–4
    - Seite 2 (Klebeplan): die vier Nummern in der Skizze, die Lösungstabelle und die Zählfahrt
-5. Diese README (Zählfolge und Musterlösung oben), später `loesung*.hex` und `bloecke*.png`.
+5. Diese README (Zählfolge und Musterlösung oben), später `bloecke*.png`.
 
 Die Tests prüfen nur die Skizzen: `website/test/smoke.cjs` (`#gpmap` trägt genau 1–4) und
 `tools/grand-prix-druck-test.cjs` (beide Seiten tragen genau 1–4).

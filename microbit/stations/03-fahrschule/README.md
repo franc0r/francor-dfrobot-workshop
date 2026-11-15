@@ -16,9 +16,10 @@ Seit 09.11.2026 („Parcours first“) gibt es hier keine Motorlösungen mehr (G
 Funktionen): Der Grand Prix braucht keinen Motorblock. Die alten Dateien stehen in der
 Git-Geschichte vor diesem Datum.
 
-Nach dem Trockenlauf hier ablegen:
+Vorhanden: `loesung.hex`: aus `loesung.js` mit pxt-francor-maqueen v0.1.4 gebaut, am Gerät ungeprüft. Nur für micro:bit V2 (V1 wird nicht unterstützt).
 
-- `loesung.hex`
+Nach dem Trockenlauf kommt dazu:
+
 - `bloecke.png`
 
 und darunter notieren, was das Programm tut und welche Werte darin stecken.

@@ -15,9 +15,10 @@ von `wenn … dann` schieben, erst dann passt der Abstandsblock in dessen linke 
 Bis 09.11.2026 hatte diese Station einen Pausenknopf mit der Variablen `pausiert`; den Merker
 lernen die Teams jetzt erst im Profi-Teil des Grand Prix (`gesprungen`).
 
-Nach dem Trockenlauf hier ablegen:
+Vorhanden: `loesung.hex`: aus `loesung.js` mit pxt-francor-maqueen v0.1.4 gebaut, am Gerät ungeprüft. Nur für micro:bit V2 (V1 wird nicht unterstützt).
 
-- `loesung.hex`
+Nach dem Trockenlauf kommt dazu:
+
 - `bloecke.png`
 
 und darunter notieren, was das Programm tut und welche Werte darin stecken.
