@@ -60,5 +60,16 @@ class CheckVorlage(unittest.TestCase):
         build.check_vorlage(build.VORLAGE)
 
 
+class AlteBlocktexte(unittest.TestCase):
+    def test_alte_blocktexte(self):
+        for wort in build.ALTE_BLOCKTEXTE:
+            with self.assertRaises(SystemExit, msg=wort):
+                build.check_alte_blocktexte("<p>x " + wort + " y</p>", "offline")
+
+    def test_neue_texte_erlaubt(self):
+        build.check_alte_blocktexte("Linienverfolgung an, Adresse 0x33, DFRobot", "offline")
+        build.check_alte_blocktexte("Maqueen Plus V3, Vorgänger Plus V2", "offline")
+
+
 if __name__ == "__main__":
     unittest.main()

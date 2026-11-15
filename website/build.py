@@ -202,6 +202,20 @@ def check_textbudget():
     _gezaehlt = True
 
 
+# Texte der alten DFRobot-Blöcke und der Bibliothek „Grand Prix“; die Seite
+# spricht seit der FRANCOR-Erweiterung nur noch die neuen Blocknamen.
+ALTE_BLOCKTEXTE = ("Line patrolling", "Line Following", "RGB Car Lights", "initialisiere Maqueen",
+                   "Hindernisvermeidung", "At Crossroads", "T-junction", "Turn and Straight",
+                   "PID Distance", "Matrix LiDAR", "Maqueen Plus V2", "b-gp", "grandPrix",
+                   "maqueenPlusV2")
+
+
+def check_alte_blocktexte(html: str, target: str) -> None:
+    gefunden = [w for w in ALTE_BLOCKTEXTE if w in html]
+    if gefunden:
+        raise SystemExit("%s-Build enthält alte Blocktexte: %s" % (target, ", ".join(gefunden)))
+
+
 STATIONSMINUTEN = 80    # Summe der Stationen ...
 PUFFER = 10             # ... plus Puffer = 90-Minuten-Slot (Martin, 10.11.2026)
 
@@ -273,6 +287,7 @@ def assemble(target):
             raise SystemExit("%s-Build enthält externe Verweise: %s" % (target, bad[:3]))
     else:
         page = head + body
+    check_alte_blocktexte(page, target)
     return page
 
 
