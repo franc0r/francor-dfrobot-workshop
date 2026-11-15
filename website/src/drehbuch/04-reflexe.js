@@ -16,7 +16,7 @@ DREHBUCH[4] = {name:"Reflexe", min:8, badge:"Bremsassistent", titel:"Wenn etwas 
 
   { id:"laser",
     nachrichten:[
-      "Vorne sitzt ein kleines LiDAR mit 8 mal 8 = <b>64 Laserstrahlen</b>. Es misst den Abstand in Millimetern.",
+      "Vorne sitzt ein kleiner LiDAR mit 8 mal 8 = <b>64 Laserstrahlen</b>. Er misst den Abstand in Millimetern.",
       "Seine Blöcke liegen in der Kategorie <b>LiDAR</b>. <kbd>LiDAR einschalten</kbd> kommt in <kbd>beim Start</kbd>, dann misst er von selbst immer weiter.",
       "In <kbd>dauerhaft</kbd> fragt ihr nur noch den Abstand nach vorn ab.",
       {karte:"k4-laser"}
