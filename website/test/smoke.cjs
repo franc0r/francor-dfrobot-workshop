@@ -312,7 +312,10 @@ function check(cond, msg) {
     let r4 = 0;
     while (await page.$('#antworten button[data-fertig]') && r4++ < 10) await weiter();
     const k4 = await klammern();
-    check(k4.includes('dauerhaft:2') && k4.some(k => /^wenn .*< 200 dann:2$/.test(k)), 'Station 4: Laser-Stopp als Klammer, wenn mit zwei Blöcken (' + k4.join(', ') + ')');
+    check(k4.includes('dauerhaft:1') && k4.some(k => /^wenn .*< 200 dann:2$/.test(k)), 'Station 4: Laser-Stopp als Klammer, wenn mit zwei Blöcken (' + k4.join(', ') + ')');
+    const txt4 = await page.$eval('#chat', e => e.textContent.replace(/\s+/g, ' '));
+    check(/LiDAR einschalten/.test(txt4) && /Abstand vorne \(mm\)/.test(txt4) && /Linienverfolgung aus/.test(txt4), 'Station 4: neue Blocktexte');
+    check(!/Hindernisvermeidung|abrufen|0x33|Matrix LiDAR|Line patrolling|RGB Car Lights|initialisiere Maqueen/.test(txt4), 'Station 4: keine alten Blocktexte, kein Daten-Abholen');
     check(await page.$$eval('#chat .mcb.b-lidar', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(91, 63, 232)')), 'Station 4: Laserblöcke lila');
     check(await page.$$eval('#chat .mcstack', l => l.every(st => { const r = st.getBoundingClientRect().right + 1; return [...st.querySelectorAll('.mcb')].every(b => b.getBoundingClientRect().right <= r); })), 'Station 4: lange Blöcke ragen nicht aus der Karte');
     check(await page.$('#chat [data-karte="k4-bauen"] ol.steps') !== null, 'Station 4: Bauanleitung „Erst die Form, dann der Inhalt“');

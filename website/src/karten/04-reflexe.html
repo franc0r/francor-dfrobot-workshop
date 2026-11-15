@@ -1,25 +1,22 @@
 <div class="karten" data-st="4">
   <div class="karte" data-karte="k4-laser">
     <div class="mcstack">
-      <div class="mccap">Laser einschalten und Messwerte abholen</div>
+      <div class="mccap">LiDAR einschalten</div>
       <div class="mcb b-basic">beim Start</div>
-      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
-      <div class="mcb b-basic">dauerhaft</div>
-      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-mq i1">starte Maqueen</div>
+      <div class="mcb b-lidar i1">LiDAR einschalten</div>
     </div>
   </div>
   <div class="karte" data-karte="k4-bedingung">
     <div class="mcstack">
       <div class="mccap">Laser-Stopp &ndash; kommt zu eurem Programm aus Station 3 dazu</div>
       <div class="mcb b-basic">beim Start</div>
-      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-mq i1">starte Maqueen</div>
+      <div class="mcb b-lidar i1">LiDAR einschalten</div>
       <div class="mcb b-basic">dauerhaft</div>
-      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
-      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
-      <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
-      <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Abstand <b>vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">Linienverfolgung <b>aus</b></div>
+      <div class="mcb b-mq i2">Scheinwerfer <b>beide</b> Farbe <b>rot</b></div>
     </div>
   </div>
   <div class="karte" data-karte="k4-bauen">
@@ -28,8 +25,8 @@
         <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>wahr</b></span> dann</div></div></span></li>
       <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.
         <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>0</b> <b>&lt;</b> <b>0</b></span> dann</div></div></span></li>
-      <li><span>Den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen, <b>Links</b> auf <b>Vorne</b> umstellen, rechts <b>200</b> eintippen.
-        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
+      <li><span>Aus <b>LiDAR</b> den Block <kbd>Abstand vorne (mm)</kbd> auf die <b>linke 0</b> ziehen, rechts <b>200</b> eintippen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Abstand <b>vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
     </ol>
   </div>
   <div class="karte" data-karte="k4-quiz">
@@ -47,7 +44,7 @@
   <div class="karte" data-karte="k4-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
-      <p><b>Er bremst nie?</b> Steht <b>Hindernisvermeidungsdaten abrufen</b> in <kbd>dauerhaft</kbd> ganz oben? Ohne neue Messwerte bleibt der Vergleich immer gleich. Steht der Abstandsblock auf <b>Vorne</b>?<br><b>Er fährt nach dem Stopp nicht mehr los?</b> Richtig so: <b>Line patrolling OFF</b> bleibt aus, bis ihr Knopf A drückt.<br><b>Komische Werte?</b> Der Scanner misst nur von 20&nbsp;mm bis 4000&nbsp;mm. Sitzt das Kabel fest?</p>
+      <p><b>Er bremst nie?</b> Steht <b>LiDAR einschalten</b> in <kbd>beim Start</kbd>? Steht der Abstandsblock auf <b>vorne</b>? Nach dem Einschalten braucht der LiDAR 2 bis 3 Sekunden, bis er misst.<br><b>Er fährt nach dem Stopp nicht mehr los?</b> Richtig so: <b>Linienverfolgung aus</b> bleibt aus, bis ihr Knopf A drückt.<br><b>Komische Werte?</b> Der Scanner misst nur von 20&nbsp;mm bis 4000&nbsp;mm. Sitzt das Kabel fest?</p>
     </details>
   </div>
 </div>

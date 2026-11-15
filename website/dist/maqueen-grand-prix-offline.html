@@ -1161,25 +1161,22 @@ body.safety-on{overflow:hidden}
 <div class="karten" data-st="4">
   <div class="karte" data-karte="k4-laser">
     <div class="mcstack">
-      <div class="mccap">Laser einschalten und Messwerte abholen</div>
+      <div class="mccap">LiDAR einschalten</div>
       <div class="mcb b-basic">beim Start</div>
-      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
-      <div class="mcb b-basic">dauerhaft</div>
-      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
+      <div class="mcb b-mq i1">starte Maqueen</div>
+      <div class="mcb b-lidar i1">LiDAR einschalten</div>
     </div>
   </div>
   <div class="karte" data-karte="k4-bedingung">
     <div class="mcstack">
       <div class="mccap">Laser-Stopp &ndash; kommt zu eurem Programm aus Station 3 dazu</div>
       <div class="mcb b-basic">beim Start</div>
-      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-mq i1">starte Maqueen</div>
+      <div class="mcb b-lidar i1">LiDAR einschalten</div>
       <div class="mcb b-basic">dauerhaft</div>
-      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
-      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
-      <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
-      <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Abstand <b>vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">Linienverfolgung <b>aus</b></div>
+      <div class="mcb b-mq i2">Scheinwerfer <b>beide</b> Farbe <b>rot</b></div>
     </div>
   </div>
   <div class="karte" data-karte="k4-bauen">
@@ -1188,8 +1185,8 @@ body.safety-on{overflow:hidden}
         <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>wahr</b></span> dann</div></div></span></li>
       <li><span>Aus <b>Logik</b> den Vergleich <kbd>0 &lt; 0</kbd> auf das Feld <b>wahr</b> ziehen.
         <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><b>0</b> <b>&lt;</b> <b>0</b></span> dann</div></div></span></li>
-      <li><span>Den lila Block <kbd>Hindernisvermeidungsmodus Entfernungsmessung Links (mm)</kbd> auf die <b>linke 0</b> ziehen, <b>Links</b> auf <b>Vorne</b> umstellen, rechts <b>200</b> eintippen.
-        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
+      <li><span>Aus <b>LiDAR</b> den Block <kbd>Abstand vorne (mm)</kbd> auf die <b>linke 0</b> ziehen, rechts <b>200</b> eintippen.
+        <div class="mcstack"><div class="mcb b-logic">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Abstand <b>vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div></div></span></li>
     </ol>
   </div>
   <div class="karte" data-karte="k4-quiz">
@@ -1207,7 +1204,7 @@ body.safety-on{overflow:hidden}
   <div class="karte" data-karte="k4-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
-      <p><b>Er bremst nie?</b> Steht <b>Hindernisvermeidungsdaten abrufen</b> in <kbd>dauerhaft</kbd> ganz oben? Ohne neue Messwerte bleibt der Vergleich immer gleich. Steht der Abstandsblock auf <b>Vorne</b>?<br><b>Er fährt nach dem Stopp nicht mehr los?</b> Richtig so: <b>Line patrolling OFF</b> bleibt aus, bis ihr Knopf A drückt.<br><b>Komische Werte?</b> Der Scanner misst nur von 20&nbsp;mm bis 4000&nbsp;mm. Sitzt das Kabel fest?</p>
+      <p><b>Er bremst nie?</b> Steht <b>LiDAR einschalten</b> in <kbd>beim Start</kbd>? Steht der Abstandsblock auf <b>vorne</b>? Nach dem Einschalten braucht der LiDAR 2 bis 3 Sekunden, bis er misst.<br><b>Er fährt nach dem Stopp nicht mehr los?</b> Richtig so: <b>Linienverfolgung aus</b> bleibt aus, bis ihr Knopf A drückt.<br><b>Komische Werte?</b> Der Scanner misst nur von 20&nbsp;mm bis 4000&nbsp;mm. Sitzt das Kabel fest?</p>
     </details>
   </div>
 </div>
@@ -1461,7 +1458,7 @@ body.safety-on{overflow:hidden}
         <tr><td>0:05–0:16</td><td><b>Erster Kontakt.</b> MakeCode öffnen, Herz blinken lassen, flashen. Nur micro:bit am USB-Kabel, noch kein Roboter. Kritischste Phase: hier entstehen 80 % aller Störungen – deshalb der größte Zeitblock der ersten Hälfte. Hier bauen sie auch zum ersten Mal <em>beim Start</em> (einmal) und <em>dauerhaft</em> (ohne Ende) nebeneinander – die Unterscheidung, die sie beim Roboter ständig brauchen.</td></tr>
         <tr><td>0:16–0:27</td><td><b>micro:bit allein.</b> LED-Matrix, Knöpfe, Logo nach oben/unten und Schütteln, Würfel als Challenge. Hier lernen sie <em>Ereignis</em> und <em>Sensorwert&nbsp;=&nbsp;Zahl</em>: &bdquo;Logo nach oben&ldquo; ist nur eine Zahl jenseits der Grenze 200. Beides brauchen sie später beim Roboter wieder.</td></tr>
         <tr><td>0:27–0:42</td><td><b>Fahrschule.</b> Vorlage öffnen (Erweiterung ist schon drin), micro:bit einstecken, beide Schalter an, Haken abwarten. Dann die Linie auf Knopf A mit Startampel, Knopf B als Not-Aus; getestet wird auf dem Teststreifen am Boden. Der Wow-Moment des Workshops – Zeit lassen, applaudieren. Kalibrieren nur bei Bedarf, die Roboter sind beim Aufbau schon kalibriert.</td></tr>
-        <tr><td>0:42–0:50</td><td><b>Reflexe.</b> Laser-Stopp im Projekt Linie: <em>wenn</em> Abstand unter 200&nbsp;mm, dann <em>Line patrolling OFF</em> und rotes Licht. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
+        <tr><td>0:42–0:50</td><td><b>Reflexe.</b> Laser-Stopp im Projekt Linie: <em>wenn</em> Abstand unter 200&nbsp;mm, dann <em>Linienverfolgung aus</em> und rotes Licht. Pflicht – der Grand Prix braucht den Laser-Stopp.</td></tr>
         <tr><td>0:50–1:20</td><td><b>Grand Prix.</b> 30 Minuten: Strecke lesen, Kreuzungen einstellen, Tempo-Zone, Lauf auf Zeit. Niemals streichen – das ist die Erinnerung, die mitgeht.</td></tr>
         <tr><td>1:20–1:30</td><td><b>Puffer.</b> Keine eigene Station. Dort einsetzen, wo es hakt – meist beim ersten Flashen (Station 1) oder im Grand Prix.</td></tr>
       </table>
@@ -1640,13 +1637,13 @@ body.safety-on{overflow:hidden}
           <tr><th>Symptom</th><th>Erste Maßnahme</th></tr>
           <tr><td>micro:bit taucht beim Download nicht auf</td><td>Kabel tauschen (Ladekabel!), anderer USB-Port, „Gerät koppeln" erneut</td></tr>
           <tr><td>Koppeln schlägt unter Linux fehl (Pi, Ubuntu)</td><td>Meist fehlt die udev-Regel oder der Benutzer ist nicht in <kbd>plugdev</kbd> (siehe „Stationen auf Raspberry Pi und Linux“) – das ist Aufbau-Arbeit, nicht Workshop-Zeit. Während des Slots nicht lange suchen: <kbd>.hex</kbd> aus dem Download-Ordner auf das Laufwerk <kbd>MICROBIT</kbd> ziehen. Dauert zehn Sekunden und geht immer</td></tr>
-          <tr><td>Laser bremst nicht vor der Hand (Station 4/5)</td><td>Steht der Abstandsblock auf <b>Vorne</b>? MakeCode bringt ihn mit <b>Links</b>. Steht beim Start <em>Matrix-Modus Hindernisvermeidung</em> und im <em>dauerhaft</em> zuerst <em>Hindernisvermeidungsdaten abrufen</em>? Mit dem Matrix-Modus hängt die Abfrage bis zu 8&nbsp;s</td></tr>
+          <tr><td>Laser bremst nicht vor der Hand (Station 4/5)</td><td>Steht <em>LiDAR einschalten</em> in <em>beim Start</em>? Steht der Abstandsblock auf <b>vorne</b>? In den ersten 2–3&nbsp;s nach dem Einschalten misst der LiDAR noch nicht (Abstand 9999, zählt nie als Hindernis).</td></tr>
           <tr><td>MakeCode meldet &bdquo;Cannot redeclare block-scoped variable&ldquo;</td><td>Die Variable heißt wie ein eingebauter Block, meist <b>pause</b>. Umbenennen, z.&nbsp;B. in <b>gesprungen</b></td></tr>
           <tr><td>Roboter reagiert gar nicht</td><td>Beide Schalter prüfen – Akkubrett <em>und</em> Bodenplatte. Fehlt <em>starte Maqueen</em> in <em>beim Start</em>?</td></tr>
           <tr><td>micro:bit zeigt blinkendes X</td><td>Das ist <em>starte Maqueen</em>: Der Roboter antwortet nicht. Schalter an? micro:bit ganz im Schlitz? Ein Haken heißt verbunden.</td></tr>
           <tr><td>Motoren brummen, fahren aber nicht</td><td>Akku schwach – Batterien tauschen oder laden</td></tr>
           <tr><td>Linienfolger zuckt oder verliert die Spur</td><td>Neu kalibrieren; Sonnenlicht abschirmen; glänzendes Band durch mattes ersetzen</td></tr>
-          <tr><td>Abstandswerte sind Unsinn</td><td>3 s Startpause fehlt; Linse verschmutzt oder verdeckt</td></tr>
+          <tr><td>Abstand bleibt 9999</td><td>In den ersten 2–3&nbsp;s nach <em>LiDAR einschalten</em> normal. Bleibt er: Kabel prüfen, Schalter am Sensor wie ab Werk (Adresse 0x33); Linse verschmutzt oder verdeckt</td></tr>
           <tr><td>MakeCode lädt nicht (kein Netz)</td><td>Cache ist weg. Handy-Hotspot für dieses eine Gerät, oder vorbereitetes Ersatzgerät einsetzen. Bis dahin: Station 0 erklären, Vorführroboter zeigen, fertige <kbd>.hex</kbd> aus <kbd>microbit/stations/</kbd> per Laufwerk <kbd>MICROBIT</kbd></td></tr>
           <tr><td>Erweiterung fehlt im Projekt</td><td>Knopf <b>Neues Roboter-Projekt starten</b> (Station 3; Rückfall in 4 und 5) nehmen statt die Erweiterung neu zu suchen – Nachladen bräuchte Internet. Fehlt sie auch dann, ist der Cache weg: wie „MakeCode lädt nicht“</td></tr>
           <tr><td>Neue Blöcke wirken nicht, Anzeige wird überschrieben, Roboter tut Unerwartetes</td><td>Das alte Programm läuft mit. In Station 1 und 2: Knopf <b>Neues Projekt starten</b> oben in der Station nehmen. Ab Station 3 ist Weiterbauen im Projekt <b>Linie</b> gewollt – dort stört meist ein doppelter Block in <em>dauerhaft</em> oder in <em>wenn Knopf A geklickt</em>: löschen</td></tr>
@@ -2341,11 +2338,12 @@ DREHBUCH[4] = {name:"Reflexe", min:8, badge:"Bremsassistent", titel:"Wenn etwas 
 
   { id:"laser",
     nachrichten:[
-      "Vorne sitzt ein kleines Lidar mit 8 mal 8 = <b>64 Laserstrahlen</b>. Es misst den Abstand in Millimetern.",
-      "Seine lila Blöcke liegen in der Kategorie <b>Matrix LiDAR Entfernung</b>: einmal einschalten in <kbd>beim Start</kbd>, in <kbd>dauerhaft</kbd> erst Messwerte abholen, dann den Abstand nach vorn abfragen.",
+      "Vorne sitzt ein kleines LiDAR mit 8 mal 8 = <b>64 Laserstrahlen</b>. Es misst den Abstand in Millimetern.",
+      "Seine Blöcke liegen in der Kategorie <b>LiDAR</b>. <kbd>LiDAR einschalten</kbd> kommt in <kbd>beim Start</kbd>, dann misst er von selbst immer weiter.",
+      "In <kbd>dauerhaft</kbd> fragt ihr nur noch den Abstand nach vorn ab.",
       {karte:"k4-laser"}
     ],
-    chips:[ "Wo ist Matrix LiDAR Entfernung?", "Was heißt 0x33?", "Wie weit sieht der Laser?", "Was ist ein Lidar?" ],
+    chips:[ "Wo ist die Kategorie LiDAR?", "Misst er von selbst weiter?", "Wie weit sieht der Laser?", "Was ist ein LiDAR?" ],
     fertig:"Laser ist an ✓" },
 
   { id:"bedingung",

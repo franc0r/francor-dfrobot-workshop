@@ -3,9 +3,9 @@
 Laser-Stopp im Projekt „Linie“ aus Station 3. Pflicht; Station 5 baut darauf auf.
 
 `loesung.js` (MakeCode-JavaScript, noch nicht am Gerät gefahren): wie Station 3, dazu in
-`beim Start` den Laser initialisieren (I2C-Adresse 0x33, Matrix-Modus Hindernisvermeidung)
-und ein `dauerhaft`: `Hindernisvermeidungsdaten abrufen`; wenn `Entfernung Vorne (mm) < 200`,
-dann `Line patrolling OFF` und `RGB Car Lights All` rot. Kein `ansonsten`, keine Variable —
+`beim Start` nach `starte Maqueen` der Block `LiDAR einschalten` (misst danach im Hintergrund;
+die ersten 2–3 s ist der Abstand 9999, das zählt nie als Hindernis). In `dauerhaft`: wenn
+`Abstand vorne (mm) < 200`, dann `Linienverfolgung aus` und `Scheinwerfer beide Farbe rot`. Kein `ansonsten`, keine Variable —
 Knopf A startet nach einem Halt einfach neu (Ampel, dann grün).
 
 Hinweis fürs Nachbauen in MakeCode: zuerst den Vergleichsblock `0 < 0` (Logik) in das Loch
