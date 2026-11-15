@@ -9,7 +9,7 @@ so in der Vorlage). **Knopf A:** Startampel (`Scheinwerfer beide Farbe` rot, 1 s
 — der Not-Aus. Kein `dauerhaft`: Die Linienverfolgung läuft im Hintergrund.
 
 Einfügen: in MakeCode oben auf **JavaScript** umschalten, alles ersetzen, zurück auf
-**Blöcke**. Die Die Blöcke stammen aus der Erweiterung pxt-francor-maqueen (v0.1.4); sie sind am Gerät
+**Blöcke**. Die Blöcke stammen aus der Erweiterung pxt-francor-maqueen (v0.1.4); sie sind am Gerät
 noch nicht als Station gefahren (Gerätetest 08 offen).
 
 Seit 09.11.2026 („Parcours first“) gibt es hier keine Motorlösungen mehr (Geradeaus, Quadrat,
