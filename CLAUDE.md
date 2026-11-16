@@ -9,7 +9,7 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 
 ## Harte Regeln
 
-1. **Offline-only.** Auf der Messe gibt es kein Internet. `website/dist/maqueen-grand-prix-offline.html`
+1. **Offline-only.** Auf der Messe gibt es höchstens langsames Internet; die Seite muss ohne Netz vollständig funktionieren. `website/dist/maqueen-grand-prix-offline.html`
    darf keinen einzigen externen Verweis enthalten — keine Webfonts, keine CDN-Skripte, keine
    Bilder von außen. `build.py` bricht ab, wenn doch; `website/test/smoke.cjs` prüft es mit
    abgeschaltetem Netzwerk. Die Seite selbst muss immer ohne Netz vollständig funktionieren.
