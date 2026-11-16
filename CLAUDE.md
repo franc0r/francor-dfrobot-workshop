@@ -12,7 +12,7 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
 1. **Offline-only.** Auf der Messe gibt es höchstens langsames Internet; die Seite muss ohne Netz vollständig funktionieren. `website/dist/maqueen-grand-prix-offline.html`
    darf keinen einzigen externen Verweis enthalten — keine Webfonts, keine CDN-Skripte, keine
    Bilder von außen. `build.py` bricht ab, wenn doch; `website/test/smoke.cjs` prüft es mit
-   abgeschaltetem Netzwerk. Die Seite selbst muss immer ohne Netz vollständig funktionieren.
+   abgeschaltetem Netzwerk.
    Ausnahme (von Martin freigegeben, 28.10.2026): Links `href="https://makecode.microbit.org/#…"`.
    Sie laden nichts in die Seite, sondern öffnen MakeCode im zweiten Tab, das aus dem Cache läuft.
    Im Quelltext stehen sie als `href="makecode:neu"` (→ `#newproject`, Knopf „Neues Projekt
