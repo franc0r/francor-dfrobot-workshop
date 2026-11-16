@@ -16,11 +16,12 @@ DREHBUCH[4] = {name:"Reflexe", min:8, badge:"Bremsassistent", titel:"Wenn etwas 
 
   { id:"laser",
     nachrichten:[
-      "Vorne sitzt ein kleines Lidar mit 8 mal 8 = <b>64 Laserstrahlen</b>. Es misst den Abstand in Millimetern.",
-      "Seine lila Blöcke liegen in der Kategorie <b>Matrix LiDAR Entfernung</b>: einmal einschalten in <kbd>beim Start</kbd>, in <kbd>dauerhaft</kbd> erst Messwerte abholen, dann den Abstand nach vorn abfragen.",
+      "Vorne sitzt ein kleiner LiDAR mit 8 mal 8 = <b>64 Laserstrahlen</b>. Er misst den Abstand in Millimetern.",
+      "Seine Blöcke liegen in der Kategorie <b>LiDAR</b>. <kbd>LiDAR einschalten</kbd> kommt in <kbd>beim Start</kbd>, dann misst er von selbst immer weiter.",
+      "In <kbd>dauerhaft</kbd> fragt ihr nur noch den Abstand nach vorn ab.",
       {karte:"k4-laser"}
     ],
-    chips:[ "Wo ist Matrix LiDAR Entfernung?", "Was heißt 0x33?", "Wie weit sieht der Laser?", "Was ist ein Lidar?" ],
+    chips:[ "Wo ist die Kategorie LiDAR?", "Misst er von selbst weiter?", "Wie weit sieht der Laser?", "Was ist ein LiDAR?" ],
     fertig:"Laser ist an ✓" },
 
   { id:"bedingung",

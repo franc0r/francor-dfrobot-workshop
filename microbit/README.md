@@ -5,7 +5,7 @@ hier nichts gebaut wird — die Dateien werden geflasht oder in MakeCode geöffn
 
 | Ordner | Inhalt |
 |---|---|
-| `vorlage/` | Startprojekt mit schon geladener DFRobot-Erweiterung — das, was die Schüler öffnen |
+| `vorlage/` | Startprojekt, das auf unsere Erweiterung FRANCOR Maqueen verweist — das, was die Schüler öffnen |
 | `stations/` | Musterlösung je Station, für die Betreuenden |
 | `python/` | MicroPython: Hardware-Check und Zugabe für Schnelle |
 

@@ -72,54 +72,54 @@
   </div>
   <div class="karte" data-karte="k5-typen">
     <ul class="gptypes">
-      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Crossroads</b> Kreuzung: links, rechts, geradeaus</span></li>
-      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H15"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Left Turn and Straight Intersection</b> Abzweig links oder geradeaus</span></li>
-      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M15 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Right Turn and Straight Intersection</b> Abzweig rechts oder geradeaus</span></li>
-      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V15 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>T-junction</b> T: nur links oder rechts</span></li>
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Kreuzung</b>: links, rechts, geradeaus</span></li>
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M1 15 H15"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Abzweig links</b>: links oder geradeaus</span></li>
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V1 M15 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>Abzweig rechts</b>: rechts oder geradeaus</span></li>
+      <li><svg viewBox="0 0 30 30" aria-hidden="true"><rect class="gp-tile" width="30" height="30" rx="3"/><path class="gp-ln" d="M15 29 V15 M1 15 H29"/><path class="gp-start" d="M15 18 L10.5 26.5 H19.5 Z"/></svg><span><b>T-Kreuzung</b>: nur links oder rechts</span></li>
     </ul>
   </div>
   <div class="karte" data-karte="k5-kreuzungen">
     <div class="mcstack">
-      <div class="mccap">Grand Prix &ndash; neu: graue Blöcke, Kreuzungsblöcke, Speed 2. Der Rest steht schon in Linie</div>
+      <div class="mccap">Grand Prix &ndash; neu: Kreuzungszähler, Kreuzungsregeln, Linien-Tempo 2. Der Rest steht schon in Linie</div>
       <div class="mcb b-basic">beim Start</div>
-      <div class="mcb b-mq i1">initialisiere Maqueen Plus V2</div>
-      <div class="mcb b-lidar i1">Laser-Entfernungsmesser I2C-Adresse <b>0x33</b> Matrix-Modus <b>Hindernisvermeidung</b> initialisieren</div>
+      <div class="mcb b-mq i1">starte Maqueen</div>
+      <div class="mcb b-lidar i1">LiDAR einschalten</div>
       <div class="mcb b-input">wenn Knopf <b>A</b> geklickt</div>
-      <div class="mcb b-gp i1">setze Kreuzungszähler zurück</div>
-      <div class="mcb b-mq i1">At Crossroads <b>???</b></div>
-      <div class="mcb b-mq i1">At Left Turn and Straight Intersection <b>Straight</b></div>
-      <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
-      <div class="mcb b-mq i1">At T-junction <b>???</b></div>
-      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-mq i1">setze Kreuzungszähler zurück</div>
+      <div class="mcb b-basic i1">Bildschirminhalt löschen</div>
+      <div class="mcb b-mq i1">an Kreuzung <b>???</b></div>
+      <div class="mcb b-mq i1">an Abzweig links <b>geradeaus</b></div>
+      <div class="mcb b-mq i1">an Abzweig rechts <b>???</b></div>
+      <div class="mcb b-mq i1">an T-Kreuzung <b>???</b></div>
+      <div class="mcb b-mq i1">Scheinwerfer <b>beide</b> Farbe <b>rot</b></div>
       <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>yellow</b></div>
+      <div class="mcb b-mq i1">Scheinwerfer <b>beide</b> Farbe <b>gelb</b></div>
       <div class="mcb b-basic i1">pausiere (ms) <b>1000</b></div>
-      <div class="mcb b-mq i1">RGB Car Lights <b>All</b> color <b>green</b></div>
-      <div class="mcb b-mq i1">Line Following Settings Speed <b>2</b></div>
-      <div class="mcb b-mq i1">Line patrolling <b>ON</b></div>
+      <div class="mcb b-mq i1">Scheinwerfer <b>beide</b> Farbe <b>grün</b></div>
+      <div class="mcb b-mq i1">Linien-Tempo <b>2</b></div>
+      <div class="mcb b-mq i1">Linienverfolgung <b>an</b></div>
       <div class="mcb b-input">wenn Knopf <b>B</b> geklickt</div>
-      <div class="mcb b-mq i1">Line patrolling <b>OFF</b></div>
-      <div class="mcb b-gp">wenn Kreuzung Nummer <b>1</b> erreicht</div>
-      <div class="mcb b-mq i1">At Right Turn and Straight Intersection <b>???</b></div>
+      <div class="mcb b-mq i1">Linienverfolgung <b>aus</b></div>
+      <div class="mcb b-mq">wenn Kreuzung Nummer <b>1</b> erreicht</div>
+      <div class="mcb b-mq i1">an Abzweig rechts <b>???</b></div>
       <div class="mcb b-basic">dauerhaft</div>
-      <div class="mcb b-lidar i1">Hindernisvermeidungsdaten abrufen</div>
-      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Hindernisvermeidungsmodus Entfernungsmessung <b>Vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
-      <div class="mcb b-mq i2">Line patrolling <b>OFF</b></div>
-      <div class="mcb b-mq i2">RGB Car Lights <b>All</b> color <b>red</b></div>
+      <div class="mcb b-logic i1">wenn <span class="mcr b-logic"><span class="mcr b-lidar">Abstand <b>vorne</b> (mm)</span> <b>&lt;</b> <b>200</b></span> dann</div>
+      <div class="mcb b-mq i2">Linienverfolgung <b>aus</b></div>
+      <div class="mcb b-mq i2">Scheinwerfer <b>beide</b> Farbe <b>rot</b></div>
     </div>
   </div>
   <div class="karte" data-karte="k5-melodie">
     <div class="mcstack">
       <div class="mccap">Siegesmelodie am Ziel</div>
-      <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
+      <div class="mcb b-mq">wenn Kreuzung Nummer <b>???</b> erreicht</div>
       <div class="mcb b-music i1">spiele <span class="mcr b-music">Melodie <b>Entertainer</b></span> <b>im Hintergrund</b></div>
     </div>
   </div>
   <div class="karte" data-karte="k5-tempo">
     <div class="mcstack">
       <div class="mccap">Tempo-Zone</div>
-      <div class="mcb b-gp">wenn Kreuzung Nummer <b>???</b> erreicht</div>
-      <div class="mcb b-mq i1">Line Following Settings Speed <b>1</b></div>
+      <div class="mcb b-mq">wenn Kreuzung Nummer <b>???</b> erreicht</div>
+      <div class="mcb b-mq i1">Linien-Tempo <b>1</b></div>
       <div class="mcb b-basic i1">zeige Zahl <b>1</b></div>
     </div>
   </div>
@@ -127,14 +127,13 @@
     <ol class="steps">
       <li><span>Am Ziel <span class="gpnum">4</span> etwa eine halbe Sekunde warten, bis er steht.</span></li>
       <li><span>Mit dem Laser prüfen, ob der Weg frei ist.</span></li>
-      <li><span><b>Line patrolling OFF</b>, dann mit <b>PID Distance Control</b> 20&nbsp;cm über die Lücke springen.</span></li>
-      <li><span><b>2 Sekunden warten</b>: Der Sprung-Block wartet nicht selbst.</span></li>
-      <li><span><b>Line patrolling ON</b>, bis zur Kiste am Pro-Ziel.</span></li>
+      <li><span><b>Linienverfolgung aus</b>, dann mit <b>fahre 20 cm vorwärts warte bis fertig</b> über die Lücke springen.</span></li>
+      <li><span><b>Linienverfolgung an</b>, bis zur Kiste am Pro-Ziel.</span></li>
       <li><span>Die Siegesmelodie spielt erst am <b>Pro-Ziel</b>.</span></li>
     </ol>
     <div class="mcstack">
       <div class="mccap">Der Sprung</div>
-      <div class="mcb b-mq">PID Distance Control <b>CW</b> distance <b>20</b> cm <b>Allow interruption</b></div>
+      <div class="mcb b-mq">fahre <b>20</b> cm <b>vorwärts</b> <b>warte bis fertig</b></div>
     </div>
   </div>
   <div class="karte" data-karte="k5-variable">
@@ -154,7 +153,7 @@
   <div class="karte" data-karte="k5-klemmt">
     <details class="hint">
       <summary>Wenn es klemmt</summary>
-      <p><b>Er biegt falsch ab?</b> Rechts und links aus Sicht des Roboters zählen. Gelten eure Regeln vor <b>Line patrolling ON</b>?<br><b>Er verlässt die Linie in Kurven?</b> Speed 1 oder 2.<br><b>Er macht nach dem Sprung, was er will?</b> Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?</p>
+      <p><b>Er biegt falsch ab?</b> Rechts und links aus Sicht des Roboters zählen. Gelten eure Regeln vor <b>Linienverfolgung an</b>?<br><b>Er verlässt die Linie in Kurven?</b> Linien-Tempo 1 oder 2.<br><b>Er macht nach dem Sprung, was er will?</b> Was passiert mit euren Einstellungen, wenn ihr die Linienverfolgung ausschaltet?</p>
     </details>
   </div>
 </div>

@@ -1,12 +1,12 @@
 /* Drehbuch Station 3: Fahrschule. Quelle: master, Station 03 (Parcours first, 09.11.2026:
-   Einsetzen, Vorlage, Liniensensor, Knopf A = Ampel + Line patrolling ON, Knopf B = OFF).
+   Einsetzen, Vorlage, Liniensensor, Knopf A = Ampel + Linienverfolgung an, Knopf B = aus).
    Schema siehe maskottchen.js (Abschnitt Gespräch). Kein Motorblock, keine Schleife:
    Hier wird nur geübt, was der Grand Prix braucht. */
 DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter fährt die Linie", schritte:[
   { id:"vorlage",
     nachrichten:[
       "Jetzt bekommt euer micro:bit Räder. Du sagst dem Roboter nicht, wo er langfahren soll, sondern worauf er achten soll.",
-      "Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken, Kategorie <b>Maqueen Plus V2</b>.",
+      "Klickt auf den Knopf: ein neues Projekt mit den Roboter-Blöcken, Kategorie <b>Maqueen</b>.",
       {karte:"makecode:vorlage"},
       "Nennt es unten neben <b>Herunterladen</b> <b>Linie</b>. Ihr arbeitet bis zum Grand Prix darin."
     ],
@@ -14,14 +14,14 @@ DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter
       "MakeCode kennt den Maqueen erst, wenn seine Block-Sammlung geladen ist. In der Vorlage steckt sie schon drin.",
       "Bitte heute nichts nachladen: Das braucht Internet, und das ist auf der Messe langsam."
     ]},
-    chips:[ "Wo ist die Kategorie Maqueen Plus V2?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
+    chips:[ "Wo ist die Kategorie Maqueen?", "Der Knopf macht nichts", "Wo gebe ich den Namen ein?" ],
     fertig:"Projekt Linie ist offen ✓" },
 
   { id:"einsetzen",
     nachrichten:[
       "micro:bit in den Schlitz, <b>Lämpchen nach vorn</b>. Dann <b>beide</b> Schalter auf ON.",
       {karte:"k3-mqinsert"},
-      "<kbd>initialisiere Maqueen Plus V2</kbd> steht in der Vorlage oben in <kbd>beim Start</kbd>: nicht löschen.",
+      "<kbd>starte Maqueen</kbd> steht in der Vorlage oben in <kbd>beim Start</kbd>: nicht löschen.",
       "Blinkt ein <b>X</b>, antwortet der Roboter nicht: Schalter und Sitz prüfen. <b>Haken</b> heißt verbunden."
     ],
     chips:[ "Wie herum kommt der micro:bit rein?", "Wo sind die Schalter?", "Der micro:bit zeigt nur ein X", "Der Roboter leuchtet nicht" ],
@@ -41,12 +41,12 @@ DREHBUCH[3] = {name:"Fahrschule", min:15, badge:"Spurhalter", titel:"Der Roboter
 
   { id:"bloecke",
     nachrichten:[
-      "Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
-      "Sie sind auf Englisch: <b>Line patrolling</b> heißt „Linie abfahren“, <b>Speed</b> Stufe, <b>RGB Car Lights</b> sind die Lichter.",
+      "Der Linienfolger steckt fertig im Maqueen, Stufe 1 (gemütlich) bis 5 (mutig). Die Blöcke liegen in der Kategorie <b>Maqueen</b>, Gruppe <b>V3</b>.",
+      "Die <b>Scheinwerfer</b> sind die zwei Lichter vorn: eure Startampel.",
       {karte:"k3-bloecke"},
       "Nicht in <kbd>beim Start</kbd>: Sonst fährt er los, während ihr ihn noch hinstellt. Knopf B ist euer Not-Aus."
     ],
-    chips:[ "Wo ist … mehr?", "Wo ist die Gruppe V3?", "Wo ist RGB Car Lights?", "Wo ist pausiere?" ],
+    chips:[ "Wo ist Linien-Tempo?", "Wo ist die Gruppe V3?", "Wo ist Scheinwerfer?", "Wo ist pausiere?" ],
     fertig:"Gebaut ✓" },
 
   { id:"fahren",

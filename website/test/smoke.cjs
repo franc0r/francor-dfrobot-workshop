@@ -277,7 +277,7 @@ function check(cond, msg) {
     const klammern = () => page.$$eval('#chat .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim().replace(/\s+/g, ' ') + ':' + c.querySelectorAll(':scope > .mcbody > .mcb, :scope > .mcbody > .mcc').length));
     const abzeichen = () => page.$eval('#badges', e => e.querySelectorAll('.badge.on').length);
 
-    // Station 3: Vorlage „Linie“, Einsetzen, Sensorzahlen, Ampel + Line patrolling, Fahren, Quiz
+    // Station 3: Vorlage „Linie“, Einsetzen, Sensorzahlen, Ampel + Linienverfolgung, Fahren, Quiz
     await page.click('.stepbtn[data-go="3"]'); await page.waitForTimeout(100);
     check(/Linie/.test(await page.$eval('#chat', e => e.textContent)) && await page.$('#chat .blase.karte a[href^="https://makecode.microbit.org/#project:"]') !== null, 'Station 3: Knopf „Neues Roboter-Projekt starten“, Projekt heißt Linie');
     let r3 = 0, klemmt3 = false, chips3 = null;
@@ -295,9 +295,12 @@ function check(cond, msg) {
     const txt3 = await page.$eval('#chat', e => e.textContent);
     check(/3800/.test(txt3) && /2700/.test(txt3), 'Station 3: Weiß ≈ 3800, Schwarz ≈ 2700');
     const k3 = await klammern();
-    check(k3.includes('beim Start:1') && k3.includes('wenn Knopf A geklickt:7') && k3.includes('wenn Knopf B geklickt:1'), 'Station 3: Ampel + Line patrolling als Klammer (' + k3.join(', ') + ')');
+    check(k3.includes('beim Start:1') && k3.includes('wenn Knopf A geklickt:7') && k3.includes('wenn Knopf B geklickt:1'), 'Station 3: Ampel + Linienverfolgung als Klammer (' + k3.join(', ') + ')');
     check(await page.$$eval('#chat .mcb.b-mq', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(15, 188, 17)')), 'Station 3: Maqueen-Blöcke hellgrün');
     check(!/steuere|linkes Rad|beide Räder|-mal wiederholen/.test(txt3), 'Station 3: kein Motorblock, keine Schleife (Parcours first)');
+    const txt3n = txt3.replace(/\s+/g, ' ');
+    check(/starte Maqueen/.test(txt3) && /Linienverfolgung an/.test(txt3) && /Scheinwerfer beide Farbe rot/.test(txt3n) && /Linien-Tempo 1/.test(txt3n), 'Station 3: neue Blocktexte (starte Maqueen, Scheinwerfer, Linien-Tempo, Linienverfolgung)');
+    check(!/Line patrolling|RGB Car Lights|initialisiere Maqueen|Line Following|… mehr|auf Englisch/.test(txt3), 'Station 3: keine alten Blocktexte');
     check(klemmt3, 'Station 3: „Es klappt nicht“ zeigt k3-klemmt');
     check(JSON.stringify(chips3) === JSON.stringify(['Der micro:bit zeigt nur ein X', 'Er fährt von der Linie runter', 'Er fährt gar nicht los', 'Die Ampel leuchtet nicht']), 'Station 3: Chips beim Fahren (' + JSON.stringify(chips3) + ')');
     check(await page.$('#chat [data-karte="k3-quiz"] .quiz[data-quiz="q3"]') !== null, 'Station 3: Quiz als Karte');
@@ -309,7 +312,10 @@ function check(cond, msg) {
     let r4 = 0;
     while (await page.$('#antworten button[data-fertig]') && r4++ < 10) await weiter();
     const k4 = await klammern();
-    check(k4.includes('dauerhaft:2') && k4.some(k => /^wenn .*< 200 dann:2$/.test(k)), 'Station 4: Laser-Stopp als Klammer, wenn mit zwei Blöcken (' + k4.join(', ') + ')');
+    check(k4.includes('dauerhaft:1') && k4.some(k => /^wenn .*< 200 dann:2$/.test(k)), 'Station 4: Laser-Stopp als Klammer, wenn mit zwei Blöcken (' + k4.join(', ') + ')');
+    const txt4 = await page.$eval('#chat', e => e.textContent.replace(/\s+/g, ' '));
+    check(/LiDAR einschalten/.test(txt4) && /Abstand vorne \(mm\)/.test(txt4) && /Linienverfolgung aus/.test(txt4), 'Station 4: neue Blocktexte');
+    check(!/Hindernisvermeidung|abrufen|0x33|Matrix LiDAR|Line patrolling|RGB Car Lights|initialisiere Maqueen/.test(txt4), 'Station 4: keine alten Blocktexte, kein Daten-Abholen');
     check(await page.$$eval('#chat .mcb.b-lidar', l => l.length > 0 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(91, 63, 232)')), 'Station 4: Laserblöcke lila');
     check(await page.$$eval('#chat .mcstack', l => l.every(st => { const r = st.getBoundingClientRect().right + 1; return [...st.querySelectorAll('.mcb')].every(b => b.getBoundingClientRect().right <= r); })), 'Station 4: lange Blöcke ragen nicht aus der Karte');
     check(await page.$('#chat [data-karte="k4-bauen"] ol.steps') !== null, 'Station 4: Bauanleitung „Erst die Form, dann der Inhalt“');
@@ -356,22 +362,28 @@ function check(cond, msg) {
     check(await page.$eval('#finalwho', e => e.textContent).catch(() => '') === '6 von 6 Abzeichen', 'Station 5: Pokal zählt 6 von 6');
     const soll5 = ['strecke', 'arten', 'projekt', 'kreuzungen', 'melodie', 'tempo', 'lauf', 'profi', 'abschluss'];
     check(soll5.every(id => gesehen5.has(id)), 'Station 5: Schritte ' + soll5.join(', ') + ' (gesehen: ' + [...gesehen5].join(', ') + ')');
-    // Station 5 im Verlauf: Skizze, Grand-Prix-Blöcke, Ampel + Speed 2 + Laser im Programm, Pro-Ziel als Extra, Stückliste
+    // Station 5 im Verlauf: Skizze, Kreuzungsblöcke, Ampel + Linien-Tempo 2 + Laser im Programm, Pro-Ziel als Extra, Stückliste
     check(await page.$('#chat [data-karte="k5-gpmap"] #gpmap') !== null && (await page.$eval('#gpmap', e => e.getBoundingClientRect().height)) > 120, 'Station 5: Streckenskizze im Gespräch gezeichnet');
     check(JSON.stringify(await page.$$eval('#chat #gpmap .gp-k', l => l.map(e => e.textContent.trim()))) === '["1","2","3","4"]', 'Station 5: Skizze nummeriert 1–4');
     check(await page.$$eval('#chat #gpmap .gp-k', l => l.length === 4 && l.every(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden'; })), 'Station 5: Nummern 1–4 sichtbar');
     const gpText = await page.$eval('#chat #gpmap', e => e.textContent).catch(() => '');
     check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 5: Start, Ziel und Pro-Ziel beschriftet');
-    check(await page.$$eval('#chat .mcb.b-gp', l => l.length >= 2 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(60, 60, 60)')), 'Station 5: Grand-Prix-Blöcke in Graphit');
+    check(await page.$$eval('#chat .mcb.b-gp', l => l.length) === 0 && await page.$$eval('#chat .mcb', l => l.filter(e => /Kreuzungszähler|wenn Kreuzung Nummer/.test(e.textContent)).length >= 2 && l.filter(e => /Kreuzungszähler|wenn Kreuzung Nummer/.test(e.textContent)).every(e => e.classList.contains('b-mq') && getComputedStyle(e).backgroundColor === 'rgb(15, 188, 17)')), 'Station 5: Zählerblöcke in Maqueen-Hellgrün, kein .b-gp');
     const k5 = await page.$$eval('#chat [data-karte="k5-kreuzungen"] .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim().replace(/\s+/g, ' ') + ':' + c.querySelectorAll(':scope > .mcbody > .mcb, :scope > .mcbody > .mcc').length));
-    check(k5.includes('wenn Knopf A geklickt:12') && k5.includes('dauerhaft:2'), 'Station 5: Knopf A mit Regeln, Ampel, Speed 2, Line patrolling ON; Laser-Stopp in dauerhaft (' + k5.join(', ') + ')');
+    check(k5.includes('wenn Knopf A geklickt:13') && k5.includes('dauerhaft:1'), 'Station 5: Knopf A mit Regeln, Ampel, Linien-Tempo 2, Linienverfolgung an; Laser-Stopp in dauerhaft (' + k5.join(', ') + ')');
     const txt5 = await page.evaluate(() => (JSON.parse(localStorage.getItem('mgp-v1')).chat[5] || []).map(e => e.h || '').join(' '));
+    const kk5 = await page.$eval('#chat [data-karte="k5-kreuzungen"]', e => e.textContent.replace(/\s+/g, ' '));
+    check(['an Kreuzung', 'an Abzweig links geradeaus', 'an Abzweig rechts', 'an T-Kreuzung', 'Linien-Tempo 2', 'LiDAR einschalten'].every(t => kk5.includes(t)), 'Station 5: Karte Kreuzungen mit deutschen Blocktexten');
+    const chat5 = await page.$eval('#chat', e => e.textContent.replace(/\s+/g, ' '));
+    check(!/At Crossroads|T-junction|Turn and Straight|\bStraight\b|PID Distance|Line patrolling|RGB Car Lights|Line Following|graue Blöcke|Kategorie Grand Prix/.test(txt5 + ' ' + chat5), 'Station 5: keine alten Blocktexte');
     check(/Meine Projekte/.test(txt5) && /Gummibärchen/.test(txt5) && /Stückliste/.test(txt5), 'Station 5: weiter im Projekt Linie, Gummibärchen für alle, Hinweis auf die Stückliste');
     check(await page.$('#chat button[data-go="teile"]') !== null, 'Station 5: Knopf „Stückliste öffnen“ im Gespräch');
     check(await page.$('#antworten button[data-extra]') !== null && await page.$eval('#antworten button[data-extra]', e => e.textContent) === 'Extra: Pro-Ziel', 'Station 5: Extra heißt „Extra: Pro-Ziel“');
     await page.click('#antworten button[data-extra]'); await page.waitForTimeout(100);
     await page.click('#antworten button[data-zeig="Die Melodie kommt schon am Ziel 4?"]'); await page.waitForTimeout(50);
     check(await page.$$eval('#chat .mcb.b-var', l => l.length === 1 && l.every(e => getComputedStyle(e).backgroundColor === 'rgb(220, 20, 60)')), 'Station 5: Variable gesprungen im Pro-Ziel, rot');
+    const chat5b = await page.$eval('#chat', e => e.textContent.replace(/\s+/g, ' '));
+    check(chat5b.includes('fahre 20 cm vorwärts warte bis fertig') && !chat5b.includes('2 Sekunden warten'), 'Station 5: Pro-Ziel springt mit fahre 20 cm, ohne Wartepause');
     check(!/\p{Extended_Pictographic}/u.test(await page.$eval('#chat', e => e.textContent)), 'Station 5: kein Emoji');
     await page.click('#chat button[data-go="teile"]'); await page.waitForTimeout(100);
     check(await page.$eval('.page[data-st="teile"]', e => !e.hidden) && await page.$eval('#gespraech', e => e.hidden), 'Station 5: Knopf „Stückliste öffnen“ öffnet die Seite');

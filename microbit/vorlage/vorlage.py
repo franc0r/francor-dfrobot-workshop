@@ -1,42 +1,39 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Schreibt vorlage.mkcd: ein MakeCode-Projekt mit der Erweiterung
-DFRobot_MaqueenPlus_V2 und nur „initialisiere Maqueen Plus V2“ in „beim Start“.
+Schreibt vorlage.mkcd: ein MakeCode-Projekt, das auf unsere Erweiterung
+FRANCOR Maqueen (pxt-francor-maqueen) verweist und nur „starte Maqueen“ in
+„beim Start“ hat.
 
     python3 vorlage.py            # schreibt vorlage.mkcd neben dieses Skript
 
 Eine .mkcd ist, was MakeCode beim Speichern exportiert: JSON mit meta und
 source, LZMA-gepackt (Kopf mit bekannter Länge, wie LZMA-JS ihn schreibt).
-Die LiDAR-Erweiterung (Matrix LiDAR Entfernung) muss nicht extra rein — die
-Maqueen-Erweiterung bringt sie als Abhängigkeit mit.
-Die Bibliothek „Grand Prix“ (custom.ts) kommt aus microbit/bibliothek/.
+Die Erweiterung wird nur verwiesen (GitHub, feste Version), nicht eingebettet.
+Der LiDAR ist Teil derselben Erweiterung; eine zweite braucht es nicht.
 
 Ein Export aus MakeCode (Zahnrad → Projekt speichern) ersetzt die Datei
 genauso gut; build.py nimmt, was hier liegt.
 """
 import json, lzma, os, struct
 
-# Stand 28.10.2026, neueste Version der Erweiterung
-MAQUEEN = "github:dfrobot/pxt-dfrobot_maqueenplus_v20#v2.2.29"
+# Erweiterung FRANCOR Maqueen, feste Version (Tag im GitHub-Repo)
+FRANCOR_MAQUEEN = "github:franc0r/pxt-francor-maqueen#v0.1.4"
 NAME = "Maqueen-Vorlage"
 HERE = os.path.dirname(os.path.abspath(__file__))
-# Bibliothek „Grand Prix“ (Kreuzungen zählen), Quelle in microbit/bibliothek/
-CUSTOM = open(os.path.join(HERE, "..", "bibliothek", "custom.ts"), encoding="utf-8").read()
 
 files = {
     "pxt.json": json.dumps({
         "name": NAME,
         "description": "",
-        "dependencies": {"core": "*", "radio": "*", "microphone": "*", "maqueenPlusV2": MAQUEEN},
-        "files": ["main.blocks", "main.ts", "custom.ts", "README.md"],
+        "dependencies": {"core": "*", "radio": "*", "microphone": "*", "francor-maqueen": FRANCOR_MAQUEEN},
+        "files": ["main.blocks", "main.ts", "README.md"],
         "preferredEditor": "blocksprj"}, indent=4),
     "main.blocks": ('<xml xmlns="https://developers.google.com/blockly/xml">'
                     '<block type="pxt-on-start" x="20" y="20"><statement name="HANDLER">'
-                    '<block type="maqueenPlusV2_I2CInit"></block>'
+                    '<block type="francor_start"></block>'
                     '</statement></block></xml>'),
-    "main.ts": "maqueenPlusV2.I2CInit()\n",
-    "custom.ts": CUSTOM,
+    "main.ts": "francorMaqueen.start()\n",
     "README.md": "",
 }
 project = {"meta": {"cloudId": "pxt/microbit", "editor": "blocksprj", "name": NAME},

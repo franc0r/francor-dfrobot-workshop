@@ -3,9 +3,9 @@
 Laser-Stopp im Projekt „Linie“ aus Station 3. Pflicht; Station 5 baut darauf auf.
 
 `loesung.js` (MakeCode-JavaScript, noch nicht am Gerät gefahren): wie Station 3, dazu in
-`beim Start` den Laser initialisieren (I2C-Adresse 0x33, Matrix-Modus Hindernisvermeidung)
-und ein `dauerhaft`: `Hindernisvermeidungsdaten abrufen`; wenn `Entfernung Vorne (mm) < 200`,
-dann `Line patrolling OFF` und `RGB Car Lights All` rot. Kein `ansonsten`, keine Variable —
+`beim Start` nach `starte Maqueen` der Block `LiDAR einschalten` (misst danach im Hintergrund;
+die ersten 2–3 s ist der Abstand 9999, das zählt nie als Hindernis). In `dauerhaft`: wenn
+`Abstand vorne (mm) < 200`, dann `Linienverfolgung aus` und `Scheinwerfer beide Farbe rot`. Kein `ansonsten`, keine Variable —
 Knopf A startet nach einem Halt einfach neu (Ampel, dann grün).
 
 Hinweis fürs Nachbauen in MakeCode: zuerst den Vergleichsblock `0 < 0` (Logik) in das Loch
@@ -15,9 +15,8 @@ von `wenn … dann` schieben, erst dann passt der Abstandsblock in dessen linke 
 Bis 09.11.2026 hatte diese Station einen Pausenknopf mit der Variablen `pausiert`; den Merker
 lernen die Teams jetzt erst im Profi-Teil des Grand Prix (`gesprungen`).
 
-Nach dem Trockenlauf hier ablegen:
+Vorhanden: `loesung.hex`: aus `loesung.js` mit pxt-francor-maqueen v0.1.4 gebaut, am Gerät geprüft (Martin, 16.11.2026). Nur für micro:bit V2 (V1 wird nicht unterstützt).
 
-- `loesung.hex`
-- `bloecke.png`
+Außerdem liegt bei: `bloecke.png` (Bildschirmfoto aus MakeCode mit Erweiterung v0.1.4, 16.11.2026).
 
-und darunter notieren, was das Programm tut und welche Werte darin stecken.
+Und darunter notieren, was das Programm tut und welche Werte darin stecken.

@@ -2,55 +2,57 @@
 
 Lauf auf Zeit über die Grand-Prix-Strecke (Matte 100 × 200 cm, Skizze in Station 5 und in
 `tools/grand-prix-druck.html`). Das Programm baut auf dem Projekt „Linie“ aus Station 3 und 4 auf
-und braucht die Bibliothek „Grand Prix“ (`microbit/bibliothek/custom.ts`, steckt in der Vorlage).
+und braucht nur die Erweiterung FRANCOR Maqueen. Der Kreuzungszähler steckt in der Erweiterung (Kategorie Maqueen, Gruppe V3).
 
 Hier liegen:
 
-- `loesung.js` (normal) und `loesung-profi.js` (Profi) — MakeCode-JavaScript, am 05.11.2026
-  von Martin auf der Strecke gefahren; Knopf B (Not-Aus) und das rote Licht beim Laser-Stopp
-  sind am 09.11.2026 aus Station 3 und 4 dazugekommen und noch nicht gefahren. Einfügen: Vorlage öffnen, oben auf **JavaScript**
-  umschalten, alles ersetzen, zurück auf **Blöcke**. Die Bibliothek „Grand Prix“ muss im
-  Projekt sein, sonst gehen die Blöcke nicht.
+- `loesung.js` (normal) und `loesung-profi.js` (Profi) — MakeCode-JavaScript. Die Fassung mit der
+  Bibliothek „Grand Prix“ ist am 05.11.2026 von Martin auf der Strecke gefahren, die Fassung mit der
+  FRANCOR-Erweiterung am 16.11.2026 (Gerätetest 08, normal und Profi); Knopf B (Not-Aus) und das rote
+  Licht beim Laser-Stopp sind am 09.11.2026 aus Station 3 und 4 dazugekommen. Einfügen: Vorlage öffnen, oben auf **JavaScript**
+  umschalten, alles ersetzen, zurück auf **Blöcke**. Beide Dateien entsprechen den Stationsprogrammen
+  aus `geraetetest/08-stationen.ts` der Erweiterung (v0.1.4).
 
-Nach dem Trockenlauf kommen dazu:
+Vorhanden: `loesung.hex` und `loesung-profi.hex` (Profi): aus `loesung.js` bzw. `loesung-profi.js` mit pxt-francor-maqueen v0.1.4 gebaut, am Gerät geprüft (Martin, 16.11.2026). Nur für micro:bit V2.
 
-- `loesung.hex` und `bloecke.png` (normal)
-- `loesung-profi.hex` und `bloecke-profi.png` (Profi)
+Außerdem liegen bei (Bildschirmfotos aus MakeCode mit Erweiterung v0.1.4, 16.11.2026):
 
-Erst danach, weil der Trockenlauf die Zählnummern und die Höchststufe noch verschieben kann
+- `bloecke.png` (normal)
+- `bloecke-profi.png` (Profi)
+
+Verschiebt der Trockenlauf Zählnummern oder Höchststufe, müssen die Bilder neu gemacht werden
 (siehe `docs/02-offline-und-trockenlauf.md`, Block H).
 
 ## Zählfolge (Normalweg, gilt bis zum Trockenlauf)
 
 | Nr. | Stelle | Typ aus Sicht des Roboters | Regel |
 |---|---|---|---|
-| 1 | Abzweig von der Startgeraden (K1) | Abzweig rechts + geradeaus | `At Right Turn and Straight Intersection` `Right`; bei Kreuzung 1 auf `Straight` umstellen |
-| 2 | Stummel mit Kiste | Abzweig rechts + geradeaus | steht schon auf `Straight` → geradeaus vorbei |
-| 3 | Tempo-Schild (Querstrich) | Kreuzung (+) | `At Crossroads` `Straight`; bei Kreuzung 3 `Line Following Settings Speed 1` und `zeige Zahl 1` |
-| 4 | Ziel | T | `At T-junction` `Stop`; bei Kreuzung 4 Siegesmelodie |
+| 1 | Abzweig von der Startgeraden (K1) | Abzweig rechts + geradeaus | `an Abzweig rechts` `rechts`; bei Kreuzung 1 auf `geradeaus` umstellen |
+| 2 | Stummel mit Kiste | Abzweig rechts + geradeaus | steht schon auf `geradeaus` → geradeaus vorbei |
+| 3 | Tempo-Schild (Querstrich) | Kreuzung (+) | `an Kreuzung` `geradeaus`; bei Kreuzung 3 `Linien-Tempo 1` und `zeige Zahl 1` |
+| 4 | Ziel | T | `an T-Kreuzung` `halt`; bei Kreuzung 4 Siegesmelodie |
 
-`At Left Turn and Straight Intersection` steht auf `Straight` und kommt auf dem Normalweg
+`an Abzweig links` steht auf `geradeaus` und kommt auf dem Normalweg
 nicht vor.
 
 ## Was die Musterlösung tut (normal)
 
-- **beim Start:** `initialisiere Maqueen Plus V2`, dann den Laser initialisieren
-  (I2C-Adresse 0x33, Matrix-Modus Hindernisvermeidung). Sonst nichts — die Regeln stehen in
+- **beim Start:** `starte Maqueen`, dann `LiDAR einschalten`. Sonst nichts — die Regeln stehen in
   Knopf A.
 - **wenn Knopf A geklickt:** `setze Kreuzungszähler zurück`, die vier Kreuzungsregeln
-  (Kreuzung `Straight`, Abzweig links `Straight`, Abzweig rechts `Right`, T `Stop`),
-  `Line Following Settings Speed 2`, Startampel (`RGB Car Lights` rot, 1 s, gelb, 1 s, grün),
-  dann `Line patrolling ON`. Jeder Druck auf A ist so ein sauberer Neustart, auch nach einem
+  (Kreuzung `geradeaus`, Abzweig links `geradeaus`, Abzweig rechts `rechts`, T-Kreuzung `halt`),
+  `Linien-Tempo 2`, `Bildschirminhalt löschen` (damit die „1“ vom letzten Lauf weg ist), Startampel (`Scheinwerfer beide` rot, 1 s, gelb, 1 s, grün),
+  dann `Linienverfolgung an`. Jeder Druck auf A ist so ein sauberer Neustart, auch nach einem
   Halt durch den Laser.
-- **wenn Knopf B geklickt:** `Line patrolling OFF` — der Not-Aus aus Station 3.
-- **wenn Kreuzung Nummer 1 erreicht:** Abzweig rechts auf `Straight` — der Roboter fährt am
+- **wenn Knopf B geklickt:** `Linienverfolgung aus` — der Not-Aus aus Station 3.
+- **wenn Kreuzung Nummer 1 erreicht:** Abzweig rechts auf `geradeaus` — der Roboter fährt am
   Stummel (2) geradeaus vorbei.
-- **wenn Kreuzung Nummer 3 erreicht:** `Line Following Settings Speed 1` und `zeige Zahl 1`
+- **wenn Kreuzung Nummer 3 erreicht:** `Linien-Tempo 1` und `zeige Zahl 1`
   (Tempo-Zone bis ins Ziel; ohne „1“ auf dem Display ist das Team geblitzt).
 - **wenn Kreuzung Nummer 4 erreicht:** `spiele Melodie … im Hintergrund` (Siegesmelodie). Das
-  T steht auf `Stop`, der Roboter hält von selbst.
-- **dauerhaft:** Hindernisvermeidungsdaten abrufen; wenn `Entfernung Vorne (mm) < 200`, dann
-  `Line patrolling OFF` und `RGB Car Lights All` rot (der Laser-Stopp aus Station 4). Auf dem
+  T steht auf `halt`, der Roboter hält von selbst.
+- **dauerhaft:** wenn `Abstand vorne (mm) < 200`, dann
+  `Linienverfolgung aus` und `Scheinwerfer beide` rot (der Laser-Stopp aus Station 4). Auf dem
   richtigen Weg greift das nie; es fängt die Sackgasse und den
   Stummel ab.
 
@@ -59,18 +61,18 @@ nicht vor.
 Wie normal, dazu:
 
 - **Funktion „Regeln setzen“:** setzt alle vier Regeln. Den Abzweig rechts aber abhängig vom
-  Zähler: `Right`, solange `Kreuzungen gezählt` 0 ist, danach `Straight`. Knopf A ruft die
-  Funktion statt der vier Einzelblöcke auf. Grund: `Line patrolling OFF` löscht die Regeln
-  (Reset-Fallstrick, im Handbuch), und eine Funktion mit festem `Right` würde nach einem Halt
+  Zähler: `rechts`, solange `Kreuzungen gezählt` 0 ist, danach `geradeaus`. Knopf A ruft die
+  Funktion statt der vier Einzelblöcke auf. Grund: `Linienverfolgung aus` löscht die Regeln
+  (Reset-Fallstrick, im Handbuch), und eine Funktion mit festem `rechts` würde nach einem Halt
   zwischen 1 und dem Stummel wieder in den Stummel biegen.
 - **wenn Kreuzung Nummer 4 erreicht:** etwa 500 ms warten, bis er steht. Nur wenn der Weg
-  vorn frei ist (`Entfernung Vorne` nicht unter 200 mm): `Line patrolling OFF`,
-  `PID Distance Control` `CW` 20 cm über die Lücke, **2000 ms warten**, „Regeln setzen“
-  aufrufen, Merker `gesprungen` auf wahr, `Line patrolling ON` — bis zur Kiste am Pro-Ziel.
+  vorn frei ist (`Abstand vorne` nicht unter 200 mm): `Linienverfolgung aus`,
+  `fahre 20 cm vorwärts warte bis fertig` über die Lücke, „Regeln setzen“
+  aufrufen, Merker `gesprungen` auf wahr, `Linienverfolgung an` — bis zur Kiste am Pro-Ziel.
   Ist der Weg nicht frei, spielt er die Siegesmelodie wie im Normalweg.
-  Die Pause ist nötig: `PID Distance Control` wartet auch mit `No interruptions allowed`
-  nicht, bis die Strecke gefahren ist (Martin am Gerät, 05.11.2026). Ohne Pause schaltet die
-  Linienverfolgung mitten im Sprung wieder an.
+  `fahre 20 cm vorwärts warte bis fertig` wartet selbst (Gerätetest 05 der Erweiterung
+  bestanden), eine Pause danach braucht es nicht. Ob der Profi-Sprung mit dem neuen Block am
+  Gerät auf der Strecke klappt, ist noch offen (Gerätetest 08).
 - **Merker `gesprungen`:** Variable nicht `pause` nennen — den Namen hat MakeCode schon
   (eingebaute Funktion), dann meldet es „Cannot redeclare block-scoped variable“ (Martin,
   05.11.2026).
@@ -80,7 +82,7 @@ Wie normal, dazu:
   leuchtet dauerhaft).
 - **Blinker:** bis Kreuzung 1 das rechte Licht gelb, danach beide grün.
 
-Ob das Überfahren des T-Balkens mit PID als Kreuzung zählt, ist für diese Lösung egal: Das
+Ob das Überfahren des T-Balkens mit `fahre 20 cm` als Kreuzung zählt, ist für diese Lösung egal: Das
 Pro-Ziel erkennt sie am Laser-Stopp, nicht an einer Nummer (Block H, Punkt 5).
 
 ## Wo die Zählnummern stehen
@@ -111,7 +113,7 @@ und jede Zeichnung trägt die Nummern 1–4 an denselben Koordinaten.
    - Seite 1 (Teamskizze): die vier Nummern in der Skizze, der Hinweis „Gut hinschauen: 1 und 2“
      und die Eintragetabelle 1–4
    - Seite 2 (Klebeplan): die vier Nummern in der Skizze, die Lösungstabelle und die Zählfahrt
-5. Diese README (Zählfolge und Musterlösung oben), später `loesung*.hex` und `bloecke*.png`.
+5. Diese README (Zählfolge und Musterlösung oben), `bloecke*.png` (bei verschobenen Nummern neu machen).
 
 Die Tests prüfen nur die Skizzen: `website/test/smoke.cjs` (`#gpmap` trägt genau 1–4) und
 `tools/grand-prix-druck-test.cjs` (beide Seiten tragen genau 1–4).

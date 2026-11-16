@@ -58,7 +58,9 @@ function check(cond, msg) {
   const nums = await page.$$eval('.sheet', l => l.map(s => [...s.querySelectorAll('text.gp-k')].map(t => t.textContent.trim()).join('')));
   check(nums.every(n => n === '1234'), 'beide Skizzen tragen genau die Nummern 1–4 (' + nums.join(', ') + ')');
   const team = await page.$eval('.sheet', s => s.textContent);
-  check(!/T-junction|Crossroads|Turn and Straight|Kreuzung \(\+\)/.test(team), 'Teamskizze verrät die Kreuzungstypen nicht');
+  check(!/T-junction|Crossroads|Turn and Straight|T-Kreuzung|Abzweig (links|rechts)|an Kreuzung|Kreuzung \(\+\)/.test(team), 'Teamskizze verrät die Kreuzungstypen nicht');
+  const plan = await page.$$eval('.sheet', l => l[1].textContent);
+  check(!/At Crossroads|T-junction|Turn and Straight|\bSpeed\b|\bStraight\b|\bRight\b|\bStop\b/.test(plan) && /an T-Kreuzung/.test(plan), 'Klebeplan nennt die deutschen Blocktexte');
 
   // Kein Abschneiden: Auch mit breiterer Ersatzschrift (DejaVu Sans auf Raspberry Pi OS/Ubuntu,
   // hier Verdana als Breiten-Ersatz) passt jede Seite in ihren Kasten.

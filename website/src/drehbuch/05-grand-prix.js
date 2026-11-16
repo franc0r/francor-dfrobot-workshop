@@ -15,11 +15,11 @@ DREHBUCH[5] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
 
   { id:"arten",
     nachrichten:[
-      "Vier Arten von Kreuzungen, die Blöcke sind auf Englisch:",
+      "Vier Arten von Kreuzungen:",
       {karte:"k5-typen"},
-      "Das Dreieck ist der Roboter, er kommt von unten. Für jede Art wählt ihr: <b>Straight</b> (geradeaus), <b>Left</b>, <b>Right</b> oder <b>Stop</b>."
+      "Das Dreieck ist der Roboter, er kommt von unten. Für jede Art wählt ihr: <b>geradeaus</b>, <b>links</b>, <b>rechts</b> oder <b>halt</b>."
     ],
-    chips:[ "Was ist der Unterschied zwischen Crossroads und T-junction?", "Was heißt Intersection?", "Welche Art ist Nummer 1?" ],
+    chips:[ "Was ist der Unterschied zwischen Kreuzung und T-Kreuzung?", "Was ist ein Abzweig?", "Welche Art ist Nummer 1?" ],
     fertig:"Verstanden ✓" },
 
   { id:"projekt",
@@ -36,15 +36,15 @@ DREHBUCH[5] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
 
   { id:"kreuzungen",
     nachrichten:[
-      "<b>Kreuzungen einstellen:</b> alle vier Regeln, auch die, die nicht vorkommen. Sie liegen in der Maqueen-Kategorie unter <b>… mehr</b>, Gruppe <b>V3</b>.",
-      "<b>An Kreuzung <span class=\"gpnum\">1</span> umstellen:</b> Die grauen Blöcke liegen in <b>Grand Prix</b>. <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> läuft einmal, wenn er dort ankommt.",
+      "<b>Kreuzungen einstellen:</b> alle vier Regeln, auch die, die nicht vorkommen. Sie liegen in der Kategorie <b>Maqueen</b>, Gruppe <b>V3</b>.",
+      "<b>An Kreuzung <span class=\"gpnum\">1</span> umstellen:</b> <kbd>wenn Kreuzung Nummer 1 erreicht</kbd> liegt in derselben Gruppe. Es läuft einmal, wenn er dort ankommt.",
       {karte:"k5-kreuzungen"},
-      "Die <b>???</b> findet ihr mit der Skizze heraus."
+      "Die <b>???</b> findet ihr mit der Skizze heraus. <kbd>Bildschirminhalt löschen</kbd> findet ihr in <b>Grundlagen</b>."
     ],
     zeig:{ "Warum auch links?":[
       "Einen Abzweig nach links gibt es nicht. Der Block steht trotzdem da: Vermisst sich der Roboter, fährt er geradeaus weiter."
     ]},
-    chips:[ "Wo ist die Kategorie Grand Prix?", "Wo ist die Gruppe V3?", "Was gehört bei Kreuzung 1 hin?", "Wo kommen die Blöcke hin?" ],
+    chips:[ "Wo ist wenn Kreuzung Nummer?", "Wo ist die Gruppe V3?", "Was gehört bei Kreuzung 1 hin?", "Wo kommen die Blöcke hin?" ],
     fertig:"Regeln stehen ✓" },
 
   { id:"melodie",
@@ -68,7 +68,7 @@ DREHBUCH[5] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
 
   { id:"lauf",
     nachrichten:[
-      "Das Rennen: Start immer mit <b>Knopf A</b>, erst mit <b>Speed 1 oder 2</b>. Schneller erst nach einem sauberen Lauf.",
+      "Das Rennen: Start immer mit <b>Knopf A</b>, erst mit <b>Linien-Tempo 1 oder 2</b>. Schneller erst nach einem sauberen Lauf.",
       "An einer <b>Kiste</b> ist der Lauf vorbei: zurück an den Start, noch einmal.",
       "In der Tempo-Zone muss eine <b>1</b> auf dem Display stehen, sonst seid ihr <b>geblitzt</b>: plus 3 Sekunden."
     ],
@@ -95,7 +95,7 @@ DREHBUCH[5] = {name:"Grand Prix", min:30, badge:"Champion", titel:"Finale: Grand
         "Nach dem Sprung setzt ihr <b>gesprungen</b> auf <b>wahr</b>. Die Melodie spielt nur, wenn <b>gesprungen</b> wahr ist."
       ]
     },
-    chips:[ "Wo ist PID Distance Control?", "Er springt nicht über die Lücke", "Wie prüfe ich, ob der Weg frei ist?" ],
+    chips:[ "Wo ist fahre 20 cm?", "Er springt nicht über die Lücke", "Wie prüfe ich, ob der Weg frei ist?" ],
     fertig:"Pro-Ziel geschafft ✓" },
 
   { id:"abschluss",

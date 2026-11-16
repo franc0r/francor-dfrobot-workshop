@@ -85,12 +85,13 @@ def inline_assets(html):
 
 MAKECODE = "https://makecode.microbit.org/"
 VORLAGE = os.path.join(HERE, "..", "microbit", "vorlage", "vorlage.mkcd")
-BIBLIOTHEK = os.path.join(HERE, "..", "microbit", "bibliothek", "custom.ts")
+VORLAGE_ERWEITERUNG = "github:franc0r/pxt-francor-maqueen#v0.1.4"
 
 
 def check_vorlage(path: str) -> None:
-    """Die Vorlage muss die Bibliothek „Grand Prix“ (custom.ts) mitbringen,
-    und zwar byte-gleich mit microbit/bibliothek/custom.ts.
+    """Die Vorlage muss auf unsere Erweiterung FRANCOR Maqueen verweisen
+    (genau VORLAGE_ERWEITERUNG), darf keine DFRobot-Erweiterung und kein
+    custom.ts mehr enthalten.
 
     Die .mkcd ist LZMA-gepackt (Kopf wie LZMA-JS ihn schreibt, also das
     alte „alone“-Format), darin JSON; dessen source ist wieder JSON mit den
@@ -100,13 +101,30 @@ def check_vorlage(path: str) -> None:
     project = json.loads(lzma.decompress(data, format=lzma.FORMAT_ALONE))
     files = json.loads(project["source"])
     pxt = json.loads(files.get("pxt.json", "{}"))
-    if ("custom.ts" not in files or "namespace grandPrix" not in files["custom.ts"]
-            or "custom.ts" not in pxt.get("files", [])):
-        raise SystemExit("Vorlage ohne Grand-Prix-Bibliothek (custom.ts) – python3 vorlage.py")
-    # Die Vorlage muss die aktuelle Bibliothek tragen, nicht einen alten Stand.
-    if files["custom.ts"].encode("utf-8") != io.open(BIBLIOTHEK, "rb").read():
-        raise SystemExit("Vorlage veraltet – python3 vorlage.py "
-                         "(custom.ts weicht von microbit/bibliothek/custom.ts ab)")
+    deps = pxt.get("dependencies", {})
+    for name, ref in deps.items():
+        if "dfrobot" in name.lower() or "dfrobot" in str(ref).lower():
+            raise SystemExit("Vorlage enthält noch eine DFRobot-Erweiterung (%s) – "
+                             "python3 vorlage.py" % name)
+    if "custom.ts" in files or "custom.ts" in pxt.get("files", []):
+        raise SystemExit("Vorlage enthält noch custom.ts – python3 vorlage.py")
+    if VORLAGE_ERWEITERUNG not in deps.values():
+        raise SystemExit("Vorlage verweist nicht auf %s – python3 vorlage.py"
+                         % VORLAGE_ERWEITERUNG)
+    if "francor_start" not in files.get("main.blocks", ""):
+        raise SystemExit("Vorlage: main.blocks enthält keinen Startblock (francor_start) – "
+                         "python3 vorlage.py")
+    if "francorMaqueen.start()" not in files.get("main.ts", ""):
+        raise SystemExit("Vorlage: main.ts enthält francorMaqueen.start() nicht – "
+                         "python3 vorlage.py")
+
+
+def check_handbuch_version(html: str, erweiterung: str) -> None:
+    """Die Version der Erweiterung (Teil nach #) muss im Handbuch stehen."""
+    version = erweiterung.split("#", 1)[1]
+    if version not in html:
+        raise SystemExit("Handbuch nennt die Version %s der Erweiterung nicht – "
+                         "src/handbuch.html anpassen" % version)
 
 
 def makecode_links(html):
@@ -198,6 +216,21 @@ def check_textbudget():
     _gezaehlt = True
 
 
+# Texte der alten DFRobot-Blöcke und der Bibliothek „Grand Prix“; die Seite
+# spricht seit der FRANCOR-Erweiterung nur noch die neuen Blocknamen.
+ALTE_BLOCKTEXTE = ("Line patrolling", "Line Following", "RGB Car Lights", "initialisiere Maqueen",
+                   "Hindernisvermeidung", "At Crossroads", "T-junction", "Turn and Straight",
+                   "PID Distance", "Matrix LiDAR", "Maqueen Plus V2", "b-gp", "grandPrix",
+                   "maqueenPlusV2", "Crossroads", "Intersection", "Straight",
+                   "Laser-Entfernungsmesser", "Speed")
+
+
+def check_alte_blocktexte(html: str, target: str) -> None:
+    gefunden = [w for w in ALTE_BLOCKTEXTE if w in html]
+    if gefunden:
+        raise SystemExit("%s-Build enthält alte Blocktexte: %s" % (target, ", ".join(gefunden)))
+
+
 STATIONSMINUTEN = 80    # Summe der Stationen ...
 PUFFER = 10             # ... plus Puffer = 90-Minuten-Slot (Martin, 10.11.2026)
 
@@ -253,6 +286,7 @@ def assemble(target):
             "\n  </main>\n</div>\n\n"
             '<div class="scrim" id="scrim"></div>\n' + read("handbuch.html") + "\n\n" + read("sicherheit.html") + "\n\n" + read("schluessel.html") + "\n\n"
             "<script>\n" + app + "\n</script>\n")
+    check_handbuch_version(read("handbuch.html"), VORLAGE_ERWEITERUNG)
     body = makecode_links(inline_assets(body))
     if "assets/" in body:
         raise SystemExit('Asset nicht eingebettet – src="assets/…" mit doppelten '
@@ -269,6 +303,7 @@ def assemble(target):
             raise SystemExit("%s-Build enthält externe Verweise: %s" % (target, bad[:3]))
     else:
         page = head + body
+    check_alte_blocktexte(page, target)
     return page
 
 
