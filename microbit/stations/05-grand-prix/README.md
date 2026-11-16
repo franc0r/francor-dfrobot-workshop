@@ -13,14 +13,14 @@ Hier liegen:
   umschalten, alles ersetzen, zurück auf **Blöcke**. Beide Dateien entsprechen den Stationsprogrammen
   aus `geraetetest/08-stationen.ts` der Erweiterung (v0.1.4).
 
-Vorhanden: `loesung.hex` und `loesung-profi.hex` (Profi): aus `loesung.js` bzw. `loesung-profi.js` mit pxt-francor-maqueen v0.1.4 gebaut, am Gerät ungeprüft. Nur für micro:bit V2.
+Vorhanden: `loesung.hex` und `loesung-profi.hex` (Profi): aus `loesung.js` bzw. `loesung-profi.js` mit pxt-francor-maqueen v0.1.4 gebaut, am Gerät geprüft (Martin, 16.11.2026). Nur für micro:bit V2.
 
-Nach dem Trockenlauf kommen dazu:
+Außerdem liegen bei (Bildschirmfotos aus MakeCode mit Erweiterung v0.1.4, 16.11.2026):
 
 - `bloecke.png` (normal)
 - `bloecke-profi.png` (Profi)
 
-Erst danach, weil der Trockenlauf die Zählnummern und die Höchststufe noch verschieben kann
+Verschiebt der Trockenlauf Zählnummern oder Höchststufe, müssen die Bilder neu gemacht werden
 (siehe `docs/02-offline-und-trockenlauf.md`, Block H).
 
 ## Zählfolge (Normalweg, gilt bis zum Trockenlauf)
