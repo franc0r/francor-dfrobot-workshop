@@ -166,10 +166,10 @@ kbd{font-family:var(--mono); font-size:.86em; background:var(--surface-2); borde
 
   <section class="intro">
     <h2>Einmal alles durchspielen, bevor Schüler davorsitzen</h2>
-    <p>Du brauchst dafür: einen kompletten Arbeitsplatz so, wie er auf der Messe stehen wird, einen micro:bit, einen Maqueen mit geladenem Akku, ein Stück schwarzes Klebeband, ein Lineal — und einen USB-Stick für das Vorlagenprojekt. Rechne mit rund <b>90 Minuten</b>.</p>
+    <p>Du brauchst dafür: einen kompletten Arbeitsplatz so, wie er auf der Messe stehen wird, einen micro:bit, einen Maqueen mit geladenem Akku, die geklebte Grand-Prix-Matte nach Klebeplan, die Barriere rund um die Matte, damit der Roboter nicht abhaut, schwarzes Klebeband, ein Lineal — und einen USB-Stick mit der Offline-Datei der Workshop-Seite. Für Block B brauchst du außerdem das Netz vom Stand und die Möglichkeit, das WLAN auszuschalten. Rechne mit rund <b>90 Minuten</b>; Block G läuft nebenher.</p>
     <p>Die Reihenfolge ist nicht beliebig: Sie beginnt mit dem, was am Messetag am teuersten schiefgeht, und endet mit dem, was zur Not auch improvisiert werden kann. Wenn du nach 30 Minuten abbrechen musst, hast du die wichtigsten Antworten schon.</p>
-    <p><b>Block B ist der, bei dem es sich entscheidet.</b> Wenn dort etwas nicht klappt, ändert das den Aufbau des ganzen Standes — mach ihn nicht zuletzt, auch wenn er unspektakulär aussieht.</p>
-    <p>Alles, was du in die Felder tippst, landet unten in der Auswertung. <b>Die orange hinterlegten Felder sind die, mit denen ich anschließend die Workshop-Seite korrigiere</b> — vor allem die Blockbezeichnungen des Laserscanners und die gemessenen Fahrwerte.</p>
+    <p><b>Block B ist der, bei dem es sich entscheidet.</b> Die Vorlage verweist auf die Erweiterung <b>FRANCOR Maqueen</b> auf GitHub; beim Öffnen holt MakeCode sie über das Netz. Auf der Messe hat MakeCode über das langsame Netz teils sehr lange geladen, obwohl die Plätze vorbereitet waren. Block B klärt, wie lange das Öffnen am Stand dauert. Mach ihn nicht zuletzt, auch wenn er unspektakulär aussieht.</p>
+    <p>Alles, was du in die Felder tippst, landet unten in der Auswertung. <b>Die orange hinterlegten Felder sind die, deren Werte zurück in die Workshop-Seite und das Handbuch fließen</b>: Ladezeit der Vorlage am Stand, Steckrichtung, Verhalten ohne Linie, Rohwerte, sichere Linienstufe, Kurvenradius, Grenze bei der Neigung, Zählnummern und Höchststufe, Akku- und Aufbauzeit. Was am Gerät schon bestätigt ist (alle Blocknamen, Kreuzungsregeln, Laserwerte), steht hier nicht mehr als Test.</p>
     <div class="meta">
       <label>Datum<input type="text" id="m_datum" placeholder="z. B. 14.09.2026" autocomplete="off"></label>
       <label>Arbeitsplatz<input type="text" id="m_geraet" placeholder="Raspberry Pi 4 8 GB / Laptop" autocomplete="off"></label>
@@ -181,7 +181,7 @@ kbd{font-family:var(--mono); font-size:.86em; background:var(--surface-2); borde
 
   <section class="sum" id="auswertung">
     <header>
-      <h3>Auswertung</h3>
+      <h3>Auswertung (Stand 16.11.2026)</h3>
       <p>Das hier ist der Stand deines Trockenlaufs. Sag mir einfach Bescheid, wenn du durch bist — ich lese das Protokoll aus und ziehe die Werte in den Workshop nach.</p>
     </header>
     <pre class="out" id="out"></pre>
@@ -199,7 +199,7 @@ kbd{font-family:var(--mono); font-size:.86em; background:var(--surface-2); borde
 
 var BLOCKS = [
 {
-  L:"A", t:"Arbeitsplatz und Flashen", dur:"15 Min",
+  L:"A", t:"Arbeitsplatz und Flashen", dur:"8 Min",
   why:"Hier entstehen erfahrungsgemäß die meisten Störungen — und zwar bei jedem Team gleichzeitig. Wenn dieser Block sitzt, ist der Rest Handwerk.",
   tests:[
    {id:"a1", must:1, t:"Browser und Version",
@@ -226,76 +226,51 @@ var BLOCKS = [
   ]
 },
 {
-  L:"B", t:"Ohne Internet", dur:"12 Min",
-  why:"Ab jetzt der wichtigste Block. MakeCode legt sich beim ersten Laden komplett im Browser ab und läuft danach ohne Netz — nur das Nachladen einer Erweiterung braucht Verbindung. Alles, was hier nicht klappt, klappt am Messetag auch nicht.",
+  L:"B", t:"Netz am Stand", dur:"14 Min",
+  why:"Der wichtigste Block. Die Vorlage verweist auf die Erweiterung <b>FRANCOR Maqueen</b> auf GitHub, MakeCode holt sie beim Öffnen über das Netz. Auf der Messe hat das über das langsame Netz teils sehr lange gedauert, obwohl die Plätze vorbereitet waren. Dieser Block klärt, wie lange das Öffnen am Stand dauert und ob das für den Ablauf reicht.",
   tests:[
-   {id:"b1", must:1, t:"Vorlagenprojekt mit Erweiterung bauen",
-    do:"<b>Mit Netz:</b> Neues Projekt, Zahnrad → Erweiterungen, nach <kbd>dfrobot</kbd> suchen. Notiere den Namen der Erweiterung <b>genau so, wie er in der Trefferliste steht</b>, lade sie, schreib keinen Code und speichere das Projekt (Zahnrad → <b>Projekt speichern</b>). Diese Datei ist deine Vorlage für alle Arbeitsplätze.",
-    pass:"Datei liegt auf dem Stick beziehungsweise im SD-Image, Name der Erweiterung und Ablageort notiert.",
+   {id:"b7", must:1, t:"Vorlage über das Netz am Stand öffnen",
+    do:"<b>Mit dem Netz, das am Stand zur Verfügung steht</b> (oder dem langsamsten, das du hast): Offline-Datei der Workshop-Seite öffnen, Station 3, Knopf <kbd>Neues Roboter-Projekt starten</kbd>. <b>Stoppuhr starten</b>, sobald MakeCode im zweiten Tab aufgeht, und anhalten, wenn das Projekt fertig geladen ist. Dann in der Blockliste nachsehen, ob die Kategorien <kbd>Maqueen</kbd> und <kbd>LiDAR</kbd> da sind, auf deutsch. Einmal messen reicht.",
+    pass:"Projekt lädt, beide Kategorien sind da, auf deutsch. Die Ladezeit ist notiert und für den Messeablauf vertretbar.",
     key:1,
-    f:[{k:"ext_name", l:"Name der Erweiterung in der Trefferliste", ph:"DFRobot_MaqueenPlus_V2"},
-       {k:"vorlage", l:"Dateiname und Ablageort der Vorlage", ph:"maqueen-vorlage.mkcd auf dem Stick und in /home/pi/vorlagen"}]},
-   {id:"b2", must:1, t:"Die Probe: WLAN aus",
-    do:"Auf einem <b>zweiten</b> Arbeitsplatz, der die Erweiterung noch nie geladen hat: <b>WLAN ausschalten</b>, Browser komplett schließen und neu starten, dann <kbd>makecode.microbit.org</kbd> aufrufen.",
-    pass:"Der Editor startet aus dem Cache und ist voll bedienbar.",
-    key:1,
-    f:[{k:"offline_editor", l:"Startet MakeCode ohne Netz?", ph:"ja, nach ca. 4 s / nein: weiße Seite"}]},
-   {id:"b3", must:1, t:"Vorlage ohne Netz importieren",
-    do:"Immer noch ohne Netz, auf demselben zweiten Gerät: die Vorlage über <b>Importieren</b> öffnen. Nur wenn die Maqueen-Kategorie jetzt auftaucht, ist bewiesen, dass die Datei die Erweiterung wirklich mitbringt und nichts nachgeladen wird.",
-    pass:"Kategorie ist da, ohne dass etwas nachgeladen wurde.",
-    key:1,
-    f:[{k:"import", l:"Hat der Import ohne Netz geklappt?", ph:"ja, Kategorie sofort vorhanden / nein: Fehlermeldung ..."}]},
-   {id:"b4", must:1, t:"Offline übersetzen und flashen",
-    do:"Immer noch ohne Netz: Ein Programm mit <b>Maqueen-Blöcken</b> bauen und auf den micro:bit übertragen. Genau hier würde eine Erweiterung mit C++-Anteil scheitern — die DFRobot-Erweiterung ist TypeScript und sollte im Browser durchlaufen.",
-    pass:"Programm läuft auf dem Roboter. Damit ist der Workshop offline machbar.",
-    key:1,
-    f:[{k:"offline_flash", l:"Hat das Übersetzen ohne Netz funktioniert?", ph:"ja / nein: Fehlermeldung im Wortlaut"}]},
+    f:[{k:"vorlage_netz", l:"Beide Kategorien da? Ladezeit mit dem Netz am Stand?", ph:"ja, beide, ca. 20 s / nein: Fehlermeldung ..."}]},
+      {id:"b10", must:0, t:"Editor ohne Netz nach Neustart",
+    do:"Auf einem Arbeitsplatz, der schon einmal geöffnet war: <b>WLAN ausschalten</b>, Browser komplett schließen und neu starten, dann <kbd>makecode.microbit.org</kbd> aufrufen. Das ist nur eine Beobachtung, kein Ziel.",
+    pass:"Startet der Editor? Notieren.",
+    f:[{k:"editor_ohne_netz", l:"Startet MakeCode ohne Netz? Was siehst du?", ph:"ja, nach ca. 4 s / nein: weiße Seite"}]},
+   {id:"b11", must:0, t:"Netz fällt bei offenem Projekt weg",
+    do:"Das Projekt aus b7 offen lassen, dann <b>WLAN ausschalten</b>. Ein kleines Programm mit <b>Maqueen-Blöcken</b> bauen (<kbd>starte Maqueen</kbd>, <kbd>Linienverfolgung an</kbd>) und auf den micro:bit übertragen.",
+    pass:"Übersetzt und flasht es weiter? Notieren.",
+    f:[{k:"projekt_netzausfall", l:"Was passiert beim Übersetzen und Übertragen ohne Netz?", ph:"läuft durch / Fehlermeldung im Wortlaut ..."}]},
    {id:"b5", must:1, t:"Workshop-Seite offline, neben MakeCode",
-    do:"Die lokale Offline-Datei der Workshop-Seite öffnen (nicht den claude.ai-Link) — <b>im zweiten Tab neben dem laufenden MakeCode</b>, so wie es auf der Messe sein wird. Beide Simulatoren bedienen, dann zurück zu MakeCode und fünf Blöcke ziehen.",
-    pass:"Seite lädt aus der Datei, beide Simulatoren laufen, und MakeCode bleibt daneben flüssig. Auf dem Pi ist das der eigentliche Lasttest.",
+    do:"Die lokale Offline-Datei der Workshop-Seite öffnen (nicht den claude.ai-Link) — <b>im zweiten Tab neben dem laufenden MakeCode</b>, so wie es auf der Messe sein wird. Ein paar Schritte in Station 1 und 3 durchklicken, dann zurück zu MakeCode und fünf Blöcke ziehen.",
+    pass:"Seite lädt aus der Datei, und MakeCode bleibt daneben flüssig. Auf dem Pi ist das der eigentliche Lasttest.",
     f:[{k:"offline_seite", l:"Eindruck mit beiden Tabs offen", ph:"läuft, Schrift etwas anders als online — passt; MakeCode daneben ohne Ruckeln"}]},
    {id:"b6", must:0, t:"Härtetest über Nacht",
     do:"Gerät herunterfahren, am nächsten Tag ohne Netz starten und MakeCode erneut öffnen. Chromium räumt Caches manchmal auf — deshalb MakeCode über „Installieren“ als App ablegen und danach nochmals prüfen.",
-    pass:"Editor startet auch nach Neustart ohne Netz.",
+    pass:"Startet der Editor nach dem Neustart ohne Netz? Notieren.",
     f:[{k:"cache_stabil", l:"Ergebnis nach Neustart", ph:"läuft weiterhin, als App installiert"}]}
   ]
 },
 {
-  L:"C", t:"Der Roboter fährt", dur:"15 Min",
-  why:"Hier fallen die Zahlen an, die im Workshop als Beispielwerte stehen. Bisher sind das begründete Schätzungen — nach diesem Block sind es Messwerte.",
+  L:"C", t:"Der Roboter fährt", dur:"8 Min",
+  why:"Kurz: Der Roboter steht und fährt zum ersten Mal mit der Vorlage. Die Blocknamen sind schon am Gerät bestätigt. Offen ist nur, was Schüler sehen und was Station 3 erklären muss.",
   tests:[
-   {id:"c1", must:1, t:"Kategorie und Sprache der Blöcke",
-    do:"Vorlage öffnen. Wie heißt die neue Kategorie im Blockmenü, und in welcher Sprache erscheinen die Maqueen-Blöcke? Die Erweiterung bringt deutsche Übersetzungen mit — prüfe, ob sie im deutschen Editor auch greifen.",
-    pass:"Kategoriename notiert, Sprache bestätigt.",
-    key:1,
-    f:[{k:"ext_kategorie", l:"Name der Kategorie im Blockmenü", ph:"Maqueen Plus V3"},
-       {k:"makecode_sprache", l:"Sprache der Maqueen-Blöcke", ph:"deutsch / englisch"}]},
    {id:"c2", must:1, t:"Steckrichtung und beide Schalter",
     do:"micro:bit einstecken: Die Seite sagt „mit den 25 Lämpchen nach vorn“ — stimmt das bei eurem Chassis? Dann ohne Anleitung versuchen, den Roboter einzuschalten. Wenn du selbst suchen musst, suchen die Schüler garantiert länger. Mach ein Foto von Steckrichtung und beiden Schaltern — das kommt ins Handbuch.",
     pass:"Beide Schalter in unter 15 Sekunden gefunden.",
+    key:1,
     f:[{k:"steckrichtung", l:"Steckrichtung des micro:bit", ph:"LEDs nach vorn/außen — Angabe auf der Seite stimmt"},
        {k:"schalter", l:"Wo sitzen die Schalter genau?", ph:"Akkubrett hinten links, Bodenplatte vorne rechts"}]},
-   {id:"c3", must:1, t:"Motorblock und seine echte Beschriftung",
-    do:"Den Block zum Fahren aus der neuen Kategorie ziehen. Notiere die Beschriftung Wort für Wort samt der Auswahlfelder.",
-    pass:"Block gefunden, Beschriftung notiert.",
+   {id:"c7", must:1, t:"starte Maqueen zeigt den Haken",
+    do:"Ein Programm mit <kbd>starte Maqueen</kbd> flashen und den Roboter einschalten. Schau auf die LED-Matrix: Erst blinkt ein X, dann kommt der Haken. Was siehst du, wenn der Roboter <em>aus</em> ist? Das ist die häufigste Frage am Tisch.",
+    pass:"Du weißt, wie lange es bis zum Haken dauert und was die Teams sehen, wenn er ausbleibt.",
+    f:[{k:"start_haken", l:"Dauer bis zum Haken; was zeigt die Matrix bei ausgeschaltetem Roboter?", ph:"Haken nach ca. 2 s / Roboter aus: X bleibt stehen"}]},
+   {id:"c8", must:1, t:"Linienverfolgung an ohne Linie",
+    do:"Roboter auf eine helle Fläche ohne schwarzes Band stellen, <kbd>Linienverfolgung an</kbd> auslösen und beobachten: Steht er still, fährt er geradeaus oder sucht er? Danach auf den Teststreifen setzen und noch einmal.",
+    pass:"Verhalten beschrieben. Davon hängt ab, wie Station 3 den Start auf dem Teststreifen erklärt.",
     key:1,
-    f:[{k:"motor_block", l:"Beschriftung des Motorblocks", ph:"Motor alle vorwärts Geschwindigkeit 120"},
-       {k:"stop_block", l:"Beschriftung des Stopp-Blocks", ph:"Motor alle stoppen"},
-       {k:"tempo_min", l:"Ab welchem Tempo bewegt er sich? (Seite behauptet: etwa 30)", ph:"ab 35 auf Karton, ab 25 auf glattem Tisch"}]},
-   {id:"c4", must:1, t:"Wie weit fährt er in einer Sekunde?",
-    do:"Tempo 120, <kbd>pausiere 1000</kbd>, stoppen. Auf dem Untergrund, der auf der Messe liegen wird. Mit dem Lineal messen, zweimal wiederholen.",
-    pass:"Wert notiert. Daraus ergibt sich, wie groß der Parcours sinnvollerweise ist.",
-    key:1,
-    f:[{k:"strecke_1s", l:"Strecke bei Tempo 120 in 1 s", ph:"ca. 38 cm"}]},
-   {id:"c5", must:1, t:"Wie viele Millisekunden sind 90 Grad?",
-    do:"Linkes Rad vorwärts, rechtes rückwärts, Tempo 100. Die Pausenzeit so lange anpassen, bis eine saubere Vierteldrehung herauskommt.",
-    pass:"Zahl gefunden. Genau diese Zahl brauchen die Teams für die Quadrat-Challenge — gut, wenn du sie kennst, ohne sie zu verraten.",
-    key:1,
-    f:[{k:"ms_90", l:"Millisekunden für 90°", ph:"ca. 420 ms bei Tempo 100"}]},
-   {id:"c6", must:0, t:"Fährt er geradeaus?",
-    do:"Zwei Meter geradeaus fahren lassen und die seitliche Abweichung messen.",
-    pass:"Abweichung notiert. Bei mehr als etwa 15 cm auf 2 m lohnt sich der Hinweis zum Nachjustieren im Workshop.",
-    f:[{k:"abweichung", l:"Abweichung auf 2 m", ph:"8 cm nach rechts"}]}
+    f:[{k:"linie_ohne", l:"Was tut er ohne Schwarz unter den Sensoren?", ph:"steht still / fährt langsam geradeaus / dreht sich suchend"}]}
   ]
 },
 {
@@ -307,24 +282,18 @@ var BLOCKS = [
     pass:"Rückmeldung am Gerät erkennbar, Kalibrierung abgeschlossen.",
     f:[{k:"kalibrieren", l:"Wo sitzt der Calc-Key, was passiert sichtbar?", ph:"kleine Taste neben dem Summer, LED-Reihe blinkt zweimal"}]},
    {id:"d7", must:1, t:"Rohwerte auf Weiß und Schwarz",
-    do:"Den Analogwert eines Liniensensors mit <kbd>zeige Zahl</kbd> anzeigen, erst auf Weiß, dann auf der Linie. Station 4 behauptet: Weiß ≈ 3800, Schwarz ≈ 2700, also <b>niedriger Wert = schwarz</b>. Daran hängt auch die Quizfrage dort.",
+    do:"Den Analogwert eines Liniensensors mit <kbd>zeige Zahl</kbd> anzeigen, erst auf Weiß, dann auf der Linie. Station 3 nennt in der Tabelle: Weiß ≈ 3800, Schwarz ≈ 2700, also <b>niedriger Wert = schwarz</b>. Daran hängt auch die Quizfrage dort. Gerätetest 02 hat die Werte nicht notiert.",
     pass:"Beide Werte notiert — und vor allem, welcher der höhere ist.",
     key:1,
     f:[{k:"linie_rohwerte", l:"Wert auf Weiß / auf Schwarz — welcher ist höher?", ph:"weiß 3750, schwarz 2650 → weiß ist höher, Seite stimmt"}]},
-   {id:"d2", must:1, t:"Blockname der Linienverfolgung",
-    do:"Den Block für die eingebaute Linienverfolgung suchen und die Beschriftung notieren. Prüfe auch, ob wirklich fünf Stufen zur Auswahl stehen.",
-    pass:"Block gefunden, Stufen bestätigt.",
+   {id:"d3", must:1, t:"Welche Stufe ist die richtige?",
+    do:"Erst mit dem geplanten Klebeband eine Teststrecke legen: ein Meter gerade, dann eine Kurve. Dann dieselbe Frage auf der geklebten Grand-Prix-Strecke. <kbd>Linien-Tempo</kbd> 1 bis 5 der Reihe nach probieren, bis er herausfliegt. Die Stufen 1 bis 5 gibt es, das ist bestätigt.",
+    pass:"Du weißt, welche Stufe auf dem Teststreifen und welche auf der Strecke sicher läuft und ab welcher es spannend wird.",
     key:1,
-    f:[{k:"linie_block", l:"Beschriftung des Blocks", ph:"Linienverfolgung Stufe 1"},
-       {k:"linie_stufen", l:"Welche Stufen stehen zur Auswahl?", ph:"1 bis 5"},
-       {k:"linie_stop", l:"Womit hält man sie wieder an? (Seite nimmt an: Motor alle stoppen)", ph:"Motor alle stoppen reicht / eigener Block „Linienverfolgung beenden“"}]},
-   {id:"d3", must:1, t:"Welche Stufe ist die richtige für den Workshop?",
-    do:"Mit dem geplanten Klebeband eine Teststrecke legen: ein Meter gerade, dann eine Kurve. Stufen der Reihe nach durchprobieren, bis er herausfliegt.",
-    pass:"Du weißt, welche Stufe sicher läuft und ab welcher es spannend wird.",
-    key:1,
-    f:[{k:"stufe_sicher", l:"Sicher fahrbare Stufe", ph:"Stufe 2 läuft sauber, ab 4 fliegt er in Kurven raus"}]},
+    f:[{k:"stufe_sicher", l:"Sicher fahrbare Stufe auf dem Teststreifen", ph:"Stufe 2 läuft sauber, ab 4 fliegt er in Kurven raus"},
+       {k:"stufe_strecke", l:"Sicher fahrbare Stufe auf der Grand-Prix-Strecke", ph:"Stufe 2 / schon Stufe 1 wackelt am Bogen"}]},
    {id:"d4", must:1, t:"Kleinster Kurvenradius",
-    do:"Kurven mit abnehmendem Radius legen, bis er die Spur verliert. Mit dem Lineal messen.",
+    do:"Kurven mit abnehmendem Radius legen, bis er die Spur verliert. Mit dem Lineal messen. Vergleiche den Wert mit dem engsten Bogen im Klebeplan (<kbd>tools/grand-prix-druck.html</kbd>, Seite 2).",
     pass:"Zahl in Zentimetern. Das ist die harte Grenze für den Parcours-Bauplan.",
     key:1,
     f:[{k:"radius", l:"Kleinster sicherer Kurvenradius", ph:"18 cm bei Stufe 2"}]},
@@ -333,70 +302,53 @@ var BLOCKS = [
     pass:"Läuft auch unter dem Licht, das am Messetag herrscht.",
     f:[{k:"licht", l:"Beobachtungen zu Licht und Untergrund", ph:"auf glänzendem Messeboden unruhig, auf mattem Karton stabil"}]},
    {id:"d6", must:0, t:"Klebebandbedarf",
-    do:"Die Teststrecke abmessen und hochrechnen, wie viele Meter der geplante Parcours braucht.",
+    do:"Die geklebte Strecke abmessen und hochrechnen, wie viele Meter Band für eine Matte und für Ersatz nötig sind.",
     pass:"Bedarf bekannt, Rollen besorgt.",
     f:[{k:"band", l:"Benötigte Meter und Bandbreite", ph:"ca. 6 m, 19 mm mattschwarz"}]}
   ]
 },
 {
-  L:"E", t:"Laserscanner", dur:"15 Min",
-  why:"Die offene Flanke. Die Blöcke dieser Kategorie sind zwischen Versionen umbenannt worden, und ich konnte ihre Beschriftung nicht verlässlich recherchieren. Was du hier notierst, geht direkt in Station 5.",
+  L:"E", t:"Laser (Station 4)", dur:"5 Min",
+  why:"Die Blöcke <kbd>LiDAR einschalten</kbd> und <kbd>Abstand vorne (mm)</kbd> sind am Gerät bestätigt (Gerätetest 06 und 08): Millimeter, Werte erst 2–3 s nach dem Einschalten, abgesteckt 9999. Freiraum und Barriere haben sich auf der Messe bewährt. Offen ist nur, ob die Station für Schüler in der Zeit passt.",
   tests:[
-   {id:"e1", must:1, t:"Wie heißt die Kategorie?",
-    do:"Im Blockmenü die Sammlung für den Abstands- beziehungsweise Lasersensor suchen. Sie kann als eigene Kategorie oder als Unterpunkt der Maqueen-Kategorie auftauchen.",
-    pass:"Gefunden und benannt.",
-    key:1,
-    f:[{k:"laser_kategorie", l:"Name der Kategorie oder des Unterpunkts", ph:"z. B. Maqueen Plus V3 → Ranging"}]},
-   {id:"e2", must:1, t:"Der entscheidende Block: Abstand lesen",
-    do:"Den Block suchen, der einen Abstand zurückgibt. <b>Die Kernfrage:</b> Gibt es einen einfachen Block wie „Abstand“ — oder muss man Koordinaten des 8×8-Rasters angeben, also x und y? Davon hängt ab, wie Station 5 aufgebaut sein muss.",
-    pass:"Beschriftung Wort für Wort notiert, samt aller Parameter.",
-    key:1,
-    f:[{k:"laser_abstand", l:"Beschriftung des Abstandsblocks mit allen Feldern", ph:"Lidar Abstand an x 4 y 4  —  oder: Ultraschall Abstand (cm)"},
-       {k:"laser_einfach", l:"Einfacher Block oder Koordinaten nötig?", ph:"nur mit x/y-Koordinaten"}]},
-   {id:"e3", must:1, t:"Init-Block und Aufwärmzeit",
-    do:"Prüfen, ob es einen Initialisierungsblock gibt. Dann bewusst <em>ohne</em> Startpause messen und schauen, was in den ersten Sekunden herauskommt.",
-    pass:"Du weißt, ob die drei Sekunden Startpause wirklich nötig sind.",
-    key:1,
-    f:[{k:"laser_init", l:"Init-Block vorhanden? Wie heißt er?", ph:"ja: Lidar initialisieren / nein"},
-       {k:"laser_pause", l:"Was passiert ohne Startpause?", ph:"erste 2 s kommen 0-Werte"}]},
-   {id:"e4", must:1, t:"Stimmen die Werte?",
-    do:"Ein Buch in genau 10 cm und in 50 cm Abstand aufstellen und die Anzeige mit <kbd>zeige Zahl</kbd> gegen das Lineal prüfen.",
-    pass:"Angezeigte Werte passen zur gemessenen Entfernung — und du kennst die Einheit sicher.",
-    key:1,
-    f:[{k:"laser_einheit", l:"Einheit und Messwerte", ph:"bei 10 cm zeigt er 98, bei 50 cm 503 → Millimeter"}]},
-   {id:"e5", must:0, t:"Reicht die Station für 10 Minuten?",
-    do:"Das Bremsassistent-Programm aus Station 5 nachbauen und die Hand davor halten. Stoppuhr mitlaufen lassen: Wie lange brauchst du dafür?",
-    pass:"In zehn Minuten machbar. Sonst wandert die Station endgültig zur Bonusaufgabe.",
-    f:[{k:"e5_zeit", l:"Gebrauchte Zeit und Eindruck", ph:"7 Min, für Schüler eher 12 → als Bonus lassen"}]}
+   {id:"e5", must:1, t:"Reicht Station 4 für 8 Minuten?",
+    do:"Das Laser-Stopp-Programm aus Station 4 (<kbd>wenn Abstand vorne (mm) &lt; 200 dann Linienverfolgung aus</kbd>, rotes Licht) mit der Seite nachbauen, Schritt für Schritt wie ein Team. Stoppuhr mitlaufen lassen.",
+    pass:"In acht Minuten machbar, auch mit den 2–3 s Wartezeit nach dem Einschalten. Sonst wandert ein Teil der Station zum Bonus.",
+    f:[{k:"e5_zeit", l:"Gebrauchte Zeit und Eindruck", ph:"7 Min, für Schüler eher 12 → kürzen"}]}
   ]
 },
 {
-  L:"F", t:"micro:bit-Station gegenprüfen", dur:"8 Min",
-  why:"Station 2 läuft im Browser bereits — hier geht es nur darum, dass die echten Blöcke auch so heißen, wie die Seite es behauptet.",
+  L:"F", t:"micro:bit-Station gegenprüfen", dur:"6 Min",
+  why:"Station 2 nutzt den Simulator in MakeCode — hier geht es darum, dass der echte micro:bit sich so verhält, wie die Seite es behauptet: Vorzeichen von y und die Grenze 200 für „Logo nach oben/unten“.",
   tests:[
    {id:"f1", must:1, t:"Würfel-Programm",
-    do:"<kbd>wenn geschüttelt</kbd> mit <kbd>zeige Zahl (zufällige Zahl von 1 bis 6)</kbd> bauen und flashen. Notiere, in welcher Kategorie die beiden Blöcke liegen.",
-    pass:"Würfel funktioniert, Schütteln wird zuverlässig erkannt.",
-    f:[{k:"wuerfel", l:"Kategorien der beiden Blöcke", ph:"„wenn geschüttelt“ liegt unter Eingabe, „zufällige Zahl“ unter Mathematik"}]},
-   {id:"f2", must:1, t:"Beschleunigungswerte",
-    do:"<kbd>zeige Zahl (Beschleunigung x)</kbd> dauerhaft anzeigen, den micro:bit flach halten und nach links und rechts kippen.",
-    pass:"Werte bewegen sich im erwarteten Bereich. Die Grenze 300 aus Station 2 passt oder muss angepasst werden.",
+    do:"<kbd>wenn geschüttelt</kbd> mit <kbd>zeige Zahl (wähle eine zufällige Zahl von 1 bis 6)</kbd> bauen und flashen. Achtung: Der Zufallsblock beginnt in MakeCode bei 0 — auf 1 stellen.",
+    pass:"Würfel funktioniert, Schütteln wird zuverlässig erkannt, es kommt nie eine 0.",
+    f:[{k:"wuerfel", l:"Klappt der Würfel? Wie kräftig muss man schütteln?", ph:"ja, kurzes Rucken reicht"}]},
+   {id:"f2", must:1, t:"Beschleunigung y und ihr Vorzeichen",
+    do:"<kbd>dauerhaft</kbd> → <kbd>zeige Zahl (Beschleunigung (mg) y)</kbd> bauen. micro:bit flach halten, dann <b>mit dem Logo nach oben</b> kippen, dann <b>mit dem Logo nach unten</b>. Station 2 behauptet: Logo nach oben gibt <b>negative</b> Werte, Logo nach unten positive.",
+    pass:"Werte zwischen etwa −1023 und +1023, und das Vorzeichen stimmt mit der Seite überein.",
     key:1,
-    f:[{k:"accel", l:"Beobachtete Werte flach / links / rechts", ph:"flach ~10, links −900, rechts +880 → Grenze 300 passt"}]},
-   {id:"f3", must:1, t:"Beschleunigung: Grenze 300 passt?",
-    do:"Den Neigungs-Test aus Station 2 auf dem echten micro:bit nachbauen (Pfeil rechts bei x > 300, Pfeil links bei x < −300). Wie schräg muss man halten, bis der Pfeil kommt — ist das für Kinderhände eindeutig?",
-    pass:"Pfeil kippt bei deutlicher, aber nicht extremer Neigung. Sonst Grenze anpassen und mir sagen.",
+    f:[{k:"accel", l:"Beobachtete Werte flach / Logo oben / Logo unten", ph:"flach ~10, Logo oben −950, Logo unten +900 → Vorzeichen stimmt"}]},
+   {id:"f3", must:1, t:"Logo nach oben/unten: Grenze 200 passt?",
+    do:"Das Programm aus Station 2 bauen, aber vor jeden Pfeil die Zahl setzen: <kbd>wenn Logo nach oben</kbd> → <kbd>zeige Zahl (Beschleunigung (mg) y)</kbd> → <kbd>zeige Pfeil Norden</kbd>, dasselbe für <kbd>Logo nach unten</kbd> mit Süden. Ganz langsam kippen: Die Zahl, die als Erstes erscheint, ist die Grenze. Die Seite nennt <b>200</b> ausdrücklich (Firmware-Wert). Und: Ist die nötige Neigung für Kinderhände eindeutig?",
+    pass:"Die erste Zahl liegt etwa bei −200 bzw. +200, und der Pfeil kommt bei deutlicher, aber nicht extremer Neigung. Sonst den gemessenen Wert notieren — er geht in Station 2.",
     key:1,
-    f:[{k:"grenze300", l:"Passt die Grenze 300?", ph:"ja, kippt bei ca. 20° / nein, besser 400"}]}
+    f:[{k:"grenze200", l:"Erste angezeigte Zahl oben / unten — passt 200?", ph:"oben −230, unten 240 → 200 passt, kippt bei ca. 15°"}]},
+   {id:"f5", must:1, t:"Wortlaut des Beschleunigungsblocks",
+    do:"Im Extra von Station 2 steht <kbd>zeige Zahl (Beschleunigung (mg) y)</kbd>. Den Block in MakeCode suchen und die Beschriftung Wort für Wort ablesen. Der Wortlaut ist laut CLAUDE.md noch vorläufig.",
+    pass:"Beschriftung stimmt mit der Seite überein, oder ist notiert und wird angepasst.",
+    key:1,
+    f:[{k:"wortlaut_y", l:"Echte Beschriftung samt Klammer und Kategorie", ph:"Beschleunigung (mg) y — unter Eingabe / anders: ..."}]}
   ]
 },
 {
-  L:"G", t:"Ausdauer und Ablauf", dur:"10 Min",
+  L:"G", t:"Ausdauer und Ablauf", dur:"nebenher",
   why:"Läuft nebenher. Beantwortet die Frage, wie viele Ersatzakkus du brauchst und ob der Zeitplan realistisch ist.",
   tests:[
    {id:"g1", must:1, t:"Akkulaufzeit",
-    do:"Gleich zu Beginn des Trockenlaufs einen Roboter mit Linienverfolgung im Kreis fahren lassen und einfach laufen lassen. Nach 30, 60 und 90 Minuten kurz hinschauen: Wird er langsamer, hält er die Spur schlechter? 90 Minuten entsprechen einem Slot.",
-    pass:"Du weißt, ob ein Akku einen ganzen Slot durchhält — und ob zwischen zwei Slots gewechselt werden muss.",
+    do:"Gleich zu Beginn des Trockenlaufs einen Roboter mit Linienverfolgung im Kreis fahren lassen und einfach laufen lassen. Nach 30, 60 und 90 Minuten kurz hinschauen: Wird er langsamer, hält er die Spur schlechter? Dazu kommt der Aufbau vor dem Slot. 90 Minuten entsprechen einem Slot.",
+    pass:"Du weißt, ob ein Akku einen ganzen Slot samt Aufbau durchhält — und ob zwischen zwei Slots gewechselt werden muss.",
     key:1,
     f:[{k:"akku", l:"Verhalten nach 30 / 60 / 90 Minuten", ph:"30: ok, 60: etwas langsamer, 90: Linienfolger unruhig → pro Slot ein Akku"}]},
    {id:"g2", must:0, t:"Ladedauer",
@@ -404,14 +356,61 @@ var BLOCKS = [
     pass:"Bedarf an Ersatzakkus berechenbar.",
     f:[{k:"laden", l:"Ladedauer und Schluss daraus", ph:"3 h → pro Roboter 2 Akkus im Wechsel"}]},
    {id:"g3", must:1, t:"Aufbauzeit am Stand",
-    do:"Einen kompletten Arbeitsplatz von Null aufbauen und die Zeit stoppen: Gerät hochfahren, Browser öffnen, beide Seiten laden, Roboter einschalten, kalibrieren.",
+    do:"Einen kompletten Arbeitsplatz von Null aufbauen und die Zeit stoppen: Gerät hochfahren, Browser öffnen, Offline-Datei und MakeCode laden, Vorlage einmal öffnen, Roboter einschalten, kalibrieren.",
     pass:"Zeit bekannt. Mal Anzahl der Plätze ergibt, wann du am Messetag anfangen musst.",
     key:1,
     f:[{k:"aufbau", l:"Zeit für einen Platz", ph:"6 min → bei 4 Plätzen 25 min plus Puffer"}]},
    {id:"g4", must:0, t:"Zeitplan im Kopf durchgehen",
-    do:"Den Ablauf aus dem Betreuer-Handbuch mit den heute gemessenen Zeiten durchdenken. Wo wird es eng?",
-    pass:"Du hast eine Meinung dazu, welche Station als Erstes gekürzt wird.",
-    f:[{k:"zeitplan", l:"Wo wird es eng?", ph:"Flashen dauert länger als gedacht, Station 5 fällt bei vollem Slot weg"}]}
+    do:"Den Zeitplan aus dem Betreuer-Handbuch mit den heute gemessenen Zeiten durchdenken: 80 Minuten Stationen plus 10 Minuten Puffer. Wo wird es eng?",
+    pass:"Du hast eine Meinung dazu, wo der Puffer zuerst aufgebraucht wird.",
+    f:[{k:"zeitplan", l:"Wo wird es eng?", ph:"Flashen dauert länger als gedacht, Station 5 braucht den ganzen Puffer"}]}
+  ]
+},
+{
+  L:"H", t:"Grand Prix an der geklebten Strecke", dur:"34 Min",
+  why:"Neu. Die Strecke aus <kbd>tools/grand-prix-druck.html</kbd>, Seite 2, geklebt. Schon am Gerät bestätigt (05. und 16.11.): Zählfahrt 1 bis 4, die Zählstellen, die Umstellung an Kreuzung 1, <kbd>Linien-Tempo</kbd> wirkt sofort, der Laser-Stopp nach dem Profi-Sprung, alle vier Musterlösungen. Hier steht nur, was noch offen ist.",
+  tests:[
+   {id:"h0", must:1, t:"Zählfahrt nach dem Kleben",
+    do:"Nach jedem Neukleben der Strecke: ein Programm mit <kbd>dauerhaft</kbd> → <kbd>zeige Zahl (Kreuzungen gezählt)</kbd> fährt den Normalweg einmal ab. Die Anzeige muss nacheinander 1, 2, 3, 4 zeigen. Zählt eine Stelle nicht sauber, die Stelle auf der Matte etwas verschieben.",
+    pass:"1, 2, 3, 4 in dieser Reihenfolge, ohne Doppelzählung.",
+    key:1,
+    f:[{k:"zaehlfahrt", l:"Was hat die Anzeige gezeigt? Welche Stelle musste verschoben werden?", ph:"1, 2, 3, 4 sofort / T zählte doppelt, 2 cm verschoben"}]},
+   {id:"h5", must:1, t:"T-Balken beim Sprung gezählt?",
+    do:"Das Überfahren des T-Balkens mit <kbd>fahre 20 cm vorwärts warte bis fertig</kbd> (Linienverfolgung aus) fahren und mit der Zählanzeige beobachten: Wird das als Kreuzung gezählt? Das ändert die Nummer für die Profis.",
+    pass:"Du weißt, ob der Sprung eine Kreuzung zählt, und welche Nummer das Pro-Ziel hat.",
+    key:1,
+    f:[{k:"t_balken", l:"Gezählt oder nicht? Welche Nummer folgt?", ph:"nicht gezählt, nächste Nummer ist 4 / gezählt → Nummer 5"}]},
+   {id:"h6", must:1, t:"Halt am T bei Stufe 1",
+    do:"Mit Stufe 1 hielt der Roboter einmal nicht sauber am T. Vermutlich lag es am Reset-Fallstrick (<kbd>Linienverfolgung aus</kbd> löscht die Kreuzungsregeln), nicht am Tempo. Mit Stufe 1 und mit höheren Stufen am T fahren und nachprüfen.",
+    pass:"Ursache geklärt: Reset-Fallstrick oder Tempo.",
+    f:[{k:"halt_t", l:"Ergebnis am T, Ursache", ph:"Stufe 1 hält sauber, vorher war ein Reset im Weg / hält erst ab Stufe 2"}]},
+   {id:"h7", must:1, t:"Zeiten auf Stufe 1 bis 5",
+    do:"Die Strecke auf <kbd>Linien-Tempo</kbd> 1 bis 5 mit der Stoppuhr fahren (Start bis Ziel). Stufen, auf denen er herausfliegt, kurz vermerken. Damit stimmt die Höchststufe auf der Seite.",
+    pass:"Zeiten notiert und die höchste Stufe, die sicher läuft.",
+    key:1,
+    f:[{k:"zeiten", l:"Zeiten je Stufe und Höchststufe", ph:"1: 48 s, 2: 31 s, 3: 24 s, ab 4 raus → Höchststufe 3"}]},
+   {id:"h8", must:0, t:"Verpasst er mit der Laser-Abfrage eine Kreuzung?",
+    do:"Das Programm mit Laser-Stopp in <kbd>dauerhaft</kbd> ganze Läufe lang mit der Zählanzeige beobachten, mehrmals. Der Zähler ist im Gerätetest 03 bestanden. Hier geht es nur um die echte Strecke mit der Laser-Abfrage.",
+    pass:"Zählstand stimmt in jedem Lauf. Sonst Beobachtung notieren.",
+    f:[{k:"laser_zaehler", l:"Ist eine Kreuzung verpasst worden? Wie oft?", ph:"in 5 Läufen keine verpasst / einmal Kreuzung 3 nicht gezählt"}]},
+   {id:"h11", must:1, t:"Schild „1“",
+    do:"Das Schild „1“ liegt laut Klebeplan bei x 22–28, y 56–62 cm. Prüfen: Fährt kein Rad darüber, und sieht der Laser es nicht als Hindernis? Wird es noch einmal verschoben, müssen alle Skizzen, der Klebeplan und die Texte gemeinsam geändert werden.",
+    pass:"Rad und Laser stören sich nicht am Schild. Sonst neue Lage notiert.",
+    key:1,
+    f:[{k:"schild1", l:"Stört das Schild? Neue Lage, falls verschoben", ph:"passt / Laser sieht es, neue Lage x 20, y 58"}]},
+   {id:"h12", must:0, t:"Druckblatt in 100 %",
+    do:"<kbd>tools/grand-prix-druck.html</kbd> mit 100 % drucken, am besten auf dem Raspberry Pi. Die Skizze auf dem Blatt misst 10 × 20 cm (Maßstab 1:10, Matte 100 × 200 cm): mit dem Lineal nachmessen. Auf dem Pi greift meist DejaVu Sans, die breiter läuft: Passt jede Seite noch auf ein Blatt?",
+    pass:"Maßstab stimmt, jede Seite passt auf ein Blatt.",
+    f:[{k:"druck", l:"Maße nachgemessen? Passt es auf dem Pi?", ph:"10 × 20 cm stimmt / Seite 2 läuft auf zwei Blätter"}]},
+   {id:"h14", must:0, t:"Rechter Rand",
+    do:"Der Bogen reicht bis x ≈ 96. Mit ≈ 5,5 cm halber Breite ragt die Karosserie dort ≈ 1,5 cm über die Mattenkante. Prüfen: Liegt die Matte flach genug (keine Stufe, die ein Rad abwirft), und bleibt am Tisch genug Platz?",
+    pass:"Kein Rad rutscht ab, der Tisch reicht.",
+    f:[{k:"rand", l:"Beobachtung am rechten Rand", ph:"Matte liegt flach, Rad rutscht nicht ab / Stufe 3 mm, Rad springt"}]},
+   {id:"h16", must:1, t:"Durchlauf wie ein Team",
+    do:"Station 5 mit der Seite von Anfang bis Ende nachbauen, wie es ein Team täte: Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit. Stoppuhr starten. Wo hakt es, was muss die Seite deutlicher sagen?",
+    pass:"Zeit gemessen. Sie passt in die 30 Minuten der Station, sonst notierst du, was gekürzt wird.",
+    key:1,
+    f:[{k:"teamlauf", l:"Gebrauchte Zeit; wo hat es gehakt?", ph:"28 Min, Melodie dauerte lang / 40 Min, Kreuzung 1 unklar"}]}
   ]
 }
 ];
