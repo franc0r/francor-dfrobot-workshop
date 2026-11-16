@@ -370,7 +370,7 @@ function check(cond, msg) {
     check(gpText.includes('Ziel') && gpText.includes('Pro-Ziel') && gpText.includes('Start'), 'Station 5: Start, Ziel und Pro-Ziel beschriftet');
     check(await page.$$eval('#chat .mcb.b-gp', l => l.length) === 0 && await page.$$eval('#chat .mcb', l => l.filter(e => /Kreuzungszähler|wenn Kreuzung Nummer/.test(e.textContent)).length >= 2 && l.filter(e => /Kreuzungszähler|wenn Kreuzung Nummer/.test(e.textContent)).every(e => e.classList.contains('b-mq') && getComputedStyle(e).backgroundColor === 'rgb(15, 188, 17)')), 'Station 5: Zählerblöcke in Maqueen-Hellgrün, kein .b-gp');
     const k5 = await page.$$eval('#chat [data-karte="k5-kreuzungen"] .mcc', l => l.map(c => c.querySelector('.mch').textContent.trim().replace(/\s+/g, ' ') + ':' + c.querySelectorAll(':scope > .mcbody > .mcb, :scope > .mcbody > .mcc').length));
-    check(k5.includes('wenn Knopf A geklickt:12') && k5.includes('dauerhaft:1'), 'Station 5: Knopf A mit Regeln, Ampel, Linien-Tempo 2, Linienverfolgung an; Laser-Stopp in dauerhaft (' + k5.join(', ') + ')');
+    check(k5.includes('wenn Knopf A geklickt:13') && k5.includes('dauerhaft:1'), 'Station 5: Knopf A mit Regeln, Ampel, Linien-Tempo 2, Linienverfolgung an; Laser-Stopp in dauerhaft (' + k5.join(', ') + ')');
     const txt5 = await page.evaluate(() => (JSON.parse(localStorage.getItem('mgp-v1')).chat[5] || []).map(e => e.h || '').join(' '));
     const kk5 = await page.$eval('#chat [data-karte="k5-kreuzungen"]', e => e.textContent.replace(/\s+/g, ' '));
     check(['an Kreuzung', 'an Abzweig links geradeaus', 'an Abzweig rechts', 'an T-Kreuzung', 'Linien-Tempo 2', 'LiDAR einschalten'].every(t => kk5.includes(t)), 'Station 5: Karte Kreuzungen mit deutschen Blocktexten');

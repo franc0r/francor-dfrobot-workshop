@@ -41,7 +41,7 @@ nicht vor.
   Knopf A.
 - **wenn Knopf A geklickt:** `setze Kreuzungszähler zurück`, die vier Kreuzungsregeln
   (Kreuzung `geradeaus`, Abzweig links `geradeaus`, Abzweig rechts `rechts`, T-Kreuzung `halt`),
-  `Linien-Tempo 2`, Startampel (`Scheinwerfer beide` rot, 1 s, gelb, 1 s, grün),
+  `Linien-Tempo 2`, `Bildschirminhalt löschen` (damit die „1“ vom letzten Lauf weg ist), Startampel (`Scheinwerfer beide` rot, 1 s, gelb, 1 s, grün),
   dann `Linienverfolgung an`. Jeder Druck auf A ist so ein sauberer Neustart, auch nach einem
   Halt durch den Laser.
 - **wenn Knopf B geklickt:** `Linienverfolgung aus` — der Not-Aus aus Station 3.
