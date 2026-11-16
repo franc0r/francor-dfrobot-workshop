@@ -262,6 +262,8 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
   DFRobot_MaqueenPlus_V2, Matrix LiDAR und die Bibliothek „Grand Prix“ (`custom.ts`, gelöscht).
   Kategorien: Maqueen (Gruppen V3, Linie, Lichter, V2) und LiDAR. Alle benutzten Blöcke liegen in
   der sichtbaren Gruppe V3, nicht unter „mehr“, und sind deutsch übersetzt.
+  Reines TypeScript (v0.1.4: keine C++-Dateien) → kompiliert im Browser → läuft offline, sobald
+  MakeCode sie einmal geladen hat (Cache).
 - MakeCode cacht sich beim ersten Laden vollständig; nur das *Nachladen* einer Erweiterung braucht Netz.
   Die Vorlage verweist auf den GitHub-Tag der Erweiterung (bettet sie nicht ein): Beim ersten
   Öffnen lädt MakeCode sie (Netz nötig), danach läuft sie aus dem Cache.

@@ -19,7 +19,9 @@ Zwei Fakten tragen das:
    braucht **keinen Cloud-Compiler**. Erweiterungen mit C++-Anteil würden offline scheitern.
    Seit 15.11.2026 nutzt der Workshop stattdessen die eigene Erweiterung **FRANCOR Maqueen**
    (`github:franc0r/pxt-francor-maqueen#v0.1.4`); sie ersetzt die DFRobot-Erweiterung, den
-   Matrix-LiDAR und die Bibliothek „Grand Prix“. Wie sie sich offline verhält, steht unten.
+   Matrix-LiDAR und die Bibliothek „Grand Prix“. Wie sie sich offline verhält, steht unten. Auch
+   FRANCOR Maqueen ist reines TypeScript (in v0.1.4 keine C++-Dateien) und kompiliert deshalb ohne
+   Cloud-Compiler im Browser.
 
 **Die eine Hürde:** Eine Erweiterung *nachzuladen* braucht Internet. Die Vorlage
 (`microbit/vorlage/vorlage.mkcd`) **verweist** auf den GitHub-Tag der Erweiterung, sie
