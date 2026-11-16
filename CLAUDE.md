@@ -19,7 +19,10 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    starten“, Station 1 und 2) und `href="makecode:vorlage"` (→ `#project:` + Base64 von
    `microbit/vorlage/vorlage.mkcd`, Knopf „Neues Roboter-Projekt starten“, Station 3, als
    Rückfall auch 4 und 5);
-   `build.py` setzt sie ein. `#project:` trägt das ganze Projekt im Link und geht offline.
+   `build.py` setzt sie ein. `#project:` trägt das Projekt im Link; die Vorlage verweist auf die Erweiterung
+   `github:franc0r/pxt-francor-maqueen#v0.1.4` und bettet sie nicht ein. MakeCode lädt sie beim
+   ersten Öffnen von GitHub (Netz nötig), danach aus dem Cache — deshalb beim Aufbau auf jedem
+   Arbeitsplatz einmal mit Netz öffnen (Martin prüfte das Öffnen am 15.11.2026).
    Seit 29.10.2026 (Martin: auf der Messe gibt es doch Internet, wenn auch langsam) darf ein
    solcher Link auch ein MakeCode-Tutorial von GitHub öffnen:
    `#tutorial:github:franc0r/makecode-maqueen-tutorials/<datei>`. Die Tutorials liegen in
@@ -42,9 +45,9 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    nachgebildet mit den `.mcb`-Klassen. Jeder Block trägt die Farbe seiner Kategorie, genau wie
    in MakeCode (am Gerät abgelesen 02.11.2026): Grundlagen `#1E90FF`, Eingabe `#D400D4`,
    Musik `#E63022`, Schleifen `#00AA00`, Logik `#00A4A6`, Mathematik `#9400D3`, Variablen `#DC143C` (Screenshot Martin, 05.11.2026),
-   Maqueen `#0FBC11` (hellgrün), Matrix LiDAR `#5B3FE8`, Grand Prix `#3C3C3C` (Graphit;
-   unsere eigene Bibliothek aus `microbit/bibliothek/`, in den Stationen `.b-gp`; Martin,
-   05.11.2026). Die Rollenfarben in Station 0 (`.r-*`)
+   Maqueen `#0FBC11` (hellgrün, `.b-mq`), LiDAR `#5B3FE8` (`.b-lidar`). Seit der
+   FRANCOR-Erweiterung (15.11.2026) gibt es kein Grand-Prix-Graphit (`.b-gp`, `#3C3C3C`) mehr:
+   Auch die Zählerblöcke gehören zur Kategorie Maqueen. Die Rollenfarben in Station 0 (`.r-*`)
    folgen denselben Werten.
 4. **Deutsch, Klasse 7.** Kurze Sätze, Du-Anrede an die Schüler, keine Fachbegriffe ohne
    Bild dazu. Erklärungen an die Betreuenden gehören ins Handbuch (`website/src/handbuch.html`),
@@ -56,12 +59,13 @@ Sie gelten, bis Martin sie ausdrücklich ändert.
    Zeitplan (1:20–1:30). `build.py` prüft
    die ersten beiden und dass die Stationen zusammen genau 80 Minuten ergeben
    (`STATIONSMINUTEN`, `PUFFER`).
-6. **Blockbezeichnungen sind vorläufig**, bis der Trockenlauf sie bestätigt hat (siehe
-   `docs/02-offline-und-trockenlauf.md`). Besonders unsicher: die Grand-Prix-Blöcke
-   (Bibliothek `custom.ts`), die Kreuzungsblöcke (`At Crossroads …`, Station 5) und
-   `PID Distance Control` (wartet nicht, siehe Block H, Punkt 15); die Laserblöcke aus
-   Station 4 sind seit 08.10.2026 am Gerät bestätigt. Beim Ändern von Blocktexten immer alle Drehbücher, Karten und das
-   Handbuch gemeinsam anfassen.
+6. **Blockbezeichnungen**: Die Blöcke der FRANCOR-Erweiterung sind am Gerät bestätigt (Martin,
+   16.11.2026, Gerätetest 03 und 08), Liste in `docs/02-offline-und-trockenlauf.md`. Vorläufig
+   ist nur noch, was dort unter „Noch vorläufig“ steht: `zeige Zahl (Beschleunigung (mg) y)`
+   (Station 2, Extra), Gerätetest 07 (V2-Roboter) und „Sprache und Offline“ der Erweiterung.
+   Beim Ändern von Blocktexten immer alle Drehbücher, Karten und das Handbuch gemeinsam anfassen.
+   Die alten Blocktexte stehen in der Sperrliste `ALTE_BLOCKTEXTE` in `website/build.py`; der
+   Build bricht ab, wenn einer davon in einem Build-Ziel auftaucht.
 
 ## Maskottchen-Zweig (worktree-maskottchen)
 
@@ -144,11 +148,14 @@ website/              die Workshop-Seite, eigenständig (npm + build.py wohnen h
   build.py            baut dist/…-offline.html, …-pages.html und …-artifact.html
   test/drehbuch.cjs   Schemaprüfung der Drehbücher (ohne Browser)
   test/smoke.cjs      Playwright-Smoketest gegen die Offline-Datei
+  test/build_test.py  Unittests für die Prüfungen in build.py (`npm run check` führt sie zuerst aus)
   dist/               Bauergebnis; die Offline-Datei ist eingecheckt
 microbit/             was auf den Roboter kommt — wird nicht gebaut
-  vorlage/            MakeCode-Startprojekt (vorlage.mkcd, erzeugt von vorlage.py); build.py baut es in den Link in Station 3
-  bibliothek/         custom.ts: Bibliothek „Grand Prix“ (Kreuzungen zählen); kommt über vorlage.py in die Vorlage
-  stations/NN-name/   Musterlösung je Station: loesung.hex, bloecke.png, README.md
+  vorlage/            MakeCode-Startprojekt mit der FRANCOR-Erweiterung (vorlage.mkcd, erzeugt von vorlage.py;
+                      verweist auf `github:franc0r/pxt-francor-maqueen#v0.1.4`, `beim Start` nur `starte Maqueen`);
+                      build.py baut es in den Link in Station 3 und prüft es (`check_vorlage`)
+  stations/NN-name/   Musterlösung je Station (03–05): loesung.js (05 auch loesung-profi.js), loesung*.hex
+                      (nur micro:bit V2, Rezept in stations/README.md), bloecke.png (05 auch bloecke-profi.png), README.md
   python/             MicroPython: Hardware-Check, Zugabe für Schnelle
 tools/                Werkzeuge für Stand und Arbeitsplätze
   trockenlauf.html    Prüfprotokoll (läuft nur als claude.ai-Artefakt, siehe unten)
@@ -180,16 +187,16 @@ Titel und Kopfzeile, und unterliegt derselben Regel 1 — auch die gehostete Fas
 nichts von außen (eine Vereinsseite soll keine Google-Fonts nachladen). Die Online-Fassung
 ist zum Vorbereiten und Herumzeigen; am Messetag zählt die Datei.
 
-## Die Stationen (Stand 10.11.2026)
+## Die Stationen (Stand 16.11.2026)
 
 | Nr | Datei | Min | Kern | Abzeichen |
 |---|---|---|---|---|
 | 0 | 00-boxenstopp | 5 | Regelkreis, Bauteile am Maqueen | Rookie |
 | 1 | 01-erster-kontakt | 11 | MakeCode, Herz blinkt (`beim Start`/`dauerhaft`), flashen | Ersteinschalter |
 | 2 | 02-microbit-allein | 11 | LEDs, Knöpfe, Neigung, Schütteln, Würfel; Sensor = Zahl | Pixelkünstler |
-| 3 | 03-fahrschule | 15 | Vorlage, einstecken, Schalter, Haken; dann Linie: Knopf A → Startampel + `Line patrolling ON`, Knopf B → `OFF`, `Speed`; Projekt heißt „Linie“ | Spurhalter |
-| 4 | 04-reflexe | 8 | Im Projekt Linie: Laser-Stopp in `dauerhaft`, `wenn Entfernung Vorne < 200 dann Line patrolling OFF` und rotes Licht | Bremsassistent |
-| 5 | 05-grand-prix | 30 | Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit; Profi: Pro-Ziel mit Variable und PID | Champion |
+| 3 | 03-fahrschule | 15 | Vorlage, einstecken, Schalter, Haken; dann Linie: Knopf A → Startampel + `Linienverfolgung an`, Knopf B → `aus`, `Linien-Tempo`; Projekt heißt „Linie“ | Spurhalter |
+| 4 | 04-reflexe | 8 | Im Projekt Linie: Laser-Stopp in `dauerhaft`, `wenn Abstand vorne (mm) < 200 dann Linienverfolgung aus` und Scheinwerfer rot | Bremsassistent |
+| 5 | 05-grand-prix | 30 | Strecke lesen, Kreuzungen, Kreuzung 1 umstellen, Tempo-Zone, Melodie, Läufe auf Zeit; Profi: Pro-Ziel mit Variable und `fahre 20 cm … warte bis fertig` | Champion |
 | – | Puffer | 10 | keine Station; die Betreuenden setzen ihn ein, wo es hakt | – |
 
 „Datei“ meint auf diesem Zweig das Drehbuch `website/src/drehbuch/NN-name.js` mit den Karten
@@ -250,25 +257,29 @@ transparent gerechnet (sonst leuchten sie im Dunkelmodus weiß auf), und die Dat
 
 ## Technische Fakten (recherchiert, Quellen in docs/)
 
-- MakeCode-Erweiterung: Suchbegriff `dfrobot` → **DFRobot_MaqueenPlus_V2**. Der offizielle
-  V3-Quick-Start-Guide bestätigt: gleiche Bibliothek für V2 und V3, Name bewusst bei V2 gelassen.
-  Die Erweiterung ist reines TypeScript (kein C++) → kompiliert im Browser → **funktioniert offline**,
-  sobald sie einmal im Projekt ist. Sie bringt deutsche Übersetzungen mit.
+- MakeCode-Erweiterung: Der Workshop nutzt nur noch die eigene **FRANCOR Maqueen**
+  (`github:franc0r/pxt-francor-maqueen#v0.1.4`, Umstellung 15.11.2026). Sie ersetzt
+  DFRobot_MaqueenPlus_V2, Matrix LiDAR und die Bibliothek „Grand Prix“ (`custom.ts`, gelöscht).
+  Kategorien: Maqueen (Gruppen V3, Linie, Lichter, V2) und LiDAR. Alle benutzten Blöcke liegen in
+  der sichtbaren Gruppe V3, nicht unter „mehr“, und sind deutsch übersetzt.
 - MakeCode cacht sich beim ersten Laden vollständig; nur das *Nachladen* einer Erweiterung braucht Netz.
-  Lösung: Vorlagenprojekt mit geladener Erweiterung als Datei verteilen.
+  Die Vorlage verweist auf den GitHub-Tag der Erweiterung (bettet sie nicht ein): Beim ersten
+  Öffnen lädt MakeCode sie (Netz nötig), danach läuft sie aus dem Cache.
 - Flashen: WebUSB („Gerät koppeln", Chrome/Chromium/Edge, Firmware ≥ 0249) oder `.hex` von Hand
   auf das Laufwerk `MICROBIT` ziehen. Weg B geht immer und ist auf Linux/Raspberry Pi oft der
   Hauptweg (USB-Berechtigung). Für Weg A braucht jedes frische Linux die udev-Regel
   (VID 0d28 / PID 0204, `GROUP="plugdev"`, `tools/pi/50-microbit.rules`) **und** den Benutzer in
   `plugdev` — von Martin auf Ubuntu 26.04 nachgestellt (28.10.2026); beides steht im Handbuch.
 - Maqueen: Tempo 0–255, unter ~30 keine Bewegung; zwei Schalter (Akkubrett + Bodenplatte);
-  Kalibrierung Calc-Key ~2 s auf Schwarz; Linienverfolgung (`Line patrolling ON/OFF`, Tempo über `Line Following Settings Speed 1–5`) läuft im Hintergrund;
-  was sie an Kreuzungen tut, stellen die Kreuzungsblöcke `At Crossroads / T-junction /
-  Left Turn and Straight / Right Turn and Straight Intersection` ein (Gruppe V3, Auswahl
-  `Straight`/`Left`/`Right`/`Stop`); `Line patrolling OFF` löscht die Kreuzungsregeln (Martin am
-  Gerät, 03.11.2026), nach `ON` gelten wieder die Standardregeln — im Grand Prix gewollt, die
-  Bibliothek „Grand Prix“ nimmt das den Teams absichtlich nicht ab;
-  Laserscanner 8×8, 20–4000 mm, eigene Erweiterung (siehe Offen).
+  Kalibrierung Calc-Key ~2 s auf Schwarz; Linienverfolgung (`Linienverfolgung an`/`aus`, Tempo
+  über `Linien-Tempo 1–5`) läuft im Hintergrund; was sie an Kreuzungen tut, stellen die Blöcke
+  `an Kreuzung` / `an Abzweig links` / `an Abzweig rechts` / `an T-Kreuzung` ein (Auswahl
+  `geradeaus`/`links`/`rechts`/`halt`); `Linienverfolgung aus` löscht die Kreuzungsregeln (Martin
+  am Gerät, 03.11.2026), nach `an` gelten wieder die Standardregeln — im Grand Prix gewollt, die
+  Erweiterung nimmt das den Teams absichtlich nicht ab. Die Zählerblöcke (`setze Kreuzungszähler
+  zurück`, `wenn Kreuzung Nummer … erreicht`, `Kreuzungen gezählt`) fassen die Regeln nicht an.
+  `fahre 20 cm vorwärts warte bis fertig` wartet selbst. Laserscanner 8×8, 20–4000 mm, Blöcke
+  `LiDAR einschalten` und `Abstand vorne (mm)` (vorne ab Werk eingestellt).
 - Arbeitsplätze: Laptop oder **Raspberry Pi 4 (4 GB+)**; Raspberry Pi OS ist von der micro:bit
   Foundation offiziell unterstützt. 2–4 Plätze pro Slot, je zwei Schüler.
 
@@ -320,23 +331,23 @@ gestrichen, siehe „Parcours first“). Was in `app.js` bleibt: Fortschritt, Qu
   Motor ist bestätigt (Screenshot 08.10.2026): `steuere [beide Räder] [vorwärts], Geschwindigkeit 120`
   und `stop [beide Räder]`, einzeln `linkes Rad` / `rechtes Rad` — seit 09.11.2026 auf keiner
   Station mehr. Kategoriefarbe: siehe Regel 3.
-  Quellcode der Erweiterung (github.com/DFRobot/pxt-DFRobot_MaqueenPlus_v20, master am
-  08.10.2026) bestätigt: Kategoriefarbe `#0fbc11`; `initialisiere Maqueen Plus V2` gehört in
-  jedes Roboterprogramm (setzt die V3-Platine zurück, wartet mit blinkendem X auf Antwort,
-  dann Haken) und steht in allen Stationen ab 3. Die Linienverfolgung heißt
-  `Line patrolling ON/OFF` plus `Line Following Settings Speed 1–5` (Gruppe „V3“ unter „Mehr“,
-  ohne deutsche Übersetzung); von Martin am Gerät bestätigt (08.10.2026), heute in Station 3–5. Laserscanner: eigene Erweiterung **Matrix LiDAR Entfernung**
-  (github.com/DFRobot/pxt-DFRobot_matrixLidarDistanceSensor, reines TypeScript, Farbe `#5b3fe8`,
-  in den Stationen `.b-lidar`); muss mit in die Vorlage. Laser- und Lichtblöcke
-  (`RGB Car Lights`, `SET PIN P1 RGB show color`) am Gerät bestätigt (Screenshot 08.10.2026; heute Station 3–5); die 3-s-Pause nach dem Einschalten war dabei nicht nötig.
+  FRANCOR-Erweiterung (github.com/franc0r/pxt-francor-maqueen, Tag v0.1.4; seit 15.11.2026):
+  Kategoriefarben `#0fbc11` (Maqueen) und `#5b3fe8` (LiDAR). `starte Maqueen` gehört in jedes
+  Roboterprogramm (setzt die V3-Platine zurück, wartet mit blinkendem X auf Antwort, dann Haken)
+  und steht in allen Stationen ab 3. Am Gerät bestätigt (Martin, 16.11.2026): Gerätetest 03 der
+  Erweiterung komplett und Gerätetest 08 (alle vier .hex auf Roboter und Strecke, Zählnummern
+  1–4, Profi-Sprung ohne Pause, Vorlage + JavaScript sieht aus wie die Karten); früher
+  (12./13.11.2026, v0.1.1) Gerätetest 01, 02, 04, 05, 06. `Bildschirminhalt löschen` (Station 5,
+  Knopf A) liegt direkt in Grundlagen (16.11.2026). Die alten DFRobot-Blocktexte stehen in der
+  Sperrliste `ALTE_BLOCKTEXTE` (`website/build.py`).
   MakeCode-Logik heißt deutsch `wenn … dann … ansonsten`; `nestStack()` kennt beides.
   Der Melodieblock heißt `spiele [Melodie …] [im Hintergrund]` (Martin am Gerät, 05.11.2026).
-  Noch vorläufig (Liste in `docs/02-offline-und-trockenlauf.md`): die drei Grand-Prix-Blöcke,
-  die vier Kreuzungsblöcke, `PID Distance Control`, und der Block `zeige Zahl (Beschleunigung
-  (mg) y)` im Extra von Station 2 (Wortlaut am Gerät prüfen).
-- Gemessene Werte: sichere Linienstufe (Speed 1 auf dem Teststreifen, 2 auf der Strecke?),
+  Noch vorläufig (Liste in `docs/02-offline-und-trockenlauf.md`): der Block `zeige Zahl
+  (Beschleunigung (mg) y)` im Extra von Station 2 (Wortlaut am Gerät prüfen); noch nicht am
+  Gerät: Gerätetest 07 (V2-Roboter) und „Sprache und Offline“ der Erweiterung.
+- Gemessene Werte: sichere Linienstufe (Linien-Tempo 1 auf dem Teststreifen, 2 auf der Strecke?),
   kleinster Kurvenradius. Motorwerte (cm/s, ms für 90°) braucht niemand mehr.
-- Firmware-Verhalten: Was tut `Line patrolling ON`, wenn kein Sensor Schwarz sieht — steht der
+- Firmware-Verhalten: Was tut `Linienverfolgung an`, wenn kein Sensor Schwarz sieht — steht der
   Roboter, oder sucht er? Davon hängt ab, wie Station 3 den Start auf dem Teststreifen erklärt.
 - Danach: Parcours-Bauplan mit dem gemessenen Radius gegenprüfen (Klebeplan steht in
   `tools/grand-prix-druck.html`, Seite 2), Stand-Paket zum Drucken

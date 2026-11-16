@@ -8,8 +8,8 @@ Hier liegen:
 
 - `loesung.js` (normal) und `loesung-profi.js` (Profi) — MakeCode-JavaScript. Die Fassung mit der
   Bibliothek „Grand Prix“ ist am 05.11.2026 von Martin auf der Strecke gefahren, die Fassung mit der
-  FRANCOR-Erweiterung noch nicht; Knopf B (Not-Aus) und das rote Licht beim Laser-Stopp
-  sind am 09.11.2026 aus Station 3 und 4 dazugekommen und noch nicht gefahren. Einfügen: Vorlage öffnen, oben auf **JavaScript**
+  FRANCOR-Erweiterung am 16.11.2026 (Gerätetest 08, normal und Profi); Knopf B (Not-Aus) und das rote
+  Licht beim Laser-Stopp sind am 09.11.2026 aus Station 3 und 4 dazugekommen. Einfügen: Vorlage öffnen, oben auf **JavaScript**
   umschalten, alles ersetzen, zurück auf **Blöcke**. Beide Dateien entsprechen den Stationsprogrammen
   aus `geraetetest/08-stationen.ts` der Erweiterung (v0.1.4).
 
@@ -113,7 +113,7 @@ und jede Zeichnung trägt die Nummern 1–4 an denselben Koordinaten.
    - Seite 1 (Teamskizze): die vier Nummern in der Skizze, der Hinweis „Gut hinschauen: 1 und 2“
      und die Eintragetabelle 1–4
    - Seite 2 (Klebeplan): die vier Nummern in der Skizze, die Lösungstabelle und die Zählfahrt
-5. Diese README (Zählfolge und Musterlösung oben), später `bloecke*.png`.
+5. Diese README (Zählfolge und Musterlösung oben), `bloecke*.png` (bei verschobenen Nummern neu machen).
 
 Die Tests prüfen nur die Skizzen: `website/test/smoke.cjs` (`#gpmap` trägt genau 1–4) und
 `tools/grand-prix-druck-test.cjs` (beide Seiten tragen genau 1–4).
